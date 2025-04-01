@@ -1,5 +1,7 @@
 # architect_agent.py
 import dspy
+from dotenv import load_dotenv
+import os
 
 class ArchitectAnalysisSignature(dspy.Signature):
     task_description: str = dspy.InputField(desc="The description of your task.")
@@ -95,6 +97,9 @@ class ArchitectAgent(dspy.Module):
 
 # Example usage (if run as a script)
 if __name__ == "__main__":
+    load_dotenv()
+    api_key = os.environ.get('API_KEY')
+    
     analysis_prompt_template = """You are an expert software architect.
 
 Given the following task description, analyze the problem and propose a modular architecture. 
@@ -133,9 +138,8 @@ Make sure your output is clean, Pythonic, and logically consistent with the anal
 The analysis:
 {architecture_analysis}
 """
-    
+
     # Initialize a LLM instance
-    api_key = "********"
     lm = dspy.LM('openai/gpt-4o-mini', api_key=api_key)
     dspy.configure(lm=lm)
     
