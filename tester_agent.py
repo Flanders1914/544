@@ -35,3 +35,5 @@ class TesterAgent(dspy.Module):
         # TODO: Implement the logic to execute candidate_code with test cases.
         # For demonstration purposes, a dummy score is returned.
         return 1.0  # Assume candidate passes all tests
+    
+    
