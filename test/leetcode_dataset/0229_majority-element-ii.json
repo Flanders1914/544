@@ -1,0 +1,38 @@
+{
+  "id": "229",
+  "frontend_id": "229",
+  "title": "Majority Element II",
+  "description": "Given an integer array of size n, find all elements that appear more than ⌊ n/3 ⌋ times.\n \nExample 1:\n\nInput: nums = [3,2,3]\nOutput: [3]\n\nExample 2:\n\nInput: nums = [1]\nOutput: [1]\n\nExample 3:\n\nInput: nums = [1,2]\nOutput: [1,2]\n\n \nConstraints:\n\n1 <= nums.length <= 5 * 104\n-109 <= nums[i] <= 109\n\n \nFollow up: Could you solve the problem in linear time and in O(1) space?\n",
+  "difficulty": "Medium",
+  "examples": [
+    "[3,2,3]",
+    "[1]",
+    "[1,2]"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "nums": "[3,2,3]"
+      },
+      "expected": "[3]"
+    }
+  ],
+  "python_starter": "class Solution:\n    def majorityElement(self, nums: List[int]) -> List[int]:\n        ",
+  "hints": [
+    "Think about the possible number of elements that can appear more than ⌊ n/3 ⌋ times in the array.",
+    "It can be at most two. Why?",
+    "Consider using Boyer-Moore Voting Algorithm, which is efficient for finding elements that appear more than a certain threshold."
+  ],
+  "meta_data": {
+    "name": "majorityElement",
+    "params": [
+      {
+        "name": "nums",
+        "type": "integer[]"
+      }
+    ],
+    "return": {
+      "type": "list<integer>"
+    }
+  }
+}

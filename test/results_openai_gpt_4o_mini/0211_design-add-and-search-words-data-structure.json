@@ -1,0 +1,63 @@
+{
+  "problem": {
+    "id": "211",
+    "frontend_id": "211",
+    "title": "Design Add and Search Words Data Structure",
+    "description": "Design a data structure that supports adding new words and finding if a string matches any previously added string.\nImplement the WordDictionary class:\n\nWordDictionary() Initializes the object.\nvoid addWord(word) Adds word to the data structure, it can be matched later.\nbool search(word) Returns true if there is any string in the data structure that matches word or false otherwise. word may contain dots '.' where dots can be matched with any letter.\n\n \nExample:\n\nInput\n[\"WordDictionary\",\"addWord\",\"addWord\",\"addWord\",\"search\",\"search\",\"search\",\"search\"]\n[[],[\"bad\"],[\"dad\"],[\"mad\"],[\"pad\"],[\"bad\"],[\".ad\"],[\"b..\"]]\nOutput\n[null,null,null,null,false,true,true,true]\n\nExplanation\nWordDictionary wordDictionary = new WordDictionary();\nwordDictionary.addWord(\"bad\");\nwordDictionary.addWord(\"dad\");\nwordDictionary.addWord(\"mad\");\nwordDictionary.search(\"pad\"); // return False\nwordDictionary.search(\"bad\"); // return True\nwordDictionary.search(\".ad\"); // return True\nwordDictionary.search(\"b..\"); // return True\n\n \nConstraints:\n\n1 <= word.length <= 25\nword in addWord consists of lowercase English letters.\nword in search consist of '.' or lowercase English letters.\nThere will be at most 2 dots in word for search queries.\nAt most 104 calls will be made to addWord and search.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[\"WordDictionary\",\"addWord\",\"addWord\",\"addWord\",\"search\",\"search\",\"search\",\"search\"]",
+      "[[],[\"bad\"],[\"dad\"],[\"mad\"],[\"pad\"],[\"bad\"],[\".ad\"],[\"b..\"]]"
+    ],
+    "structured_test_cases": [],
+    "python_starter": "class WordDictionary:\n\n    def __init__(self):\n        \n\n    def addWord(self, word: str) -> None:\n        \n\n    def search(self, word: str) -> bool:\n        \n\n\n# Your WordDictionary object will be instantiated and called as such:\n# obj = WordDictionary()\n# obj.addWord(word)\n# param_2 = obj.search(word)",
+    "hints": [
+      "You should be familiar with how a Trie works. If not, please work on this problem: <a href=\"https://leetcode.com/problems/implement-trie-prefix-tree/\">Implement Trie (Prefix Tree)</a> first."
+    ],
+    "meta_data": {
+      "classname": "WordDictionary",
+      "constructor": {
+        "params": []
+      },
+      "methods": [
+        {
+          "params": [
+            {
+              "type": "string",
+              "name": "word"
+            }
+          ],
+          "name": "addWord",
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "params": [
+            {
+              "type": "string",
+              "name": "word"
+            }
+          ],
+          "name": "search",
+          "return": {
+            "type": "boolean"
+          }
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      },
+      "systemdesign": true
+    }
+  },
+  "solution": {
+    "code": "class TrieNode:\n    def __init__(self):\n        self.children = {}\n        self.is_end_of_word = False\n\nclass WordDictionary:\n    def __init__(self):\n        self.root = TrieNode()\n\n    def addWord(self, word: str) -> None:\n        node = self.root\n        for char in word:\n            if char not in node.children:\n                node.children[char] = TrieNode()\n            node = node.children[char]\n        node.is_end_of_word = True\n\n    def search(self, word: str) -> bool:\n        return self._search_in_node(word, self.root)\n\n    def _search_in_node(self, word: str, node: TrieNode) -> bool:\n        for i, char in enumerate(word):\n            if char == '.':\n                for child in node.children.values():\n                    if self._search_in_node(word[i + 1:], child):\n                        return True\n                return False\n            else:\n                if char not in node.children:\n                    return False\n                node = node.children[char]\n        return node.is_end_of_word",
+    "explanation": "The solution uses a Trie data structure to efficiently store and search for words. The `WordDictionary` class has two main methods: `addWord` and `search`.\n\n1. **addWord(word)**: This method inserts a word into the Trie. It iterates through each character of the word, creating new Trie nodes as necessary. When the last character is added, it marks the node as the end of a word.\n\n2. **search(word)**: This method checks if a word exists in the Trie, allowing for the use of dots ('.') as wildcards. It calls a helper function `_search_in_node`, which recursively traverses the Trie. If it encounters a dot, it checks all possible child nodes for a match.\n\nThe time complexity for both `addWord` and `search` is O(L), where L is the length of the word being added or searched. The space complexity is O(N * L), where N is the number of words added to the Trie, as each word can contribute to the Trie structure.\n\nThis implementation efficiently handles the constraints provided, allowing for up to 10,000 calls to `addWord` and `search` with words of length up to 25."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\nTraceback (most recent call last):\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmpm5u0uuk3.py\", line 67, in <module>\n    expected_0 = safe_eval('[\"WordDictionary\",\"addWord\",\"addWord\",\"addWord\",\"search\",\"search\",\"search\",\"search\"]')\n                 ^^^^^^^^^\nNameError: name 'safe_eval' is not defined\n"
+  },
+  "timestamp": "2025-04-01 18:00:42"
+}

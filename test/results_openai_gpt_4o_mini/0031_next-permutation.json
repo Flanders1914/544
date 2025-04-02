@@ -1,0 +1,48 @@
+{
+  "problem": {
+    "id": "31",
+    "frontend_id": "31",
+    "title": "Next Permutation",
+    "description": "A permutation of an array of integers is an arrangement of its members into a sequence or linear order.\n\nFor example, for arr = [1,2,3], the following are all the permutations of arr: [1,2,3], [1,3,2], [2, 1, 3], [2, 3, 1], [3,1,2], [3,2,1].\n\nThe next permutation of an array of integers is the next lexicographically greater permutation of its integer. More formally, if all the permutations of the array are sorted in one container according to their lexicographical order, then the next permutation of that array is the permutation that follows it in the sorted container. If such arrangement is not possible, the array must be rearranged as the lowest possible order (i.e., sorted in ascending order).\n\nFor example, the next permutation of arr = [1,2,3] is [1,3,2].\nSimilarly, the next permutation of arr = [2,3,1] is [3,1,2].\nWhile the next permutation of arr = [3,2,1] is [1,2,3] because [3,2,1] does not have a lexicographical larger rearrangement.\n\nGiven an array of integers nums, find the next permutation of nums.\nThe replacement must be in place and use only constant extra memory.\n \nExample 1:\n\nInput: nums = [1,2,3]\nOutput: [1,3,2]\n\nExample 2:\n\nInput: nums = [3,2,1]\nOutput: [1,2,3]\n\nExample 3:\n\nInput: nums = [1,1,5]\nOutput: [1,5,1]\n\n \nConstraints:\n\n1 <= nums.length <= 100\n0 <= nums[i] <= 100\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[1,2,3]",
+      "[3,2,1]",
+      "[1,1,5]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[1,2,3]"
+        },
+        "expected": "[1,3,2]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def nextPermutation(self, nums: List[int]) -> None:\n        \"\"\"\n        Do not return anything, modify nums in-place instead.\n        \"\"\"\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "nextPermutation",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "void"
+      },
+      "output": {
+        "paramindex": 0
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def nextPermutation(self, nums: List[int]) -> None:\n        \"\"\"\n        Do not return anything, modify nums in-place instead.\n        \"\"\"\n        n = len(nums)\n        if n <= 1:\n            return\n        \n        # Step 1: Find the pivot\n        pivot = -1\n        for i in range(n - 2, -1, -1):\n            if nums[i] < nums[i + 1]:\n                pivot = i\n                break\n        \n        if pivot == -1:\n            # The array is in descending order\n            nums.reverse()\n            return\n        \n        # Step 2: Find the successor\n        for i in range(n - 1, pivot, -1):\n            if nums[i] > nums[pivot]:\n                # Step 3: Swap the pivot with the successor\n                nums[i], nums[pivot] = nums[pivot], nums[i]\n                break\n        \n        # Step 4: Reverse the subarray after the pivot\n        nums[pivot + 1:] = reversed(nums[pivot + 1:])",
+    "explanation": "The solution follows a clear and efficient algorithm to find the next permutation of an array of integers. \n\n1. **Finding the Pivot**: We start from the end of the array and look for the first index `i` such that `nums[i] < nums[i + 1]`. This indicates that there is a possibility of forming a larger permutation. If no such index is found, the array is in descending order, and we simply reverse it to get the smallest permutation.\n\n2. **Finding the Successor**: Once we have the pivot, we look for the smallest element to the right of the pivot that is larger than `nums[pivot]`. This ensures that when we swap these two elements, we are making the smallest possible increase to the permutation.\n\n3. **Swapping and Reversing**: After swapping the pivot with the successor, we reverse the portion of the array that comes after the pivot. This guarantees that we get the next permutation in lexicographical order.\n\nThe time complexity of this solution is O(n) because we make a few passes through the array, and the space complexity is O(1) since we are modifying the input array in place without using any additional data structures.\n\nOverall, this approach is efficient and meets the problem's constraints effectively."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:28"
+}

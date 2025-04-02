@@ -1,0 +1,42 @@
+{
+  "id": "343",
+  "frontend_id": "343",
+  "title": "Integer Break",
+  "description": "Given an integer n, break it into the sum of k positive integers, where k >= 2, and maximize the product of those integers.\nReturn the maximum product you can get.\n \nExample 1:\n\nInput: n = 2\nOutput: 1\nExplanation: 2 = 1 + 1, 1 × 1 = 1.\n\nExample 2:\n\nInput: n = 10\nOutput: 36\nExplanation: 10 = 3 + 3 + 4, 3 × 3 × 4 = 36.\n\n \nConstraints:\n\n2 <= n <= 58\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "2",
+    "10"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "n": "2"
+      },
+      "expected": "1"
+    },
+    {
+      "input": {
+        "n": "10"
+      },
+      "expected": "36"
+    }
+  ],
+  "python_starter": "class Solution:\n    def integerBreak(self, n: int) -> int:\n        ",
+  "hints": [
+    "There is a simple O(n) solution to this problem.",
+    "You may check the breaking results of <i>n</i> ranging from 7 to 10 to discover the regularities."
+  ],
+  "meta_data": {
+    "name": "integerBreak",
+    "params": [
+      {
+        "name": "n",
+        "type": "integer"
+      }
+    ],
+    "return": {
+      "type": "integer"
+    }
+  }
+}

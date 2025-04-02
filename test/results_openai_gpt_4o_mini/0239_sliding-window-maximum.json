@@ -1,0 +1,62 @@
+{
+  "problem": {
+    "id": "239",
+    "frontend_id": "239",
+    "title": "Sliding Window Maximum",
+    "description": "You are given an array of integers nums, there is a sliding window of size k which is moving from the very left of the array to the very right. You can only see the k numbers in the window. Each time the sliding window moves right by one position.\nReturn the max sliding window.\n \nExample 1:\n\nInput: nums = [1,3,-1,-3,5,3,6,7], k = 3\nOutput: [3,3,5,5,6,7]\nExplanation: \nWindow position                Max\n---------------               -----\n[1  3  -1] -3  5  3  6  7       3\n 1 [3  -1  -3] 5  3  6  7       3\n 1  3 [-1  -3  5] 3  6  7       5\n 1  3  -1 [-3  5  3] 6  7       5\n 1  3  -1  -3 [5  3  6] 7       6\n 1  3  -1  -3  5 [3  6  7]      7\n\nExample 2:\n\nInput: nums = [1], k = 1\nOutput: [1]\n\n \nConstraints:\n\n1 <= nums.length <= 105\n-104 <= nums[i] <= 104\n1 <= k <= nums.length\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "[1,3,-1,-3,5,3,6,7]",
+      "3",
+      "[1]",
+      "1"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[1,3,-1,-3,5,3,6,7]",
+          "k": "3"
+        },
+        "expected": "[3,3,5,5,6,7]"
+      },
+      {
+        "input": {
+          "nums": "[1]",
+          "k": "1"
+        },
+        "expected": "[1]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:\n        ",
+    "hints": [
+      "How about using a data structure such as deque (double-ended queue)?",
+      "The queue size need not be the same as the window’s size.",
+      "Remove redundant elements and the queue should store only elements that need to be considered."
+    ],
+    "meta_data": {
+      "name": "maxSlidingWindow",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        },
+        {
+          "name": "k",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer[]"
+      }
+    }
+  },
+  "solution": {
+    "code": "from collections import deque\nfrom typing import List\n\nclass Solution:\n    def maxSlidingWindow(self, nums: List[int], k: int) -> List[int]:\n        if not nums:\n            return []\n        \n        n = len(nums)\n        result = []\n        deq = deque()  # This will store indices of the elements in nums\n        \n        for i in range(n):\n            # Remove indices that are out of the current window\n            if deq and deq[0] < i - k + 1:\n                deq.popleft()\n            \n            # Remove indices from the back while the current element is greater\n            while deq and nums[deq[-1]] <= nums[i]:\n                deq.pop()\n            \n            # Add the current index to the deque\n            deq.append(i)\n            \n            # If we have processed at least k elements, add the max to the result\n            if i >= k - 1:\n                result.append(nums[deq[0]])  # The max is at the front of the deque\n        \n        return result",
+    "explanation": "The provided solution uses a deque to efficiently track the maximum values in a sliding window of size `k`. The key steps in the algorithm are:\n\n1. **Initialization**: We create a deque to store indices of the elements in the current window and a result list to store the maximums.\n\n2. **Iterating through the array**: For each element in `nums`, we:\n   - Remove indices from the front of the deque if they are out of the bounds of the current window.\n   - Remove indices from the back of the deque while the current element is greater than or equal to the elements at those indices. This ensures that the deque only contains potential maximums for the current window.\n   - Append the current index to the deque.\n\n3. **Recording the maximum**: Once we have processed at least `k` elements, we append the maximum (which is at the front of the deque) to the result list.\n\nThe time complexity of this solution is O(n) because each element is added and removed from the deque at most once. The space complexity is O(k) due to the storage of indices in the deque.\n\nOverall, this approach is efficient and well-suited for the problem constraints, allowing us to handle large input sizes effectively."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: [3, 3, 5, 5, 6, 7]\nTest case 2:\n[PASS] Test passed: [1]\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:45"
+}

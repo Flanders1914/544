@@ -1,0 +1,90 @@
+{
+  "problem": {
+    "id": "304",
+    "frontend_id": "304",
+    "title": "Range Sum Query 2D - Immutable",
+    "description": "Given a 2D matrix matrix, handle multiple queries of the following type:\n\nCalculate the sum of the elements of matrix inside the rectangle defined by its upper left corner (row1, col1) and lower right corner (row2, col2).\n\nImplement the NumMatrix class:\n\nNumMatrix(int[][] matrix) Initializes the object with the integer matrix matrix.\nint sumRegion(int row1, int col1, int row2, int col2) Returns the sum of the elements of matrix inside the rectangle defined by its upper left corner (row1, col1) and lower right corner (row2, col2).\n\nYou must design an algorithm where sumRegion works on O(1) time complexity.\n \nExample 1:\n\n\nInput\n[\"NumMatrix\", \"sumRegion\", \"sumRegion\", \"sumRegion\"]\n[[[[3, 0, 1, 4, 2], [5, 6, 3, 2, 1], [1, 2, 0, 1, 5], [4, 1, 0, 1, 7], [1, 0, 3, 0, 5]]], [2, 1, 4, 3], [1, 1, 2, 2], [1, 2, 2, 4]]\nOutput\n[null, 8, 11, 12]\n\nExplanation\nNumMatrix numMatrix = new NumMatrix([[3, 0, 1, 4, 2], [5, 6, 3, 2, 1], [1, 2, 0, 1, 5], [4, 1, 0, 1, 7], [1, 0, 3, 0, 5]]);\nnumMatrix.sumRegion(2, 1, 4, 3); // return 8 (i.e sum of the red rectangle)\nnumMatrix.sumRegion(1, 1, 2, 2); // return 11 (i.e sum of the green rectangle)\nnumMatrix.sumRegion(1, 2, 2, 4); // return 12 (i.e sum of the blue rectangle)\n\n \nConstraints:\n\nm == matrix.length\nn == matrix[i].length\n1 <= m, n <= 200\n-104 <= matrix[i][j] <= 104\n0 <= row1 <= row2 < m\n0 <= col1 <= col2 < n\nAt most 104 calls will be made to sumRegion.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[\"NumMatrix\",\"sumRegion\",\"sumRegion\",\"sumRegion\"]",
+      "[[[[3,0,1,4,2],[5,6,3,2,1],[1,2,0,1,5],[4,1,0,1,7],[1,0,3,0,5]]],[2,1,4,3],[1,1,2,2],[1,2,2,4]]"
+    ],
+    "structured_test_cases": [],
+    "python_starter": "class NumMatrix:\n\n    def __init__(self, matrix: List[List[int]]):\n        \n\n    def sumRegion(self, row1: int, col1: int, row2: int, col2: int) -> int:\n        \n\n\n# Your NumMatrix object will be instantiated and called as such:\n# obj = NumMatrix(matrix)\n# param_1 = obj.sumRegion(row1,col1,row2,col2)",
+    "hints": [],
+    "meta_data": {
+      "classname": "NumMatrix",
+      "maxbytesperline": 150000,
+      "constructor": {
+        "params": [
+          {
+            "type": "integer[][]",
+            "name": "matrix"
+          },
+          {
+            "type": "integer",
+            "name": "matrixRowSize",
+            "lang": "c",
+            "value": "size_1"
+          },
+          {
+            "type": "integer",
+            "name": "matrixColSize",
+            "lang": "c",
+            "value": "col_size_1"
+          }
+        ]
+      },
+      "methods": [
+        {
+          "name": "sumRegion",
+          "params": [
+            {
+              "type": "integer",
+              "name": "row1"
+            },
+            {
+              "type": "integer",
+              "name": "col1"
+            },
+            {
+              "type": "integer",
+              "name": "row2"
+            },
+            {
+              "type": "integer",
+              "name": "col2"
+            }
+          ],
+          "return": {
+            "type": "integer"
+          }
+        }
+      ],
+      "systemdesign": true,
+      "params": [
+        {
+          "name": "inputs",
+          "type": "integer[]"
+        },
+        {
+          "name": "inputs",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "list<String>",
+        "dealloc": true
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass NumMatrix:\n\n    def __init__(self, matrix: List[List[int]]):\n        if not matrix or not matrix[0]:\n            self.prefix_sum = []\n            return\n        \n        self.rows = len(matrix)\n        self.cols = len(matrix[0])\n        self.prefix_sum = [[0] * self.cols for _ in range(self.rows)]\n        \n        for i in range(self.rows):\n            for j in range(self.cols):\n                self.prefix_sum[i][j] = matrix[i][j]\n                if i > 0:\n                    self.prefix_sum[i][j] += self.prefix_sum[i-1][j]\n                if j > 0:\n                    self.prefix_sum[i][j] += self.prefix_sum[i][j-1]\n                if i > 0 and j > 0:\n                    self.prefix_sum[i][j] -= self.prefix_sum[i-1][j-1]\n\n    def sumRegion(self, row1: int, col1: int, row2: int, col2: int) -> int:\n        total = self.prefix_sum[row2][col2]\n        if row1 > 0:\n            total -= self.prefix_sum[row1 - 1][col2]\n        if col1 > 0:\n            total -= self.prefix_sum[row2][col1 - 1]\n        if row1 > 0 and col1 > 0:\n            total += self.prefix_sum[row1 - 1][col1 - 1]\n        return total",
+    "explanation": "The `NumMatrix` class is initialized with a 2D matrix. During initialization, we create a prefix sum array that allows us to compute the sum of any rectangular region in constant time. \n\n1. **Initialization**: The constructor iterates through each element of the input matrix to fill the `prefix_sum` array. The time complexity for this step is O(m * n), where m is the number of rows and n is the number of columns in the matrix.\n\n2. **Sum Region Calculation**: The `sumRegion` method uses the precomputed `prefix_sum` to calculate the sum of the specified rectangle in constant time O(1). It checks the boundaries to avoid accessing out-of-bounds indices.\n\n3. **Time Complexity**: The overall time complexity for the initialization is O(m * n), and each query is O(1). Thus, the solution is efficient for the given constraints.\n\n4. **Space Complexity**: The space complexity is O(m * n) due to the storage of the prefix sum array.\n\nThis approach ensures that we can handle up to 10,000 sum queries efficiently after an initial preprocessing step."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\nTraceback (most recent call last):\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmpqbbwfvtq.py\", line 59, in <module>\n    solution = NumMatrix()\n               ^^^^^^^^^^^\nTypeError: NumMatrix.__init__() missing 1 required positional argument: 'matrix'\n"
+  },
+  "timestamp": "2025-04-01 18:00:47"
+}

@@ -1,0 +1,33 @@
+{
+  "id": "539",
+  "frontend_id": "539",
+  "title": "Minimum Time Difference",
+  "description": "Given a list of 24-hour clock time points in \"HH:MM\" format, return the minimum minutes difference between any two time-points in the list.\n \nExample 1:\nInput: timePoints = [\"23:59\",\"00:00\"]\nOutput: 1\nExample 2:\nInput: timePoints = [\"00:00\",\"23:59\",\"00:00\"]\nOutput: 0\n\n \nConstraints:\n\n2 <= timePoints.length <= 2 * 104\ntimePoints[i] is in the format \"HH:MM\".\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "[\"23:59\",\"00:00\"]",
+    "[\"00:00\",\"23:59\",\"00:00\"]"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "timePoints": "[\"23:59\",\"00:00\"]"
+      },
+      "expected": "1"
+    }
+  ],
+  "python_starter": "class Solution:\n    def findMinDifference(self, timePoints: List[str]) -> int:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "findMinDifference",
+    "params": [
+      {
+        "name": "timePoints",
+        "type": "list<string>"
+      }
+    ],
+    "return": {
+      "type": "integer"
+    }
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "problem": {
+    "id": "376",
+    "frontend_id": "376",
+    "title": "Wiggle Subsequence",
+    "description": "A wiggle sequence is a sequence where the differences between successive numbers strictly alternate between positive and negative. The first difference (if one exists) may be either positive or negative. A sequence with one element and a sequence with two non-equal elements are trivially wiggle sequences.\n\nFor example, [1, 7, 4, 9, 2, 5] is a wiggle sequence because the differences (6, -3, 5, -7, 3) alternate between positive and negative.\nIn contrast, [1, 4, 7, 2, 5] and [1, 7, 4, 5, 5] are not wiggle sequences. The first is not because its first two differences are positive, and the second is not because its last difference is zero.\n\nA subsequence is obtained by deleting some elements (possibly zero) from the original sequence, leaving the remaining elements in their original order.\nGiven an integer array nums, return the length of the longest wiggle subsequence of nums.\n \nExample 1:\n\nInput: nums = [1,7,4,9,2,5]\nOutput: 6\nExplanation: The entire sequence is a wiggle sequence with differences (6, -3, 5, -7, 3).\n\nExample 2:\n\nInput: nums = [1,17,5,10,13,15,10,5,16,8]\nOutput: 7\nExplanation: There are several subsequences that achieve this length.\nOne is [1, 17, 10, 13, 10, 16, 8] with differences (16, -7, 3, -3, 6, -8).\n\nExample 3:\n\nInput: nums = [1,2,3,4,5,6,7,8,9]\nOutput: 2\n\n \nConstraints:\n\n1 <= nums.length <= 1000\n0 <= nums[i] <= 1000\n\n \nFollow up: Could you solve this in O(n) time?\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[1,7,4,9,2,5]",
+      "[1,17,5,10,13,15,10,5,16,8]",
+      "[1,2,3,4,5,6,7,8,9]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[1,7,4,9,2,5]"
+        },
+        "expected": "6"
+      },
+      {
+        "input": {
+          "nums": "[1,17,5,10,13,15,10,5,16,8]"
+        },
+        "expected": "7"
+      },
+      {
+        "input": {
+          "nums": "[1,2,3,4,5,6,7,8,9]"
+        },
+        "expected": "2"
+      }
+    ],
+    "python_starter": "class Solution:\n    def wiggleMaxLength(self, nums: List[int]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "wiggleMaxLength",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def wiggleMaxLength(self, nums: List[int]) -> int:\n        if not nums:\n            return 0\n        \n        n = len(nums)\n        if n < 2:\n            return n\n        \n        up = 1  # Length of wiggle sequence ending with an upward wiggle\n        down = 1  # Length of wiggle sequence ending with a downward wiggle\n        \n        for i in range(1, n):\n            if nums[i] > nums[i - 1]:\n                up = down + 1  # Current number is greater, so we have an upward wiggle\n            elif nums[i] < nums[i - 1]:\n                down = up + 1  # Current number is smaller, so we have a downward wiggle\n        \n        return max(up, down)  # The result is the maximum of the two counts",
+    "explanation": "The solution uses a greedy approach to determine the length of the longest wiggle subsequence. We maintain two counters, `up` and `down`, which track the lengths of the longest subsequences that end with an upward or downward wiggle, respectively.\n\n1. **Initialization**: We start by checking if the input list `nums` is empty. If it is, we return 0. If it has fewer than 2 elements, we return its length since a single element or an empty list is trivially a wiggle sequence.\n\n2. **Iterating through the list**: We loop through the list starting from the second element. For each element, we compare it with the previous one:\n   - If the current element is greater than the previous one, we have an upward wiggle, so we update `up` to be `down + 1`.\n   - If the current element is less than the previous one, we have a downward wiggle, so we update `down` to be `up + 1`.\n   - If they are equal, we do nothing since it does not contribute to a wiggle.\n\n3. **Final result**: After processing all elements, we return the maximum of `up` and `down`, which gives us the length of the longest wiggle subsequence.\n\n**Time Complexity**: O(n), where n is the length of the input list, since we only traverse the list once.\n\n**Space Complexity**: O(1), as we are using a constant amount of space for the counters."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 6\nTest case 2:\n[PASS] Test passed: 7\nTest case 3:\n[PASS] Test passed: 2\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:51"
+}

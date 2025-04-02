@@ -1,0 +1,50 @@
+{
+  "problem": {
+    "id": "507",
+    "frontend_id": "507",
+    "title": "Perfect Number",
+    "description": "A perfect number is a positive integer that is equal to the sum of its positive divisors, excluding the number itself. A divisor of an integer x is an integer that can divide x evenly.\nGiven an integer n, return true if n is a perfect number, otherwise return false.\n \nExample 1:\n\nInput: num = 28\nOutput: true\nExplanation: 28 = 1 + 2 + 4 + 7 + 14\n1, 2, 4, 7, and 14 are all divisors of 28.\n\nExample 2:\n\nInput: num = 7\nOutput: false\n\n \nConstraints:\n\n1 <= num <= 108\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "28",
+      "7"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "num": "28"
+        },
+        "expected": "true"
+      },
+      {
+        "input": {
+          "num": "7"
+        },
+        "expected": "false"
+      }
+    ],
+    "python_starter": "class Solution:\n    def checkPerfectNumber(self, num: int) -> bool:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "checkPerfectNumber",
+      "params": [
+        {
+          "name": "num",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def checkPerfectNumber(self, num: int) -> bool:\n        if num <= 1:\n            return False\n        \n        sum_divisors = 0\n        # Iterate from 1 to the square root of num\n        for i in range(1, int(num**0.5) + 1):\n            if num % i == 0:  # i is a divisor\n                sum_divisors += i\n                if i != 1 and i != num // i:  # Avoid adding num itself and duplicate divisors\n                    sum_divisors += num // i\n        \n        return sum_divisors == num  # Check if the sum of divisors equals num",
+    "explanation": "The solution uses an efficient method to find the divisors of the number `n` by iterating only up to the square root of `n`. This reduces the time complexity from O(n) to O(sqrt(n)), which is significant for large values of `n` (up to 10^8 as per the problem constraints).\n\n1. **Time Complexity**: O(sqrt(n)) - We only loop up to the square root of `n`, checking for divisors.\n2. **Space Complexity**: O(1) - We use a constant amount of space for the `sum_divisors` variable.\n\nThe algorithm first checks if `num` is less than or equal to `1`, returning `False` immediately since perfect numbers are positive integers greater than `1`. Then, it calculates the sum of the divisors and checks if this sum equals `num`. If they are equal, `num` is a perfect number, and the function returns `True`; otherwise, it returns `False`.\n\nThis method is efficient and works well within the given constraints."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: True\nTest case 2:\n[PASS] Test passed: False\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:01:21"
+}

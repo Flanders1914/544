@@ -1,0 +1,45 @@
+{
+  "problem": {
+    "id": "491",
+    "frontend_id": "491",
+    "title": "Non-decreasing Subsequences",
+    "description": "Given an integer array nums, return all the different possible non-decreasing subsequences of the given array with at least two elements. You may return the answer in any order.\n \nExample 1:\n\nInput: nums = [4,6,7,7]\nOutput: [[4,6],[4,6,7],[4,6,7,7],[4,7],[4,7,7],[6,7],[6,7,7],[7,7]]\n\nExample 2:\n\nInput: nums = [4,4,3,2,1]\nOutput: [[4,4]]\n\n \nConstraints:\n\n1 <= nums.length <= 15\n-100 <= nums[i] <= 100\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[4,6,7,7]",
+      "[4,4,3,2,1]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[4,6,7,7]"
+        },
+        "expected": "[[4,6]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def findSubsequences(self, nums: List[int]) -> List[List[int]]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "findSubsequences",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "list<list<integer>>",
+        "dealloc": true
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def findSubsequences(self, nums: List[int]) -> List[List[int]]:\n        def backtrack(start: int, path: List[int]):\n            # If the current path has at least 2 elements, add it to the result\n            if len(path) >= 2:\n                result.add(tuple(path))  # Use a tuple to avoid duplicates\n            \n            for i in range(start, len(nums)):\n                # If the current number is greater than or equal to the last number in the path\n                if not path or nums[i] >= path[-1]:\n                    backtrack(i + 1, path + [nums[i]])  # Include nums[i] in the path\n\n        result = set()  # Use a set to avoid duplicate subsequences\n        backtrack(0, [])\n        return [list(seq) for seq in result]  # Convert tuples back to lists",
+    "explanation": "The solution uses a backtracking approach to explore all possible subsequences of the input array `nums`. The `backtrack` function is defined to recursively build subsequences starting from a given index. \n\n1. **Base Case**: Whenever the length of the current path (subsequence) is at least 2, we convert it to a tuple and add it to a set called `result`. Using a set helps in automatically handling duplicates.\n\n2. **Recursive Exploration**: For each index `i`, we check if the current number can be added to the path (i.e., it is greater than or equal to the last number in the path). If it can be added, we call `backtrack` recursively with the next index and the updated path.\n\n3. **Final Output**: After exploring all possibilities, we convert the set of tuples back to a list of lists to return the final result.\n\n**Time Complexity**: The time complexity is O(2^n) in the worst case, where n is the length of the input array, due to the nature of generating all subsequences.\n\n**Space Complexity**: The space complexity is O(n) for the recursion stack and O(2^n) for storing the subsequences in the worst case.\n\nOverall, this approach efficiently finds all non-decreasing subsequences of the input array while ensuring that duplicates are not included in the final result."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmpq9r6khg2.py\", line 55\n    expected_0 = [[4,6]\n                 ^\nSyntaxError: '[' was never closed\n"
+  },
+  "timestamp": "2025-04-01 18:01:19"
+}

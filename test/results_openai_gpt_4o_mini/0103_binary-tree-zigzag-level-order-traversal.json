@@ -1,0 +1,46 @@
+{
+  "problem": {
+    "id": "103",
+    "frontend_id": "103",
+    "title": "Binary Tree Zigzag Level Order Traversal",
+    "description": "Given the root of a binary tree, return the zigzag level order traversal of its nodes' values. (i.e., from left to right, then right to left for the next level and alternate between).\n \nExample 1:\n\n\nInput: root = [3,9,20,null,null,15,7]\nOutput: [[3],[20,9],[15,7]]\n\nExample 2:\n\nInput: root = [1]\nOutput: [[1]]\n\nExample 3:\n\nInput: root = []\nOutput: []\n\n \nConstraints:\n\nThe number of nodes in the tree is in the range [0, 2000].\n-100 <= Node.val <= 100\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[3,9,20,null,null,15,7]",
+      "[1]",
+      "[]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "root": "[3,9,20,null,null,15,7]"
+        },
+        "expected": "[[3]"
+      }
+    ],
+    "python_starter": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def zigzagLevelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "zigzagLevelOrder",
+      "params": [
+        {
+          "name": "root",
+          "type": "TreeNode"
+        }
+      ],
+      "return": {
+        "type": "list<list<integer>>",
+        "dealloc": true
+      }
+    }
+  },
+  "solution": {
+    "code": "from collections import deque\nfrom typing import List, Optional\n\n# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nclass Solution:\n    def zigzagLevelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:\n        if not root:\n            return []\n        \n        result = []\n        queue = deque([root])\n        left_to_right = True  # Flag to indicate the direction of traversal\n        \n        while queue:\n            level_size = len(queue)\n            level_nodes = []\n            \n            for _ in range(level_size):\n                node = queue.popleft()\n                level_nodes.append(node.val)  # Collect the current level's node values\n                \n                # Add child nodes to the queue for the next level\n                if node.left:\n                    queue.append(node.left)\n                if node.right:\n                    queue.append(node.right)\n            \n            # If the current level is right to left, reverse the collected values\n            if not left_to_right:\n                level_nodes.reverse()\n            \n            result.append(level_nodes)  # Add the current level's values to the result\n            left_to_right = not left_to_right  # Toggle the direction for the next level\n        \n        return result",
+    "explanation": "The provided solution implements a zigzag level order traversal of a binary tree using a breadth-first search (BFS) approach. \n\n1. **Initialization**: We start by checking if the root is `None`. If it is, we return an empty list. We initialize a deque (double-ended queue) to hold the nodes for processing and a boolean flag `left_to_right` to track the current traversal direction.\n\n2. **Level Traversal**: We enter a while loop that continues until there are no more nodes in the queue. For each level, we determine the number of nodes (`level_size`) and create a list (`level_nodes`) to store the values of the nodes at that level.\n\n3. **Node Processing**: We iterate over the nodes at the current level, popping them from the queue. We collect their values and enqueue their children for the next level.\n\n4. **Direction Handling**: After processing all nodes at the current level, we check the `left_to_right` flag. If it is `False`, we reverse the `level_nodes` list to achieve the zigzag effect.\n\n5. **Result Compilation**: We append the `level_nodes` list to the final result and toggle the `left_to_right` flag for the next level.\n\n6. **Complexity Analysis**:\n   - **Time Complexity**: O(n), where n is the number of nodes in the tree. Each node is processed exactly once.\n   - **Space Complexity**: O(n) in the worst case, where the last level of the tree could contain up to n/2 nodes.\n\nThis solution efficiently handles the zigzag traversal while maintaining clarity and simplicity in the implementation."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmpcv8yd5rr.py\", line 133\n    expected_0 = [[3]\n                 ^\nSyntaxError: '[' was never closed\n"
+  },
+  "timestamp": "2025-04-01 18:00:34"
+}

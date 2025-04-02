@@ -1,0 +1,76 @@
+{
+  "problem": {
+    "id": "26",
+    "frontend_id": "26",
+    "title": "Remove Duplicates from Sorted Array",
+    "description": "Given an integer array nums sorted in non-decreasing order, remove the duplicates in-place such that each unique element appears only once. The relative order of the elements should be kept the same. Then return the number of unique elements in nums.\nConsider the number of unique elements of nums to be k, to get accepted, you need to do the following things:\n\nChange the array nums such that the first k elements of nums contain the unique elements in the order they were present in nums initially. The remaining elements of nums are not important as well as the size of nums.\nReturn k.\n\nCustom Judge:\nThe judge will test your solution with the following code:\n\nint[] nums = [...]; // Input array\nint[] expectedNums = [...]; // The expected answer with correct length\n\nint k = removeDuplicates(nums); // Calls your implementation\n\nassert k == expectedNums.length;\nfor (int i = 0; i < k; i++) {\n    assert nums[i] == expectedNums[i];\n}\n\nIf all assertions pass, then your solution will be accepted.\n \nExample 1:\n\nInput: nums = [1,1,2]\nOutput: 2, nums = [1,2,_]\nExplanation: Your function should return k = 2, with the first two elements of nums being 1 and 2 respectively.\nIt does not matter what you leave beyond the returned k (hence they are underscores).\n\nExample 2:\n\nInput: nums = [0,0,1,1,1,2,2,3,3,4]\nOutput: 5, nums = [0,1,2,3,4,_,_,_,_,_]\nExplanation: Your function should return k = 5, with the first five elements of nums being 0, 1, 2, 3, and 4 respectively.\nIt does not matter what you leave beyond the returned k (hence they are underscores).\n\n \nConstraints:\n\n1 <= nums.length <= 3 * 104\n-100 <= nums[i] <= 100\nnums is sorted in non-decreasing order.\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "[1,1,2]",
+      "[0,0,1,1,1,2,2,3,3,4]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[1,1,2]"
+        },
+        "expected": "2, nums = [1,2,_]"
+      },
+      {
+        "input": {
+          "nums": "[0,0,1,1,1,2,2,3,3,4]"
+        },
+        "expected": "5, nums = [0,1,2,3,4,_,_,_,_,_]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def removeDuplicates(self, nums: List[int]) -> int:\n        ",
+    "hints": [
+      "In this problem, the key point to focus on is the input array being sorted. As far as duplicate elements are concerned, what is their positioning in the array when the given array is sorted? Look at the image below for the answer. If we know the position of one of the elements, do we also know the positioning of all the duplicate elements?\r\n\r\n<br>\r\n<img src=\"https://assets.leetcode.com/uploads/2019/10/20/hint_rem_dup.png\" width=\"500\"/>",
+      "We need to modify the array in-place and the size of the final array would potentially be smaller than the size of the input array. So, we ought to use a two-pointer approach here. One, that would keep track of the current element in the original array and another one for just the unique elements.",
+      "Essentially, once an element is encountered, you simply need to <b>bypass</b> its duplicates and move on to the next unique element."
+    ],
+    "meta_data": {
+      "name": "removeDuplicates",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      },
+      "output": {
+        "paramindex": 0,
+        "size": "ret"
+      },
+      "languages": [
+        "cpp",
+        "java",
+        "python",
+        "c",
+        "csharp",
+        "javascript",
+        "ruby",
+        "swift",
+        "golang",
+        "python3",
+        "scala",
+        "kotlin",
+        "rust",
+        "php",
+        "typescript",
+        "dart"
+      ]
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def removeDuplicates(self, nums: List[int]) -> int:\n        if not nums:\n            return 0\n        \n        k = 1  # Start with the first unique element\n        \n        for i in range(1, len(nums)):\n            if nums[i] != nums[k - 1]:  # Compare with the last unique element\n                nums[k] = nums[i]  # Place the unique element at index k\n                k += 1  # Move to the next position for unique elements\n        \n        return k  # Return the count of unique elements",
+    "explanation": "The solution uses a two-pointer technique to efficiently remove duplicates from a sorted array. The first pointer (`i`) iterates through the array starting from the second element, while the second pointer (`k`) keeps track of the position to insert the next unique element.\n\n1. **Initialization**: We start with `k = 1` because the first element is always unique.\n2. **Iteration**: We loop through the array starting from index 1. For each element, we check if it is different from the last unique element (located at `k-1`).\n3. **Updating the Array**: If a new unique element is found, we place it at the index `k` and increment `k`.\n4. **Return Value**: After the loop, `k` will represent the number of unique elements, which we return.\n\n**Time Complexity**: O(n), where n is the length of the input array. We make a single pass through the array.\n\n**Space Complexity**: O(1), as we are modifying the array in place and using only a constant amount of extra space for the pointers.\n\nThis solution is efficient and meets the problem's requirements, ensuring that the unique elements are preserved in their original order."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:27"
+}

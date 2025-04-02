@@ -1,0 +1,51 @@
+{
+  "problem": {
+    "id": "605",
+    "frontend_id": "605",
+    "title": "Can Place Flowers",
+    "description": "You have a long flowerbed in which some of the plots are planted, and some are not. However, flowers cannot be planted in adjacent plots.\nGiven an integer array flowerbed containing 0's and 1's, where 0 means empty and 1 means not empty, and an integer n, return true if n new flowers can be planted in the flowerbed without violating the no-adjacent-flowers rule and false otherwise.\n \nExample 1:\nInput: flowerbed = [1,0,0,0,1], n = 1\nOutput: true\nExample 2:\nInput: flowerbed = [1,0,0,0,1], n = 2\nOutput: false\n\n \nConstraints:\n\n1 <= flowerbed.length <= 2 * 104\nflowerbed[i] is 0 or 1.\nThere are no two adjacent flowers in flowerbed.\n0 <= n <= flowerbed.length\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "[1,0,0,0,1]",
+      "1",
+      "[1,0,0,0,1]",
+      "2"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "flowerbed": "[1,0,0,0,1]",
+          "n": "1"
+        },
+        "expected": "true"
+      }
+    ],
+    "python_starter": "class Solution:\n    def canPlaceFlowers(self, flowerbed: List[int], n: int) -> bool:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "canPlaceFlowers",
+      "params": [
+        {
+          "name": "flowerbed",
+          "type": "integer[]"
+        },
+        {
+          "name": "n",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def canPlaceFlowers(self, flowerbed: List[int], n: int) -> bool:\n        count = 0  # To count how many flowers we can plant\n        length = len(flowerbed)\n        \n        for i in range(length):\n            # Check if the current plot is empty and the adjacent plots are also empty\n            if flowerbed[i] == 0:\n                # Check left and right plots\n                left_empty = (i == 0 or flowerbed[i - 1] == 0)\n                right_empty = (i == length - 1 or flowerbed[i + 1] == 0)\n                \n                if left_empty and right_empty:\n                    # Plant a flower here\n                    flowerbed[i] = 1  # Mark this plot as planted\n                    count += 1  # Increment the count of planted flowers\n                    \n                    if count >= n:  # If we have planted enough flowers, return True\n                        return True\n        \n        return count >= n  # Check if we managed to plant at least n flowers",
+    "explanation": "The solution iterates through the flowerbed array to check for suitable plots where flowers can be planted. The key steps in the solution are:\n\n1. **Initialization**: We start with a count of 0 for the flowers we can plant and determine the length of the flowerbed.\n2. **Iteration**: We loop through each plot in the flowerbed:\n   - For each empty plot (0), we check if both adjacent plots are empty or out of bounds.\n   - If both conditions are satisfied, we plant a flower (set the plot to 1) and increment our count.\n   - If at any point our count reaches `n`, we return `True`.\n3. **Final Check**: After the loop, we check if the count of planted flowers is at least `n` and return the result.\n\n**Time Complexity**: O(m), where m is the length of the flowerbed array. We traverse the array once.\n\n**Space Complexity**: O(1), as we are using a constant amount of space for variables and not utilizing any additional data structures.\n\nThis approach efficiently determines if the required number of flowers can be planted without violating the adjacency rule."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: True\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:01:28"
+}

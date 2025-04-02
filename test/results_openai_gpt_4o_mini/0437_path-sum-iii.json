@@ -1,0 +1,58 @@
+{
+  "problem": {
+    "id": "437",
+    "frontend_id": "437",
+    "title": "Path Sum III",
+    "description": "Given the root of a binary tree and an integer targetSum, return the number of paths where the sum of the values along the path equals targetSum.\nThe path does not need to start or end at the root or a leaf, but it must go downwards (i.e., traveling only from parent nodes to child nodes).\n \nExample 1:\n\n\nInput: root = [10,5,-3,3,2,null,11,3,-2,null,1], targetSum = 8\nOutput: 3\nExplanation: The paths that sum to 8 are shown.\n\nExample 2:\n\nInput: root = [5,4,8,11,null,13,4,7,2,null,null,5,1], targetSum = 22\nOutput: 3\n\n \nConstraints:\n\nThe number of nodes in the tree is in the range [0, 1000].\n-109 <= Node.val <= 109\n-1000 <= targetSum <= 1000\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[10,5,-3,3,2,null,11,3,-2,null,1]",
+      "8",
+      "[5,4,8,11,null,13,4,7,2,null,null,5,1]",
+      "22"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "root": "[10,5,-3,3,2,null,11,3,-2,null,1]",
+          "targetSum": "8"
+        },
+        "expected": "3"
+      },
+      {
+        "input": {
+          "root": "[5,4,8,11,null,13,4,7,2,null,null,5,1]",
+          "targetSum": "22"
+        },
+        "expected": "3"
+      }
+    ],
+    "python_starter": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "pathSum",
+      "params": [
+        {
+          "name": "root",
+          "type": "TreeNode"
+        },
+        {
+          "name": "targetSum",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nclass Solution:\n    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> int:\n        def dfs(node, current_sum, prefix_sums):\n            if not node:\n                return 0\n            \n            # Update the current path sum\n            current_sum += node.val\n            \n            # Count the number of valid paths that end at this node\n            count = prefix_sums.get(current_sum - targetSum, 0)\n            \n            # Update the prefix sums with the current path sum\n            prefix_sums[current_sum] = prefix_sums.get(current_sum, 0) + 1\n            \n            # Explore the left and right children\n            count += dfs(node.left, current_sum, prefix_sums)\n            count += dfs(node.right, current_sum, prefix_sums)\n            \n            # Backtrack: remove the current path sum from the hashmap\n            prefix_sums[current_sum] -= 1\n            \n            return count\n        \n        # Initialize the hashmap with a base case for sum = 0\n        prefix_sums = {0: 1}\n        return dfs(root, 0, prefix_sums)",
+    "explanation": "The provided solution uses a depth-first search (DFS) approach to count the number of paths in a binary tree that sum to a given target. The main function `pathSum` initializes a hashmap to keep track of the cumulative sums encountered during the traversal. \n\n1. **DFS Function**: The `dfs` function takes the current node, the cumulative sum up to that node, and the hashmap of prefix sums. It checks if the difference between the current sum and the target sum exists in the hashmap, which indicates that there are paths that sum to the target.\n\n2. **Updating Prefix Sums**: As we traverse the tree, we update the hashmap with the current path sum. After exploring both left and right children, we backtrack by decrementing the count of the current path sum in the hashmap to ensure that we do not count the same path multiple times.\n\n3. **Time Complexity**: The time complexity of this solution is O(N), where N is the number of nodes in the tree. This is because we visit each node exactly once.\n\n4. **Space Complexity**: The space complexity is O(H), where H is the height of the tree. This accounts for the recursion stack and the hashmap storing the prefix sums.\n\nOverall, this approach efficiently counts the number of valid paths in the binary tree that sum to the target value."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:56"
+}

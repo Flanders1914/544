@@ -1,0 +1,52 @@
+{
+  "problem": {
+    "id": "40",
+    "frontend_id": "40",
+    "title": "Combination Sum II",
+    "description": "Given a collection of candidate numbers (candidates) and a target number (target), find all unique combinations in candidates where the candidate numbers sum to target.\nEach number in candidates may only be used once in the combination.\nNote: The solution set must not contain duplicate combinations.\n \nExample 1:\n\nInput: candidates = [10,1,2,7,6,1,5], target = 8\nOutput: \n[\n[1,1,6],\n[1,2,5],\n[1,7],\n[2,6]\n]\n\nExample 2:\n\nInput: candidates = [2,5,2,1,2], target = 5\nOutput: \n[\n[1,2,2],\n[5]\n]\n\n \nConstraints:\n\n1 <= candidates.length <= 100\n1 <= candidates[i] <= 50\n1 <= target <= 30\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[10,1,2,7,6,1,5]",
+      "8",
+      "[2,5,2,1,2]",
+      "5"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "candidates": "[10,1,2,7,6,1,5]",
+          "target": "8"
+        },
+        "expected": "["
+      }
+    ],
+    "python_starter": "class Solution:\n    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "combinationSum2",
+      "params": [
+        {
+          "name": "candidates",
+          "type": "integer[]"
+        },
+        {
+          "name": "target",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "list<list<integer>>",
+        "dealloc": true
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def combinationSum2(self, candidates: List[int], target: int) -> List[List[int]]:\n        # Sort the candidates to handle duplicates\n        candidates.sort()\n        results = []\n        \n        def backtrack(start, path, target):\n            if target == 0:\n                results.append(path)\n                return\n            if target < 0:\n                return\n            \n            for i in range(start, len(candidates)):\n                # Skip duplicates\n                if i > start and candidates[i] == candidates[i - 1]:\n                    continue\n                # Include the current number and move to the next\n                backtrack(i + 1, path + [candidates[i]], target - candidates[i])\n        \n        backtrack(0, [], target)\n        return results",
+    "explanation": "The provided solution uses a backtracking approach to find all unique combinations of numbers that sum to the target. Here's a breakdown of the solution:\n\n1. **Sorting**: The candidates are sorted to facilitate the skipping of duplicates. This is crucial for ensuring that we do not include the same combination multiple times.\n\n2. **Backtracking Function**: The `backtrack` function is defined to explore combinations:\n   - It takes the starting index, the current path (combination), and the remaining target as parameters.\n   - If the remaining target is zero, the current path is a valid combination and is added to the results.\n   - If the remaining target is negative, the function returns early as no valid combination can be formed.\n   - The loop iterates through the candidates starting from the `start` index. If a candidate is the same as the previous one (and not the first in this recursive call), it is skipped to avoid duplicates.\n\n3. **Time Complexity**: The time complexity is O(2^N) in the worst case, where N is the number of candidates, due to the nature of the backtracking approach. However, the actual performance is often better due to the pruning of paths that exceed the target.\n\n4. **Space Complexity**: The space complexity is O(N) for the recursion stack and the storage of results, where N is the depth of the recursion (the maximum length of a combination).\n\nThis solution efficiently finds all unique combinations that sum to the target while adhering to the constraints of the problem."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:29"
+}

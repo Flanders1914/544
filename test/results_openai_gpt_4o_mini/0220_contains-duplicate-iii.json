@@ -1,0 +1,69 @@
+{
+  "problem": {
+    "id": "220",
+    "frontend_id": "220",
+    "title": "Contains Duplicate III",
+    "description": "You are given an integer array nums and two integers indexDiff and valueDiff.\nFind a pair of indices (i, j) such that:\n\ni != j,\nabs(i - j) <= indexDiff.\nabs(nums[i] - nums[j]) <= valueDiff, and\n\nReturn true if such pair exists or false otherwise.\n \nExample 1:\n\nInput: nums = [1,2,3,1], indexDiff = 3, valueDiff = 0\nOutput: true\nExplanation: We can choose (i, j) = (0, 3).\nWe satisfy the three conditions:\ni != j --> 0 != 3\nabs(i - j) <= indexDiff --> abs(0 - 3) <= 3\nabs(nums[i] - nums[j]) <= valueDiff --> abs(1 - 1) <= 0\n\nExample 2:\n\nInput: nums = [1,5,9,1,5,9], indexDiff = 2, valueDiff = 3\nOutput: false\nExplanation: After trying all the possible pairs (i, j), we cannot satisfy the three conditions, so we return false.\n\n \nConstraints:\n\n2 <= nums.length <= 105\n-109 <= nums[i] <= 109\n1 <= indexDiff <= nums.length\n0 <= valueDiff <= 109\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "[1,2,3,1]",
+      "3",
+      "0",
+      "[1,5,9,1,5,9]",
+      "2",
+      "3"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[1,2,3,1]",
+          "indexDiff": "3",
+          "valueDiff": "0"
+        },
+        "expected": "true"
+      },
+      {
+        "input": {
+          "nums": "[1,5,9,1,5,9]",
+          "indexDiff": "2",
+          "valueDiff": "3"
+        },
+        "expected": "false"
+      }
+    ],
+    "python_starter": "class Solution:\n    def containsNearbyAlmostDuplicate(self, nums: List[int], indexDiff: int, valueDiff: int) -> bool:\n        ",
+    "hints": [
+      "Time complexity O(n logk)  - This will give an indication that sorting is involved for k elements.",
+      "Use already existing state to evaluate next state  -  Like, a set of k sorted numbers are only needed to be tracked. When we are processing the next number in array, then we can utilize the existing sorted state and it is not necessary to sort next overlapping set of k numbers again."
+    ],
+    "meta_data": {
+      "name": "containsNearbyAlmostDuplicate",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        },
+        {
+          "name": "indexDiff",
+          "type": "integer"
+        },
+        {
+          "name": "valueDiff",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "from sortedcontainers import SortedList\nfrom typing import List\n\nclass Solution:\n    def containsNearbyAlmostDuplicate(self, nums: List[int], indexDiff: int, valueDiff: int) -> bool:\n        if indexDiff <= 0 or valueDiff < 0:\n            return False\n        \n        sorted_window = SortedList()\n        \n        for i in range(len(nums)):\n            # Maintain the window size\n            if i > indexDiff:\n                sorted_window.remove(nums[i - indexDiff - 1])\n            \n            # Check for the existence of a number within the valueDiff range\n            pos1 = SortedList.bisect_left(sorted_window, nums[i] - valueDiff)\n            pos2 = SortedList.bisect_right(sorted_window, nums[i] + valueDiff)\n            \n            if pos1 != pos2:  # This means there is at least one number in the range\n                return True\n            \n            # Add the current number to the sorted window\n            sorted_window.add(nums[i])\n        \n        return False",
+    "explanation": "The solution uses a `SortedList` from the `sortedcontainers` module, which maintains a sorted order of elements and allows for efficient insertion, deletion, and searching. \n\n1. **Initialization**: We create a `SortedList` called `sorted_window` to keep track of the elements in the current window of size `indexDiff`.\n\n2. **Iterating through `nums`**: For each element in `nums`, we:\n   - Remove the oldest element from the `sorted_window` if the window size exceeds `indexDiff`.\n   - Use binary search (`bisect_left` and `bisect_right`) to find the range of elements in `sorted_window` that are within `valueDiff` of the current element. If the positions returned by these functions are different, it indicates that there is at least one element in the desired range.\n\n3. **Adding the current element**: After checking, we add the current element to the `sorted_window`.\n\n4. **Return value**: If we find a valid pair during the iteration, we return `True`. If we finish the loop without finding any valid pairs, we return `False`.\n\n**Time Complexity**: The overall time complexity is O(n log k), where n is the number of elements in `nums` and k is the size of the `sorted_window` (which can be at most `indexDiff`).\n\n**Space Complexity**: The space complexity is O(k) for the `sorted_window`, where k is the maximum size of the window defined by `indexDiff`."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\nTraceback (most recent call last):\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmp5bwirykz.py\", line 7, in <module>\n    from sortedcontainers import SortedList\nModuleNotFoundError: No module named 'sortedcontainers'\n"
+  },
+  "timestamp": "2025-04-01 18:00:43"
+}

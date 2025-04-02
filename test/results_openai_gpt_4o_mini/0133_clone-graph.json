@@ -1,0 +1,75 @@
+{
+  "problem": {
+    "id": "133",
+    "frontend_id": "133",
+    "title": "Clone Graph",
+    "description": "Given a reference of a node in a connected undirected graph.\nReturn a deep copy (clone) of the graph.\nEach node in the graph contains a value (int) and a list (List[Node]) of its neighbors.\n\nclass Node {\n    public int val;\n    public List<Node> neighbors;\n}\n\n \nTest case format:\nFor simplicity, each node's value is the same as the node's index (1-indexed). For example, the first node with val == 1, the second node with val == 2, and so on. The graph is represented in the test case using an adjacency list.\nAn adjacency list is a collection of unordered lists used to represent a finite graph. Each list describes the set of neighbors of a node in the graph.\nThe given node will always be the first node with val = 1. You must return the copy of the given node as a reference to the cloned graph.\n \nExample 1:\n\n\nInput: adjList = [[2,4],[1,3],[2,4],[1,3]]\nOutput: [[2,4],[1,3],[2,4],[1,3]]\nExplanation: There are 4 nodes in the graph.\n1st node (val = 1)'s neighbors are 2nd node (val = 2) and 4th node (val = 4).\n2nd node (val = 2)'s neighbors are 1st node (val = 1) and 3rd node (val = 3).\n3rd node (val = 3)'s neighbors are 2nd node (val = 2) and 4th node (val = 4).\n4th node (val = 4)'s neighbors are 1st node (val = 1) and 3rd node (val = 3).\n\nExample 2:\n\n\nInput: adjList = [[]]\nOutput: [[]]\nExplanation: Note that the input contains one empty list. The graph consists of only one node with val = 1 and it does not have any neighbors.\n\nExample 3:\n\nInput: adjList = []\nOutput: []\nExplanation: This an empty graph, it does not have any nodes.\n\n \nConstraints:\n\nThe number of nodes in the graph is in the range [0, 100].\n1 <= Node.val <= 100\nNode.val is unique for each node.\nThere are no repeated edges and no self-loops in the graph.\nThe Graph is connected and all nodes can be visited starting from the given node.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[[2,4],[1,3],[2,4],[1,3]]",
+      "[[]]",
+      "[]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "adjList": "[[2,4]"
+        },
+        "expected": "[[2,4]"
+      },
+      {
+        "input": {
+          "adjList": "[[]"
+        },
+        "expected": "[[]"
+      },
+      {
+        "input": {
+          "adjList": "[]"
+        },
+        "expected": "[]"
+      }
+    ],
+    "python_starter": "\"\"\"\n# Definition for a Node.\nclass Node:\n    def __init__(self, val = 0, neighbors = None):\n        self.val = val\n        self.neighbors = neighbors if neighbors is not None else []\n\"\"\"\n\nfrom typing import Optional\nclass Solution:\n    def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "cloneGraph",
+      "params": [
+        {
+          "name": "edges",
+          "type": "integer[][]"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      },
+      "languages": [
+        "cpp",
+        "java",
+        "python",
+        "csharp",
+        "javascript",
+        "python3",
+        "golang",
+        "swift",
+        "kotlin",
+        "ruby",
+        "c",
+        "scala",
+        "php",
+        "typescript"
+      ],
+      "manual": true,
+      "typescriptCustomType": "class _Node {\n    val: number\n    neighbors: _Node[]\n\n    constructor(val?: number, neighbors?: _Node[]) {\n        this.val = (val===undefined ? 0 : val)\n        this.neighbors = (neighbors===undefined ? [] : neighbors)\n    }\n}\n"
+    }
+  },
+  "solution": {
+    "code": "# Definition for a Node.\nclass Node:\n    def __init__(self, val=0, neighbors=None):\n        self.val = val\n        self.neighbors = neighbors if neighbors is not None else []\n\nfrom typing import Optional, Dict, List\n\nclass Solution:\n    def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:\n        if not node:\n            return None\n        \n        # A dictionary to hold the mapping from original node to cloned node\n        cloned_nodes: Dict[Node, Node] = {}\n        \n        def dfs(original_node: Node) -> Node:\n            if original_node in cloned_nodes:\n                return cloned_nodes[original_node]\n            \n            # Clone the node\n            clone = Node(original_node.val)\n            cloned_nodes[original_node] = clone\n            \n            # Clone all the neighbors\n            for neighbor in original_node.neighbors:\n                clone.neighbors.append(dfs(neighbor))\n            \n            return clone\n        \n        return dfs(node)",
+    "explanation": "The provided solution uses a depth-first search (DFS) approach to clone the graph. Here's a breakdown of how it works:\n\n1. **Base Case**: The function first checks if the input node is `None`. If it is, it returns `None`, indicating that there is no graph to clone.\n\n2. **Cloning Logic**: We define a helper function `dfs` that takes an original node as input. Inside this function:\n   - We check if the node has already been cloned by looking it up in the `cloned_nodes` dictionary. If it exists, we return the cloned node to avoid cycles and redundant work.\n   - If the node is not in the dictionary, we create a new `Node` instance with the same value as the original node and store it in the dictionary.\n   - We then iterate through each neighbor of the original node, recursively calling `dfs` to clone each neighbor and append it to the cloned node's neighbors list.\n\n3. **Return Value**: Finally, we call the `dfs` function starting from the input node and return the cloned graph's root node.\n\n**Time Complexity**: O(N), where N is the number of nodes in the graph. Each node and its edges are processed once.\n\n**Space Complexity**: O(N) for the dictionary that stores the mapping of original nodes to cloned nodes, and O(N) for the recursion stack in the worst case (if the graph is a linear chain).\n\nThis solution efficiently clones the graph while maintaining the structure and relationships of the original graph."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmp3ivux697.py\", line 67\n    input_0_0 = [[2,4]\n                 ^^^^^\nSyntaxError: invalid syntax. Perhaps you forgot a comma?\n"
+  },
+  "timestamp": "2025-04-01 18:00:37"
+}

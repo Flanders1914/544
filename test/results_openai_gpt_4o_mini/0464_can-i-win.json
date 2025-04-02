@@ -1,0 +1,60 @@
+{
+  "problem": {
+    "id": "464",
+    "frontend_id": "464",
+    "title": "Can I Win",
+    "description": "In the \"100 game\" two players take turns adding, to a running total, any integer from 1 to 10. The player who first causes the running total to reach or exceed 100 wins.\nWhat if we change the game so that players cannot re-use integers?\nFor example, two players might take turns drawing from a common pool of numbers from 1 to 15 without replacement until they reach a total >= 100.\nGiven two integers maxChoosableInteger and desiredTotal, return true if the first player to move can force a win, otherwise, return false. Assume both players play optimally.\n \nExample 1:\n\nInput: maxChoosableInteger = 10, desiredTotal = 11\nOutput: false\nExplanation:\nNo matter which integer the first player choose, the first player will lose.\nThe first player can choose an integer from 1 up to 10.\nIf the first player choose 1, the second player can only choose integers from 2 up to 10.\nThe second player will win by choosing 10 and get a total = 11, which is >= desiredTotal.\nSame with other integers chosen by the first player, the second player will always win.\n\nExample 2:\n\nInput: maxChoosableInteger = 10, desiredTotal = 0\nOutput: true\n\nExample 3:\n\nInput: maxChoosableInteger = 10, desiredTotal = 1\nOutput: true\n\n \nConstraints:\n\n1 <= maxChoosableInteger <= 20\n0 <= desiredTotal <= 300\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "10",
+      "11",
+      "10",
+      "0",
+      "10",
+      "1"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "maxChoosableInteger": "10",
+          "desiredTotal": "11"
+        },
+        "expected": "false"
+      },
+      {
+        "input": {
+          "maxChoosableInteger": "10",
+          "desiredTotal": "0"
+        },
+        "expected": "true"
+      }
+    ],
+    "python_starter": "class Solution:\n    def canIWin(self, maxChoosableInteger: int, desiredTotal: int) -> bool:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "canIWin",
+      "params": [
+        {
+          "name": "maxChoosableInteger",
+          "type": "integer"
+        },
+        {
+          "name": "desiredTotal",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def canIWin(self, maxChoosableInteger: int, desiredTotal: int) -> bool:\n        # Base cases\n        if desiredTotal <= 0:\n            return True\n        if (maxChoosableInteger * (maxChoosableInteger + 1)) // 2 < desiredTotal:\n            return False\n        \n        memo = {}\n        \n        def canWin(total, used):\n            if total >= desiredTotal:\n                return False\n            if used in memo:\n                return memo[used]\n            \n            for i in range(1, maxChoosableInteger + 1):\n                if (used & (1 << i)) == 0:  # If i is not used\n                    if not canWin(total + i, used | (1 << i)):\n                        memo[used] = True\n                        return True\n            \n            memo[used] = False\n            return False\n        \n        return canWin(0, 0)",
+    "explanation": "The solution uses a recursive function `canWin` to determine if the first player can win given the current total and the integers that have been used (tracked using a bitmask). \n\n1. **Base Cases**:\n   - If `desiredTotal` is less than or equal to 0, the first player wins immediately.\n   - If the sum of all choosable integers is less than `desiredTotal`, the first player cannot win.\n\n2. **Recursive Function**:\n   - The function checks all integers from 1 to `maxChoosableInteger`. For each integer, it checks if it has been used (using a bitmask).\n   - If the integer has not been used, it simulates choosing that integer and calls `canWin` recursively with the updated total and the updated bitmask.\n   - If the second player cannot win after the first player's move, it means the first player can force a win, and we return `True`.\n\n3. **Memoization**:\n   - We store results in a dictionary `memo` to avoid recalculating results for the same state, which significantly improves efficiency.\n\n**Time Complexity**: The time complexity is O(2^n) in the worst case due to the recursive exploration of all subsets of integers, where n is `maxChoosableInteger`. However, memoization reduces the number of states we need to evaluate.\n\n**Space Complexity**: The space complexity is O(n) for the memoization dictionary and the recursion stack.\n\nOverall, this approach efficiently determines if the first player can guarantee a win given optimal play from both players."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: False\nTest case 2:\n[PASS] Test passed: True\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:58"
+}

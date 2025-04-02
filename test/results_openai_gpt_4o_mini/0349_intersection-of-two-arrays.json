@@ -1,0 +1,51 @@
+{
+  "problem": {
+    "id": "349",
+    "frontend_id": "349",
+    "title": "Intersection of Two Arrays",
+    "description": "Given two integer arrays nums1 and nums2, return an array of their intersection. Each element in the result must be unique and you may return the result in any order.\n \nExample 1:\n\nInput: nums1 = [1,2,2,1], nums2 = [2,2]\nOutput: [2]\n\nExample 2:\n\nInput: nums1 = [4,9,5], nums2 = [9,4,9,8,4]\nOutput: [9,4]\nExplanation: [4,9] is also accepted.\n\n \nConstraints:\n\n1 <= nums1.length, nums2.length <= 1000\n0 <= nums1[i], nums2[i] <= 1000\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "[1,2,2,1]",
+      "[2,2]",
+      "[4,9,5]",
+      "[9,4,9,8,4]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums1": "[1,2,2,1]",
+          "nums2": "[2,2]"
+        },
+        "expected": "[2]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def intersection(self, nums1: List[int], nums2: List[int]) -> List[int]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "intersection",
+      "params": [
+        {
+          "name": "nums1",
+          "type": "integer[]"
+        },
+        {
+          "name": "nums2",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer[]"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def intersection(self, nums1: List[int], nums2: List[int]) -> List[int]:\n        # Convert both lists to sets to eliminate duplicates and allow for efficient intersection\n        set1 = set(nums1)\n        set2 = set(nums2)\n        \n        # Find the intersection of both sets\n        intersection = set1.intersection(set2)\n        \n        # Convert the result back to a list and return\n        return list(intersection)",
+    "explanation": "The solution begins by importing the necessary type `List` from the `typing` module. The `intersection` method takes two lists of integers as input. \n\n1. **Convert to Sets**: We convert both `nums1` and `nums2` into sets (`set1` and `set2`). This step removes any duplicate values within each list, ensuring that each element is unique.\n\n2. **Find Intersection**: We then use the `intersection` method of the set, which efficiently computes the common elements between `set1` and `set2`.\n\n3. **Return Result**: Finally, we convert the resulting set of intersected elements back into a list and return it.\n\n### Time Complexity\n- The time complexity of this solution is O(n + m), where n is the length of `nums1` and m is the length of `nums2`. This is because we are iterating through both lists to create the sets and then performing the intersection operation.\n\n### Space Complexity\n- The space complexity is O(n + m) as well, due to the storage of the two sets that hold the unique elements from both input lists.\n\nThis approach is efficient and straightforward, leveraging Python's built-in set operations to achieve the desired result."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: [2]\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:50"
+}

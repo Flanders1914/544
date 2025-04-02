@@ -1,0 +1,40 @@
+{
+  "id": "43",
+  "frontend_id": "43",
+  "title": "Multiply Strings",
+  "description": "Given two non-negative integers num1 and num2 represented as strings, return the product of num1 and num2, also represented as a string.\nNote: You must not use any built-in BigInteger library or convert the inputs to integer directly.\n \nExample 1:\nInput: num1 = \"2\", num2 = \"3\"\nOutput: \"6\"\nExample 2:\nInput: num1 = \"123\", num2 = \"456\"\nOutput: \"56088\"\n\n \nConstraints:\n\n1 <= num1.length, num2.length <= 200\nnum1 and num2 consist of digits only.\nBoth num1 and num2 do not contain any leading zero, except the number 0 itself.\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "\"2\"",
+    "\"3\"",
+    "\"123\"",
+    "\"456\""
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "num1": "\"2\"",
+        "num2": "\"3\""
+      },
+      "expected": "6"
+    }
+  ],
+  "python_starter": "class Solution:\n    def multiply(self, num1: str, num2: str) -> str:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "multiply",
+    "params": [
+      {
+        "name": "num1",
+        "type": "string"
+      },
+      {
+        "name": "num2",
+        "type": "string"
+      }
+    ],
+    "return": {
+      "type": "string"
+    }
+  }
+}

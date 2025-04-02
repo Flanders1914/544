@@ -1,0 +1,40 @@
+{
+  "id": "349",
+  "frontend_id": "349",
+  "title": "Intersection of Two Arrays",
+  "description": "Given two integer arrays nums1 and nums2, return an array of their intersection. Each element in the result must be unique and you may return the result in any order.\n \nExample 1:\n\nInput: nums1 = [1,2,2,1], nums2 = [2,2]\nOutput: [2]\n\nExample 2:\n\nInput: nums1 = [4,9,5], nums2 = [9,4,9,8,4]\nOutput: [9,4]\nExplanation: [4,9] is also accepted.\n\n \nConstraints:\n\n1 <= nums1.length, nums2.length <= 1000\n0 <= nums1[i], nums2[i] <= 1000\n\n",
+  "difficulty": "Easy",
+  "examples": [
+    "[1,2,2,1]",
+    "[2,2]",
+    "[4,9,5]",
+    "[9,4,9,8,4]"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "nums1": "[1,2,2,1]",
+        "nums2": "[2,2]"
+      },
+      "expected": "[2]"
+    }
+  ],
+  "python_starter": "class Solution:\n    def intersection(self, nums1: List[int], nums2: List[int]) -> List[int]:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "intersection",
+    "params": [
+      {
+        "name": "nums1",
+        "type": "integer[]"
+      },
+      {
+        "name": "nums2",
+        "type": "integer[]"
+      }
+    ],
+    "return": {
+      "type": "integer[]"
+    }
+  }
+}

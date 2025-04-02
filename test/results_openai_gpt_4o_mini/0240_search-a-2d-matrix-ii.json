@@ -1,0 +1,52 @@
+{
+  "problem": {
+    "id": "240",
+    "frontend_id": "240",
+    "title": "Search a 2D Matrix II",
+    "description": "Write an efficient algorithm that searches for a value target in an m x n integer matrix matrix. This matrix has the following properties:\n\nIntegers in each row are sorted in ascending from left to right.\nIntegers in each column are sorted in ascending from top to bottom.\n\n \nExample 1:\n\n\nInput: matrix = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]], target = 5\nOutput: true\n\nExample 2:\n\n\nInput: matrix = [[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]], target = 20\nOutput: false\n\n \nConstraints:\n\nm == matrix.length\nn == matrix[i].length\n1 <= n, m <= 300\n-109 <= matrix[i][j] <= 109\nAll the integers in each row are sorted in ascending order.\nAll the integers in each column are sorted in ascending order.\n-109 <= target <= 109\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]]",
+      "5",
+      "[[1,4,7,11,15],[2,5,8,12,19],[3,6,9,16,22],[10,13,14,17,24],[18,21,23,26,30]]",
+      "20"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "matrix": "[[1,4,7,11,15]",
+          "target": "5"
+        },
+        "expected": "true"
+      }
+    ],
+    "python_starter": "class Solution:\n    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "searchMatrix",
+      "params": [
+        {
+          "name": "matrix",
+          "type": "integer[][]"
+        },
+        {
+          "name": "target",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      },
+      "manual": true
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:\n        if not matrix or not matrix[0]:\n            return False\n        \n        rows, cols = len(matrix), len(matrix[0])\n        row, col = 0, cols - 1  # Start from the top-right corner\n        \n        while row < rows and col >= 0:\n            current = matrix[row][col]\n            if current == target:\n                return True\n            elif current > target:\n                col -= 1  # Move left\n            else:\n                row += 1  # Move down\n        \n        return False  # Target not found",
+    "explanation": "The solution begins by checking if the matrix is empty. If it is, we immediately return `False`. We then initialize our starting position at the top-right corner of the matrix. \n\nIn the while loop, we continue searching as long as we are within the bounds of the matrix. We compare the current element with the target:\n- If they are equal, we return `True`.\n- If the current element is greater than the target, we move left to potentially find a smaller number.\n- If the current element is less than the target, we move down to potentially find a larger number.\n\nThis process continues until we either find the target or exhaust our search space. If we exit the loop without finding the target, we return `False`.\n\nThe time complexity of this algorithm is O(m + n) because in the worst case, we may traverse all rows and columns. The space complexity is O(1) since we are only using a fixed amount of extra space for our indices."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmpvu4ynedk.py\", line 56\n    input_0_0 = [[1,4,7,11,15]\n                ^\nSyntaxError: '[' was never closed\n"
+  },
+  "timestamp": "2025-04-01 18:00:45"
+}

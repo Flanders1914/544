@@ -1,0 +1,58 @@
+{
+  "problem": {
+    "id": "537",
+    "frontend_id": "537",
+    "title": "Complex Number Multiplication",
+    "description": "A complex number can be represented as a string on the form \"real+imaginaryi\" where:\n\nreal is the real part and is an integer in the range [-100, 100].\nimaginary is the imaginary part and is an integer in the range [-100, 100].\ni2 == -1.\n\nGiven two complex numbers num1 and num2 as strings, return a string of the complex number that represents their multiplications.\n \nExample 1:\n\nInput: num1 = \"1+1i\", num2 = \"1+1i\"\nOutput: \"0+2i\"\nExplanation: (1 + i) * (1 + i) = 1 + i2 + 2 * i = 2i, and you need convert it to the form of 0+2i.\n\nExample 2:\n\nInput: num1 = \"1+-1i\", num2 = \"1+-1i\"\nOutput: \"0+-2i\"\nExplanation: (1 - i) * (1 - i) = 1 + i2 - 2 * i = -2i, and you need convert it to the form of 0+-2i.\n\n \nConstraints:\n\nnum1 and num2 are valid complex numbers.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "\"1+1i\"",
+      "\"1+1i\"",
+      "\"1+-1i\"",
+      "\"1+-1i\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "num1": "\"1+1i\"",
+          "num2": "\"1+1i\""
+        },
+        "expected": "0+2i"
+      },
+      {
+        "input": {
+          "num1": "\"1+-1i\"",
+          "num2": "\"1+-1i\""
+        },
+        "expected": "0+-2i"
+      }
+    ],
+    "python_starter": "class Solution:\n    def complexNumberMultiply(self, num1: str, num2: str) -> str:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "complexNumberMultiply",
+      "params": [
+        {
+          "name": "num1",
+          "type": "string"
+        },
+        {
+          "name": "num2",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "string"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def complexNumberMultiply(self, num1: str, num2: str) -> str:\n        # Split the complex numbers into real and imaginary parts\n        a, b = num1[:-1].split('+')  # Remove the 'i' and split\n        c, d = num2[:-1].split('+')  # Remove the 'i' and split\n        \n        # Convert parts to integers\n        a = int(a)\n        b = int(b)\n        c = int(c)\n        d = int(d)\n        \n        # Apply the multiplication formula\n        real_part = a * c - b * d\n        imaginary_part = a * d + b * c\n        \n        # Format the result as a string\n        return f\"{real_part}+{imaginary_part}i\"",
+    "explanation": "The solution begins by parsing the input strings to extract the real and imaginary parts of the complex numbers. This is done by removing the trailing 'i' and splitting the string at the '+' character. The parts are then converted from strings to integers.\n\nNext, we apply the multiplication formula for complex numbers:\n- The real part of the result is calculated as \\( a \\times c - b \\times d \\).\n- The imaginary part of the result is calculated as \\( a \\times d + b \\times c \\).\n\nFinally, we format the result into the required string format \"real+imaginaryi\" and return it.\n\nThe time complexity of this solution is O(1) since the operations performed do not depend on the size of the input but rather on a fixed number of operations. The space complexity is also O(1) as we are using a constant amount of space for the variables."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:01:23"
+}

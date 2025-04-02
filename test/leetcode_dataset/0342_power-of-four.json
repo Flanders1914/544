@@ -1,0 +1,34 @@
+{
+  "id": "342",
+  "frontend_id": "342",
+  "title": "Power of Four",
+  "description": "Given an integer n, return true if it is a power of four. Otherwise, return false.\nAn integer n is a power of four, if there exists an integer x such that n == 4x.\n \nExample 1:\nInput: n = 16\nOutput: true\nExample 2:\nInput: n = 5\nOutput: false\nExample 3:\nInput: n = 1\nOutput: true\n\n \nConstraints:\n\n-231 <= n <= 231 - 1\n\n \nFollow up: Could you solve it without loops/recursion?",
+  "difficulty": "Easy",
+  "examples": [
+    "16",
+    "5",
+    "1"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "n": "16"
+      },
+      "expected": "true"
+    }
+  ],
+  "python_starter": "class Solution:\n    def isPowerOfFour(self, n: int) -> bool:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "isPowerOfFour",
+    "params": [
+      {
+        "name": "n",
+        "type": "integer"
+      }
+    ],
+    "return": {
+      "type": "boolean"
+    }
+  }
+}

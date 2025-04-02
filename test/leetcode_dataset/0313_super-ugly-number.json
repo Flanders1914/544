@@ -1,0 +1,47 @@
+{
+  "id": "313",
+  "frontend_id": "313",
+  "title": "Super Ugly Number",
+  "description": "A super ugly number is a positive integer whose prime factors are in the array primes.\nGiven an integer n and an array of integers primes, return the nth super ugly number.\nThe nth super ugly number is guaranteed to fit in a 32-bit signed integer.\n \nExample 1:\n\nInput: n = 12, primes = [2,7,13,19]\nOutput: 32\nExplanation: [1,2,4,7,8,13,14,16,19,26,28,32] is the sequence of the first 12 super ugly numbers given primes = [2,7,13,19].\n\nExample 2:\n\nInput: n = 1, primes = [2,3,5]\nOutput: 1\nExplanation: 1 has no prime factors, therefore all of its prime factors are in the array primes = [2,3,5].\n\n \nConstraints:\n\n1 <= n <= 105\n1 <= primes.length <= 100\n2 <= primes[i] <= 1000\nprimes[i] is guaranteed to be a prime number.\nAll the values of primes are unique and sorted in ascending order.\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "12",
+    "[2,7,13,19]",
+    "1",
+    "[2,3,5]"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "n": "12",
+        "primes": "[2,7,13,19]"
+      },
+      "expected": "32"
+    },
+    {
+      "input": {
+        "n": "1",
+        "primes": "[2,3,5]"
+      },
+      "expected": "1"
+    }
+  ],
+  "python_starter": "class Solution:\n    def nthSuperUglyNumber(self, n: int, primes: List[int]) -> int:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "nthSuperUglyNumber",
+    "params": [
+      {
+        "name": "n",
+        "type": "integer"
+      },
+      {
+        "name": "primes",
+        "type": "integer[]"
+      }
+    ],
+    "return": {
+      "type": "integer"
+    }
+  }
+}

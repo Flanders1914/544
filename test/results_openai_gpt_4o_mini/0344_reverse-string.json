@@ -1,0 +1,49 @@
+{
+  "problem": {
+    "id": "344",
+    "frontend_id": "344",
+    "title": "Reverse String",
+    "description": "Write a function that reverses a string. The input string is given as an array of characters s.\nYou must do this by modifying the input array in-place with O(1) extra memory.\n \nExample 1:\nInput: s = [\"h\",\"e\",\"l\",\"l\",\"o\"]\nOutput: [\"o\",\"l\",\"l\",\"e\",\"h\"]\nExample 2:\nInput: s = [\"H\",\"a\",\"n\",\"n\",\"a\",\"h\"]\nOutput: [\"h\",\"a\",\"n\",\"n\",\"a\",\"H\"]\n\n \nConstraints:\n\n1 <= s.length <= 105\ns[i] is a printable ascii character.\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "[\"h\",\"e\",\"l\",\"l\",\"o\"]",
+      "[\"H\",\"a\",\"n\",\"n\",\"a\",\"h\"]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "s": "[\"h\",\"e\",\"l\",\"l\",\"o\"]"
+        },
+        "expected": "[o,l,l,e,h]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def reverseString(self, s: List[str]) -> None:\n        \"\"\"\n        Do not return anything, modify s in-place instead.\n        \"\"\"\n        ",
+    "hints": [
+      "The entire logic for reversing a string is based on using the opposite directional two-pointer approach!"
+    ],
+    "meta_data": {
+      "name": "reverseString",
+      "params": [
+        {
+          "name": "s",
+          "type": "character[]"
+        }
+      ],
+      "return": {
+        "type": "void"
+      },
+      "output": {
+        "paramindex": 0
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def reverseString(self, s: List[str]) -> None:\n        \"\"\"\n        Do not return anything, modify s in-place instead.\n        \"\"\"\n        left, right = 0, len(s) - 1\n        while left < right:\n            # Swap the characters at the left and right pointers\n            s[left], s[right] = s[right], s[left]\n            # Move the pointers towards the center\n            left += 1\n            right -= 1",
+    "explanation": "The solution uses a two-pointer technique to reverse the string in-place. The `left` pointer starts at the beginning of the array, and the `right` pointer starts at the end. We continue swapping the characters at these pointers until they meet in the middle. \n\n1. **Time Complexity**: The time complexity of this approach is O(n), where n is the length of the input array. This is because we traverse half of the array to perform the swaps.\n\n2. **Space Complexity**: The space complexity is O(1) since we are not using any additional data structures that grow with the input size; we are only using a constant amount of space for the pointers.\n\nThis method efficiently reverses the string while adhering to the constraints of modifying the input array in-place and using minimal extra memory."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:50"
+}

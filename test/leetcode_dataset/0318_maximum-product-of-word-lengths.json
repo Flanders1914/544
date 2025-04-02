@@ -1,0 +1,46 @@
+{
+  "id": "318",
+  "frontend_id": "318",
+  "title": "Maximum Product of Word Lengths",
+  "description": "Given a string array words, return the maximum value of length(word[i]) * length(word[j]) where the two words do not share common letters. If no such two words exist, return 0.\n \nExample 1:\n\nInput: words = [\"abcw\",\"baz\",\"foo\",\"bar\",\"xtfn\",\"abcdef\"]\nOutput: 16\nExplanation: The two words can be \"abcw\", \"xtfn\".\n\nExample 2:\n\nInput: words = [\"a\",\"ab\",\"abc\",\"d\",\"cd\",\"bcd\",\"abcd\"]\nOutput: 4\nExplanation: The two words can be \"ab\", \"cd\".\n\nExample 3:\n\nInput: words = [\"a\",\"aa\",\"aaa\",\"aaaa\"]\nOutput: 0\nExplanation: No such pair of words.\n\n \nConstraints:\n\n2 <= words.length <= 1000\n1 <= words[i].length <= 1000\nwords[i] consists only of lowercase English letters.\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "[\"abcw\",\"baz\",\"foo\",\"bar\",\"xtfn\",\"abcdef\"]",
+    "[\"a\",\"ab\",\"abc\",\"d\",\"cd\",\"bcd\",\"abcd\"]",
+    "[\"a\",\"aa\",\"aaa\",\"aaaa\"]"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "words": "[\"abcw\",\"baz\",\"foo\",\"bar\",\"xtfn\",\"abcdef\"]"
+      },
+      "expected": "16"
+    },
+    {
+      "input": {
+        "words": "[\"a\",\"ab\",\"abc\",\"d\",\"cd\",\"bcd\",\"abcd\"]"
+      },
+      "expected": "4"
+    },
+    {
+      "input": {
+        "words": "[\"a\",\"aa\",\"aaa\",\"aaaa\"]"
+      },
+      "expected": "0"
+    }
+  ],
+  "python_starter": "class Solution:\n    def maxProduct(self, words: List[str]) -> int:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "maxProduct",
+    "params": [
+      {
+        "name": "words",
+        "type": "string[]"
+      }
+    ],
+    "return": {
+      "type": "integer"
+    }
+  }
+}

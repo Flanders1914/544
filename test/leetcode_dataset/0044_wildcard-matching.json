@@ -1,0 +1,56 @@
+{
+  "id": "44",
+  "frontend_id": "44",
+  "title": "Wildcard Matching",
+  "description": "Given an input string (s) and a pattern (p), implement wildcard pattern matching with support for '?' and '*' where:\n\n'?' Matches any single character.\n'*' Matches any sequence of characters (including the empty sequence).\n\nThe matching should cover the entire input string (not partial).\n \nExample 1:\n\nInput: s = \"aa\", p = \"a\"\nOutput: false\nExplanation: \"a\" does not match the entire string \"aa\".\n\nExample 2:\n\nInput: s = \"aa\", p = \"*\"\nOutput: true\nExplanation: '*' matches any sequence.\n\nExample 3:\n\nInput: s = \"cb\", p = \"?a\"\nOutput: false\nExplanation: '?' matches 'c', but the second letter is 'a', which does not match 'b'.\n\n \nConstraints:\n\n0 <= s.length, p.length <= 2000\ns contains only lowercase English letters.\np contains only lowercase English letters, '?' or '*'.\n\n",
+  "difficulty": "Hard",
+  "examples": [
+    "\"aa\"",
+    "\"a\"",
+    "\"aa\"",
+    "\"*\"",
+    "\"cb\"",
+    "\"?a\""
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "s": "\"aa\"",
+        "p": "\"a\""
+      },
+      "expected": "false"
+    },
+    {
+      "input": {
+        "s": "\"aa\"",
+        "p": "\"*\""
+      },
+      "expected": "true"
+    },
+    {
+      "input": {
+        "s": "\"cb\"",
+        "p": "\"?a\""
+      },
+      "expected": "false"
+    }
+  ],
+  "python_starter": "class Solution:\n    def isMatch(self, s: str, p: str) -> bool:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "isMatch",
+    "params": [
+      {
+        "name": "s",
+        "type": "string"
+      },
+      {
+        "name": "p",
+        "type": "string"
+      }
+    ],
+    "return": {
+      "type": "boolean"
+    }
+  }
+}

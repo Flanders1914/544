@@ -1,0 +1,33 @@
+{
+  "id": "96",
+  "frontend_id": "96",
+  "title": "Unique Binary Search Trees",
+  "description": "Given an integer n, return the number of structurally unique BST's (binary search trees) which has exactly n nodes of unique values from 1 to n.\n \nExample 1:\n\n\nInput: n = 3\nOutput: 5\n\nExample 2:\n\nInput: n = 1\nOutput: 1\n\n \nConstraints:\n\n1 <= n <= 19\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "3",
+    "1"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "n": "3"
+      },
+      "expected": "5"
+    }
+  ],
+  "python_starter": "class Solution:\n    def numTrees(self, n: int) -> int:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "numTrees",
+    "params": [
+      {
+        "name": "n",
+        "type": "integer"
+      }
+    ],
+    "return": {
+      "type": "integer"
+    }
+  }
+}

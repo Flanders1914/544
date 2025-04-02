@@ -1,0 +1,39 @@
+{
+  "id": "611",
+  "frontend_id": "611",
+  "title": "Valid Triangle Number",
+  "description": "Given an integer array nums, return the number of triplets chosen from the array that can make triangles if we take them as side lengths of a triangle.\n \nExample 1:\n\nInput: nums = [2,2,3,4]\nOutput: 3\nExplanation: Valid combinations are: \n2,3,4 (using the first 2)\n2,3,4 (using the second 2)\n2,2,3\n\nExample 2:\n\nInput: nums = [4,2,3,4]\nOutput: 4\n\n \nConstraints:\n\n1 <= nums.length <= 1000\n0 <= nums[i] <= 1000\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "[2,2,3,4]",
+    "[4,2,3,4]"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "nums": "[2,2,3,4]"
+      },
+      "expected": "3"
+    },
+    {
+      "input": {
+        "nums": "[4,2,3,4]"
+      },
+      "expected": "4"
+    }
+  ],
+  "python_starter": "class Solution:\n    def triangleNumber(self, nums: List[int]) -> int:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "triangleNumber",
+    "params": [
+      {
+        "name": "nums",
+        "type": "integer[]"
+      }
+    ],
+    "return": {
+      "type": "integer"
+    }
+  }
+}

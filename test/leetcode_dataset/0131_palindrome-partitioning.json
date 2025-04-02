@@ -1,0 +1,34 @@
+{
+  "id": "131",
+  "frontend_id": "131",
+  "title": "Palindrome Partitioning",
+  "description": "Given a string s, partition s such that every substring of the partition is a palindrome. Return all possible palindrome partitioning of s.\n \nExample 1:\nInput: s = \"aab\"\nOutput: [[\"a\",\"a\",\"b\"],[\"aa\",\"b\"]]\nExample 2:\nInput: s = \"a\"\nOutput: [[\"a\"]]\n\n \nConstraints:\n\n1 <= s.length <= 16\ns contains only lowercase English letters.\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "\"aab\"",
+    "\"a\""
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "s": "\"aab\""
+      },
+      "expected": "[[a,a,b]"
+    }
+  ],
+  "python_starter": "class Solution:\n    def partition(self, s: str) -> List[List[str]]:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "partition",
+    "params": [
+      {
+        "name": "s",
+        "type": "string"
+      }
+    ],
+    "return": {
+      "type": "list<list<string>>",
+      "dealloc": true
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "problem": {
+    "id": "419",
+    "frontend_id": "419",
+    "title": "Battleships in a Board",
+    "description": "Given an m x n matrix board where each cell is a battleship 'X' or empty '.', return the number of the battleships on board.\nBattleships can only be placed horizontally or vertically on board. In other words, they can only be made of the shape 1 x k (1 row, k columns) or k x 1 (k rows, 1 column), where k can be of any size. At least one horizontal or vertical cell separates between two battleships (i.e., there are no adjacent battleships).\n \nExample 1:\n\n\nInput: board = [[\"X\",\".\",\".\",\"X\"],[\".\",\".\",\".\",\"X\"],[\".\",\".\",\".\",\"X\"]]\nOutput: 2\n\nExample 2:\n\nInput: board = [[\".\"]]\nOutput: 0\n\n \nConstraints:\n\nm == board.length\nn == board[i].length\n1 <= m, n <= 200\nboard[i][j] is either '.' or 'X'.\n\n \nFollow up: Could you do it in one-pass, using only O(1) extra memory and without modifying the values board?\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[[\"X\",\".\",\".\",\"X\"],[\".\",\".\",\".\",\"X\"],[\".\",\".\",\".\",\"X\"]]",
+      "[[\".\"]]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "board": "[[\"X\",\".\",\".\",\"X\"]"
+        },
+        "expected": "2"
+      }
+    ],
+    "python_starter": "class Solution:\n    def countBattleships(self, board: List[List[str]]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "countBattleships",
+      "params": [
+        {
+          "name": "board",
+          "type": "character[][]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def countBattleships(self, board: List[List[str]]) -> int:\n        if not board:\n            return 0\n        \n        m, n = len(board), len(board[0])\n        count = 0\n        \n        for i in range(m):\n            for j in range(n):\n                # Check if we found the start of a battleship\n                if board[i][j] == 'X':\n                    # Check if it's the first cell in the row or column\n                    if (i == 0 or board[i-1][j] == '.') and (j == 0 or board[i][j-1] == '.'):\n                        count += 1\n        \n        return count",
+    "explanation": "The solution iterates through each cell in the given board matrix. For each cell that contains 'X', it checks if it is the starting point of a battleship by ensuring that there are no adjacent 'X's to the left or above it. \n\n1. **Time Complexity**: The time complexity of this solution is O(m * n), where m is the number of rows and n is the number of columns in the board. This is because we are visiting each cell exactly once.\n\n2. **Space Complexity**: The space complexity is O(1) since we are using a constant amount of extra space (just a few integer variables) regardless of the input size.\n\nThis approach efficiently counts the number of battleships in a single pass through the board while adhering to the constraints of using O(1) extra memory and not modifying the board."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmp_its5tly.py\", line 53\n    input_0_0 = [[\"X\",\".\",\".\",\"X\"]\n                ^\nSyntaxError: '[' was never closed\n"
+  },
+  "timestamp": "2025-04-01 18:00:54"
+}

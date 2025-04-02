@@ -1,0 +1,44 @@
+{
+  "problem": {
+    "id": "501",
+    "frontend_id": "501",
+    "title": "Find Mode in Binary Search Tree",
+    "description": "Given the root of a binary search tree (BST) with duplicates, return all the mode(s) (i.e., the most frequently occurred element) in it.\nIf the tree has more than one mode, return them in any order.\nAssume a BST is defined as follows:\n\nThe left subtree of a node contains only nodes with keys less than or equal to the node's key.\nThe right subtree of a node contains only nodes with keys greater than or equal to the node's key.\nBoth the left and right subtrees must also be binary search trees.\n\n \nExample 1:\n\n\nInput: root = [1,null,2,2]\nOutput: [2]\n\nExample 2:\n\nInput: root = [0]\nOutput: [0]\n\n \nConstraints:\n\nThe number of nodes in the tree is in the range [1, 104].\n-105 <= Node.val <= 105\n\n \nFollow up: Could you do that without using any extra space? (Assume that the implicit stack space incurred due to recursion does not count).",
+    "difficulty": "Easy",
+    "examples": [
+      "[1,null,2,2]",
+      "[0]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "root": "[1,null,2,2]"
+        },
+        "expected": "[2]"
+      }
+    ],
+    "python_starter": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def findMode(self, root: Optional[TreeNode]) -> List[int]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "findMode",
+      "params": [
+        {
+          "name": "root",
+          "type": "TreeNode"
+        }
+      ],
+      "return": {
+        "type": "integer[]"
+      }
+    }
+  },
+  "solution": {
+    "code": "from collections import defaultdict\nfrom typing import List, Optional\n\n# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nclass Solution:\n    def findMode(self, root: Optional[TreeNode]) -> List[int]:\n        if not root:\n            return []\n\n        # Dictionary to count occurrences of each value\n        count = defaultdict(int)\n        self.max_count = 0  # To track the maximum frequency\n        self.modes = []      # To store the modes\n\n        # Helper function for in-order traversal\n        def in_order(node):\n            if not node:\n                return\n            \n            # Traverse the left subtree\n            in_order(node.left)\n            \n            # Process the current node\n            count[node.val] += 1\n            if count[node.val] > self.max_count:\n                self.max_count = count[node.val]\n                self.modes = [node.val]  # Start a new list of modes\n            elif count[node.val] == self.max_count:\n                self.modes.append(node.val)  # Add to the existing list of modes\n            \n            # Traverse the right subtree\n            in_order(node.right)\n\n        # Start in-order traversal from the root\n        in_order(root)\n        return self.modes",
+    "explanation": "The solution uses an in-order traversal to count the occurrences of each value in the BST. The `in_order` function is defined to recursively visit each node in the tree. \n\n1. **Counting Occurrences**: As we visit each node, we increment its count in the `count` dictionary. We check if this count exceeds the current maximum count (`max_count`). If it does, we update `max_count` and reset the `modes` list to only include this new mode. If the count matches `max_count`, we append the value to the `modes` list.\n\n2. **Time Complexity**: The time complexity is O(n) because we visit each node exactly once.\n\n3. **Space Complexity**: The space complexity is O(h) due to the recursion stack, where h is the height of the tree. The additional space used for the `count` dictionary and the `modes` list is considered negligible in terms of the problem's constraints.\n\nThis approach efficiently finds all modes in the BST while adhering to the constraints provided."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:01:20"
+}

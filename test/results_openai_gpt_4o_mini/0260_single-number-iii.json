@@ -1,0 +1,51 @@
+{
+  "problem": {
+    "id": "260",
+    "frontend_id": "260",
+    "title": "Single Number III",
+    "description": "Given an integer array nums, in which exactly two elements appear only once and all the other elements appear exactly twice. Find the two elements that appear only once. You can return the answer in any order.\nYou must write an algorithm that runs in linear runtime complexity and uses only constant extra space.\n \nExample 1:\n\nInput: nums = [1,2,1,3,2,5]\nOutput: [3,5]\nExplanation:  [5, 3] is also a valid answer.\n\nExample 2:\n\nInput: nums = [-1,0]\nOutput: [-1,0]\n\nExample 3:\n\nInput: nums = [0,1]\nOutput: [1,0]\n\n \nConstraints:\n\n2 <= nums.length <= 3 * 104\n-231 <= nums[i] <= 231 - 1\nEach integer in nums will appear twice, only two integers will appear once.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[1,2,1,3,2,5]",
+      "[-1,0]",
+      "[0,1]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[1,2,1,3,2,5]"
+        },
+        "expected": "[3,5]"
+      },
+      {
+        "input": {
+          "nums": "[-1,0]"
+        },
+        "expected": "[-1,0]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def singleNumber(self, nums: List[int]) -> List[int]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "singleNumber",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer[]"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def singleNumber(self, nums: List[int]) -> List[int]:\n        # Step 1: XOR all numbers to get the XOR of the two unique numbers\n        xor_result = 0\n        for num in nums:\n            xor_result ^= num\n        \n        # Step 2: Find a bit that is set in xor_result (this will be used to differentiate the two unique numbers)\n        # We can use the rightmost set bit\n        rightmost_set_bit = xor_result & -xor_result\n        \n        # Step 3: Initialize two variables to hold the two unique numbers\n        num1, num2 = 0, 0\n        \n        # Step 4: Partition the numbers into two groups and XOR them\n        for num in nums:\n            if num & rightmost_set_bit:\n                num1 ^= num  # Group with the set bit\n            else:\n                num2 ^= num  # Group without the set bit\n        \n        return [num1, num2]",
+    "explanation": "The solution uses the properties of the XOR operation to efficiently find the two unique numbers in the array. \n\n1. **XOR Operation**: By XORing all the numbers, we eliminate all pairs of numbers that appear twice, leaving us with the XOR of the two unique numbers.\n\n2. **Finding a Differentiating Bit**: We identify a bit that is set in the XOR result. This bit will help us distinguish between the two unique numbers.\n\n3. **Partitioning the Array**: We iterate through the array again, this time partitioning the numbers into two groups based on whether they have the identified bit set or not. We then XOR the numbers in each group to isolate the two unique numbers.\n\n**Time Complexity**: O(n), where n is the number of elements in the input array. We make two passes through the array.\n\n**Space Complexity**: O(1), as we only use a fixed number of variables regardless of the input size.\n\nThis solution is efficient and meets the problem's constraints, providing the correct output for the given examples."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: [3, 5]\nTest case 2:\n[PASS] Test passed: [-1, 0]\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:45"
+}

@@ -1,0 +1,51 @@
+{
+  "problem": {
+    "id": "529",
+    "frontend_id": "529",
+    "title": "Minesweeper",
+    "description": "Let's play the minesweeper game (Wikipedia, online game)!\nYou are given an m x n char matrix board representing the game board where:\n\n'M' represents an unrevealed mine,\n'E' represents an unrevealed empty square,\n'B' represents a revealed blank square that has no adjacent mines (i.e., above, below, left, right, and all 4 diagonals),\ndigit ('1' to '8') represents how many mines are adjacent to this revealed square, and\n'X' represents a revealed mine.\n\nYou are also given an integer array click where click = [clickr, clickc] represents the next click position among all the unrevealed squares ('M' or 'E').\nReturn the board after revealing this position according to the following rules:\n\nIf a mine 'M' is revealed, then the game is over. You should change it to 'X'.\nIf an empty square 'E' with no adjacent mines is revealed, then change it to a revealed blank 'B' and all of its adjacent unrevealed squares should be revealed recursively.\nIf an empty square 'E' with at least one adjacent mine is revealed, then change it to a digit ('1' to '8') representing the number of adjacent mines.\nReturn the board when no more squares will be revealed.\n\n \nExample 1:\n\n\nInput: board = [[\"E\",\"E\",\"E\",\"E\",\"E\"],[\"E\",\"E\",\"M\",\"E\",\"E\"],[\"E\",\"E\",\"E\",\"E\",\"E\"],[\"E\",\"E\",\"E\",\"E\",\"E\"]], click = [3,0]\nOutput: [[\"B\",\"1\",\"E\",\"1\",\"B\"],[\"B\",\"1\",\"M\",\"1\",\"B\"],[\"B\",\"1\",\"1\",\"1\",\"B\"],[\"B\",\"B\",\"B\",\"B\",\"B\"]]\n\nExample 2:\n\n\nInput: board = [[\"B\",\"1\",\"E\",\"1\",\"B\"],[\"B\",\"1\",\"M\",\"1\",\"B\"],[\"B\",\"1\",\"1\",\"1\",\"B\"],[\"B\",\"B\",\"B\",\"B\",\"B\"]], click = [1,2]\nOutput: [[\"B\",\"1\",\"E\",\"1\",\"B\"],[\"B\",\"1\",\"X\",\"1\",\"B\"],[\"B\",\"1\",\"1\",\"1\",\"B\"],[\"B\",\"B\",\"B\",\"B\",\"B\"]]\n\n \nConstraints:\n\nm == board.length\nn == board[i].length\n1 <= m, n <= 50\nboard[i][j] is either 'M', 'E', 'B', or a digit from '1' to '8'.\nclick.length == 2\n0 <= clickr < m\n0 <= clickc < n\nboard[clickr][clickc] is either 'M' or 'E'.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[[\"E\",\"E\",\"E\",\"E\",\"E\"],[\"E\",\"E\",\"M\",\"E\",\"E\"],[\"E\",\"E\",\"E\",\"E\",\"E\"],[\"E\",\"E\",\"E\",\"E\",\"E\"]]",
+      "[3,0]",
+      "[[\"B\",\"1\",\"E\",\"1\",\"B\"],[\"B\",\"1\",\"M\",\"1\",\"B\"],[\"B\",\"1\",\"1\",\"1\",\"B\"],[\"B\",\"B\",\"B\",\"B\",\"B\"]]",
+      "[1,2]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "board": "[[\"E\",\"E\",\"E\",\"E\",\"E\"]",
+          "click": "[3,0]"
+        },
+        "expected": "[[B,1,E,1,B]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def updateBoard(self, board: List[List[str]], click: List[int]) -> List[List[str]]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "updateBoard",
+      "params": [
+        {
+          "name": "board",
+          "type": "character[][]"
+        },
+        {
+          "name": "click",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "character[][]"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def updateBoard(self, board: List[List[str]], click: List[int]) -> List[List[str]]:\n        # Directions for the 8 adjacent cells\n        directions = [(-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1)]\n        rows, cols = len(board), len(board[0])\n        click_row, click_col = click\n        \n        # Helper function to count adjacent mines\n        def count_mines(r, c):\n            count = 0\n            for dr, dc in directions:\n                nr, nc = r + dr, c + dc\n                if 0 <= nr < rows and 0 <= nc < cols and board[nr][nc] == 'M':\n                    count += 1\n            return count\n        \n        # Recursive function to reveal cells\n        def reveal(r, c):\n            if board[r][c] != 'E':\n                return\n            \n            mine_count = count_mines(r, c)\n            if mine_count > 0:\n                board[r][c] = str(mine_count)  # Change to the number of adjacent mines\n            else:\n                board[r][c] = 'B'  # No adjacent mines, mark as blank\n                # Recursively reveal all adjacent cells\n                for dr, dc in directions:\n                    nr, nc = r + dr, c + dc\n                    if 0 <= nr < rows and 0 <= nc < cols:\n                        reveal(nr, nc)\n        \n        # Start revealing from the clicked cell\n        if board[click_row][click_col] == 'M':\n            board[click_row][click_col] = 'X'  # Game over, reveal mine\n        else:\n            reveal(click_row, click_col)\n        \n        return board",
+    "explanation": "The solution begins by defining the `updateBoard` method, which takes the game board and the click position as inputs. We define the possible directions to check adjacent cells and calculate the number of mines around the clicked cell using the `count_mines` helper function.\n\nThe `reveal` function is a recursive function that:\n- Checks if the current cell is already revealed. If it is, it returns immediately.\n- Counts the number of adjacent mines. If there are any, it updates the cell to the corresponding number. If there are no adjacent mines, it marks the cell as 'B' and recursively reveals all adjacent cells.\n\nFinally, we check if the clicked cell is a mine. If it is, we mark it as 'X' to indicate the game is over. If it is an empty cell, we call the `reveal` function to process it.\n\nThe time complexity of the solution is O(m * n) in the worst case, as we may need to reveal all cells in the board. The space complexity is O(m * n) due to the recursion stack in the worst case."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmp75u05e1p.py\", line 77\n    input_0_0 = [[\"E\",\"E\",\"E\",\"E\",\"E\"]\n                 ^^^^^^^^^^^^^^^^^^^^^\nSyntaxError: invalid syntax. Perhaps you forgot a comma?\n"
+  },
+  "timestamp": "2025-04-01 18:01:22"
+}

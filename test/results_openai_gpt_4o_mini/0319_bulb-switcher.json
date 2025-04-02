@@ -1,0 +1,51 @@
+{
+  "problem": {
+    "id": "319",
+    "frontend_id": "319",
+    "title": "Bulb Switcher",
+    "description": "There are n bulbs that are initially off. You first turn on all the bulbs, then you turn off every second bulb.\nOn the third round, you toggle every third bulb (turning on if it's off or turning off if it's on). For the ith round, you toggle every i bulb. For the nth round, you only toggle the last bulb.\nReturn the number of bulbs that are on after n rounds.\n \nExample 1:\n\n\nInput: n = 3\nOutput: 1\nExplanation: At first, the three bulbs are [off, off, off].\nAfter the first round, the three bulbs are [on, on, on].\nAfter the second round, the three bulbs are [on, off, on].\nAfter the third round, the three bulbs are [on, off, off]. \nSo you should return 1 because there is only one bulb is on.\nExample 2:\n\nInput: n = 0\nOutput: 0\n\nExample 3:\n\nInput: n = 1\nOutput: 1\n\n \nConstraints:\n\n0 <= n <= 109\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "3",
+      "0",
+      "1"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "n": "3"
+        },
+        "expected": "1"
+      },
+      {
+        "input": {
+          "n": "0"
+        },
+        "expected": "0"
+      }
+    ],
+    "python_starter": "class Solution:\n    def bulbSwitch(self, n: int) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "bulbSwitch",
+      "params": [
+        {
+          "name": "n",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def bulbSwitch(self, n: int) -> int:\n        # The number of bulbs that are on after n rounds is the count of perfect squares <= n\n        return int(n**0.5)  # Return the integer part of the square root of n",
+    "explanation": "The solution leverages the mathematical insight that only bulbs at positions that are perfect squares will remain on after all toggling rounds. The number of perfect squares up to a number n can be calculated using the square root function. \n\n1. **Time Complexity**: The time complexity of this solution is O(1) because it involves a constant-time calculation of the square root.\n2. **Space Complexity**: The space complexity is also O(1) since we are using a fixed amount of space for the calculation and not utilizing any additional data structures.\n\nThus, the function efficiently computes the number of bulbs that remain on after n rounds by simply returning the integer value of the square root of n."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 1\nTest case 2:\n[PASS] Test passed: 0\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:48"
+}

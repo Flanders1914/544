@@ -1,0 +1,61 @@
+{
+  "problem": {
+    "id": "39",
+    "frontend_id": "39",
+    "title": "Combination Sum",
+    "description": "Given an array of distinct integers candidates and a target integer target, return a list of all unique combinations of candidates where the chosen numbers sum to target. You may return the combinations in any order.\nThe same number may be chosen from candidates an unlimited number of times. Two combinations are unique if the frequency of at least one of the chosen numbers is different.\nThe test cases are generated such that the number of unique combinations that sum up to target is less than 150 combinations for the given input.\n \nExample 1:\n\nInput: candidates = [2,3,6,7], target = 7\nOutput: [[2,2,3],[7]]\nExplanation:\n2 and 3 are candidates, and 2 + 2 + 3 = 7. Note that 2 can be used multiple times.\n7 is a candidate, and 7 = 7.\nThese are the only two combinations.\n\nExample 2:\n\nInput: candidates = [2,3,5], target = 8\nOutput: [[2,2,2,2],[2,3,3],[3,5]]\n\nExample 3:\n\nInput: candidates = [2], target = 1\nOutput: []\n\n \nConstraints:\n\n1 <= candidates.length <= 30\n2 <= candidates[i] <= 40\nAll elements of candidates are distinct.\n1 <= target <= 40\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[2,3,6,7]",
+      "7",
+      "[2,3,5]",
+      "8",
+      "[2]",
+      "1"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "candidates": "[2,3,6,7]",
+          "target": "7"
+        },
+        "expected": "[[2,2,3]"
+      },
+      {
+        "input": {
+          "candidates": "[2,3,5]",
+          "target": "8"
+        },
+        "expected": "[[2,2,2,2]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "combinationSum",
+      "params": [
+        {
+          "name": "candidates",
+          "type": "integer[]"
+        },
+        {
+          "name": "target",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "list<list<integer>>",
+        "dealloc": true
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:\n        result = []\n        \n        def backtrack(start, current_combination, current_sum):\n            # If the current sum equals the target, we found a valid combination\n            if current_sum == target:\n                result.append(list(current_combination))\n                return\n            # If the current sum exceeds the target, no need to continue\n            if current_sum > target:\n                return\n            \n            # Explore further candidates\n            for i in range(start, len(candidates)):\n                # Include the candidate and explore further\n                current_combination.append(candidates[i])\n                backtrack(i, current_combination, current_sum + candidates[i])\n                # Backtrack: remove the last added candidate\n                current_combination.pop()\n        \n        backtrack(0, [], 0)\n        return result",
+    "explanation": "The provided solution uses a backtracking algorithm to find all unique combinations of candidates that sum to the target. The `combinationSum` function initializes an empty list `result` to store the valid combinations. It defines a nested function `backtrack` that takes the current index, the current combination being built, and the current sum of that combination.\n\n1. **Base Cases**:\n   - If the `current_sum` equals the `target`, the current combination is added to the result.\n   - If the `current_sum` exceeds the `target`, the function returns early to avoid unnecessary computations.\n\n2. **Recursive Exploration**:\n   - The function iterates through the candidates starting from the `start` index. This allows the same candidate to be reused.\n   - For each candidate, it adds the candidate to the `current_combination`, updates the `current_sum`, and recursively calls `backtrack`.\n   - After exploring with the current candidate, it removes the last candidate (backtracking) to explore other possibilities.\n\nThe time complexity of this solution is O(2^N) in the worst case, where N is the number of candidates, due to the nature of the backtracking approach. The space complexity is O(N) for the recursion stack and the storage of combinations.\n\nOverall, this solution efficiently finds all unique combinations that sum to the target while adhering to the constraints provided."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmp7lsl9fuw.py\", line 65\n    if compare_results(result_0, expected_0):\n                                            ^\nSyntaxError: invalid syntax\n"
+  },
+  "timestamp": "2025-04-01 18:00:28"
+}

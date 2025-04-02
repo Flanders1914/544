@@ -1,0 +1,33 @@
+{
+  "id": "504",
+  "frontend_id": "504",
+  "title": "Base 7",
+  "description": "Given an integer num, return a string of its base 7 representation.\n \nExample 1:\nInput: num = 100\nOutput: \"202\"\nExample 2:\nInput: num = -7\nOutput: \"-10\"\n\n \nConstraints:\n\n-107 <= num <= 107\n\n",
+  "difficulty": "Easy",
+  "examples": [
+    "100",
+    "-7"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "num": "100"
+      },
+      "expected": "202"
+    }
+  ],
+  "python_starter": "class Solution:\n    def convertToBase7(self, num: int) -> str:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "convertToBase7",
+    "params": [
+      {
+        "name": "num",
+        "type": "integer"
+      }
+    ],
+    "return": {
+      "type": "string"
+    }
+  }
+}

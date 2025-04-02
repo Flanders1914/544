@@ -1,0 +1,63 @@
+{
+  "problem": {
+    "id": "365",
+    "frontend_id": "365",
+    "title": "Water and Jug Problem",
+    "description": "You are given two jugs with capacities x liters and y liters. You have an infinite water supply. Return whether the total amount of water in both jugs may reach target using the following operations:\n\nFill either jug completely with water.\nCompletely empty either jug.\nPour water from one jug into another until the receiving jug is full, or the transferring jug is empty.\n\n \nExample 1: \n\nInput:   x = 3, y = 5, target = 4 \nOutput:   true \nExplanation:\nFollow these steps to reach a total of 4 liters:\n\nFill the 5-liter jug (0, 5).\nPour from the 5-liter jug into the 3-liter jug, leaving 2 liters (3, 2).\nEmpty the 3-liter jug (0, 2).\nTransfer the 2 liters from the 5-liter jug to the 3-liter jug (2, 0).\nFill the 5-liter jug again (2, 5).\nPour from the 5-liter jug into the 3-liter jug until the 3-liter jug is full. This leaves 4 liters in the 5-liter jug (3, 4).\nEmpty the 3-liter jug. Now, you have exactly 4 liters in the 5-liter jug (0, 4).\n\nReference: The Die Hard example.\n\nExample 2: \n\nInput:   x = 2, y = 6, target = 5 \nOutput:   false \n\nExample 3: \n\nInput:   x = 1, y = 2, target = 3 \nOutput:   true \nExplanation: Fill both jugs. The total amount of water in both jugs is equal to 3 now.\n\n \nConstraints:\n\n1 <= x, y, target <= 103\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "3",
+      "5",
+      "4"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "x": "3",
+          "y": "5",
+          "target": "4"
+        },
+        "expected": "true"
+      },
+      {
+        "input": {
+          "x": "2",
+          "y": "6",
+          "target": "5"
+        },
+        "expected": "false"
+      }
+    ],
+    "python_starter": "class Solution:\n    def canMeasureWater(self, x: int, y: int, target: int) -> bool:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "canMeasureWater",
+      "params": [
+        {
+          "name": "x",
+          "type": "integer"
+        },
+        {
+          "name": "y",
+          "type": "integer"
+        },
+        {
+          "name": "target",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "import math\n\nclass Solution:\n    def canMeasureWater(self, x: int, y: int, target: int) -> bool:\n        # Check if target is greater than the total capacity of both jugs\n        if target > x + y:\n            return False\n        # Check if target is a multiple of the gcd of x and y\n        if target % math.gcd(x, y) == 0:\n            return True\n        return False",
+    "explanation": "The solution uses the properties of the GCD to determine if the target amount of water can be measured using the two jugs. \n\n1. **GCD Calculation**: We use Python's `math.gcd` function to compute the GCD of the two jug capacities `x` and `y`.\n\n2. **Conditions**:\n   - First, we check if the `target` is greater than the sum of the capacities of the two jugs (`x + y`). If it is, we return `False` since we cannot measure more water than the total capacity.\n   - Next, we check if `target` is a multiple of `gcd(x, y)`. If it is, we return `True`, indicating that it is possible to measure the target amount of water.\n\n3. **Time Complexity**: The time complexity of this solution is O(log(min(x, y))) due to the GCD calculation, which is efficient given the constraints.\n\n4. **Space Complexity**: The space complexity is O(1) since we are using a constant amount of space regardless of the input sizes.\n\nThis approach efficiently determines the possibility of measuring the target amount of water using the two jugs."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: True\nTest case 2:\n[PASS] Test passed: False\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:50"
+}

@@ -1,0 +1,47 @@
+{
+  "problem": {
+    "id": "401",
+    "frontend_id": "401",
+    "title": "Binary Watch",
+    "description": "A binary watch has 4 LEDs on the top to represent the hours (0-11), and 6 LEDs on the bottom to represent the minutes (0-59). Each LED represents a zero or one, with the least significant bit on the right.\n\nFor example, the below binary watch reads \"4:51\".\n\n\nGiven an integer turnedOn which represents the number of LEDs that are currently on (ignoring the PM), return all possible times the watch could represent. You may return the answer in any order.\nThe hour must not contain a leading zero.\n\nFor example, \"01:00\" is not valid. It should be \"1:00\".\n\nThe minute must consist of two digits and may contain a leading zero.\n\nFor example, \"10:2\" is not valid. It should be \"10:02\".\n\n \nExample 1:\nInput: turnedOn = 1\nOutput: [\"0:01\",\"0:02\",\"0:04\",\"0:08\",\"0:16\",\"0:32\",\"1:00\",\"2:00\",\"4:00\",\"8:00\"]\nExample 2:\nInput: turnedOn = 9\nOutput: []\n\n \nConstraints:\n\n0 <= turnedOn <= 10\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "1",
+      "9"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "turnedOn": "1"
+        },
+        "expected": "[0:01,0:02,0:04,0:08,0:16,0:32,1:00,2:00,4:00,8:00]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def readBinaryWatch(self, turnedOn: int) -> List[str]:\n        ",
+    "hints": [
+      "Simplify by seeking for solutions that involve comparing bit counts.",
+      "Consider calculating all possible times for comparison purposes."
+    ],
+    "meta_data": {
+      "name": "readBinaryWatch",
+      "params": [
+        {
+          "name": "turnedOn",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "list<string>"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def readBinaryWatch(self, turnedOn: int) -> List[str]:\n        result = []\n        \n        # Iterate through all possible hours (0-11)\n        for hour in range(12):\n            # Iterate through all possible minutes (0-59)\n            for minute in range(60):\n                # Count the number of 1s in the binary representation of hour and minute\n                if bin(hour).count('1') + bin(minute).count('1') == turnedOn:\n                    # Format the time as \"H:MM\"\n                    time = f\"{hour}:{minute:02d}\"\n                    result.append(time)\n        \n        return result",
+    "explanation": "The solution iterates through all possible hour and minute combinations to find valid times based on the number of LEDs that are turned on. \n\n1. **Hour Loop**: We loop through all possible hour values from 0 to 11. For each hour, we check all possible minute values.\n  \n2. **Minute Loop**: We loop through all possible minute values from 0 to 59. For each combination of hour and minute, we calculate the total number of LEDs that are turned on by counting the number of 1s in the binary representation of both the hour and the minute using `bin(x).count('1')`.\n\n3. **Condition Check**: If the total number of turned-on LEDs matches the `turnedOn` parameter, we format the time correctly as \"H:MM\" (ensuring minutes are always two digits) and add it to the result list.\n\n4. **Return Result**: Finally, we return the list of valid times.\n\n**Time Complexity**: The time complexity of this solution is O(1) since the number of hours (12) and minutes (60) is constant, leading to a maximum of 720 combinations to check.\n\n**Space Complexity**: The space complexity is O(1) for the result list, as the maximum number of valid times is limited and does not grow with input size."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmp6q3tmdkt.py\", line 55\n    expected_0 = [0:01,0:02,0:04,0:08,0:16,0:32,1:00,2:00,4:00,8:00]\n                    ^\nSyntaxError: leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers\n"
+  },
+  "timestamp": "2025-04-01 18:00:53"
+}

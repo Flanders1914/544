@@ -1,0 +1,50 @@
+{
+  "problem": {
+    "id": "354",
+    "frontend_id": "354",
+    "title": "Russian Doll Envelopes",
+    "description": "You are given a 2D array of integers envelopes where envelopes[i] = [wi, hi] represents the width and the height of an envelope.\nOne envelope can fit into another if and only if both the width and height of one envelope are greater than the other envelope's width and height.\nReturn the maximum number of envelopes you can Russian doll (i.e., put one inside the other).\nNote: You cannot rotate an envelope.\n \nExample 1:\n\nInput: envelopes = [[5,4],[6,4],[6,7],[2,3]]\nOutput: 3\nExplanation: The maximum number of envelopes you can Russian doll is 3 ([2,3] => [5,4] => [6,7]).\n\nExample 2:\n\nInput: envelopes = [[1,1],[1,1],[1,1]]\nOutput: 1\n\n \nConstraints:\n\n1 <= envelopes.length <= 105\nenvelopes[i].length == 2\n1 <= wi, hi <= 105\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "[[5,4],[6,4],[6,7],[2,3]]",
+      "[[1,1],[1,1],[1,1]]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "envelopes": "[[5,4]"
+        },
+        "expected": "3"
+      },
+      {
+        "input": {
+          "envelopes": "[[1,1]"
+        },
+        "expected": "1"
+      }
+    ],
+    "python_starter": "class Solution:\n    def maxEnvelopes(self, envelopes: List[List[int]]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "maxEnvelopes",
+      "params": [
+        {
+          "name": "envelopes",
+          "type": "integer[][]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\nimport bisect\n\nclass Solution:\n    def maxEnvelopes(self, envelopes: List[List[int]]) -> int:\n        # Step 1: Sort the envelopes\n        # Sort by width in ascending order, and by height in descending order if widths are the same\n        envelopes.sort(key=lambda x: (x[0], -x[1]))\n        \n        # Step 2: Find the longest increasing subsequence based on heights\n        dp = []  # This will store the increasing heights\n        \n        for _, h in envelopes:\n            # Use binary search to find the insertion point\n            idx = bisect.bisect_left(dp, h)\n            # If idx is equal to the length of dp, it means h is greater than all elements in dp\n            if idx == len(dp):\n                dp.append(h)  # Extend the size of dp\n            else:\n                dp[idx] = h  # Replace the found index with h\n        \n        # The length of dp will be the maximum number of envelopes\n        return len(dp)",
+    "explanation": "The solution begins by sorting the envelopes based on their width and height. The sorting is done using a lambda function that sorts primarily by width in ascending order and secondarily by height in descending order. This ensures that when we look for the longest increasing subsequence of heights, we do not mistakenly include envelopes of the same width.\n\nAfter sorting, we initialize an empty list `dp` that will be used to track the heights of the envelopes in the longest increasing subsequence. For each envelope, we use the `bisect_left` function from the `bisect` module to find the position where the current height can be inserted in `dp` while maintaining the sorted order. If the height is greater than all existing heights in `dp`, we append it. Otherwise, we replace the existing height at the found index with the current height.\n\nFinally, the length of the `dp` list gives us the maximum number of envelopes that can be Russian dolled.\n\nThe time complexity of this solution is O(n log n) due to the sorting step and the binary search for each envelope, while the space complexity is O(n) for storing the `dp` list."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmpt3glk_qg.py\", line 59\n    input_0_0 = [[5,4]\n                 ^^^^^\nSyntaxError: invalid syntax. Perhaps you forgot a comma?\n"
+  },
+  "timestamp": "2025-04-01 18:00:50"
+}

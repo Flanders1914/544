@@ -1,0 +1,28 @@
+{
+  "problem": {
+    "id": "194",
+    "frontend_id": "194",
+    "title": "Transpose File",
+    "description": "Given a text file file.txt, transpose its content.\nYou may assume that each row has the same number of columns, and each field is separated by the ' ' character.\nExample:\nIf file.txt has the following content:\n\nname age\nalice 21\nryan 30\n\nOutput the following:\n\nname alice ryan\nage 21 30\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "a"
+    ],
+    "structured_test_cases": [],
+    "python_starter": null,
+    "hints": [],
+    "meta_data": {
+      "shell": true,
+      "manual": true
+    }
+  },
+  "solution": {
+    "code": "def transpose_file(file_path):\n    # Read the content of the file\n    with open(file_path, 'r') as file:\n        # Read all lines and split them into a list of lists\n        data = [line.strip().split() for line in file.readlines()]\n    \n    # Transpose the data\n    transposed = []\n    for i in range(len(data[0])):  # Iterate over the number of columns\n        transposed.append([data[j][i] for j in range(len(data))])  # Collect the i-th column from each row\n    \n    # Print the transposed data\n    for row in transposed:\n        print(' '.join(row))\n\n# Example usage:\n# transpose_file('file.txt')",
+    "explanation": "The solution reads the content of the specified file and splits each line into a list of fields based on spaces. It stores these lists in a 2D list called `data`. To transpose the data, we iterate over the range of the number of columns (which is the length of the first row in `data`). For each column index, we create a new list that collects the corresponding elements from each row, effectively transposing the rows into columns.\n\nThe time complexity of this solution is O(n * m), where n is the number of rows and m is the number of columns, as we need to read all elements in the file and then construct the transposed output. The space complexity is also O(n * m) due to the storage of the original and transposed data.\n\nThis solution assumes that the input file exists and is formatted correctly, with consistent spacing and no empty lines. The output is printed directly to the console, which is suitable for the problem's requirements."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\nTraceback (most recent call last):\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmpssuli_va.py\", line 44, in <module>\n    solution = Solution()\n               ^^^^^^^^\nNameError: name 'Solution' is not defined\n"
+  },
+  "timestamp": "2025-04-01 18:00:41"
+}

@@ -1,0 +1,45 @@
+{
+  "problem": {
+    "id": "78",
+    "frontend_id": "78",
+    "title": "Subsets",
+    "description": "Given an integer array nums of unique elements, return all possible subsets (the power set).\nThe solution set must not contain duplicate subsets. Return the solution in any order.\n \nExample 1:\n\nInput: nums = [1,2,3]\nOutput: [[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]\n\nExample 2:\n\nInput: nums = [0]\nOutput: [[],[0]]\n\n \nConstraints:\n\n1 <= nums.length <= 10\n-10 <= nums[i] <= 10\nAll the numbers of nums are unique.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[1,2,3]",
+      "[0]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[1,2,3]"
+        },
+        "expected": "[[]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def subsets(self, nums: List[int]) -> List[List[int]]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "subsets",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "list<list<integer>>",
+        "dealloc": true
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def subsets(self, nums: List[int]) -> List[List[int]]:\n        result = []\n        \n        def backtrack(start: int, current_subset: List[int]):\n            # Append the current subset to the result\n            result.append(current_subset[:])  # Use a copy of current_subset\n            \n            # Explore further elements to include in the subset\n            for i in range(start, len(nums)):\n                # Include nums[i] in the current subset\n                current_subset.append(nums[i])\n                # Move on to the next element\n                backtrack(i + 1, current_subset)\n                # Backtrack, remove the last element added\n                current_subset.pop()\n        \n        backtrack(0, [])\n        return result",
+    "explanation": "The provided solution uses a backtracking approach to generate all possible subsets of the input list `nums`. Here's a detailed breakdown of the solution:\n\n1. **Initialization**: We start by initializing an empty list `result` to store all the subsets.\n\n2. **Backtracking Function**: The `backtrack` function takes two parameters:\n   - `start`: the index from which to consider elements for inclusion in the current subset.\n   - `current_subset`: the current subset being constructed.\n\n3. **Base Case**: At the beginning of the `backtrack` function, we append a copy of `current_subset` to `result`. This ensures that we capture all subsets, including the empty subset.\n\n4. **Recursive Exploration**: We iterate over the elements starting from the `start` index:\n   - We include the current element (`nums[i]`) in `current_subset`.\n   - We recursively call `backtrack` with the next index (`i + 1`).\n   - After returning from the recursive call, we remove the last element added to `current_subset` (backtracking) to explore the next possibility.\n\n5. **Return Result**: Finally, we return the `result` list containing all subsets.\n\n**Time Complexity**: The time complexity is \\(O(2^n)\\), where \\(n\\) is the number of elements in `nums`, since we generate all possible subsets.\n\n**Space Complexity**: The space complexity is \\(O(n)\\) for the recursion stack and the space used to store the subsets in `result`.\n\nThis approach efficiently generates all subsets while ensuring that no duplicates are included, as the input list contains unique elements."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmpbndm27ce.py\", line 59\n    expected_0 = [[]\n                 ^\nSyntaxError: '[' was never closed\n"
+  },
+  "timestamp": "2025-04-01 18:00:32"
+}

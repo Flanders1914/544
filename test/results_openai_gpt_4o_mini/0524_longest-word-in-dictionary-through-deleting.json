@@ -1,0 +1,51 @@
+{
+  "problem": {
+    "id": "524",
+    "frontend_id": "524",
+    "title": "Longest Word in Dictionary through Deleting",
+    "description": "Given a string s and a string array dictionary, return the longest string in the dictionary that can be formed by deleting some of the given string characters. If there is more than one possible result, return the longest word with the smallest lexicographical order. If there is no possible result, return the empty string.\n \nExample 1:\n\nInput: s = \"abpcplea\", dictionary = [\"ale\",\"apple\",\"monkey\",\"plea\"]\nOutput: \"apple\"\n\nExample 2:\n\nInput: s = \"abpcplea\", dictionary = [\"a\",\"b\",\"c\"]\nOutput: \"a\"\n\n \nConstraints:\n\n1 <= s.length <= 1000\n1 <= dictionary.length <= 1000\n1 <= dictionary[i].length <= 1000\ns and dictionary[i] consist of lowercase English letters.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "\"abpcplea\"",
+      "[\"ale\",\"apple\",\"monkey\",\"plea\"]",
+      "\"abpcplea\"",
+      "[\"a\",\"b\",\"c\"]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "s": "\"abpcplea\"",
+          "dictionary": "[\"ale\",\"apple\",\"monkey\",\"plea\"]"
+        },
+        "expected": "apple"
+      }
+    ],
+    "python_starter": "class Solution:\n    def findLongestWord(self, s: str, dictionary: List[str]) -> str:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "findLongestWord",
+      "params": [
+        {
+          "name": "s",
+          "type": "string"
+        },
+        {
+          "name": "dictionary",
+          "type": "list<string>"
+        }
+      ],
+      "return": {
+        "type": "string"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def findLongestWord(self, s: str, dictionary: List[str]) -> str:\n        def is_subsequence(word: str) -> bool:\n            it = iter(s)\n            return all(char in it for char in word)\n\n        longest_word = \"\"\n        \n        for word in dictionary:\n            if is_subsequence(word):\n                # Check if the current word is longer or lexicographically smaller\n                if (len(word) > len(longest_word)) or (len(word) == len(longest_word) and word < longest_word):\n                    longest_word = word\n        \n        return longest_word",
+    "explanation": "The solution uses a helper function `is_subsequence` to determine if a given word can be formed from the string `s` by deleting some characters. This function utilizes an iterator over `s` to check if all characters of the word appear in `s` in the same order.\n\n1. **Time Complexity**: The time complexity of the solution is O(n * m), where `n` is the length of the string `s` and `m` is the total number of characters in all words in the dictionary. In the worst case, we may need to check each character of each word against `s`.\n\n2. **Space Complexity**: The space complexity is O(1) since we are using a constant amount of space for variables, and the space used by the input does not count towards the complexity.\n\nThis approach is efficient given the constraints and ensures that we find the longest word that can be formed from `s` while adhering to the lexicographical order when necessary."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: apple\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:01:22"
+}

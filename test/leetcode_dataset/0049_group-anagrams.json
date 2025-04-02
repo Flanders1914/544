@@ -1,0 +1,41 @@
+{
+  "id": "49",
+  "frontend_id": "49",
+  "title": "Group Anagrams",
+  "description": "Given an array of strings strs, group the anagrams together. You can return the answer in any order.\n \nExample 1:\n\nInput: strs = [\"eat\",\"tea\",\"tan\",\"ate\",\"nat\",\"bat\"]\nOutput: [[\"bat\"],[\"nat\",\"tan\"],[\"ate\",\"eat\",\"tea\"]]\nExplanation:\n\nThere is no string in strs that can be rearranged to form \"bat\".\nThe strings \"nat\" and \"tan\" are anagrams as they can be rearranged to form each other.\nThe strings \"ate\", \"eat\", and \"tea\" are anagrams as they can be rearranged to form each other.\n\n\nExample 2:\n\nInput: strs = [\"\"]\nOutput: [[\"\"]]\n\nExample 3:\n\nInput: strs = [\"a\"]\nOutput: [[\"a\"]]\n\n \nConstraints:\n\n1 <= strs.length <= 104\n0 <= strs[i].length <= 100\nstrs[i] consists of lowercase English letters.\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "[\"eat\",\"tea\",\"tan\",\"ate\",\"nat\",\"bat\"]",
+    "[\"\"]",
+    "[\"a\"]"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "strs": "[\"eat\",\"tea\",\"tan\",\"ate\",\"nat\",\"bat\"]"
+      },
+      "expected": "[[bat]"
+    },
+    {
+      "input": {
+        "strs": "[\"\"]"
+      },
+      "expected": "[[]"
+    }
+  ],
+  "python_starter": "class Solution:\n    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "groupAnagrams",
+    "params": [
+      {
+        "name": "strs",
+        "type": "string[]"
+      }
+    ],
+    "return": {
+      "type": "list<list<string>>",
+      "dealloc": true
+    }
+  }
+}

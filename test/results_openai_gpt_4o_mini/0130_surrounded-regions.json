@@ -1,0 +1,53 @@
+{
+  "problem": {
+    "id": "130",
+    "frontend_id": "130",
+    "title": "Surrounded Regions",
+    "description": "You are given an m x n matrix board containing letters 'X' and 'O', capture regions that are surrounded:\n\nConnect: A cell is connected to adjacent cells horizontally or vertically.\nRegion: To form a region connect every 'O' cell.\nSurround: The region is surrounded with 'X' cells if you can connect the region with 'X' cells and none of the region cells are on the edge of the board.\n\nTo capture a surrounded region, replace all 'O's with 'X's in-place within the original board. You do not need to return anything.\n \nExample 1:\n\nInput: board = [[\"X\",\"X\",\"X\",\"X\"],[\"X\",\"O\",\"O\",\"X\"],[\"X\",\"X\",\"O\",\"X\"],[\"X\",\"O\",\"X\",\"X\"]]\nOutput: [[\"X\",\"X\",\"X\",\"X\"],[\"X\",\"X\",\"X\",\"X\"],[\"X\",\"X\",\"X\",\"X\"],[\"X\",\"O\",\"X\",\"X\"]]\nExplanation:\n\nIn the above diagram, the bottom region is not captured because it is on the edge of the board and cannot be surrounded.\n\nExample 2:\n\nInput: board = [[\"X\"]]\nOutput: [[\"X\"]]\n\n \nConstraints:\n\nm == board.length\nn == board[i].length\n1 <= m, n <= 200\nboard[i][j] is 'X' or 'O'.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[[\"X\",\"X\",\"X\",\"X\"],[\"X\",\"O\",\"O\",\"X\"],[\"X\",\"X\",\"O\",\"X\"],[\"X\",\"O\",\"X\",\"X\"]]",
+      "[[\"X\"]]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "board": "[[\"X\",\"X\",\"X\",\"X\"]"
+        },
+        "expected": "[[X,X,X,X]"
+      },
+      {
+        "input": {
+          "board": "[[\"X\"]"
+        },
+        "expected": "[[X]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def solve(self, board: List[List[str]]) -> None:\n        \"\"\"\n        Do not return anything, modify board in-place instead.\n        \"\"\"\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "solve",
+      "params": [
+        {
+          "name": "board",
+          "type": "character[][]"
+        }
+      ],
+      "return": {
+        "type": "void"
+      },
+      "output": {
+        "paramindex": 0
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def solve(self, board: List[List[str]]) -> None:\n        \"\"\"\n        Do not return anything, modify board in-place instead.\n        \"\"\"\n        if not board or not board[0]:\n            return\n        \n        rows, cols = len(board), len(board[0])\n        \n        # Helper function for DFS\n        def dfs(r, c):\n            # If out of bounds or not an 'O', return\n            if r < 0 or r >= rows or c < 0 or c >= cols or board[r][c] != 'O':\n                return\n            # Mark the cell as 'E' (escaped)\n            board[r][c] = 'E'\n            # Explore all four directions\n            dfs(r + 1, c)\n            dfs(r - 1, c)\n            dfs(r, c + 1)\n            dfs(r, c - 1)\n        \n        # Mark all 'O's on the border and connected to the border\n        for r in range(rows):\n            for c in range(cols):\n                if (r == 0 or r == rows - 1 or c == 0 or c == cols - 1) and board[r][c] == 'O':\n                    dfs(r, c)\n        \n        # Capture surrounded regions and restore escaped 'O's\n        for r in range(rows):\n            for c in range(cols):\n                if board[r][c] == 'O':\n                    board[r][c] = 'X'  # Capture\n                elif board[r][c] == 'E':\n                    board[r][c] = 'O'  # Restore",
+    "explanation": "The solution uses a depth-first search (DFS) approach to identify and mark 'O' cells that are connected to the borders of the board. Here's a step-by-step breakdown of the solution:\n\n1. **Initialization**: We first check if the board is empty. If it is, we return immediately. We then determine the number of rows and columns in the board.\n\n2. **DFS Function**: The `dfs` function is defined to explore the board. It marks 'O' cells as 'E' (escaped) to indicate that they are connected to the border. The function checks for out-of-bounds conditions and only proceeds if the current cell is an 'O'.\n\n3. **Marking Border 'O's**: We iterate through the border cells of the board. If we find an 'O', we call the `dfs` function to mark all connected 'O's.\n\n4. **Capturing and Restoring**: After marking, we traverse the board again. Any 'O' that remains unmarked is surrounded and is changed to 'X'. Any 'E' is restored back to 'O'.\n\n5. **Time Complexity**: The time complexity of this solution is O(m * n), where m is the number of rows and n is the number of columns. This is because we potentially visit every cell in the board once.\n\n6. **Space Complexity**: The space complexity is O(1) if we disregard the input board, as we are modifying it in place. The recursion stack for DFS could go as deep as O(m * n) in the worst case, but this is not counted as additional space since it is part of the call stack.\n\nOverall, this solution efficiently captures the surrounded regions while adhering to the problem's constraints."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmp0bah2eso.py\", line 74\n    input_0_0 = [[\"X\",\"X\",\"X\",\"X\"]\n                 ^^^^^^^^^^^^^^^^^\nSyntaxError: invalid syntax. Perhaps you forgot a comma?\n"
+  },
+  "timestamp": "2025-04-01 18:00:37"
+}

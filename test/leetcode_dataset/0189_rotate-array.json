@@ -1,0 +1,55 @@
+{
+  "id": "189",
+  "frontend_id": "189",
+  "title": "Rotate Array",
+  "description": "Given an integer array nums, rotate the array to the right by k steps, where k is non-negative.\n \nExample 1:\n\nInput: nums = [1,2,3,4,5,6,7], k = 3\nOutput: [5,6,7,1,2,3,4]\nExplanation:\nrotate 1 steps to the right: [7,1,2,3,4,5,6]\nrotate 2 steps to the right: [6,7,1,2,3,4,5]\nrotate 3 steps to the right: [5,6,7,1,2,3,4]\n\nExample 2:\n\nInput: nums = [-1,-100,3,99], k = 2\nOutput: [3,99,-1,-100]\nExplanation: \nrotate 1 steps to the right: [99,-1,-100,3]\nrotate 2 steps to the right: [3,99,-1,-100]\n\n \nConstraints:\n\n1 <= nums.length <= 105\n-231 <= nums[i] <= 231 - 1\n0 <= k <= 105\n\n \nFollow up:\n\nTry to come up with as many solutions as you can. There are at least three different ways to solve this problem.\nCould you do it in-place with O(1) extra space?\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "[1,2,3,4,5,6,7]",
+    "3",
+    "[-1,-100,3,99]",
+    "2"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "nums": "[1,2,3,4,5,6,7]",
+        "k": "3"
+      },
+      "expected": "[5,6,7,1,2,3,4]"
+    },
+    {
+      "input": {
+        "nums": "[-1,-100,3,99]",
+        "k": "2"
+      },
+      "expected": "[3,99,-1,-100]"
+    }
+  ],
+  "python_starter": "class Solution:\n    def rotate(self, nums: List[int], k: int) -> None:\n        \"\"\"\n        Do not return anything, modify nums in-place instead.\n        \"\"\"\n        ",
+  "hints": [
+    "The easiest solution would use additional memory and that is perfectly fine.",
+    "The actual trick comes when trying to solve this problem without using any additional memory. This means you need to use the original array somehow to move the elements around. Now, we can place each element in its original location and shift all the elements around it to adjust as that would be too costly and most likely will time out on larger input arrays.",
+    "One line of thought is based on reversing the array (or parts of it) to obtain the desired result. Think about how reversal might potentially help us out by using an example.",
+    "The other line of thought is a tad bit complicated but essentially it builds on the idea of placing each element in its original position while keeping track of the element originally in that position. Basically, at every step, we place an element in its rightful position and keep track of the element already there or the one being overwritten in an additional variable. We can't do this in one linear pass and the idea here is based on <b>cyclic-dependencies</b> between elements."
+  ],
+  "meta_data": {
+    "name": "rotate",
+    "params": [
+      {
+        "name": "nums",
+        "type": "integer[]"
+      },
+      {
+        "name": "k",
+        "type": "integer"
+      }
+    ],
+    "return": {
+      "type": "void"
+    },
+    "output": {
+      "paramindex": 0
+    }
+  }
+}

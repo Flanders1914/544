@@ -1,0 +1,71 @@
+{
+  "problem": {
+    "id": "621",
+    "frontend_id": "621",
+    "title": "Task Scheduler",
+    "description": "You are given an array of CPU tasks, each labeled with a letter from A to Z, and a number n. Each CPU interval can be idle or allow the completion of one task. Tasks can be completed in any order, but there's a constraint: there has to be a gap of at least n intervals between two tasks with the same label.\nReturn the minimum number of CPU intervals required to complete all tasks.\n \nExample 1:\n\nInput: tasks = [\"A\",\"A\",\"A\",\"B\",\"B\",\"B\"], n = 2\nOutput: 8\nExplanation: A possible sequence is: A -> B -> idle -> A -> B -> idle -> A -> B.\nAfter completing task A, you must wait two intervals before doing A again. The same applies to task B. In the 3rd interval, neither A nor B can be done, so you idle. By the 4th interval, you can do A again as 2 intervals have passed.\n\nExample 2:\n\nInput: tasks = [\"A\",\"C\",\"A\",\"B\",\"D\",\"B\"], n = 1\nOutput: 6\nExplanation: A possible sequence is: A -> B -> C -> D -> A -> B.\nWith a cooling interval of 1, you can repeat a task after just one other task.\n\nExample 3:\n\nInput: tasks = [\"A\",\"A\",\"A\", \"B\",\"B\",\"B\"], n = 3\nOutput: 10\nExplanation: A possible sequence is: A -> B -> idle -> idle -> A -> B -> idle -> idle -> A -> B.\nThere are only two types of tasks, A and B, which need to be separated by 3 intervals. This leads to idling twice between repetitions of these tasks.\n\n \nConstraints:\n\n1 <= tasks.length <= 104\ntasks[i] is an uppercase English letter.\n0 <= n <= 100\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[\"A\",\"A\",\"A\",\"B\",\"B\",\"B\"]",
+      "2",
+      "[\"A\",\"C\",\"A\",\"B\",\"D\",\"B\"]",
+      "1",
+      "[\"A\",\"A\",\"A\", \"B\",\"B\",\"B\"]",
+      "3"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "tasks": "[\"A\",\"A\",\"A\",\"B\",\"B\",\"B\"]",
+          "n": "2"
+        },
+        "expected": "8"
+      },
+      {
+        "input": {
+          "tasks": "[\"A\",\"C\",\"A\",\"B\",\"D\",\"B\"]",
+          "n": "1"
+        },
+        "expected": "6"
+      },
+      {
+        "input": {
+          "tasks": "[\"A\",\"A\",\"A\", \"B\",\"B\",\"B\"]",
+          "n": "3"
+        },
+        "expected": "10"
+      }
+    ],
+    "python_starter": "class Solution:\n    def leastInterval(self, tasks: List[str], n: int) -> int:\n        ",
+    "hints": [
+      "There are many different solutions for this problem, including a greedy algorithm.",
+      "For every cycle, find the most frequent letter that can be placed in this cycle. After placing, decrease the frequency of that letter by one.",
+      "Use Priority Queue."
+    ],
+    "meta_data": {
+      "name": "leastInterval",
+      "params": [
+        {
+          "name": "tasks",
+          "type": "character[]"
+        },
+        {
+          "name": "n",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from collections import Counter\nfrom typing import List\n\nclass Solution:\n    def leastInterval(self, tasks: List[str], n: int) -> int:\n        # Count the frequency of each task\n        task_count = Counter(tasks)\n        \n        # Find the maximum frequency of any task\n        max_freq = max(task_count.values())\n        \n        # Count how many tasks have the maximum frequency\n        max_count = sum(1 for count in task_count.values() if count == max_freq)\n        \n        # Calculate the minimum intervals required\n        # (max_freq - 1) * (n + 1) + max_count\n        # (max_freq - 1) * (n + 1) gives us the total slots needed\n        # max_count accounts for the tasks that have the maximum frequency\n        min_intervals = (max_freq - 1) * (n + 1) + max_count\n        \n        # The result is the maximum between the number of tasks and the calculated minimum intervals\n        return max(min_intervals, len(tasks))",
+    "explanation": "The solution uses a greedy algorithm to determine the minimum number of CPU intervals required to complete all tasks while respecting the cooling interval. \n\n1. **Counting Frequencies**: We utilize the `Counter` from the `collections` module to count how many times each task appears in the input list. This allows us to easily find the task with the maximum frequency.\n\n2. **Finding Maximum Frequency**: We determine the maximum frequency of any task, which is crucial for calculating the required idle slots.\n\n3. **Calculating Idle Slots**: The formula `(max_freq - 1) * (n + 1)` calculates the total number of slots needed to accommodate the most frequent task while ensuring that there are `n` intervals between repetitions of that task. We then add `max_count`, which is the number of tasks that have this maximum frequency, to account for the last occurrences of these tasks.\n\n4. **Final Calculation**: The final result is the maximum of the total calculated slots and the length of the tasks list. This ensures that if there are enough tasks to fill the slots, we return the number of tasks; otherwise, we return the calculated minimum intervals.\n\n**Time Complexity**: O(m + n), where m is the number of unique tasks and n is the length of the tasks list. This is because we need to count the tasks and then perform a few constant-time operations.\n\n**Space Complexity**: O(m), where m is the number of unique tasks, due to the storage of the task counts."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 8\nTest case 2:\n[PASS] Test passed: 6\nTest case 3:\n[PASS] Test passed: 10\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:01:28"
+}

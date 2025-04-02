@@ -1,0 +1,44 @@
+{
+  "problem": {
+    "id": "98",
+    "frontend_id": "98",
+    "title": "Validate Binary Search Tree",
+    "description": "Given the root of a binary tree, determine if it is a valid binary search tree (BST).\nA valid BST is defined as follows:\n\nThe left subtree of a node contains only nodes with keys less than the node's key.\nThe right subtree of a node contains only nodes with keys greater than the node's key.\nBoth the left and right subtrees must also be binary search trees.\n\n \nExample 1:\n\n\nInput: root = [2,1,3]\nOutput: true\n\nExample 2:\n\n\nInput: root = [5,1,4,null,null,3,6]\nOutput: false\nExplanation: The root node's value is 5 but its right child's value is 4.\n\n \nConstraints:\n\nThe number of nodes in the tree is in the range [1, 104].\n-231 <= Node.val <= 231 - 1\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[2,1,3]",
+      "[5,1,4,null,null,3,6]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "root": "[2,1,3]"
+        },
+        "expected": "true"
+      }
+    ],
+    "python_starter": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def isValidBST(self, root: Optional[TreeNode]) -> bool:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "isValidBST",
+      "params": [
+        {
+          "name": "root",
+          "type": "TreeNode"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nclass Solution:\n    def isValidBST(self, root: Optional[TreeNode]) -> bool:\n        def validate(node, low=float('-inf'), high=float('inf')):\n            # An empty node is a valid BST\n            if not node:\n                return True\n            \n            # The current node's value must be within the valid range\n            if not (low < node.val < high):\n                return False\n            \n            # Recursively validate the left and right subtrees\n            return (validate(node.left, low, node.val) and \n                    validate(node.right, node.val, high))\n        \n        return validate(root)",
+    "explanation": "The solution uses a helper function `validate` that takes a node and the current valid range (`low` and `high`). The function checks if the current node's value is within the specified range. If it is, the function recursively checks the left and right children, updating the valid ranges accordingly.\n\n1. **Base Case**: If the node is `None`, it is considered valid (an empty tree is a valid BST).\n2. **Value Check**: If the node's value is not within the range `(low, high)`, return `False`.\n3. **Recursive Calls**: For the left child, the upper bound is updated to the current node's value, and for the right child, the lower bound is updated to the current node's value.\n\nThe time complexity of this solution is O(n), where n is the number of nodes in the tree, as we visit each node exactly once. The space complexity is O(h), where h is the height of the tree, due to the recursion stack. In the worst case (a completely unbalanced tree), this could be O(n), but in a balanced tree, it would be O(log n)."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:34"
+}

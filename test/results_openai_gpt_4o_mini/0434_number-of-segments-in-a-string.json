@@ -1,0 +1,50 @@
+{
+  "problem": {
+    "id": "434",
+    "frontend_id": "434",
+    "title": "Number of Segments in a String",
+    "description": "Given a string s, return the number of segments in the string.\nA segment is defined to be a contiguous sequence of non-space characters.\n \nExample 1:\n\nInput: s = \"Hello, my name is John\"\nOutput: 5\nExplanation: The five segments are [\"Hello,\", \"my\", \"name\", \"is\", \"John\"]\n\nExample 2:\n\nInput: s = \"Hello\"\nOutput: 1\n\n \nConstraints:\n\n0 <= s.length <= 300\ns consists of lowercase and uppercase English letters, digits, or one of the following characters \"!@#$%^&*()_+-=',.:\".\nThe only space character in s is ' '.\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "\"Hello, my name is John\"",
+      "\"Hello\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "s": "\"Hello, my name is John\""
+        },
+        "expected": "5"
+      },
+      {
+        "input": {
+          "s": "\"Hello\""
+        },
+        "expected": "1"
+      }
+    ],
+    "python_starter": "class Solution:\n    def countSegments(self, s: str) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "countSegments",
+      "params": [
+        {
+          "name": "s",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def countSegments(self, s: str) -> int:\n        # Split the string by spaces and filter out empty segments\n        segments = s.split()\n        # Return the number of segments\n        return len(segments)",
+    "explanation": "The solution uses the `split()` method to divide the input string `s` into segments based on spaces. This method automatically handles multiple spaces and ignores any leading or trailing spaces, ensuring that we only count valid segments of non-space characters.\n\n1. **Time Complexity**: The time complexity of this solution is O(n), where n is the length of the string `s`. This is because we need to traverse the entire string to split it into segments.\n\n2. **Space Complexity**: The space complexity is O(k), where k is the number of segments created. In the worst case, if the string consists of only non-space characters, the space used will be proportional to the number of segments.\n\nOverall, this solution is efficient and straightforward, making it suitable for the problem constraints."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 5\nTest case 2:\n[PASS] Test passed: 1\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:55"
+}

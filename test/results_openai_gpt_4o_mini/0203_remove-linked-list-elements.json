@@ -1,0 +1,55 @@
+{
+  "problem": {
+    "id": "203",
+    "frontend_id": "203",
+    "title": "Remove Linked List Elements",
+    "description": "Given the head of a linked list and an integer val, remove all the nodes of the linked list that has Node.val == val, and return the new head.\n \nExample 1:\n\n\nInput: head = [1,2,6,3,4,5,6], val = 6\nOutput: [1,2,3,4,5]\n\nExample 2:\n\nInput: head = [], val = 1\nOutput: []\n\nExample 3:\n\nInput: head = [7,7,7,7], val = 7\nOutput: []\n\n \nConstraints:\n\nThe number of nodes in the list is in the range [0, 104].\n1 <= Node.val <= 50\n0 <= val <= 50\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "[1,2,6,3,4,5,6]",
+      "6",
+      "[]",
+      "1",
+      "[7,7,7,7]",
+      "7"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "head": "[1,2,6,3,4,5,6]",
+          "val": "6"
+        },
+        "expected": "[1,2,3,4,5]"
+      }
+    ],
+    "python_starter": "# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution:\n    def removeElements(self, head: Optional[ListNode], val: int) -> Optional[ListNode]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "removeElements",
+      "params": [
+        {
+          "name": "head",
+          "type": "ListNode",
+          "dealloc": false
+        },
+        {
+          "name": "val",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "ListNode",
+        "dealloc": true
+      }
+    }
+  },
+  "solution": {
+    "code": "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\n\nclass Solution:\n    def removeElements(self, head: Optional[ListNode], val: int) -> Optional[ListNode]:\n        # Create a dummy node that points to the head\n        dummy = ListNode(0)\n        dummy.next = head\n        \n        # Initialize current node to the dummy\n        current = dummy\n        \n        # Traverse the list\n        while current.next is not None:\n            if current.next.val == val:\n                # Skip the node with the value equal to val\n                current.next = current.next.next\n            else:\n                # Move to the next node\n                current = current.next\n        \n        # Return the new head, which is the next of dummy\n        return dummy.next",
+    "explanation": "The solution uses a dummy node to simplify the removal of nodes from the linked list. The dummy node is initialized to point to the head of the list. We then use a `current` pointer to traverse the list. For each node, we check if the next node's value equals `val`. If it does, we skip that node by changing the `next` pointer of the `current` node to point to the node after the next. If it does not match, we simply move the `current` pointer to the next node.\n\nThis approach ensures that we can handle cases where the head of the list needs to be removed without special cases. The time complexity of this solution is O(n), where n is the number of nodes in the linked list, as we traverse the list once. The space complexity is O(1) since we are using a constant amount of extra space (the dummy node)."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:41"
+}

@@ -1,0 +1,46 @@
+{
+  "id": "19",
+  "frontend_id": "19",
+  "title": "Remove Nth Node From End of List",
+  "description": "Given the head of a linked list, remove the nth node from the end of the list and return its head.\n \nExample 1:\n\n\nInput: head = [1,2,3,4,5], n = 2\nOutput: [1,2,3,5]\n\nExample 2:\n\nInput: head = [1], n = 1\nOutput: []\n\nExample 3:\n\nInput: head = [1,2], n = 1\nOutput: [1]\n\n \nConstraints:\n\nThe number of nodes in the list is sz.\n1 <= sz <= 30\n0 <= Node.val <= 100\n1 <= n <= sz\n\n \nFollow up: Could you do this in one pass?\n",
+  "difficulty": "Medium",
+  "examples": [
+    "[1,2,3,4,5]",
+    "2",
+    "[1]",
+    "1",
+    "[1,2]",
+    "1"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "head": "[1,2,3,4,5]",
+        "n": "2"
+      },
+      "expected": "[1,2,3,5]"
+    }
+  ],
+  "python_starter": "# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution:\n    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:\n        ",
+  "hints": [
+    "Maintain two pointers and update one with a delay of n steps."
+  ],
+  "meta_data": {
+    "name": "removeNthFromEnd",
+    "params": [
+      {
+        "name": "head",
+        "type": "ListNode",
+        "dealloc": false
+      },
+      {
+        "name": "n",
+        "type": "integer"
+      }
+    ],
+    "return": {
+      "type": "ListNode",
+      "dealloc": true
+    }
+  }
+}

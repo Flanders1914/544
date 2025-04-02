@@ -1,0 +1,47 @@
+{
+  "id": "433",
+  "frontend_id": "433",
+  "title": "Minimum Genetic Mutation",
+  "description": "A gene string can be represented by an 8-character long string, with choices from 'A', 'C', 'G', and 'T'.\nSuppose we need to investigate a mutation from a gene string startGene to a gene string endGene where one mutation is defined as one single character changed in the gene string.\n\nFor example, \"AACCGGTT\" --> \"AACCGGTA\" is one mutation.\n\nThere is also a gene bank bank that records all the valid gene mutations. A gene must be in bank to make it a valid gene string.\nGiven the two gene strings startGene and endGene and the gene bank bank, return the minimum number of mutations needed to mutate from startGene to endGene. If there is no such a mutation, return -1.\nNote that the starting point is assumed to be valid, so it might not be included in the bank.\n \nExample 1:\n\nInput: startGene = \"AACCGGTT\", endGene = \"AACCGGTA\", bank = [\"AACCGGTA\"]\nOutput: 1\n\nExample 2:\n\nInput: startGene = \"AACCGGTT\", endGene = \"AAACGGTA\", bank = [\"AACCGGTA\",\"AACCGCTA\",\"AAACGGTA\"]\nOutput: 2\n\n \nConstraints:\n\n0 <= bank.length <= 10\nstartGene.length == endGene.length == bank[i].length == 8\nstartGene, endGene, and bank[i] consist of only the characters ['A', 'C', 'G', 'T'].\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "\"AACCGGTT\"",
+    "\"AACCGGTA\"",
+    "[\"AACCGGTA\"]",
+    "\"AACCGGTT\"",
+    "\"AAACGGTA\"",
+    "[\"AACCGGTA\",\"AACCGCTA\",\"AAACGGTA\"]"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "startGene": "\"AACCGGTT\"",
+        "endGene": "\"AACCGGTA\"",
+        "bank": "[\"AACCGGTA\"]"
+      },
+      "expected": "1"
+    }
+  ],
+  "python_starter": "class Solution:\n    def minMutation(self, startGene: str, endGene: str, bank: List[str]) -> int:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "minMutation",
+    "params": [
+      {
+        "name": "startGene",
+        "type": "string"
+      },
+      {
+        "name": "endGene",
+        "type": "string"
+      },
+      {
+        "name": "bank",
+        "type": "string[]"
+      }
+    ],
+    "return": {
+      "type": "integer"
+    }
+  }
+}

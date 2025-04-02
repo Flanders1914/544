@@ -1,0 +1,51 @@
+{
+  "problem": {
+    "id": "108",
+    "frontend_id": "108",
+    "title": "Convert Sorted Array to Binary Search Tree",
+    "description": "Given an integer array nums where the elements are sorted in ascending order, convert it to a height-balanced binary search tree.\n \nExample 1:\n\n\nInput: nums = [-10,-3,0,5,9]\nOutput: [0,-3,9,-10,null,5]\nExplanation: [0,-10,5,null,-3,null,9] is also accepted:\n\n\nExample 2:\n\n\nInput: nums = [1,3]\nOutput: [3,1]\nExplanation: [1,null,3] and [3,1] are both height-balanced BSTs.\n\n \nConstraints:\n\n1 <= nums.length <= 104\n-104 <= nums[i] <= 104\nnums is sorted in a strictly increasing order.\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "[-10,-3,0,5,9]",
+      "[1,3]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[-10,-3,0,5,9]"
+        },
+        "expected": "[0,-3,9,-10,null,5]"
+      },
+      {
+        "input": {
+          "nums": "[1,3]"
+        },
+        "expected": "[3,1]"
+      }
+    ],
+    "python_starter": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def sortedArrayToBST(self, nums: List[int]) -> Optional[TreeNode]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "sortedArrayToBST",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "TreeNode",
+        "dealloc": true
+      }
+    }
+  },
+  "solution": {
+    "code": "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nclass Solution:\n    def sortedArrayToBST(self, nums: List[int]) -> Optional[TreeNode]:\n        # Helper function to construct the BST\n        def convert_to_bst(left: int, right: int) -> Optional[TreeNode]:\n            if left > right:\n                return None\n            \n            # Choose the middle element as the root\n            mid = (left + right) // 2\n            node = TreeNode(nums[mid])\n            \n            # Recursively build the left and right subtrees\n            node.left = convert_to_bst(left, mid - 1)\n            node.right = convert_to_bst(mid + 1, right)\n            \n            return node\n        \n        return convert_to_bst(0, len(nums) - 1)",
+    "explanation": "The provided solution defines a function `sortedArrayToBST` that converts a sorted array into a height-balanced binary search tree. The function uses a helper function `convert_to_bst` which takes two parameters, `left` and `right`, representing the current segment of the array being processed.\n\n1. **Base Case**: If `left` is greater than `right`, it indicates that there are no elements to process, and we return `None`.\n2. **Finding the Middle Element**: The middle index is calculated using integer division. This element becomes the root of the current subtree.\n3. **Recursive Calls**: The function then recursively constructs the left subtree using the elements to the left of the middle index and the right subtree using the elements to the right of the middle index.\n\nThe overall time complexity is O(n) because we process each element once, and the space complexity is O(log n) due to the depth of the recursion stack in the case of a balanced tree.\n\nThis approach ensures that the resulting binary search tree is height-balanced, fulfilling the problem's requirements."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:35"
+}

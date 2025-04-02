@@ -1,0 +1,33 @@
+{
+  "id": "498",
+  "frontend_id": "498",
+  "title": "Diagonal Traverse",
+  "description": "Given an m x n matrix mat, return an array of all the elements of the array in a diagonal order.\n \nExample 1:\n\n\nInput: mat = [[1,2,3],[4,5,6],[7,8,9]]\nOutput: [1,2,4,7,5,3,6,8,9]\n\nExample 2:\n\nInput: mat = [[1,2],[3,4]]\nOutput: [1,2,3,4]\n\n \nConstraints:\n\nm == mat.length\nn == mat[i].length\n1 <= m, n <= 104\n1 <= m * n <= 104\n-105 <= mat[i][j] <= 105\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "[[1,2,3],[4,5,6],[7,8,9]]",
+    "[[1,2],[3,4]]"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "mat": "[[1,2,3]"
+      },
+      "expected": "[1,2,4,7,5,3,6,8,9]"
+    }
+  ],
+  "python_starter": "class Solution:\n    def findDiagonalOrder(self, mat: List[List[int]]) -> List[int]:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "findDiagonalOrder",
+    "params": [
+      {
+        "name": "mat",
+        "type": "integer[][]"
+      }
+    ],
+    "return": {
+      "type": "integer[]"
+    }
+  }
+}

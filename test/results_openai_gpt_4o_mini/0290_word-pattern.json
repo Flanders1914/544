@@ -1,0 +1,60 @@
+{
+  "problem": {
+    "id": "290",
+    "frontend_id": "290",
+    "title": "Word Pattern",
+    "description": "Given a pattern and a string s, find if s follows the same pattern.\nHere follow means a full match, such that there is a bijection between a letter in pattern and a non-empty word in s. Specifically:\n\nEach letter in pattern maps to exactly one unique word in s.\nEach unique word in s maps to exactly one letter in pattern.\nNo two letters map to the same word, and no two words map to the same letter.\n\n \nExample 1:\n\nInput: pattern = \"abba\", s = \"dog cat cat dog\"\nOutput: true\nExplanation:\nThe bijection can be established as:\n\n'a' maps to \"dog\".\n'b' maps to \"cat\".\n\n\nExample 2:\n\nInput: pattern = \"abba\", s = \"dog cat cat fish\"\nOutput: false\n\nExample 3:\n\nInput: pattern = \"aaaa\", s = \"dog cat cat dog\"\nOutput: false\n\n \nConstraints:\n\n1 <= pattern.length <= 300\npattern contains only lower-case English letters.\n1 <= s.length <= 3000\ns contains only lowercase English letters and spaces ' '.\ns does not contain any leading or trailing spaces.\nAll the words in s are separated by a single space.\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "\"abba\"",
+      "\"dog cat cat dog\"",
+      "\"abba\"",
+      "\"dog cat cat fish\"",
+      "\"aaaa\"",
+      "\"dog cat cat dog\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "pattern": "\"abba\"",
+          "s": "\"dog cat cat dog\""
+        },
+        "expected": "true"
+      },
+      {
+        "input": {
+          "pattern": "\"abba\"",
+          "s": "\"dog cat cat fish\""
+        },
+        "expected": "false"
+      }
+    ],
+    "python_starter": "class Solution:\n    def wordPattern(self, pattern: str, s: str) -> bool:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "wordPattern",
+      "params": [
+        {
+          "name": "pattern",
+          "type": "string"
+        },
+        {
+          "name": "s",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def wordPattern(self, pattern: str, s: str) -> bool:\n        # Split the string s into words\n        words = s.split()\n        \n        # If the number of unique characters in pattern and words in s are different, return False\n        if len(pattern) != len(words):\n            return False\n        \n        # Create two dictionaries for mapping\n        char_to_word = {}\n        word_to_char = {}\n        \n        # Iterate through the pattern and words simultaneously\n        for char, word in zip(pattern, words):\n            # Check if the character is already mapped to a word\n            if char in char_to_word:\n                if char_to_word[char] != word:\n                    return False\n            else:\n                char_to_word[char] = word\n            \n            # Check if the word is already mapped to a character\n            if word in word_to_char:\n                if word_to_char[word] != char:\n                    return False\n            else:\n                word_to_char[word] = char\n        \n        return True",
+    "explanation": "The solution involves checking for a bijection between the characters in the `pattern` and the words in the string `s`. \n\n1. **Splitting the String**: We first split the string `s` into a list of words using the `split()` method. This allows us to easily access each word corresponding to each character in the `pattern`.\n\n2. **Length Check**: We check if the lengths of the `pattern` and the list of words are the same. If they are not, we can immediately return `false` since a bijection is impossible.\n\n3. **Mapping with Dictionaries**: We use two dictionaries:\n   - `char_to_word` to map characters from the `pattern` to words in `s`.\n   - `word_to_char` to map words in `s` back to characters in the `pattern`.\n\n4. **Iterating and Checking Mappings**: We iterate through both the `pattern` and the list of words simultaneously using `zip()`. For each character and word:\n   - We check if the character is already mapped to a word. If it is, we verify that it maps to the same word; if not, we return `false`.\n   - We do the same check for the word to character mapping.\n\n5. **Return Result**: If we complete the iteration without finding any inconsistencies, we return `true`.\n\n**Time Complexity**: O(n), where n is the length of the string `s`, since we are iterating through the characters and words once.\n\n**Space Complexity**: O(m + k), where m is the number of unique characters in the `pattern` and k is the number of unique words in `s`, due to the storage in the dictionaries."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:46"
+}

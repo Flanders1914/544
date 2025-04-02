@@ -1,0 +1,61 @@
+{
+  "id": "374",
+  "frontend_id": "374",
+  "title": "Guess Number Higher or Lower",
+  "description": "We are playing the Guess Game. The game is as follows:\nI pick a number from 1 to n. You have to guess which number I picked.\nEvery time you guess wrong, I will tell you whether the number I picked is higher or lower than your guess.\nYou call a pre-defined API int guess(int num), which returns three possible results:\n\n-1: Your guess is higher than the number I picked (i.e. num > pick).\n1: Your guess is lower than the number I picked (i.e. num < pick).\n0: your guess is equal to the number I picked (i.e. num == pick).\n\nReturn the number that I picked.\n \nExample 1:\n\nInput: n = 10, pick = 6\nOutput: 6\n\nExample 2:\n\nInput: n = 1, pick = 1\nOutput: 1\n\nExample 3:\n\nInput: n = 2, pick = 1\nOutput: 1\n\n \nConstraints:\n\n1 <= n <= 231 - 1\n1 <= pick <= n\n\n",
+  "difficulty": "Easy",
+  "examples": [
+    "10",
+    "6",
+    "1",
+    "1",
+    "2",
+    "1"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "n": "10",
+        "pick": "6"
+      },
+      "expected": "6"
+    }
+  ],
+  "python_starter": "# The guess API is already defined for you.\n# @param num, your guess\n# @return -1 if num is higher than the picked number\n#          1 if num is lower than the picked number\n#          otherwise return 0\n# def guess(num: int) -> int:\n\nclass Solution:\n    def guessNumber(self, n: int) -> int:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "guessNumber",
+    "params": [
+      {
+        "name": "n",
+        "type": "integer"
+      },
+      {
+        "name": "pick",
+        "type": "integer"
+      }
+    ],
+    "return": {
+      "type": "integer"
+    },
+    "manual": true,
+    "languages": [
+      "cpp",
+      "java",
+      "python",
+      "c",
+      "csharp",
+      "javascript",
+      "ruby",
+      "swift",
+      "golang",
+      "python3",
+      "scala",
+      "kotlin",
+      "rust",
+      "php",
+      "typescript"
+    ],
+    "typescriptCustomType": "var guess = (num: number) => {\n    if (num == __pick__) return 0;\n    return (num > __pick__) ? -1 : 1;\n}"
+  }
+}

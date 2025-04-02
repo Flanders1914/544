@@ -1,0 +1,50 @@
+{
+  "problem": {
+    "id": "54",
+    "frontend_id": "54",
+    "title": "Spiral Matrix",
+    "description": "Given an m x n matrix, return all elements of the matrix in spiral order.\n \nExample 1:\n\n\nInput: matrix = [[1,2,3],[4,5,6],[7,8,9]]\nOutput: [1,2,3,6,9,8,7,4,5]\n\nExample 2:\n\n\nInput: matrix = [[1,2,3,4],[5,6,7,8],[9,10,11,12]]\nOutput: [1,2,3,4,8,12,11,10,9,5,6,7]\n\n \nConstraints:\n\nm == matrix.length\nn == matrix[i].length\n1 <= m, n <= 10\n-100 <= matrix[i][j] <= 100\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[[1,2,3],[4,5,6],[7,8,9]]",
+      "[[1,2,3,4],[5,6,7,8],[9,10,11,12]]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "matrix": "[[1,2,3]"
+        },
+        "expected": "[1,2,3,6,9,8,7,4,5]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:\n        ",
+    "hints": [
+      "Well for some problems, the best way really is to come up with some algorithms for simulation. Basically, you need to simulate what the problem asks us to do.",
+      "We go boundary by boundary and move inwards. That is the essential operation. First row, last column, last row, first column, and then we move inwards by 1 and repeat. That's all. That is all the simulation that we need.",
+      "Think about when you want to switch the progress on one of the indexes. If you progress on i out of [i, j], you'll shift in the same column. Similarly, by changing values for j, you'd be shifting in the same row.\r\nAlso, keep track of the end of a boundary so that you can move inwards and then keep repeating. It's always best to simulate edge cases like a single column or a single row to see if anything breaks or not."
+    ],
+    "meta_data": {
+      "name": "spiralOrder",
+      "params": [
+        {
+          "name": "matrix",
+          "type": "integer[][]"
+        }
+      ],
+      "return": {
+        "type": "list<integer>",
+        "size": "size_1 * col_size_1",
+        "dealloc": true
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def spiralOrder(self, matrix: List[List[int]]) -> List[int]:\n        if not matrix or not matrix[0]:\n            return []\n        \n        result = []\n        top, bottom = 0, len(matrix) - 1\n        left, right = 0, len(matrix[0]) - 1\n        \n        while top <= bottom and left <= right:\n            # Traverse from left to right along the top row\n            for i in range(left, right + 1):\n                result.append(matrix[top][i])\n            top += 1\n            \n            # Traverse from top to bottom along the right column\n            for i in range(top, bottom + 1):\n                result.append(matrix[i][right])\n            right -= 1\n            \n            if top <= bottom:\n                # Traverse from right to left along the bottom row\n                for i in range(right, left - 1, -1):\n                    result.append(matrix[bottom][i])\n                bottom -= 1\n            \n            if left <= right:\n                # Traverse from bottom to top along the left column\n                for i in range(bottom, top - 1, -1):\n                    result.append(matrix[i][left])\n                left += 1\n        \n        return result",
+    "explanation": "The solution uses a while loop to traverse the matrix in a spiral order. The boundaries (`top`, `bottom`, `left`, `right`) are adjusted after each complete traversal of a side of the matrix. \n\n1. **Initialization**: We start by checking if the matrix is empty. If it is, we return an empty list. We then initialize the result list and the four boundaries.\n2. **Traversal**: The while loop continues as long as the `top` boundary is less than or equal to the `bottom` boundary and the `left` boundary is less than or equal to the `right` boundary. Inside the loop:\n   - We first traverse from the `left` to the `right` along the `top` row and then increment the `top` boundary.\n   - Next, we traverse from `top` to `bottom` along the `right` column and decrement the `right` boundary.\n   - If there are still rows left, we traverse from `right` to `left` along the `bottom` row and decrement the `bottom` boundary.\n   - If there are still columns left, we traverse from `bottom` to `top` along the `left` column and increment the `left` boundary.\n3. **Return**: Finally, we return the result list containing the elements in spiral order.\n\n**Time Complexity**: O(m * n), where m is the number of rows and n is the number of columns in the matrix, since we visit each element exactly once.\n\n**Space Complexity**: O(1) for the boundaries and O(m * n) for the output list, which is necessary to store the result."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmp7m6zhafv.py\", line 71\n    input_0_0 = [[1,2,3]\n                ^\nSyntaxError: '[' was never closed\n"
+  },
+  "timestamp": "2025-04-01 18:00:30"
+}

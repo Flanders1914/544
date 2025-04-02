@@ -1,0 +1,46 @@
+{
+  "id": "326",
+  "frontend_id": "326",
+  "title": "Power of Three",
+  "description": "Given an integer n, return true if it is a power of three. Otherwise, return false.\nAn integer n is a power of three, if there exists an integer x such that n == 3x.\n \nExample 1:\n\nInput: n = 27\nOutput: true\nExplanation: 27 = 33\n\nExample 2:\n\nInput: n = 0\nOutput: false\nExplanation: There is no x where 3x = 0.\n\nExample 3:\n\nInput: n = -1\nOutput: false\nExplanation: There is no x where 3x = (-1).\n\n \nConstraints:\n\n-231 <= n <= 231 - 1\n\n \nFollow up: Could you solve it without loops/recursion?",
+  "difficulty": "Easy",
+  "examples": [
+    "27",
+    "0",
+    "-1"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "n": "27"
+      },
+      "expected": "true"
+    },
+    {
+      "input": {
+        "n": "0"
+      },
+      "expected": "false"
+    },
+    {
+      "input": {
+        "n": "-1"
+      },
+      "expected": "false"
+    }
+  ],
+  "python_starter": "class Solution:\n    def isPowerOfThree(self, n: int) -> bool:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "isPowerOfThree",
+    "params": [
+      {
+        "name": "n",
+        "type": "integer"
+      }
+    ],
+    "return": {
+      "type": "boolean"
+    }
+  }
+}

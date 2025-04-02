@@ -1,0 +1,45 @@
+{
+  "problem": {
+    "id": "110",
+    "frontend_id": "110",
+    "title": "Balanced Binary Tree",
+    "description": "Given a binary tree, determine if it is height-balanced.\n \nExample 1:\n\n\nInput: root = [3,9,20,null,null,15,7]\nOutput: true\n\nExample 2:\n\n\nInput: root = [1,2,2,3,3,null,null,4,4]\nOutput: false\n\nExample 3:\n\nInput: root = []\nOutput: true\n\n \nConstraints:\n\nThe number of nodes in the tree is in the range [0, 5000].\n-104 <= Node.val <= 104\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "[3,9,20,null,null,15,7]",
+      "[1,2,2,3,3,null,null,4,4]",
+      "[]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "root": "[3,9,20,null,null,15,7]"
+        },
+        "expected": "true"
+      }
+    ],
+    "python_starter": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def isBalanced(self, root: Optional[TreeNode]) -> bool:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "isBalanced",
+      "params": [
+        {
+          "name": "root",
+          "type": "TreeNode"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nclass Solution:\n    def isBalanced(self, root: Optional[TreeNode]) -> bool:\n        def check_balance(node):\n            if not node:\n                return 0  # Height of an empty tree is 0\n            \n            left_height = check_balance(node.left)\n            if left_height == -1:  # Left subtree is not balanced\n                return -1\n            \n            right_height = check_balance(node.right)\n            if right_height == -1:  # Right subtree is not balanced\n                return -1\n            \n            # Check if the current node is balanced\n            if abs(left_height - right_height) > 1:\n                return -1  # Not balanced\n            \n            # Return the height of the current node\n            return max(left_height, right_height) + 1\n        \n        return check_balance(root) != -1  # If the return value is -1, the tree is not balanced",
+    "explanation": "The provided solution uses a recursive helper function `check_balance` to determine the height of each subtree while simultaneously checking if the tree is balanced. \n\n1. **Base Case**: If the node is `None`, we return a height of 0.\n2. **Recursive Case**: We recursively calculate the height of the left and right subtrees. If either subtree is found to be unbalanced (indicated by returning -1), we propagate this information up the recursion.\n3. **Balance Check**: For each node, we check if the absolute difference between the heights of the left and right subtrees is greater than 1. If it is, we return -1 to indicate that the tree is not balanced.\n4. **Height Calculation**: If the node is balanced, we return the height of the node, which is the maximum height of its subtrees plus one.\n\nThe overall time complexity of this solution is O(n), where n is the number of nodes in the tree, as we visit each node exactly once. The space complexity is O(h), where h is the height of the tree, due to the recursion stack."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:35"
+}

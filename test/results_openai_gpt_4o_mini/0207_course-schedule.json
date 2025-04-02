@@ -1,0 +1,62 @@
+{
+  "problem": {
+    "id": "207",
+    "frontend_id": "207",
+    "title": "Course Schedule",
+    "description": "There are a total of numCourses courses you have to take, labeled from 0 to numCourses - 1. You are given an array prerequisites where prerequisites[i] = [ai, bi] indicates that you must take course bi first if you want to take course ai.\n\nFor example, the pair [0, 1], indicates that to take course 0 you have to first take course 1.\n\nReturn true if you can finish all courses. Otherwise, return false.\n \nExample 1:\n\nInput: numCourses = 2, prerequisites = [[1,0]]\nOutput: true\nExplanation: There are a total of 2 courses to take. \nTo take course 1 you should have finished course 0. So it is possible.\n\nExample 2:\n\nInput: numCourses = 2, prerequisites = [[1,0],[0,1]]\nOutput: false\nExplanation: There are a total of 2 courses to take. \nTo take course 1 you should have finished course 0, and to take course 0 you should also have finished course 1. So it is impossible.\n\n \nConstraints:\n\n1 <= numCourses <= 2000\n0 <= prerequisites.length <= 5000\nprerequisites[i].length == 2\n0 <= ai, bi < numCourses\nAll the pairs prerequisites[i] are unique.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "2",
+      "[[1,0]]",
+      "2",
+      "[[1,0],[0,1]]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "numCourses": "2",
+          "prerequisites": "[[1,0]"
+        },
+        "expected": "true"
+      },
+      {
+        "input": {
+          "numCourses": "2",
+          "prerequisites": "[[1,0]"
+        },
+        "expected": "false"
+      }
+    ],
+    "python_starter": "class Solution:\n    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:\n        ",
+    "hints": [
+      "This problem is equivalent to finding if a cycle exists in a directed graph. If a cycle exists, no topological ordering exists and therefore it will be impossible to take all courses.",
+      "<a href=\"https://www.cs.princeton.edu/~wayne/kleinberg-tardos/pdf/03Graphs.pdf\" target=\"_blank\">Topological Sort via DFS</a> - A great tutorial explaining the basic concepts of Topological Sort.",
+      "Topological sort could also be done via <a href=\"http://en.wikipedia.org/wiki/Topological_sorting#Algorithms\" target=\"_blank\">BFS</a>."
+    ],
+    "meta_data": {
+      "name": "canFinish",
+      "params": [
+        {
+          "name": "numCourses",
+          "type": "integer"
+        },
+        {
+          "name": "prerequisites",
+          "type": "integer[][]"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:\n        # Create an adjacency list for the graph\n        graph = [[] for _ in range(numCourses)]\n        for a, b in prerequisites:\n            graph[b].append(a)  # b must be taken before a\n\n        # State array to track the status of each course\n        visited = [0] * numCourses  # 0: unvisited, 1: visiting, 2: visited\n\n        def dfs(course):\n            if visited[course] == 1:  # Cycle detected\n                return False\n            if visited[course] == 2:  # Already processed\n                return True\n            \n            # Mark the course as being visited\n            visited[course] = 1\n            for neighbor in graph[course]:\n                if not dfs(neighbor):\n                    return False\n            \n            # Mark the course as fully processed\n            visited[course] = 2\n            return True\n\n        # Check each course\n        for i in range(numCourses):\n            if visited[i] == 0:  # If the course is unvisited\n                if not dfs(i):\n                    return False\n        \n        return True",
+    "explanation": "The solution uses a depth-first search (DFS) approach to detect cycles in the directed graph formed by the courses and their prerequisites. The algorithm works as follows:\n\n1. **Graph Construction**: We first create an adjacency list representation of the graph where each course points to the courses that depend on it.\n\n2. **DFS Function**: The `dfs` function checks for cycles:\n   - If we encounter a course that is currently being visited (state 1), we return `False` indicating a cycle.\n   - If we encounter a course that has already been fully processed (state 2), we return `True`.\n   - We mark the course as visiting (state 1) and recursively visit all its neighbors.\n   - After processing all neighbors, we mark the course as visited (state 2).\n\n3. **Main Loop**: We iterate through all courses, and for each unvisited course, we call the `dfs` function. If any call returns `False`, we conclude that it's impossible to finish all courses.\n\n**Time Complexity**: O(V + E), where V is the number of courses (vertices) and E is the number of prerequisite pairs (edges). Each course and each prerequisite is processed once.\n\n**Space Complexity**: O(V + E) for the graph representation and O(V) for the visited list, leading to a total space complexity of O(V + E).\n\nOverall, this approach efficiently determines if all courses can be completed based on the given prerequisites."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmpxyv8n4gz.py\", line 72\n    input_0_1 = [[1,0]\n                 ^^^^^\nSyntaxError: invalid syntax. Perhaps you forgot a comma?\n"
+  },
+  "timestamp": "2025-04-01 18:00:42"
+}

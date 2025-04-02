@@ -1,0 +1,57 @@
+{
+  "problem": {
+    "id": "217",
+    "frontend_id": "217",
+    "title": "Contains Duplicate",
+    "description": "Given an integer array nums, return true if any value appears at least twice in the array, and return false if every element is distinct.\n \nExample 1:\n\nInput: nums = [1,2,3,1]\nOutput: true\nExplanation:\nThe element 1 occurs at the indices 0 and 3.\n\nExample 2:\n\nInput: nums = [1,2,3,4]\nOutput: false\nExplanation:\nAll elements are distinct.\n\nExample 3:\n\nInput: nums = [1,1,1,3,3,4,3,2,4,2]\nOutput: true\n\n \nConstraints:\n\n1 <= nums.length <= 105\n-109 <= nums[i] <= 109\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "[1,2,3,1]",
+      "[1,2,3,4]",
+      "[1,1,1,3,3,4,3,2,4,2]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[1,2,3,1]"
+        },
+        "expected": "true"
+      },
+      {
+        "input": {
+          "nums": "[1,2,3,4]"
+        },
+        "expected": "false"
+      },
+      {
+        "input": {
+          "nums": "[1,1,1,3,3,4,3,2,4,2]"
+        },
+        "expected": "true"
+      }
+    ],
+    "python_starter": "class Solution:\n    def containsDuplicate(self, nums: List[int]) -> bool:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "containsDuplicate",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def containsDuplicate(self, nums: List[int]) -> bool:\n        # Create a set to store unique elements\n        seen = set()\n        \n        # Iterate through each number in the list\n        for num in nums:\n            # If the number is already in the set, we found a duplicate\n            if num in seen:\n                return True\n            # Otherwise, add the number to the set\n            seen.add(num)\n        \n        # If we finish the loop without finding duplicates, return False\n        return False",
+    "explanation": "The solution uses a set to track the unique elements encountered in the input list `nums`. The algorithm proceeds as follows:\n\n1. Initialize an empty set called `seen`.\n2. Loop through each element `num` in the `nums` list.\n   - If `num` is already in the `seen` set, it means we have encountered this number before, and we return `true`.\n   - If `num` is not in the set, we add it to the `seen` set.\n3. If the loop completes without finding any duplicates, we return `false`.\n\nThe time complexity of this solution is O(n), where n is the number of elements in the input list, because we potentially check each element once. The space complexity is also O(n) in the worst case, where all elements are unique and stored in the set.\n\nThis approach is efficient and straightforward, making it suitable for the problem constraints provided."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: True\nTest case 2:\n[PASS] Test passed: False\nTest case 3:\n[PASS] Test passed: True\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:43"
+}

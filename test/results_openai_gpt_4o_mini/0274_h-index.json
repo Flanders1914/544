@@ -1,0 +1,54 @@
+{
+  "problem": {
+    "id": "274",
+    "frontend_id": "274",
+    "title": "H-Index",
+    "description": "Given an array of integers citations where citations[i] is the number of citations a researcher received for their ith paper, return the researcher's h-index.\nAccording to the definition of h-index on Wikipedia: The h-index is defined as the maximum value of h such that the given researcher has published at least h papers that have each been cited at least h times.\n \nExample 1:\n\nInput: citations = [3,0,6,1,5]\nOutput: 3\nExplanation: [3,0,6,1,5] means the researcher has 5 papers in total and each of them had received 3, 0, 6, 1, 5 citations respectively.\nSince the researcher has 3 papers with at least 3 citations each and the remaining two with no more than 3 citations each, their h-index is 3.\n\nExample 2:\n\nInput: citations = [1,3,1]\nOutput: 1\n\n \nConstraints:\n\nn == citations.length\n1 <= n <= 5000\n0 <= citations[i] <= 1000\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[3,0,6,1,5]",
+      "[1,3,1]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "citations": "[3,0,6,1,5]"
+        },
+        "expected": "3"
+      },
+      {
+        "input": {
+          "citations": "[1,3,1]"
+        },
+        "expected": "1"
+      }
+    ],
+    "python_starter": "class Solution:\n    def hIndex(self, citations: List[int]) -> int:\n        ",
+    "hints": [
+      "An easy approach is to sort the array first.",
+      "What are the possible values of h-index?",
+      "A faster approach is to use extra space."
+    ],
+    "meta_data": {
+      "name": "hIndex",
+      "params": [
+        {
+          "name": "citations",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def hIndex(self, citations: List[int]) -> int:\n        # Sort the citations in non-decreasing order\n        citations.sort()\n        n = len(citations)\n        \n        # Iterate through the sorted citations\n        for i in range(n):\n            # Calculate the number of papers with at least citations[i] citations\n            if citations[i] >= n - i:\n                return n - i  # Return the h-index\n        \n        return 0  # If no h-index found, return 0",
+    "explanation": "The solution begins by sorting the list of citations. Once sorted, we can easily determine how many papers have at least a certain number of citations. The key observation is that if we are at index `i` in the sorted list, then there are `n - i` papers that have at least `citations[i]` citations. \n\nWe check if `citations[i]` is greater than or equal to `n - i`. If it is, this means that there are at least `n - i` papers with at least `citations[i]` citations, which satisfies the condition for the h-index. We return `n - i` as the h-index.\n\nIf we finish the loop without finding any valid h-index, we return 0, indicating that the researcher has not met the criteria for any h-index.\n\n**Time Complexity**: O(n log n) due to the sorting step.\n\n**Space Complexity**: O(1) if we consider the sorting in place, or O(n) if we consider the space used by the sorting algorithm in the worst case."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 3\nTest case 2:\n[PASS] Test passed: 1\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:45"
+}

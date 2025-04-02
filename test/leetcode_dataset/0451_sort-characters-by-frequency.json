@@ -1,0 +1,46 @@
+{
+  "id": "451",
+  "frontend_id": "451",
+  "title": "Sort Characters By Frequency",
+  "description": "Given a string s, sort it in decreasing order based on the frequency of the characters. The frequency of a character is the number of times it appears in the string.\nReturn the sorted string. If there are multiple answers, return any of them.\n \nExample 1:\n\nInput: s = \"tree\"\nOutput: \"eert\"\nExplanation: 'e' appears twice while 'r' and 't' both appear once.\nSo 'e' must appear before both 'r' and 't'. Therefore \"eetr\" is also a valid answer.\n\nExample 2:\n\nInput: s = \"cccaaa\"\nOutput: \"aaaccc\"\nExplanation: Both 'c' and 'a' appear three times, so both \"cccaaa\" and \"aaaccc\" are valid answers.\nNote that \"cacaca\" is incorrect, as the same characters must be together.\n\nExample 3:\n\nInput: s = \"Aabb\"\nOutput: \"bbAa\"\nExplanation: \"bbaA\" is also a valid answer, but \"Aabb\" is incorrect.\nNote that 'A' and 'a' are treated as two different characters.\n\n \nConstraints:\n\n1 <= s.length <= 5 * 105\ns consists of uppercase and lowercase English letters and digits.\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "\"tree\"",
+    "\"cccaaa\"",
+    "\"Aabb\""
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "s": "\"tree\""
+      },
+      "expected": "eert"
+    },
+    {
+      "input": {
+        "s": "\"cccaaa\""
+      },
+      "expected": "aaaccc"
+    },
+    {
+      "input": {
+        "s": "\"Aabb\""
+      },
+      "expected": "bbAa"
+    }
+  ],
+  "python_starter": "class Solution:\n    def frequencySort(self, s: str) -> str:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "frequencySort",
+    "params": [
+      {
+        "name": "s",
+        "type": "string"
+      }
+    ],
+    "return": {
+      "type": "string"
+    }
+  }
+}

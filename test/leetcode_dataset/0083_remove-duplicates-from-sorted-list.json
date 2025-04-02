@@ -1,0 +1,35 @@
+{
+  "id": "83",
+  "frontend_id": "83",
+  "title": "Remove Duplicates from Sorted List",
+  "description": "Given the head of a sorted linked list, delete all duplicates such that each element appears only once. Return the linked list sorted as well.\n \nExample 1:\n\n\nInput: head = [1,1,2]\nOutput: [1,2]\n\nExample 2:\n\n\nInput: head = [1,1,2,3,3]\nOutput: [1,2,3]\n\n \nConstraints:\n\nThe number of nodes in the list is in the range [0, 300].\n-100 <= Node.val <= 100\nThe list is guaranteed to be sorted in ascending order.\n\n",
+  "difficulty": "Easy",
+  "examples": [
+    "[1,1,2]",
+    "[1,1,2,3,3]"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "head": "[1,1,2]"
+      },
+      "expected": "[1,2]"
+    }
+  ],
+  "python_starter": "# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution:\n    def deleteDuplicates(self, head: Optional[ListNode]) -> Optional[ListNode]:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "deleteDuplicates",
+    "params": [
+      {
+        "name": "head",
+        "type": "ListNode",
+        "dealloc": false
+      }
+    ],
+    "return": {
+      "type": "ListNode",
+      "dealloc": true
+    }
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "problem": {
+    "id": "231",
+    "frontend_id": "231",
+    "title": "Power of Two",
+    "description": "Given an integer n, return true if it is a power of two. Otherwise, return false.\nAn integer n is a power of two, if there exists an integer x such that n == 2x.\n \nExample 1:\n\nInput: n = 1\nOutput: true\nExplanation: 20 = 1\n\nExample 2:\n\nInput: n = 16\nOutput: true\nExplanation: 24 = 16\n\nExample 3:\n\nInput: n = 3\nOutput: false\n\n \nConstraints:\n\n-231 <= n <= 231 - 1\n\n \nFollow up: Could you solve it without loops/recursion?",
+    "difficulty": "Easy",
+    "examples": [
+      "1",
+      "16",
+      "3"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "n": "1"
+        },
+        "expected": "true"
+      },
+      {
+        "input": {
+          "n": "16"
+        },
+        "expected": "true"
+      },
+      {
+        "input": {
+          "n": "3"
+        },
+        "expected": "false"
+      }
+    ],
+    "python_starter": "class Solution:\n    def isPowerOfTwo(self, n: int) -> bool:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "isPowerOfTwo",
+      "params": [
+        {
+          "name": "n",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def isPowerOfTwo(self, n: int) -> bool:\n        # Check if n is greater than 0 and if n & (n - 1) is 0\n        return n > 0 and (n & (n - 1)) == 0",
+    "explanation": "The solution checks if the integer \\( n \\) is a power of two using bitwise operations. The condition \\( n > 0 \\) ensures that we are only considering positive integers, as negative numbers and zero cannot be powers of two. The expression \\( n \\& (n - 1) \\) checks if there is only one bit set in the binary representation of \\( n \\). If this condition is true, then \\( n \\) is a power of two.\n\n### Time Complexity\nThe time complexity of this solution is \\( O(1) \\) because it performs a constant number of operations regardless of the input size.\n\n### Space Complexity\nThe space complexity is also \\( O(1) \\) since we are using a fixed amount of space for the variables and not utilizing any additional data structures.\n\nThus, the solution is efficient and meets the problem's requirements without using loops or recursion."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: True\nTest case 2:\n[PASS] Test passed: True\nTest case 3:\n[PASS] Test passed: False\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:44"
+}

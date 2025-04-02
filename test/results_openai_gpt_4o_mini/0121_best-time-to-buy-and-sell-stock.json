@@ -1,0 +1,50 @@
+{
+  "problem": {
+    "id": "121",
+    "frontend_id": "121",
+    "title": "Best Time to Buy and Sell Stock",
+    "description": "You are given an array prices where prices[i] is the price of a given stock on the ith day.\nYou want to maximize your profit by choosing a single day to buy one stock and choosing a different day in the future to sell that stock.\nReturn the maximum profit you can achieve from this transaction. If you cannot achieve any profit, return 0.\n \nExample 1:\n\nInput: prices = [7,1,5,3,6,4]\nOutput: 5\nExplanation: Buy on day 2 (price = 1) and sell on day 5 (price = 6), profit = 6-1 = 5.\nNote that buying on day 2 and selling on day 1 is not allowed because you must buy before you sell.\n\nExample 2:\n\nInput: prices = [7,6,4,3,1]\nOutput: 0\nExplanation: In this case, no transactions are done and the max profit = 0.\n\n \nConstraints:\n\n1 <= prices.length <= 105\n0 <= prices[i] <= 104\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "[7,1,5,3,6,4]",
+      "[7,6,4,3,1]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "prices": "[7,1,5,3,6,4]"
+        },
+        "expected": "5"
+      },
+      {
+        "input": {
+          "prices": "[7,6,4,3,1]"
+        },
+        "expected": "0"
+      }
+    ],
+    "python_starter": "class Solution:\n    def maxProfit(self, prices: List[int]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "maxProfit",
+      "params": [
+        {
+          "name": "prices",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def maxProfit(self, prices: List[int]) -> int:\n        # Initialize variables to track the minimum price and maximum profit\n        min_price = float('inf')  # Start with a very high minimum price\n        max_profit = 0  # Start with zero profit\n        \n        # Iterate through each price in the list\n        for price in prices:\n            # Update the minimum price if the current price is lower\n            if price < min_price:\n                min_price = price\n            # Calculate the profit if we sell at the current price\n            current_profit = price - min_price\n            # Update the maximum profit if the current profit is higher\n            if current_profit > max_profit:\n                max_profit = current_profit\n        \n        return max_profit",
+    "explanation": "The solution iterates through the list of stock prices once, maintaining two variables: `min_price` to track the lowest price seen so far and `max_profit` to track the highest profit that can be achieved. \n\n1. **Initialization**: We start with `min_price` set to infinity to ensure any price will be lower initially, and `max_profit` is initialized to 0 since no transactions have been made yet.\n\n2. **Iteration**: For each price in the list:\n   - If the current price is lower than `min_price`, we update `min_price`.\n   - We then calculate the potential profit by subtracting `min_price` from the current price.\n   - If this potential profit is greater than `max_profit`, we update `max_profit`.\n\n3. **Return Value**: After iterating through all prices, we return `max_profit`, which will be 0 if no profitable transactions were possible.\n\n**Time Complexity**: O(n), where n is the number of days (length of the prices list). We only make a single pass through the list.\n\n**Space Complexity**: O(1), as we are using a constant amount of space for the variables `min_price` and `max_profit`."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 5\nTest case 2:\n[PASS] Test passed: 0\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:36"
+}

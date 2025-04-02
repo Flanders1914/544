@@ -1,0 +1,51 @@
+{
+  "problem": {
+    "id": "25",
+    "frontend_id": "25",
+    "title": "Reverse Nodes in k-Group",
+    "description": "Given the head of a linked list, reverse the nodes of the list k at a time, and return the modified list.\nk is a positive integer and is less than or equal to the length of the linked list. If the number of nodes is not a multiple of k then left-out nodes, in the end, should remain as it is.\nYou may not alter the values in the list's nodes, only nodes themselves may be changed.\n \nExample 1:\n\n\nInput: head = [1,2,3,4,5], k = 2\nOutput: [2,1,4,3,5]\n\nExample 2:\n\n\nInput: head = [1,2,3,4,5], k = 3\nOutput: [3,2,1,4,5]\n\n \nConstraints:\n\nThe number of nodes in the list is n.\n1 <= k <= n <= 5000\n0 <= Node.val <= 1000\n\n \nFollow-up: Can you solve the problem in O(1) extra memory space?\n",
+    "difficulty": "Hard",
+    "examples": [
+      "[1,2,3,4,5]",
+      "2",
+      "[1,2,3,4,5]",
+      "3"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "head": "[1,2,3,4,5]",
+          "k": "2"
+        },
+        "expected": "[2,1,4,3,5]"
+      }
+    ],
+    "python_starter": "# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution:\n    def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "reverseKGroup",
+      "params": [
+        {
+          "name": "head",
+          "type": "ListNode"
+        },
+        {
+          "name": "k",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "ListNode"
+      }
+    }
+  },
+  "solution": {
+    "code": "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\n\nclass Solution:\n    def reverseKGroup(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:\n        # Function to reverse a linked list\n        def reverseLinkedList(start, end):\n            prev = None\n            current = start\n            while current != end:\n                next_node = current.next\n                current.next = prev\n                prev = current\n                current = next_node\n            return prev  # New head of the reversed list\n\n        # Dummy node to help with edge cases\n        dummy = ListNode(0)\n        dummy.next = head\n        group_prev = dummy\n        \n        while True:\n            # Check if there are at least k nodes left in the list\n            kth = group_prev\n            for i in range(k):\n                kth = kth.next\n                if not kth:\n                    return dummy.next  # Not enough nodes to reverse\n            \n            group_next = kth.next  # The node after the k-group\n            # Reverse the k nodes\n            new_head = reverseLinkedList(group_prev.next, group_next)\n            # Connect the previous part with the reversed part\n            tail = group_prev.next  # The original head of the k-group\n            group_prev.next = new_head\n            tail.next = group_next  # Connect to the next part\n            \n            # Move the group_prev pointer k nodes ahead\n            group_prev = tail",
+    "explanation": "The solution involves reversing segments of the linked list in groups of k nodes. Here's a breakdown of the approach:\n\n1. **Reverse Function**: We define a helper function `reverseLinkedList` that takes the start and end nodes and reverses the nodes between them. It uses a simple iterative approach to reverse the pointers.\n\n2. **Main Loop**: In the `reverseKGroup` method, we use a dummy node to simplify edge cases (like reversing the head of the list). We maintain a pointer `group_prev` that marks the end of the last reversed group.\n\n3. **Checking for k Nodes**: Before reversing, we check if there are at least k nodes available. If not, we return the modified list.\n\n4. **Reversing and Connecting**: After reversing the k nodes, we connect the end of the reversed segment back to the remaining list. We then move the `group_prev` pointer to the end of the newly reversed segment to prepare for the next iteration.\n\n5. **Time Complexity**: The time complexity of this solution is O(n), where n is the number of nodes in the linked list, as we traverse each node a constant number of times.\n\n6. **Space Complexity**: The space complexity is O(1) since we are only using a few pointers and not utilizing any additional data structures that grow with input size.\n\nThis solution efficiently reverses the linked list in groups of k while maintaining the required constraints."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:27"
+}

@@ -1,0 +1,45 @@
+{
+  "problem": {
+    "id": "17",
+    "frontend_id": "17",
+    "title": "Letter Combinations of a Phone Number",
+    "description": "Given a string containing digits from 2-9 inclusive, return all possible letter combinations that the number could represent. Return the answer in any order.\nA mapping of digits to letters (just like on the telephone buttons) is given below. Note that 1 does not map to any letters.\n\n \nExample 1:\n\nInput: digits = \"23\"\nOutput: [\"ad\",\"ae\",\"af\",\"bd\",\"be\",\"bf\",\"cd\",\"ce\",\"cf\"]\n\nExample 2:\n\nInput: digits = \"\"\nOutput: []\n\nExample 3:\n\nInput: digits = \"2\"\nOutput: [\"a\",\"b\",\"c\"]\n\n \nConstraints:\n\n0 <= digits.length <= 4\ndigits[i] is a digit in the range ['2', '9'].\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "\"23\"",
+      "\"\"",
+      "\"2\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "digits": "\"23\""
+        },
+        "expected": "[ad,ae,af,bd,be,bf,cd,ce,cf]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def letterCombinations(self, digits: str) -> List[str]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "letterCombinations",
+      "params": [
+        {
+          "name": "digits",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "list<string>"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def letterCombinations(self, digits: str) -> List[str]:\n        if not digits:\n            return []\n        \n        # Mapping of digits to letters\n        digit_to_letters = {\n            '2': 'abc',\n            '3': 'def',\n            '4': 'ghi',\n            '5': 'jkl',\n            '6': 'mno',\n            '7': 'pqrs',\n            '8': 'tuv',\n            '9': 'wxyz'\n        }\n        \n        results = []\n        \n        def backtrack(index: int, current_combination: str):\n            # If the current combination is the same length as digits, add to results\n            if index == len(digits):\n                results.append(current_combination)\n                return\n            \n            # Get the letters that the current digit maps to\n            current_digit = digits[index]\n            possible_letters = digit_to_letters[current_digit]\n            \n            # Explore each letter for the current digit\n            for letter in possible_letters:\n                backtrack(index + 1, current_combination + letter)\n        \n        # Start backtracking from the first digit\n        backtrack(0, \"\")\n        return results",
+    "explanation": "The solution uses a backtracking algorithm to generate all possible letter combinations for the given digits. Here's a breakdown of the solution:\n\n1. **Mapping**: We create a dictionary `digit_to_letters` that maps each digit to its corresponding letters.\n2. **Backtracking Function**: The `backtrack` function takes the current index of the digit being processed and the current combination of letters formed so far. If the index equals the length of the input digits, it means we have formed a valid combination, which we then add to the results list.\n3. **Recursive Exploration**: For each letter corresponding to the current digit, we recursively call `backtrack` with the next index and the updated combination.\n4. **Edge Case Handling**: If the input string is empty, we immediately return an empty list.\n\n**Time Complexity**: The time complexity is O(4^N) where N is the length of the input digits, as each digit can map to a maximum of 4 letters (for digit '7' and '9'). \n\n**Space Complexity**: The space complexity is O(N) for the recursion stack and the space used to store the results.\n\nThis approach efficiently generates all combinations while adhering to the constraints provided in the problem statement."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:26"
+}

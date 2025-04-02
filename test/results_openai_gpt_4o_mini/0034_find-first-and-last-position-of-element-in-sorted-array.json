@@ -1,0 +1,53 @@
+{
+  "problem": {
+    "id": "34",
+    "frontend_id": "34",
+    "title": "Find First and Last Position of Element in Sorted Array",
+    "description": "Given an array of integers nums sorted in non-decreasing order, find the starting and ending position of a given target value.\nIf target is not found in the array, return [-1, -1].\nYou must write an algorithm with O(log n) runtime complexity.\n \nExample 1:\nInput: nums = [5,7,7,8,8,10], target = 8\nOutput: [3,4]\nExample 2:\nInput: nums = [5,7,7,8,8,10], target = 6\nOutput: [-1,-1]\nExample 3:\nInput: nums = [], target = 0\nOutput: [-1,-1]\n\n \nConstraints:\n\n0 <= nums.length <= 105\n-109 <= nums[i] <= 109\nnums is a non-decreasing array.\n-109 <= target <= 109\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[5,7,7,8,8,10]",
+      "8",
+      "[5,7,7,8,8,10]",
+      "6",
+      "[]",
+      "0"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[5,7,7,8,8,10]",
+          "target": "8"
+        },
+        "expected": "[3,4]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def searchRange(self, nums: List[int], target: int) -> List[int]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "searchRange",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        },
+        {
+          "name": "target",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer[]"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def searchRange(self, nums: List[int], target: int) -> List[int]:\n        def findFirst(nums, target):\n            left, right = 0, len(nums) - 1\n            first = -1\n            while left <= right:\n                mid = left + (right - left) // 2\n                if nums[mid] == target:\n                    first = mid  # Found target, continue searching left\n                    right = mid - 1\n                elif nums[mid] < target:\n                    left = mid + 1\n                else:\n                    right = mid - 1\n            return first\n        \n        def findLast(nums, target):\n            left, right = 0, len(nums) - 1\n            last = -1\n            while left <= right:\n                mid = left + (right - left) // 2\n                if nums[mid] == target:\n                    last = mid  # Found target, continue searching right\n                    left = mid + 1\n                elif nums[mid] < target:\n                    left = mid + 1\n                else:\n                    right = mid - 1\n            return last\n        \n        first_position = findFirst(nums, target)\n        last_position = findLast(nums, target)\n        \n        return [first_position, last_position]",
+    "explanation": "The solution consists of two helper functions, `findFirst` and `findLast`, which perform binary searches to find the first and last positions of the target in the sorted array.\n\n1. **findFirst**:\n   - We initialize two pointers, `left` and `right`, to the start and end of the array.\n   - We perform a binary search:\n     - If the middle element equals the target, we record the index and continue searching to the left (by adjusting `right`).\n     - If the middle element is less than the target, we move the `left` pointer to `mid + 1`.\n     - If the middle element is greater than the target, we move the `right` pointer to `mid - 1`.\n   - This continues until the pointers converge, and we return the first occurrence index.\n\n2. **findLast**:\n   - This function operates similarly to `findFirst`, but when we find the target, we continue searching to the right (by adjusting `left`).\n   - This ensures we capture the last occurrence index.\n\nFinally, we call both functions and return their results as a list.\n\n**Time Complexity**: O(log n) for each binary search, resulting in a total of O(log n).\n\n**Space Complexity**: O(1) since we are using a constant amount of space for pointers and variables."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: [3, 4]\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:28"
+}

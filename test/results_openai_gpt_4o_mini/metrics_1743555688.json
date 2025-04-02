@@ -1,0 +1,9 @@
+{
+  "model": "openai_gpt_4o_mini",
+  "total_problems": 500,
+  "success_count": 189,
+  "failed_count": 281,
+  "error_count": 30,
+  "success_rate": 0.378,
+  "timestamp": "2025-04-01 18:01:28"
+}

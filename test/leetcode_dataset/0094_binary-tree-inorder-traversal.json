@@ -1,0 +1,48 @@
+{
+  "id": "94",
+  "frontend_id": "94",
+  "title": "Binary Tree Inorder Traversal",
+  "description": "Given the root of a binary tree, return the inorder traversal of its nodes' values.\n \nExample 1:\n\nInput: root = [1,null,2,3]\nOutput: [1,3,2]\nExplanation:\n\n\nExample 2:\n\nInput: root = [1,2,3,4,5,null,8,null,null,6,7,9]\nOutput: [4,2,6,5,7,1,3,9,8]\nExplanation:\n\n\nExample 3:\n\nInput: root = []\nOutput: []\n\nExample 4:\n\nInput: root = [1]\nOutput: [1]\n\n \nConstraints:\n\nThe number of nodes in the tree is in the range [0, 100].\n-100 <= Node.val <= 100\n\n \nFollow up: Recursive solution is trivial, could you do it iteratively?",
+  "difficulty": "Easy",
+  "examples": [
+    "[1,null,2,3]",
+    "[1,2,3,4,5,null,8,null,null,6,7,9]",
+    "[]",
+    "[1]"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "root": "[1,null,2,3]"
+      },
+      "expected": "[1,3,2]"
+    },
+    {
+      "input": {
+        "root": "[1,2,3,4,5,null,8,null,null,6,7,9]"
+      },
+      "expected": "[4,2,6,5,7,1,3,9,8]"
+    },
+    {
+      "input": {
+        "root": "[]"
+      },
+      "expected": "[]"
+    }
+  ],
+  "python_starter": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def inorderTraversal(self, root: Optional[TreeNode]) -> List[int]:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "inorderTraversal",
+    "params": [
+      {
+        "name": "root",
+        "type": "TreeNode"
+      }
+    ],
+    "return": {
+      "type": "list<integer>",
+      "dealloc": true
+    }
+  }
+}

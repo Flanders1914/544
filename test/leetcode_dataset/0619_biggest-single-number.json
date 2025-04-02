@@ -1,0 +1,51 @@
+{
+  "id": "619",
+  "frontend_id": "619",
+  "title": "Biggest Single Number",
+  "description": "Table: MyNumbers\n\n+-------------+------+\n| Column Name | Type |\n+-------------+------+\n| num         | int  |\n+-------------+------+\nThis table may contain duplicates (In other words, there is no primary key for this table in SQL).\nEach row of this table contains an integer.\n\n \nA single number is a number that appeared only once in the MyNumbers table.\nFind the largest single number. If there is no single number, report null.\nThe result format is in the following example.\n \n \nExample 1:\n\nInput: \nMyNumbers table:\n+-----+\n| num |\n+-----+\n| 8   |\n| 8   |\n| 3   |\n| 3   |\n| 1   |\n| 4   |\n| 5   |\n| 6   |\n+-----+\nOutput: \n+-----+\n| num |\n+-----+\n| 6   |\n+-----+\nExplanation: The single numbers are 1, 4, 5, and 6.\nSince 6 is the largest single number, we return it.\n\nExample 2:\n\nInput: \nMyNumbers table:\n+-----+\n| num |\n+-----+\n| 8   |\n| 8   |\n| 7   |\n| 7   |\n| 3   |\n| 3   |\n| 3   |\n+-----+\nOutput: \n+------+\n| num  |\n+------+\n| null |\n+------+\nExplanation: There are no single numbers in the input table so we return null.\n\n",
+  "difficulty": "Easy",
+  "examples": [
+    "{\"headers\": {\"MyNumbers\": [\"num\"]}, \"rows\": {\"MyNumbers\": [[8],[8],[3],[3],[1],[4],[5],[6]]}}",
+    "{\"headers\": {\"MyNumbers\": [\"num\"]}, \"rows\": {\"MyNumbers\": [[8],[8],[7],[7],[3],[3],[3]]}}"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "param0": "MyNumbers table: +-----+ | num | +-----+ | 8   | | 8   | | 3   | | 3   | | 1   | | 4   | | 5   | | 6   | +-----+"
+      },
+      "expected": "+-----+"
+    },
+    {
+      "input": {
+        "param0": "MyNumbers table: +-----+ | num | +-----+ | 8   | | 8   | | 7   | | 7   | | 3   | | 3   | | 3   | +-----+"
+      },
+      "expected": "+------+"
+    }
+  ],
+  "python_starter": null,
+  "hints": [],
+  "meta_data": {
+    "mysql": [
+      "Create table If Not Exists MyNumbers (num int)"
+    ],
+    "mssql": [
+      "Create table MyNumbers (num int)"
+    ],
+    "oraclesql": [
+      "Create table MyNumbers (num int)"
+    ],
+    "database": true,
+    "name": "biggest_single_number",
+    "pythondata": [
+      "MyNumbers = pd.DataFrame([], columns=['num']).astype({'num':'Int64'})"
+    ],
+    "postgresql": [
+      "Create table If Not Exists MyNumbers (num int)"
+    ],
+    "database_schema": {
+      "MyNumbers": {
+        "num": "INT"
+      }
+    }
+  }
+}

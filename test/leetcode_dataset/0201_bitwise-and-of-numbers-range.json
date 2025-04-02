@@ -1,0 +1,42 @@
+{
+  "id": "201",
+  "frontend_id": "201",
+  "title": "Bitwise AND of Numbers Range",
+  "description": "Given two integers left and right that represent the range [left, right], return the bitwise AND of all numbers in this range, inclusive.\n \nExample 1:\n\nInput: left = 5, right = 7\nOutput: 4\n\nExample 2:\n\nInput: left = 0, right = 0\nOutput: 0\n\nExample 3:\n\nInput: left = 1, right = 2147483647\nOutput: 0\n\n \nConstraints:\n\n0 <= left <= right <= 231 - 1\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "5",
+    "7",
+    "0",
+    "0",
+    "1",
+    "2147483647"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "left": "5",
+        "right": "7"
+      },
+      "expected": "4"
+    }
+  ],
+  "python_starter": "class Solution:\n    def rangeBitwiseAnd(self, left: int, right: int) -> int:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "rangeBitwiseAnd",
+    "params": [
+      {
+        "name": "left",
+        "type": "integer"
+      },
+      {
+        "name": "right",
+        "type": "integer"
+      }
+    ],
+    "return": {
+      "type": "integer"
+    }
+  }
+}

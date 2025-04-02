@@ -1,0 +1,51 @@
+{
+  "problem": {
+    "id": "109",
+    "frontend_id": "109",
+    "title": "Convert Sorted List to Binary Search Tree",
+    "description": "Given the head of a singly linked list where elements are sorted in ascending order, convert it to a height-balanced binary search tree.\n \nExample 1:\n\n\nInput: head = [-10,-3,0,5,9]\nOutput: [0,-3,9,-10,null,5]\nExplanation: One possible answer is [0,-3,9,-10,null,5], which represents the shown height balanced BST.\n\nExample 2:\n\nInput: head = []\nOutput: []\n\n \nConstraints:\n\nThe number of nodes in head is in the range [0, 2 * 104].\n-105 <= Node.val <= 105\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[-10,-3,0,5,9]",
+      "[]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "head": "[-10,-3,0,5,9]"
+        },
+        "expected": "[0,-3,9,-10,null,5]"
+      },
+      {
+        "input": {
+          "head": "[]"
+        },
+        "expected": "[]"
+      }
+    ],
+    "python_starter": "# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\n# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def sortedListToBST(self, head: Optional[ListNode]) -> Optional[TreeNode]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "sortedListToBST",
+      "params": [
+        {
+          "name": "head",
+          "type": "ListNode"
+        }
+      ],
+      "return": {
+        "type": "TreeNode",
+        "dealloc": true
+      }
+    }
+  },
+  "solution": {
+    "code": "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\n\n# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nclass Solution:\n    def sortedListToBST(self, head: Optional[ListNode]) -> Optional[TreeNode]:\n        # Helper function to find the size of the linked list\n        def find_size(node):\n            size = 0\n            while node:\n                size += 1\n                node = node.next\n            return size\n        \n        # Helper function to convert the linked list to BST\n        def convert_list_to_bst(left, right):\n            nonlocal head  # Reference to the head of the linked list\n            if left > right:\n                return None\n            \n            mid = (left + right) // 2\n            \n            # First step of the inorder traversal, process the left child\n            left_child = convert_list_to_bst(left, mid - 1)\n            \n            # Process the current node\n            root = TreeNode(head.val)\n            root.left = left_child\n            \n            # Move to the next list node\n            head = head.next\n            \n            # Process the right child\n            root.right = convert_list_to_bst(mid + 1, right)\n            return root\n        \n        size = find_size(head)\n        return convert_list_to_bst(0, size - 1)",
+    "explanation": "The solution involves two main helper functions: `find_size` and `convert_list_to_bst`. \n\n1. **find_size**: This function calculates the total number of nodes in the linked list. This is necessary to determine the bounds for the recursive function that constructs the BST.\n\n2. **convert_list_to_bst**: This function is a recursive function that constructs the BST. It takes two parameters, `left` and `right`, which represent the current bounds of the linked list segment being processed. \n   - If `left` is greater than `right`, it means there are no nodes to process, and it returns `None`.\n   - It calculates the middle index and recursively constructs the left subtree before creating the root node with the current head value.\n   - After creating the root node, it advances the head pointer to the next node in the linked list and then constructs the right subtree.\n\nThe overall time complexity of this solution is O(n), where n is the number of nodes in the linked list, as each node is processed exactly once. The space complexity is O(log n) due to the recursion stack, which is required for the height of the tree in the case of a balanced BST."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:35"
+}

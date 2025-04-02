@@ -1,0 +1,58 @@
+{
+  "problem": {
+    "id": "313",
+    "frontend_id": "313",
+    "title": "Super Ugly Number",
+    "description": "A super ugly number is a positive integer whose prime factors are in the array primes.\nGiven an integer n and an array of integers primes, return the nth super ugly number.\nThe nth super ugly number is guaranteed to fit in a 32-bit signed integer.\n \nExample 1:\n\nInput: n = 12, primes = [2,7,13,19]\nOutput: 32\nExplanation: [1,2,4,7,8,13,14,16,19,26,28,32] is the sequence of the first 12 super ugly numbers given primes = [2,7,13,19].\n\nExample 2:\n\nInput: n = 1, primes = [2,3,5]\nOutput: 1\nExplanation: 1 has no prime factors, therefore all of its prime factors are in the array primes = [2,3,5].\n\n \nConstraints:\n\n1 <= n <= 105\n1 <= primes.length <= 100\n2 <= primes[i] <= 1000\nprimes[i] is guaranteed to be a prime number.\nAll the values of primes are unique and sorted in ascending order.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "12",
+      "[2,7,13,19]",
+      "1",
+      "[2,3,5]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "n": "12",
+          "primes": "[2,7,13,19]"
+        },
+        "expected": "32"
+      },
+      {
+        "input": {
+          "n": "1",
+          "primes": "[2,3,5]"
+        },
+        "expected": "1"
+      }
+    ],
+    "python_starter": "class Solution:\n    def nthSuperUglyNumber(self, n: int, primes: List[int]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "nthSuperUglyNumber",
+      "params": [
+        {
+          "name": "n",
+          "type": "integer"
+        },
+        {
+          "name": "primes",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from heapq import heappop, heappush\nfrom typing import List\n\nclass Solution:\n    def nthSuperUglyNumber(self, n: int, primes: List[int]) -> int:\n        # Min-heap to store the next super ugly numbers\n        heap = []\n        # Set to track the unique super ugly numbers\n        seen = set()\n        \n        # Start with the first super ugly number\n        heappush(heap, 1)\n        seen.add(1)\n        \n        # Variable to store the current super ugly number\n        ugly_number = 1\n        \n        for _ in range(n):\n            # Get the smallest super ugly number\n            ugly_number = heappop(heap)\n            \n            # Generate new super ugly numbers by multiplying with each prime\n            for prime in primes:\n                new_ugly = ugly_number * prime\n                if new_ugly not in seen:\n                    seen.add(new_ugly)\n                    heappush(heap, new_ugly)\n        \n        return ugly_number",
+    "explanation": "The solution uses a min-heap to efficiently generate super ugly numbers. We start by pushing the first super ugly number (1) into the heap and marking it as seen. In each iteration, we pop the smallest number from the heap, which is the next super ugly number. We then multiply this number by each prime in the given list to generate new candidates for super ugly numbers. If a new candidate has not been seen before, we add it to both the heap and the set of seen numbers.\n\nThis process continues until we have extracted the nth super ugly number. The use of a heap ensures that we always have access to the smallest number, while the set prevents duplicates from being added to the heap.\n\nThe time complexity is O(n log k) because for each of the n super ugly numbers, we may need to perform log k operations to maintain the heap, where k is the number of primes. The space complexity is O(k) due to the storage of the heap and the set.\n\nOverall, this approach is efficient and works well within the given constraints."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 32\nTest case 2:\n[PASS] Test passed: 1\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:48"
+}

@@ -1,0 +1,53 @@
+{
+  "problem": {
+    "id": "86",
+    "frontend_id": "86",
+    "title": "Partition List",
+    "description": "Given the head of a linked list and a value x, partition it such that all nodes less than x come before nodes greater than or equal to x.\nYou should preserve the original relative order of the nodes in each of the two partitions.\n \nExample 1:\n\n\nInput: head = [1,4,3,2,5,2], x = 3\nOutput: [1,2,2,4,3,5]\n\nExample 2:\n\nInput: head = [2,1], x = 2\nOutput: [1,2]\n\n \nConstraints:\n\nThe number of nodes in the list is in the range [0, 200].\n-100 <= Node.val <= 100\n-200 <= x <= 200\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[1,4,3,2,5,2]",
+      "3",
+      "[2,1]",
+      "2"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "head": "[1,4,3,2,5,2]",
+          "x": "3"
+        },
+        "expected": "[1,2,2,4,3,5]"
+      }
+    ],
+    "python_starter": "# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution:\n    def partition(self, head: Optional[ListNode], x: int) -> Optional[ListNode]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "partition",
+      "params": [
+        {
+          "name": "head",
+          "type": "ListNode",
+          "dealloc": false
+        },
+        {
+          "name": "x",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "ListNode",
+        "dealloc": true
+      }
+    }
+  },
+  "solution": {
+    "code": "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\n\nclass Solution:\n    def partition(self, head: Optional[ListNode], x: int) -> Optional[ListNode]:\n        # Create two dummy nodes for the two partitions\n        less_head = ListNode(0)  # Dummy head for the 'less' list\n        greater_head = ListNode(0)  # Dummy head for the 'greater' list\n        \n        # Pointers to build the two lists\n        less = less_head\n        greater = greater_head\n        \n        # Traverse the original list\n        current = head\n        while current:\n            if current.val < x:\n                less.next = current  # Append to 'less' list\n                less = less.next\n            else:\n                greater.next = current  # Append to 'greater' list\n                greater = greater.next\n            current = current.next\n        \n        # Connect the two lists\n        greater.next = None  # End the 'greater' list\n        less.next = greater_head.next  # Connect 'less' list to 'greater' list\n        \n        return less_head.next  # Return the head of the new list",
+    "explanation": "The solution involves creating two separate linked lists to hold nodes based on their values relative to `x`. We use dummy nodes to simplify the process of building these lists. \n\n1. **Initialization**: We create two dummy nodes, `less_head` and `greater_head`, which will help us easily return the head of the new partitioned list later. We also maintain pointers `less` and `greater` to build the respective lists.\n\n2. **Traversal**: We iterate through the original linked list using a pointer `current`. For each node, we check if its value is less than `x`. If it is, we append it to the `less` list; otherwise, we append it to the `greater` list. \n\n3. **Connecting Lists**: After processing all nodes, we ensure that the `greater` list ends properly by setting `greater.next` to `None`. We then connect the end of the `less` list to the head of the `greater` list.\n\n4. **Return Value**: Finally, we return `less_head.next`, which points to the head of the newly partitioned list.\n\n**Time Complexity**: O(n), where n is the number of nodes in the linked list, since we traverse the list once.\n\n**Space Complexity**: O(1), as we are using a constant amount of extra space for pointers, regardless of the input size."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:32"
+}

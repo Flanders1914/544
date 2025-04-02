@@ -1,0 +1,17 @@
+{
+  "id": "194",
+  "frontend_id": "194",
+  "title": "Transpose File",
+  "description": "Given a text file file.txt, transpose its content.\nYou may assume that each row has the same number of columns, and each field is separated by the ' ' character.\nExample:\nIf file.txt has the following content:\n\nname age\nalice 21\nryan 30\n\nOutput the following:\n\nname alice ryan\nage 21 30\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "a"
+  ],
+  "structured_test_cases": [],
+  "python_starter": null,
+  "hints": [],
+  "meta_data": {
+    "shell": true,
+    "manual": true
+  }
+}

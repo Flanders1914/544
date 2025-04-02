@@ -1,0 +1,45 @@
+{
+  "problem": {
+    "id": "171",
+    "frontend_id": "171",
+    "title": "Excel Sheet Column Number",
+    "description": "Given a string columnTitle that represents the column title as appears in an Excel sheet, return its corresponding column number.\nFor example:\n\nA -> 1\nB -> 2\nC -> 3\n...\nZ -> 26\nAA -> 27\nAB -> 28 \n...\n\n \nExample 1:\n\nInput: columnTitle = \"A\"\nOutput: 1\n\nExample 2:\n\nInput: columnTitle = \"AB\"\nOutput: 28\n\nExample 3:\n\nInput: columnTitle = \"ZY\"\nOutput: 701\n\n \nConstraints:\n\n1 <= columnTitle.length <= 7\ncolumnTitle consists only of uppercase English letters.\ncolumnTitle is in the range [\"A\", \"FXSHRXW\"].\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "\"A\"",
+      "\"AB\"",
+      "\"ZY\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "columnTitle": "\"A\""
+        },
+        "expected": "1"
+      }
+    ],
+    "python_starter": "class Solution:\n    def titleToNumber(self, columnTitle: str) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "titleToNumber",
+      "params": [
+        {
+          "name": "columnTitle",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def titleToNumber(self, columnTitle: str) -> int:\n        total = 0\n        length = len(columnTitle)\n        \n        for i in range(length):\n            # Calculate the value of the current character\n            value = ord(columnTitle[i]) - ord('A') + 1\n            # Update the total using the base-26 positional value\n            total = total * 26 + value\n        \n        return total",
+    "explanation": "The solution iterates through each character of the input string `columnTitle`, calculating its corresponding value based on its position in the alphabet. The `ord()` function is used to convert the character to its ASCII value, and we subtract the ASCII value of 'A' to get the correct numerical value (1 for 'A', 2 for 'B', etc.).\n\nThe total is updated in each iteration by multiplying the current total by 26 (to shift the previous total to the left in base-26) and adding the value of the current character. This continues until all characters have been processed.\n\nThe time complexity of this solution is O(n), where n is the length of the input string, since we are iterating through the string once. The space complexity is O(1) because we are using a constant amount of space for the total and other variables.\n\nOverall, this approach efficiently converts the Excel column title to its corresponding column number."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:40"
+}

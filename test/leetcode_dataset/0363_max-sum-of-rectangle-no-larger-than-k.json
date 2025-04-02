@@ -1,0 +1,47 @@
+{
+  "id": "363",
+  "frontend_id": "363",
+  "title": "Max Sum of Rectangle No Larger Than K",
+  "description": "Given an m x n matrix matrix and an integer k, return the max sum of a rectangle in the matrix such that its sum is no larger than k.\nIt is guaranteed that there will be a rectangle with a sum no larger than k.\n \nExample 1:\n\n\nInput: matrix = [[1,0,1],[0,-2,3]], k = 2\nOutput: 2\nExplanation: Because the sum of the blue rectangle [[0, 1], [-2, 3]] is 2, and 2 is the max number no larger than k (k = 2).\n\nExample 2:\n\nInput: matrix = [[2,2,-1]], k = 3\nOutput: 3\n\n \nConstraints:\n\nm == matrix.length\nn == matrix[i].length\n1 <= m, n <= 100\n-100 <= matrix[i][j] <= 100\n-105 <= k <= 105\n\n \nFollow up: What if the number of rows is much larger than the number of columns?\n",
+  "difficulty": "Hard",
+  "examples": [
+    "[[1,0,1],[0,-2,3]]",
+    "2",
+    "[[2,2,-1]]",
+    "3"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "matrix": "[[1,0,1]",
+        "k": "2"
+      },
+      "expected": "2"
+    },
+    {
+      "input": {
+        "matrix": "[[2,2,-1]",
+        "k": "3"
+      },
+      "expected": "3"
+    }
+  ],
+  "python_starter": "class Solution:\n    def maxSumSubmatrix(self, matrix: List[List[int]], k: int) -> int:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "maxSumSubmatrix",
+    "params": [
+      {
+        "name": "matrix",
+        "type": "integer[][]"
+      },
+      {
+        "name": "k",
+        "type": "integer"
+      }
+    ],
+    "return": {
+      "type": "integer"
+    }
+  }
+}

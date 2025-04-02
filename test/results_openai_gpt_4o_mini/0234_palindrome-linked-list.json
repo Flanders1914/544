@@ -1,0 +1,44 @@
+{
+  "problem": {
+    "id": "234",
+    "frontend_id": "234",
+    "title": "Palindrome Linked List",
+    "description": "Given the head of a singly linked list, return true if it is a palindrome or false otherwise.\n \nExample 1:\n\n\nInput: head = [1,2,2,1]\nOutput: true\n\nExample 2:\n\n\nInput: head = [1,2]\nOutput: false\n\n \nConstraints:\n\nThe number of nodes in the list is in the range [1, 105].\n0 <= Node.val <= 9\n\n \nFollow up: Could you do it in O(n) time and O(1) space?",
+    "difficulty": "Easy",
+    "examples": [
+      "[1,2,2,1]",
+      "[1,2]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "head": "[1,2,2,1]"
+        },
+        "expected": "true"
+      }
+    ],
+    "python_starter": "# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution:\n    def isPalindrome(self, head: Optional[ListNode]) -> bool:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "isPalindrome",
+      "params": [
+        {
+          "name": "head",
+          "type": "ListNode"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\n\nclass Solution:\n    def isPalindrome(self, head: Optional[ListNode]) -> bool:\n        # Step 1: Find the middle of the linked list\n        slow = fast = head\n        while fast and fast.next:\n            slow = slow.next\n            fast = fast.next.next\n        \n        # Step 2: Reverse the second half of the linked list\n        prev = None\n        while slow:\n            next_node = slow.next\n            slow.next = prev\n            prev = slow\n            slow = next_node\n        \n        # Step 3: Compare the first half and the reversed second half\n        left, right = head, prev\n        while right:  # Only need to compare until the end of the reversed half\n            if left.val != right.val:\n                return False\n            left = left.next\n            right = right.next\n        \n        return True",
+    "explanation": "The solution uses a two-pointer technique to efficiently determine if a linked list is a palindrome. \n\n1. **Finding the Middle**: The slow pointer moves one step at a time, while the fast pointer moves two steps. When the fast pointer reaches the end of the list, the slow pointer will be at the middle. This takes O(n) time.\n\n2. **Reversing the Second Half**: We reverse the second half of the list starting from the slow pointer. This is done in O(n) time as well, and we only use a few pointers, maintaining O(1) space complexity.\n\n3. **Comparing Halves**: We then compare the values of the nodes in the first half with the nodes in the reversed second half. This comparison also takes O(n) time.\n\nOverall, the time complexity of the solution is O(n), and the space complexity is O(1) since we are not using any additional data structures that grow with the input size. \n\nThis approach is efficient and meets the problem's requirements, making it suitable for large linked lists up to the constraint limits."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:44"
+}

@@ -1,0 +1,60 @@
+{
+  "problem": {
+    "id": "92",
+    "frontend_id": "92",
+    "title": "Reverse Linked List II",
+    "description": "Given the head of a singly linked list and two integers left and right where left <= right, reverse the nodes of the list from position left to position right, and return the reversed list.\n \nExample 1:\n\n\nInput: head = [1,2,3,4,5], left = 2, right = 4\nOutput: [1,4,3,2,5]\n\nExample 2:\n\nInput: head = [5], left = 1, right = 1\nOutput: [5]\n\n \nConstraints:\n\nThe number of nodes in the list is n.\n1 <= n <= 500\n-500 <= Node.val <= 500\n1 <= left <= right <= n\n\n \nFollow up: Could you do it in one pass?",
+    "difficulty": "Medium",
+    "examples": [
+      "[1,2,3,4,5]",
+      "2",
+      "4",
+      "[5]",
+      "1",
+      "1"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "head": "[1,2,3,4,5]",
+          "left": "2",
+          "right": "4"
+        },
+        "expected": "[1,4,3,2,5]"
+      }
+    ],
+    "python_starter": "# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution:\n    def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "reverseBetween",
+      "params": [
+        {
+          "name": "head",
+          "type": "ListNode",
+          "dealloc": false
+        },
+        {
+          "name": "left",
+          "type": "integer"
+        },
+        {
+          "name": "right",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "ListNode",
+        "dealloc": true
+      }
+    }
+  },
+  "solution": {
+    "code": "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\n\nclass Solution:\n    def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:\n        if not head or left == right:\n            return head\n        \n        # Create a dummy node to simplify edge cases\n        dummy = ListNode(0)\n        dummy.next = head\n        prev = dummy\n        \n        # Step 1: Reach the node just before the 'left' position\n        for _ in range(left - 1):\n            prev = prev.next\n        \n        # Step 2: Reverse the sublist from left to right\n        current = prev.next\n        next_node = None\n        for _ in range(right - left + 1):\n            next_node = current.next\n            current.next = prev.next\n            prev.next = current\n            current = next_node\n        \n        # Step 3: Connect the reversed sublist back to the original list\n        head.next = current\n        \n        return dummy.next",
+    "explanation": "The solution begins by checking if the head is `None` or if `left` is equal to `right`, in which case no reversal is needed, and we can return the head immediately.\n\nWe then create a dummy node that points to the head of the list. This dummy node helps in handling edge cases, such as when the reversal starts at the head of the list. We use a pointer `prev` to traverse the list until we reach the node just before the `left` position.\n\nNext, we initiate the reversal process. We maintain a pointer `current` starting at the `left` position and a `next_node` pointer to keep track of the next node to process. We perform the reversal by adjusting the `next` pointers of the nodes in the specified range.\n\nFinally, we reconnect the reversed sublist back to the original list by linking the node after `right` to the end of the reversed portion and returning the new head of the list, which is `dummy.next`.\n\nThe time complexity of this solution is O(n) because we traverse the list a constant number of times, and the space complexity is O(1) since we only use a few pointers for the reversal process."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:33"
+}

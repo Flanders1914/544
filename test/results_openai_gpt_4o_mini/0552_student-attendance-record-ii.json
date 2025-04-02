@@ -1,0 +1,51 @@
+{
+  "problem": {
+    "id": "552",
+    "frontend_id": "552",
+    "title": "Student Attendance Record II",
+    "description": "An attendance record for a student can be represented as a string where each character signifies whether the student was absent, late, or present on that day. The record only contains the following three characters:\n\n'A': Absent.\n'L': Late.\n'P': Present.\n\nAny student is eligible for an attendance award if they meet both of the following criteria:\n\nThe student was absent ('A') for strictly fewer than 2 days total.\nThe student was never late ('L') for 3 or more consecutive days.\n\nGiven an integer n, return the number of possible attendance records of length n that make a student eligible for an attendance award. The answer may be very large, so return it modulo 109 + 7.\n \nExample 1:\n\nInput: n = 2\nOutput: 8\nExplanation: There are 8 records with length 2 that are eligible for an award:\n\"PP\", \"AP\", \"PA\", \"LP\", \"PL\", \"AL\", \"LA\", \"LL\"\nOnly \"AA\" is not eligible because there are 2 absences (there need to be fewer than 2).\n\nExample 2:\n\nInput: n = 1\nOutput: 3\n\nExample 3:\n\nInput: n = 10101\nOutput: 183236316\n\n \nConstraints:\n\n1 <= n <= 105\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "2",
+      "1",
+      "10101"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "n": "2"
+        },
+        "expected": "8"
+      },
+      {
+        "input": {
+          "n": "1"
+        },
+        "expected": "3"
+      }
+    ],
+    "python_starter": "class Solution:\n    def checkRecord(self, n: int) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "checkRecord",
+      "params": [
+        {
+          "name": "n",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def checkRecord(self, n: int) -> int:\n        MOD = 10**9 + 7\n        \n        # dp[i] will store the number of valid records of length i\n        dp = [0] * (n + 1)\n        dp[0] = 1  # Base case: 1 way to have a record of length 0 (empty record)\n        \n        for i in range(1, n + 1):\n            # All records of length i can be formed by adding 'P' to all records of length i-1\n            dp[i] = dp[i - 1] % MOD\n            \n            # Adding 'L' to records of length i-1 that do not end with 'L'\n            if i > 1:\n                dp[i] = (dp[i] + dp[i - 1] - dp[i - 2]) % MOD\n            \n            # Adding 'A' to records of length i-1\n            if i > 1:\n                dp[i] = (dp[i] + dp[i - 1]) % MOD\n            \n            # Adding 'A' to records of length i-2\n            if i > 2:\n                dp[i] = (dp[i] + dp[i - 2]) % MOD\n        \n        # Total valid records of length n\n        return dp[n]",
+    "explanation": "The solution uses dynamic programming to count the number of valid attendance records of length `n`. We maintain an array `dp` where `dp[i]` represents the number of valid records of length `i`. \n\n1. **Initialization**: We start with `dp[0] = 1`, representing the empty record.\n\n2. **Filling the DP Array**:\n   - For each length `i` from 1 to `n`, we calculate the number of valid records:\n     - We can add 'P' to all valid records of length `i-1`.\n     - We can add 'L' to valid records of length `i-1` that do not end with 'L', which is managed by subtracting the count of records that end with 'L'.\n     - We can add 'A' to valid records of length `i-1` and also to those of length `i-2` (to ensure fewer than 2 absences).\n\n3. **Final Result**: The result is `dp[n]`, which gives the total number of valid records of length `n`.\n\n**Time Complexity**: O(n) since we iterate through lengths from 1 to `n`.\n\n**Space Complexity**: O(n) for the `dp` array.\n\nThe solution efficiently computes the number of valid attendance records while adhering to the constraints provided."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:01:24"
+}

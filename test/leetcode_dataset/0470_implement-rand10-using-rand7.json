@@ -1,0 +1,33 @@
+{
+  "id": "903",
+  "frontend_id": "470",
+  "title": "Implement Rand10() Using Rand7()",
+  "description": "Given the API rand7() that generates a uniform random integer in the range [1, 7], write a function rand10() that generates a uniform random integer in the range [1, 10]. You can only call the API rand7(), and you shouldn't call any other API. Please do not use a language's built-in random API.\nEach test case will have one internal argument n, the number of times that your implemented function rand10() will be called while testing. Note that this is not an argument passed to rand10().\n \nExample 1:\nInput: n = 1\nOutput: [2]\nExample 2:\nInput: n = 2\nOutput: [2,8]\nExample 3:\nInput: n = 3\nOutput: [3,8,10]\n\n \nConstraints:\n\n1 <= n <= 105\n\n \nFollow up:\n\nWhat is the expected value for the number of calls to rand7() function?\nCould you minimize the number of calls to rand7()?\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "1",
+    "2",
+    "3"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "n": "1"
+      },
+      "expected": "[2]"
+    }
+  ],
+  "python_starter": "# The rand7() API is already defined for you.\n# def rand7():\n# @return a random integer in the range 1 to 7\n\nclass Solution:\n    def rand10(self):\n        \"\"\"\n        :rtype: int\n        \"\"\"\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "rand10",
+    "params": [
+      {
+        "name": "n",
+        "type": "integer"
+      }
+    ],
+    "manual": true,
+    "typescriptCustomType": "function rand7(): number {\n    return Math.floor(Math.random() * (7)) + 1;\n}"
+  }
+}

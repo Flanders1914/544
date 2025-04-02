@@ -1,0 +1,34 @@
+{
+  "id": "168",
+  "frontend_id": "168",
+  "title": "Excel Sheet Column Title",
+  "description": "Given an integer columnNumber, return its corresponding column title as it appears in an Excel sheet.\nFor example:\n\nA -> 1\nB -> 2\nC -> 3\n...\nZ -> 26\nAA -> 27\nAB -> 28 \n...\n\n \nExample 1:\n\nInput: columnNumber = 1\nOutput: \"A\"\n\nExample 2:\n\nInput: columnNumber = 28\nOutput: \"AB\"\n\nExample 3:\n\nInput: columnNumber = 701\nOutput: \"ZY\"\n\n \nConstraints:\n\n1 <= columnNumber <= 231 - 1\n\n",
+  "difficulty": "Easy",
+  "examples": [
+    "1",
+    "28",
+    "701"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "columnNumber": "1"
+      },
+      "expected": "A"
+    }
+  ],
+  "python_starter": "class Solution:\n    def convertToTitle(self, columnNumber: int) -> str:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "convertToTitle",
+    "params": [
+      {
+        "name": "columnNumber",
+        "type": "integer"
+      }
+    ],
+    "return": {
+      "type": "string"
+    }
+  }
+}

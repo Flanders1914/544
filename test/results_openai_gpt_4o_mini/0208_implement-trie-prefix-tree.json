@@ -1,0 +1,73 @@
+{
+  "problem": {
+    "id": "208",
+    "frontend_id": "208",
+    "title": "Implement Trie (Prefix Tree)",
+    "description": "A trie (pronounced as \"try\") or prefix tree is a tree data structure used to efficiently store and retrieve keys in a dataset of strings. There are various applications of this data structure, such as autocomplete and spellchecker.\nImplement the Trie class:\n\nTrie() Initializes the trie object.\nvoid insert(String word) Inserts the string word into the trie.\nboolean search(String word) Returns true if the string word is in the trie (i.e., was inserted before), and false otherwise.\nboolean startsWith(String prefix) Returns true if there is a previously inserted string word that has the prefix prefix, and false otherwise.\n\n \nExample 1:\n\nInput\n[\"Trie\", \"insert\", \"search\", \"search\", \"startsWith\", \"insert\", \"search\"]\n[[], [\"apple\"], [\"apple\"], [\"app\"], [\"app\"], [\"app\"], [\"app\"]]\nOutput\n[null, null, true, false, true, null, true]\n\nExplanation\nTrie trie = new Trie();\ntrie.insert(\"apple\");\ntrie.search(\"apple\");   // return True\ntrie.search(\"app\");     // return False\ntrie.startsWith(\"app\"); // return True\ntrie.insert(\"app\");\ntrie.search(\"app\");     // return True\n\n \nConstraints:\n\n1 <= word.length, prefix.length <= 2000\nword and prefix consist only of lowercase English letters.\nAt most 3 * 104 calls in total will be made to insert, search, and startsWith.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[\"Trie\",\"insert\",\"search\",\"search\",\"startsWith\",\"insert\",\"search\"]",
+      "[[],[\"apple\"],[\"apple\"],[\"app\"],[\"app\"],[\"app\"],[\"app\"]]"
+    ],
+    "structured_test_cases": [],
+    "python_starter": "class Trie:\n\n    def __init__(self):\n        \n\n    def insert(self, word: str) -> None:\n        \n\n    def search(self, word: str) -> bool:\n        \n\n    def startsWith(self, prefix: str) -> bool:\n        \n\n\n# Your Trie object will be instantiated and called as such:\n# obj = Trie()\n# obj.insert(word)\n# param_2 = obj.search(word)\n# param_3 = obj.startsWith(prefix)",
+    "hints": [],
+    "meta_data": {
+      "classname": "Trie",
+      "constructor": {
+        "params": []
+      },
+      "methods": [
+        {
+          "params": [
+            {
+              "type": "string",
+              "name": "word"
+            }
+          ],
+          "name": "insert",
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "params": [
+            {
+              "type": "string",
+              "name": "word"
+            }
+          ],
+          "name": "search",
+          "return": {
+            "type": "boolean"
+          }
+        },
+        {
+          "params": [
+            {
+              "type": "string",
+              "name": "prefix"
+            }
+          ],
+          "name": "startsWith",
+          "return": {
+            "type": "boolean"
+          }
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      },
+      "systemdesign": true
+    }
+  },
+  "solution": {
+    "code": "class TrieNode:\n    def __init__(self):\n        self.children = {}\n        self.is_end_of_word = False\n\nclass Trie:\n    def __init__(self):\n        self.root = TrieNode()\n\n    def insert(self, word: str) -> None:\n        node = self.root\n        for char in word:\n            if char not in node.children:\n                node.children[char] = TrieNode()\n            node = node.children[char]\n        node.is_end_of_word = True\n\n    def search(self, word: str) -> bool:\n        node = self.root\n        for char in word:\n            if char not in node.children:\n                return False\n            node = node.children[char]\n        return node.is_end_of_word\n\n    def startsWith(self, prefix: str) -> bool:\n        node = self.root\n        for char in prefix:\n            if char not in node.children:\n                return False\n            node = node.children[char]\n        return True\n\n# Your Trie object will be instantiated and called as such:\n# obj = Trie()\n# obj.insert(word)\n# param_2 = obj.search(word)\n# param_3 = obj.startsWith(prefix)",
+    "explanation": "The Trie is implemented using a nested class structure where `TrieNode` represents each node in the Trie. Each node contains a dictionary `children` to hold its child nodes and a boolean `is_end_of_word` to indicate if a word ends at that node.\n\n1. **Insert Method**: We start from the root node and iterate through each character of the word. If the character is not already a child of the current node, we create a new `TrieNode`. After processing all characters, we set the `is_end_of_word` flag of the last node to True.\n\n2. **Search Method**: Similar to insert, we traverse the Trie using the characters of the word. If we reach the end of the word and the last node's `is_end_of_word` is True, we return True; otherwise, we return False.\n\n3. **StartsWith Method**: We traverse the Trie using the characters of the prefix. If we can traverse all characters without encountering a missing child, we return True; otherwise, we return False.\n\nThe overall time complexity for each operation is O(m), where m is the length of the word or prefix. The space complexity is O(n * m) due to the storage of all inserted words in the Trie."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\nTraceback (most recent call last):\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmpq6o_uduz.py\", line 73, in <module>\n    expected_0 = safe_eval('[\"Trie\",\"insert\",\"search\",\"search\",\"startsWith\",\"insert\",\"search\"]')\n                 ^^^^^^^^^\nNameError: name 'safe_eval' is not defined\n"
+  },
+  "timestamp": "2025-04-01 18:00:42"
+}

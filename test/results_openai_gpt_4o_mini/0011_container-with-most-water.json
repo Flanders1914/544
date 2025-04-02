@@ -1,0 +1,54 @@
+{
+  "problem": {
+    "id": "11",
+    "frontend_id": "11",
+    "title": "Container With Most Water",
+    "description": "You are given an integer array height of length n. There are n vertical lines drawn such that the two endpoints of the ith line are (i, 0) and (i, height[i]).\nFind two lines that together with the x-axis form a container, such that the container contains the most water.\nReturn the maximum amount of water a container can store.\nNotice that you may not slant the container.\n \nExample 1:\n\n\nInput: height = [1,8,6,2,5,4,8,3,7]\nOutput: 49\nExplanation: The above vertical lines are represented by array [1,8,6,2,5,4,8,3,7]. In this case, the max area of water (blue section) the container can contain is 49.\n\nExample 2:\n\nInput: height = [1,1]\nOutput: 1\n\n \nConstraints:\n\nn == height.length\n2 <= n <= 105\n0 <= height[i] <= 104\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[1,8,6,2,5,4,8,3,7]",
+      "[1,1]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "height": "[1,8,6,2,5,4,8,3,7]"
+        },
+        "expected": "49"
+      },
+      {
+        "input": {
+          "height": "[1,1]"
+        },
+        "expected": "1"
+      }
+    ],
+    "python_starter": "class Solution:\n    def maxArea(self, height: List[int]) -> int:\n        ",
+    "hints": [
+      "If you simulate the problem, it will be O(n^2) which is not efficient.",
+      "Try to use two-pointers. Set one pointer to the left and one to the right of the array. Always move the pointer that points to the lower line.",
+      "How can you calculate the amount of water at each step?"
+    ],
+    "meta_data": {
+      "name": "maxArea",
+      "params": [
+        {
+          "name": "height",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def maxArea(self, height: List[int]) -> int:\n        left = 0  # Initialize left pointer\n        right = len(height) - 1  # Initialize right pointer\n        max_area = 0  # Variable to store the maximum area\n        \n        while left < right:\n            # Calculate the width between the two pointers\n            width = right - left\n            # Calculate the height as the minimum of the two heights\n            current_height = min(height[left], height[right])\n            # Calculate the area\n            current_area = width * current_height\n            # Update max_area if current_area is greater\n            max_area = max(max_area, current_area)\n            \n            # Move the pointer pointing to the shorter line\n            if height[left] < height[right]:\n                left += 1\n            else:\n                right -= 1\n        \n        return max_area  # Return the maximum area found",
+    "explanation": "The solution uses a two-pointer technique to efficiently find the maximum area of water that can be contained between two vertical lines. The algorithm starts with one pointer at the beginning of the array (`left`) and another at the end (`right`). \n\n1. **Area Calculation**: For each pair of lines represented by the two pointers, the area is calculated as:\n   \\[\n   \\text{Area} = \\text{width} \\times \\text{height}\n   \\]\n   where `width` is the distance between the two pointers and `height` is the minimum of the two heights.\n\n2. **Pointer Movement**: After calculating the area, the pointer that points to the shorter line is moved inward. This is because the area is limited by the shorter line, and moving the taller line inward might lead to a taller line and potentially a larger area.\n\n3. **Loop Until Pointers Meet**: This process continues until the two pointers meet, ensuring that all possible pairs of lines are considered.\n\nThe time complexity of this solution is \\(O(n)\\) because each pointer moves at most \\(n\\) times, where \\(n\\) is the number of lines. The space complexity is \\(O(1)\\) since we are using a constant amount of extra space.\n\nOverall, this approach is efficient and works well within the given constraints."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 49\nTest case 2:\n[PASS] Test passed: 1\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:26"
+}

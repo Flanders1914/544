@@ -1,0 +1,45 @@
+{
+  "problem": {
+    "id": "224",
+    "frontend_id": "224",
+    "title": "Basic Calculator",
+    "description": "Given a string s representing a valid expression, implement a basic calculator to evaluate it, and return the result of the evaluation.\nNote: You are not allowed to use any built-in function which evaluates strings as mathematical expressions, such as eval().\n \nExample 1:\n\nInput: s = \"1 + 1\"\nOutput: 2\n\nExample 2:\n\nInput: s = \" 2-1 + 2 \"\nOutput: 3\n\nExample 3:\n\nInput: s = \"(1+(4+5+2)-3)+(6+8)\"\nOutput: 23\n\n \nConstraints:\n\n1 <= s.length <= 3 * 105\ns consists of digits, '+', '-', '(', ')', and ' '.\ns represents a valid expression.\n'+' is not used as a unary operation (i.e., \"+1\" and \"+(2 + 3)\" is invalid).\n'-' could be used as a unary operation (i.e., \"-1\" and \"-(2 + 3)\" is valid).\nThere will be no two consecutive operators in the input.\nEvery number and running calculation will fit in a signed 32-bit integer.\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "\"1 + 1\"",
+      "\" 2-1 + 2 \"",
+      "\"(1+(4+5+2)-3)+(6+8)\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "s": "\"1 + 1\""
+        },
+        "expected": "2"
+      }
+    ],
+    "python_starter": "class Solution:\n    def calculate(self, s: str) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "calculate",
+      "params": [
+        {
+          "name": "s",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def calculate(self, s: str) -> int:\n        stack = []\n        current_number = 0\n        result = 0\n        sign = 1  # 1 for positive, -1 for negative\n        \n        for char in s:\n            if char.isdigit():\n                current_number = current_number * 10 + int(char)  # Build the current number\n            elif char in \"+-\":\n                result += sign * current_number  # Apply the last number with its sign\n                current_number = 0  # Reset current number\n                sign = 1 if char == '+' else -1  # Update sign\n            elif char == '(':\n                # Push the result and sign onto the stack\n                stack.append(result)\n                stack.append(sign)\n                result = 0  # Reset result for the new sub-expression\n                sign = 1  # Reset sign\n            elif char == ')':\n                result += sign * current_number  # Apply the last number\n                current_number = 0  # Reset current number\n                result *= stack.pop()  # Multiply by the sign before the parenthesis\n                result += stack.pop()  # Add the result before the parenthesis\n        \n        # There might be a number left to add\n        result += sign * current_number\n        \n        return result",
+    "explanation": "The provided solution implements a basic calculator that evaluates a mathematical expression given as a string. The algorithm processes the string character by character, handling digits, operators, and parentheses.\n\n1. **Initialization**: We initialize a stack to keep track of results and signs, a variable for the current number, the overall result, and a sign variable to determine whether to add or subtract.\n\n2. **Character Processing**:\n   - If the character is a digit, we build the current number by multiplying the existing number by 10 and adding the new digit.\n   - If the character is an operator ('+' or '-'), we update the result by applying the last number with its sign, reset the current number, and update the sign based on the operator.\n   - If we encounter '(', we push the current result and sign onto the stack and reset them for the new sub-expression.\n   - If we encounter ')', we apply the last number, pop the sign and result from the stack, and adjust the result accordingly.\n\n3. **Final Adjustment**: After processing all characters, we ensure to add any remaining number to the result.\n\nThe time complexity of this solution is O(n) because we traverse the string once, and the space complexity is O(n) in the worst case due to the stack usage for nested parentheses.\n\nOverall, this approach efficiently evaluates the expression while adhering to the constraints provided."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 2\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:43"
+}

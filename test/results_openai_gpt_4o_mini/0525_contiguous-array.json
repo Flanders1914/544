@@ -1,0 +1,57 @@
+{
+  "problem": {
+    "id": "525",
+    "frontend_id": "525",
+    "title": "Contiguous Array",
+    "description": "Given a binary array nums, return the maximum length of a contiguous subarray with an equal number of 0 and 1.\n \nExample 1:\n\nInput: nums = [0,1]\nOutput: 2\nExplanation: [0, 1] is the longest contiguous subarray with an equal number of 0 and 1.\n\nExample 2:\n\nInput: nums = [0,1,0]\nOutput: 2\nExplanation: [0, 1] (or [1, 0]) is a longest contiguous subarray with equal number of 0 and 1.\n\nExample 3:\n\nInput: nums = [0,1,1,1,1,1,0,0,0]\nOutput: 6\nExplanation: [1,1,1,0,0,0] is the longest contiguous subarray with equal number of 0 and 1.\n\n \nConstraints:\n\n1 <= nums.length <= 105\nnums[i] is either 0 or 1.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[0,1]",
+      "[0,1,0]",
+      "[0,1,1,1,1,1,0,0,0]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[0,1]"
+        },
+        "expected": "2"
+      },
+      {
+        "input": {
+          "nums": "[0,1,0]"
+        },
+        "expected": "2"
+      },
+      {
+        "input": {
+          "nums": "[0,1,1,1,1,1,0,0,0]"
+        },
+        "expected": "6"
+      }
+    ],
+    "python_starter": "class Solution:\n    def findMaxLength(self, nums: List[int]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "findMaxLength",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def findMaxLength(self, nums: List[int]) -> int:\n        # Dictionary to store the first occurrence of each cumulative sum\n        sum_index_map = {0: -1}  # Initialize with sum 0 at index -1\n        max_length = 0\n        cumulative_sum = 0\n        \n        for i in range(len(nums)):\n            # Treat 0 as -1 and 1 as +1\n            cumulative_sum += 1 if nums[i] == 1 else -1\n            \n            # Check if this cumulative sum has been seen before\n            if cumulative_sum in sum_index_map:\n                # Calculate the length of the subarray\n                length = i - sum_index_map[cumulative_sum]\n                max_length = max(max_length, length)\n            else:\n                # Store the first occurrence of this cumulative sum\n                sum_index_map[cumulative_sum] = i\n        \n        return max_length",
+    "explanation": "The solution uses a hashmap to track the first occurrence of each cumulative sum while iterating through the binary array. By treating 0s as -1s, we can effectively find subarrays with equal numbers of 0s and 1s by checking for repeated cumulative sums.\n\n1. **Initialization**: We start by initializing a hashmap with the entry `{0: -1}` to handle cases where the entire subarray from the start has an equal number of 0s and 1s. We also initialize `max_length` to 0 and `cumulative_sum` to 0.\n\n2. **Iteration**: We loop through each element in the array:\n   - Update the `cumulative_sum` based on whether the current element is 0 or 1.\n   - If the `cumulative_sum` has been seen before, we calculate the length of the subarray from the first occurrence of this sum to the current index and update `max_length` if this length is greater.\n   - If the `cumulative_sum` is new, we store its index in the hashmap.\n\n3. **Return Value**: After processing all elements, we return `max_length`, which contains the length of the longest contiguous subarray with equal numbers of 0s and 1s.\n\n**Time Complexity**: O(n) - We traverse the array once.\n\n**Space Complexity**: O(n) - In the worst case, we store all cumulative sums in the hashmap."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 2\nTest case 2:\n[PASS] Test passed: 2\nTest case 3:\n[PASS] Test passed: 6\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:01:22"
+}

@@ -1,0 +1,53 @@
+{
+  "problem": {
+    "id": "23",
+    "frontend_id": "23",
+    "title": "Merge k Sorted Lists",
+    "description": "You are given an array of k linked-lists lists, each linked-list is sorted in ascending order.\nMerge all the linked-lists into one sorted linked-list and return it.\n \nExample 1:\n\nInput: lists = [[1,4,5],[1,3,4],[2,6]]\nOutput: [1,1,2,3,4,4,5,6]\nExplanation: The linked-lists are:\n[\n  1->4->5,\n  1->3->4,\n  2->6\n]\nmerging them into one sorted list:\n1->1->2->3->4->4->5->6\n\nExample 2:\n\nInput: lists = []\nOutput: []\n\nExample 3:\n\nInput: lists = [[]]\nOutput: []\n\n \nConstraints:\n\nk == lists.length\n0 <= k <= 104\n0 <= lists[i].length <= 500\n-104 <= lists[i][j] <= 104\nlists[i] is sorted in ascending order.\nThe sum of lists[i].length will not exceed 104.\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "[[1,4,5],[1,3,4],[2,6]]",
+      "[]",
+      "[[]]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "lists": "[[1,4,5]"
+        },
+        "expected": "[1,1,2,3,4,4,5,6]"
+      },
+      {
+        "input": {
+          "lists": "[]"
+        },
+        "expected": "[]"
+      }
+    ],
+    "python_starter": "# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution:\n    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "mergeKLists",
+      "params": [
+        {
+          "name": "lists",
+          "type": "ListNode[]",
+          "dealloc": false
+        }
+      ],
+      "return": {
+        "type": "ListNode",
+        "dealloc": true
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List, Optional\nimport heapq\n\n# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\n\nclass Solution:\n    def mergeKLists(self, lists: List[Optional[ListNode]]) -> Optional[ListNode]:\n        # Create a min-heap\n        min_heap = []\n        \n        # Initialize the heap with the head of each list\n        for i in range(len(lists)):\n            if lists[i]:  # Check if the list is not empty\n                heapq.heappush(min_heap, (lists[i].val, i, lists[i]))\n        \n        # Dummy head for the result linked list\n        dummy = ListNode(0)\n        current = dummy\n        \n        while min_heap:\n            # Get the smallest node from the heap\n            val, idx, node = heapq.heappop(min_heap)\n            current.next = node  # Append it to the merged list\n            current = current.next  # Move the current pointer\n            \n            # If there is a next node in the same list, push it to the heap\n            if node.next:\n                heapq.heappush(min_heap, (node.next.val, idx, node.next))\n        \n        return dummy.next  # Return the merged list, skipping the dummy head",
+    "explanation": "The provided solution uses a min-heap to efficiently merge k sorted linked lists. Here's a breakdown of how the solution works:\n\n1. **Heap Initialization**: We start by creating a min-heap and populating it with the head nodes of each linked list. Each entry in the heap is a tuple containing the node's value, the index of the list it belongs to, and the node itself. This allows us to maintain the order based on the node values.\n\n2. **Merging Process**: We use a dummy node to simplify the merging process. We repeatedly extract the smallest node from the heap and append it to the merged list. If the extracted node has a next node, we push that next node into the heap.\n\n3. **Time Complexity**: The time complexity is O(N log k), where N is the total number of nodes across all lists. Each insertion and extraction operation on the heap takes O(log k) time, and we perform these operations N times.\n\n4. **Space Complexity**: The space complexity is O(k) due to the storage of the heap, which contains at most k nodes at any time.\n\n5. **Edge Cases**: The solution handles edge cases such as empty input lists and lists containing empty linked lists by checking if each list is non-empty before adding its head to the heap.\n\nOverall, this approach is efficient and straightforward, leveraging the properties of heaps to maintain sorted order while merging the lists."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmpsp4d3ao7.py\", line 112\n    input_0_0 = [[1,4,5]\n                ^\nSyntaxError: '[' was never closed\n"
+  },
+  "timestamp": "2025-04-01 18:00:27"
+}

@@ -1,0 +1,44 @@
+{
+  "problem": {
+    "id": "535",
+    "frontend_id": "535",
+    "title": "Encode and Decode TinyURL",
+    "description": "Note: This is a companion problem to the System Design problem: Design TinyURL.\nTinyURL is a URL shortening service where you enter a URL such as https://leetcode.com/problems/design-tinyurl and it returns a short URL such as http://tinyurl.com/4e9iAk. Design a class to encode a URL and decode a tiny URL.\nThere is no restriction on how your encode/decode algorithm should work. You just need to ensure that a URL can be encoded to a tiny URL and the tiny URL can be decoded to the original URL.\nImplement the Solution class:\n\nSolution() Initializes the object of the system.\nString encode(String longUrl) Returns a tiny URL for the given longUrl.\nString decode(String shortUrl) Returns the original long URL for the given shortUrl. It is guaranteed that the given shortUrl was encoded by the same object.\n\n \nExample 1:\n\nInput: url = \"https://leetcode.com/problems/design-tinyurl\"\nOutput: \"https://leetcode.com/problems/design-tinyurl\"\n\nExplanation:\nSolution obj = new Solution();\nstring tiny = obj.encode(url); // returns the encoded tiny url.\nstring ans = obj.decode(tiny); // returns the original url after decoding it.\n\n \nConstraints:\n\n1 <= url.length <= 104\nurl is guranteed to be a valid URL.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "\"https://leetcode.com/problems/design-tinyurl\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "url": "\"https://leetcode.com/problems/design-tinyurl\""
+        },
+        "expected": "https://leetcode.com/problems/design-tinyurl"
+      }
+    ],
+    "python_starter": "class Codec:\n\n    def encode(self, longUrl: str) -> str:\n        \"\"\"Encodes a URL to a shortened URL.\n        \"\"\"\n        \n\n    def decode(self, shortUrl: str) -> str:\n        \"\"\"Decodes a shortened URL to its original URL.\n        \"\"\"\n        \n\n# Your Codec object will be instantiated and called as such:\n# codec = Codec()\n# codec.decode(codec.encode(url))",
+    "hints": [],
+    "meta_data": {
+      "name": "CodecDriver",
+      "params": [
+        {
+          "name": "url",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "string"
+      },
+      "manual": true
+    }
+  },
+  "solution": {
+    "code": "import random\nimport string\n\nclass Codec:\n    def __init__(self):\n        self.url_map = {}\n        self.base_url = \"http://tinyurl.com/\"\n        self.length = 6  # Length of the unique key\n\n    def _generate_key(self):\n        \"\"\"Generates a random string of fixed length.\"\"\"\n        return ''.join(random.choices(string.ascii_letters + string.digits, k=self.length))\n\n    def encode(self, longUrl: str) -> str:\n        \"\"\"Encodes a URL to a shortened URL.\"\"\"\n        key = self._generate_key()\n        while key in self.url_map:  # Ensure the key is unique\n            key = self._generate_key()\n        shortUrl = self.base_url + key\n        self.url_map[key] = longUrl  # Store the mapping\n        return shortUrl\n\n    def decode(self, shortUrl: str) -> str:\n        \"\"\"Decodes a shortened URL to its original URL.\"\"\"\n        key = shortUrl.split(\"/\")[-1]  # Extract the key from the short URL\n        return self.url_map.get(key, \"\")  # Return the original URL or empty string if not found",
+    "explanation": "The solution uses a dictionary to map short URLs to their corresponding long URLs. The `encode` method generates a unique key for each long URL, ensuring that it does not collide with existing keys. The key is generated using a combination of letters and digits, and its length is set to 6 characters.\n\n- **Time Complexity**:\n  - The `encode` method has an average time complexity of O(1) for inserting into the dictionary and generating a key, assuming the random key generation does not lead to many collisions.\n  - The `decode` method also has a time complexity of O(1) for dictionary lookups.\n\n- **Space Complexity**:\n  - The space complexity is O(n), where n is the number of unique URLs stored in the dictionary, as we need to store each mapping.\n\nThis implementation is efficient and meets the problem's requirements, allowing for quick encoding and decoding of URLs."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:01:22"
+}

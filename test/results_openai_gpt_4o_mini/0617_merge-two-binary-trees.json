@@ -1,0 +1,53 @@
+{
+  "problem": {
+    "id": "617",
+    "frontend_id": "617",
+    "title": "Merge Two Binary Trees",
+    "description": "You are given two binary trees root1 and root2.\nImagine that when you put one of them to cover the other, some nodes of the two trees are overlapped while the others are not. You need to merge the two trees into a new binary tree. The merge rule is that if two nodes overlap, then sum node values up as the new value of the merged node. Otherwise, the NOT null node will be used as the node of the new tree.\nReturn the merged tree.\nNote: The merging process must start from the root nodes of both trees.\n \nExample 1:\n\n\nInput: root1 = [1,3,2,5], root2 = [2,1,3,null,4,null,7]\nOutput: [3,4,5,5,4,null,7]\n\nExample 2:\n\nInput: root1 = [1], root2 = [1,2]\nOutput: [2,2]\n\n \nConstraints:\n\nThe number of nodes in both trees is in the range [0, 2000].\n-104 <= Node.val <= 104\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "[1,3,2,5]",
+      "[2,1,3,null,4,null,7]",
+      "[1]",
+      "[1,2]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "root1": "[1,3,2,5]",
+          "root2": "[2,1,3,null,4,null,7]"
+        },
+        "expected": "[3,4,5,5,4,null,7]"
+      }
+    ],
+    "python_starter": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def mergeTrees(self, root1: Optional[TreeNode], root2: Optional[TreeNode]) -> Optional[TreeNode]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "mergeTrees",
+      "params": [
+        {
+          "name": "root1",
+          "type": "TreeNode",
+          "dealloc": false
+        },
+        {
+          "name": "root2",
+          "type": "TreeNode",
+          "dealloc": false
+        }
+      ],
+      "return": {
+        "type": "TreeNode"
+      }
+    }
+  },
+  "solution": {
+    "code": "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nclass Solution:\n    def mergeTrees(self, root1: Optional[TreeNode], root2: Optional[TreeNode]) -> Optional[TreeNode]:\n        # Base case: if both nodes are None, return None\n        if not root1 and not root2:\n            return None\n        \n        # If one of the nodes is None, return the other node\n        if not root1:\n            return root2\n        if not root2:\n            return root1\n        \n        # If both nodes are present, create a new node with the sum of values\n        merged_node = TreeNode(root1.val + root2.val)\n        \n        # Recursively merge the left and right children\n        merged_node.left = self.mergeTrees(root1.left, root2.left)\n        merged_node.right = self.mergeTrees(root1.right, root2.right)\n        \n        return merged_node",
+    "explanation": "The solution uses a recursive function to merge two binary trees. The function `mergeTrees` takes two nodes as input and follows these steps:\n\n1. **Base Case**: If both nodes are null, it returns null. This handles the case where we reach the end of both trees.\n2. **Single Node Handling**: If one of the nodes is null, it returns the other node. This ensures that if one tree has a node while the other does not, the existing node is preserved in the merged tree.\n3. **Node Merging**: If both nodes are present, it creates a new node with the sum of the values of the two nodes. It then recursively calls itself to merge the left children and the right children of the two nodes.\n\nThe time complexity of this solution is O(N), where N is the number of nodes in the larger tree, as we visit each node exactly once. The space complexity is O(H), where H is the height of the tree, due to the recursion stack. In the worst case (for a skewed tree), this could be O(N), but for balanced trees, it would be O(log N)."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:01:28"
+}

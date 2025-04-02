@@ -1,0 +1,44 @@
+{
+  "problem": {
+    "id": "400",
+    "frontend_id": "400",
+    "title": "Nth Digit",
+    "description": "Given an integer n, return the nth digit of the infinite integer sequence [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, ...].\n \nExample 1:\n\nInput: n = 3\nOutput: 3\n\nExample 2:\n\nInput: n = 11\nOutput: 0\nExplanation: The 11th digit of the sequence 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, ... is a 0, which is part of the number 10.\n\n \nConstraints:\n\n1 <= n <= 231 - 1\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "3",
+      "11"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "n": "3"
+        },
+        "expected": "3"
+      }
+    ],
+    "python_starter": "class Solution:\n    def findNthDigit(self, n: int) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "findNthDigit",
+      "params": [
+        {
+          "name": "n",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def findNthDigit(self, n: int) -> int:\n        # Step 1: Determine the number of digits in the range\n        digit_length = 1\n        count = 9\n        start = 1\n        \n        # Find the range where the nth digit falls\n        while n > digit_length * count:\n            n -= digit_length * count\n            digit_length += 1\n            count *= 10\n            start *= 10\n        \n        # Step 2: Find the actual number that contains the nth digit\n        start += (n - 1) // digit_length  # Find the actual number\n        num_str = str(start)  # Convert to string to access digits\n        \n        # Step 3: Find the specific digit\n        return int(num_str[(n - 1) % digit_length])  # Return the required digit",
+    "explanation": "The solution works by first determining the range of numbers that contains the nth digit. We do this by iterating through the ranges of numbers with increasing digit lengths (1-digit, 2-digit, etc.) and subtracting the total number of digits contributed by each range from n until we find the range that contains the nth digit.\n\n1. **Time Complexity**: The time complexity is O(log n) because we are effectively dividing the problem size by 10 each time we move to the next range of digits. This is efficient given the constraints.\n\n2. **Space Complexity**: The space complexity is O(1) since we are using a constant amount of space regardless of the input size.\n\nThis method ensures that we can find the nth digit without generating the entire sequence, making it suitable for large values of n up to 2^31 - 1."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 3\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:53"
+}

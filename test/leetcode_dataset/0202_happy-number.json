@@ -1,0 +1,39 @@
+{
+  "id": "202",
+  "frontend_id": "202",
+  "title": "Happy Number",
+  "description": "Write an algorithm to determine if a number n is happy.\nA happy number is a number defined by the following process:\n\nStarting with any positive integer, replace the number by the sum of the squares of its digits.\nRepeat the process until the number equals 1 (where it will stay), or it loops endlessly in a cycle which does not include 1.\nThose numbers for which this process ends in 1 are happy.\n\nReturn true if n is a happy number, and false if not.\n \nExample 1:\n\nInput: n = 19\nOutput: true\nExplanation:\n12 + 92 = 82\n82 + 22 = 68\n62 + 82 = 100\n12 + 02 + 02 = 1\n\nExample 2:\n\nInput: n = 2\nOutput: false\n\n \nConstraints:\n\n1 <= n <= 231 - 1\n\n",
+  "difficulty": "Easy",
+  "examples": [
+    "19",
+    "2"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "n": "19"
+      },
+      "expected": "true"
+    },
+    {
+      "input": {
+        "n": "2"
+      },
+      "expected": "false"
+    }
+  ],
+  "python_starter": "class Solution:\n    def isHappy(self, n: int) -> bool:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "isHappy",
+    "params": [
+      {
+        "name": "n",
+        "type": "integer"
+      }
+    ],
+    "return": {
+      "type": "boolean"
+    }
+  }
+}

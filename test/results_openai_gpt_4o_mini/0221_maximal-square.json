@@ -1,0 +1,45 @@
+{
+  "problem": {
+    "id": "221",
+    "frontend_id": "221",
+    "title": "Maximal Square",
+    "description": "Given an m x n binary matrix filled with 0's and 1's, find the largest square containing only 1's and return its area.\n \nExample 1:\n\n\nInput: matrix = [[\"1\",\"0\",\"1\",\"0\",\"0\"],[\"1\",\"0\",\"1\",\"1\",\"1\"],[\"1\",\"1\",\"1\",\"1\",\"1\"],[\"1\",\"0\",\"0\",\"1\",\"0\"]]\nOutput: 4\n\nExample 2:\n\n\nInput: matrix = [[\"0\",\"1\"],[\"1\",\"0\"]]\nOutput: 1\n\nExample 3:\n\nInput: matrix = [[\"0\"]]\nOutput: 0\n\n \nConstraints:\n\nm == matrix.length\nn == matrix[i].length\n1 <= m, n <= 300\nmatrix[i][j] is '0' or '1'.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[[\"1\",\"0\",\"1\",\"0\",\"0\"],[\"1\",\"0\",\"1\",\"1\",\"1\"],[\"1\",\"1\",\"1\",\"1\",\"1\"],[\"1\",\"0\",\"0\",\"1\",\"0\"]]",
+      "[[\"0\",\"1\"],[\"1\",\"0\"]]",
+      "[[\"0\"]]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "matrix": "[[\"1\",\"0\",\"1\",\"0\",\"0\"]"
+        },
+        "expected": "4"
+      }
+    ],
+    "python_starter": "class Solution:\n    def maximalSquare(self, matrix: List[List[str]]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "maximalSquare",
+      "params": [
+        {
+          "name": "matrix",
+          "type": "character[][]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def maximalSquare(self, matrix: List[List[str]]) -> int:\n        if not matrix or not matrix[0]:\n            return 0\n        \n        m, n = len(matrix), len(matrix[0])\n        dp = [0] * (n + 1)  # Initialize a DP array with an extra row for easier indexing\n        max_side = 0  # Variable to keep track of the maximum side length of the square\n        \n        for i in range(1, m + 1):\n            for j in range(1, n + 1):\n                if matrix[i - 1][j - 1] == '1':\n                    # Update dp[i][j] based on the minimum of the three neighbors\n                    dp[j] = min(dp[j], dp[j - 1], dp[j - n]) + 1\n                    max_side = max(max_side, dp[j])  # Update the maximum side length\n                else:\n                    dp[j] = 0  # Reset if we encounter a '0'\n        \n        return max_side * max_side  # Return the area of the largest square",
+    "explanation": "The solution uses dynamic programming to efficiently find the largest square of '1's in the given binary matrix. We initialize a 1D array `dp` to keep track of the maximum side lengths of squares ending at each position. \n\n1. **Initialization**: We check if the matrix is empty. If it is, we return 0. We then create a `dp` array of size `n + 1` to handle edge cases easily.\n\n2. **Filling the DP Array**: We iterate through each cell of the matrix starting from the first row and column. For each cell that contains '1', we calculate the size of the square that can be formed by taking the minimum of the three neighboring squares (top, left, and top-left diagonal) and adding 1. If the cell contains '0', we set the corresponding `dp` value to 0.\n\n3. **Tracking the Maximum Side**: During the iteration, we keep track of the maximum side length found so far.\n\n4. **Final Calculation**: The area of the largest square is simply the square of the maximum side length.\n\nThe overall time complexity is O(m * n) due to the nested loops, and the space complexity is O(n) since we only maintain a single row of the `dp` array at any time."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmp1onw6keq.py\", line 55\n    input_0_0 = [[\"1\",\"0\",\"1\",\"0\",\"0\"]\n                ^\nSyntaxError: '[' was never closed\n"
+  },
+  "timestamp": "2025-04-01 18:00:43"
+}

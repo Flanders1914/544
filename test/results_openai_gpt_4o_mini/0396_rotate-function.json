@@ -1,0 +1,50 @@
+{
+  "problem": {
+    "id": "396",
+    "frontend_id": "396",
+    "title": "Rotate Function",
+    "description": "You are given an integer array nums of length n.\nAssume arrk to be an array obtained by rotating nums by k positions clock-wise. We define the rotation function F on nums as follow:\n\nF(k) = 0 * arrk[0] + 1 * arrk[1] + ... + (n - 1) * arrk[n - 1].\n\nReturn the maximum value of F(0), F(1), ..., F(n-1).\nThe test cases are generated so that the answer fits in a 32-bit integer.\n \nExample 1:\n\nInput: nums = [4,3,2,6]\nOutput: 26\nExplanation:\nF(0) = (0 * 4) + (1 * 3) + (2 * 2) + (3 * 6) = 0 + 3 + 4 + 18 = 25\nF(1) = (0 * 6) + (1 * 4) + (2 * 3) + (3 * 2) = 0 + 4 + 6 + 6 = 16\nF(2) = (0 * 2) + (1 * 6) + (2 * 4) + (3 * 3) = 0 + 6 + 8 + 9 = 23\nF(3) = (0 * 3) + (1 * 2) + (2 * 6) + (3 * 4) = 0 + 2 + 12 + 12 = 26\nSo the maximum value of F(0), F(1), F(2), F(3) is F(3) = 26.\n\nExample 2:\n\nInput: nums = [100]\nOutput: 0\n\n \nConstraints:\n\nn == nums.length\n1 <= n <= 105\n-100 <= nums[i] <= 100\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[4,3,2,6]",
+      "[100]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[4,3,2,6]"
+        },
+        "expected": "26"
+      },
+      {
+        "input": {
+          "nums": "[100]"
+        },
+        "expected": "0"
+      }
+    ],
+    "python_starter": "class Solution:\n    def maxRotateFunction(self, nums: List[int]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "maxRotateFunction",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def maxRotateFunction(self, nums: List[int]) -> int:\n        n = len(nums)\n        total_sum = sum(nums)\n        \n        # Calculate F(0)\n        F = sum(i * num for i, num in enumerate(nums))\n        max_value = F\n        \n        # Calculate F(k) for k = 1 to n-1\n        for k in range(1, n):\n            F = F + total_sum - n * nums[n - k]\n            max_value = max(max_value, F)\n        \n        return max_value",
+    "explanation": "The solution begins by calculating the total sum of the input array `nums` and the initial value of the rotation function F(0). The initial value is computed using a generator expression that multiplies each element by its index and sums the results.\n\nNext, we iterate from k = 1 to n-1, updating the value of F(k) using the derived formula. In each iteration, we adjust F(k) based on the previous value F(k-1), the total sum of the array, and the element that is being rotated out of the first position. We also keep track of the maximum value encountered during these iterations.\n\nThe time complexity of this solution is O(n) due to the single pass needed to compute F(0) and the subsequent O(n) iterations to compute F(k) for k from 1 to n-1. The space complexity is O(1) since we are using a constant amount of extra space regardless of the input size.\n\nOverall, this approach is efficient and works well within the problem's constraints."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 26\nTest case 2:\n[PASS] Test passed: 0\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:53"
+}

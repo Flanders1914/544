@@ -1,0 +1,57 @@
+{
+  "problem": {
+    "id": "326",
+    "frontend_id": "326",
+    "title": "Power of Three",
+    "description": "Given an integer n, return true if it is a power of three. Otherwise, return false.\nAn integer n is a power of three, if there exists an integer x such that n == 3x.\n \nExample 1:\n\nInput: n = 27\nOutput: true\nExplanation: 27 = 33\n\nExample 2:\n\nInput: n = 0\nOutput: false\nExplanation: There is no x where 3x = 0.\n\nExample 3:\n\nInput: n = -1\nOutput: false\nExplanation: There is no x where 3x = (-1).\n\n \nConstraints:\n\n-231 <= n <= 231 - 1\n\n \nFollow up: Could you solve it without loops/recursion?",
+    "difficulty": "Easy",
+    "examples": [
+      "27",
+      "0",
+      "-1"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "n": "27"
+        },
+        "expected": "true"
+      },
+      {
+        "input": {
+          "n": "0"
+        },
+        "expected": "false"
+      },
+      {
+        "input": {
+          "n": "-1"
+        },
+        "expected": "false"
+      }
+    ],
+    "python_starter": "class Solution:\n    def isPowerOfThree(self, n: int) -> bool:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "isPowerOfThree",
+      "params": [
+        {
+          "name": "n",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def isPowerOfThree(self, n: int) -> bool:\n        # The maximum power of 3 that fits in a 32-bit signed integer\n        max_power_of_three = 1162261467\n        \n        # Check if n is positive and if max_power_of_three is divisible by n\n        return n > 0 and max_power_of_three % n == 0",
+    "explanation": "The solution checks if the given integer \\( n \\) is a power of three by using a mathematical property rather than iterative or recursive methods. \n\n1. **Input Check**: First, we check if \\( n \\) is greater than zero. This is important because negative numbers and zero cannot be powers of three.\n2. **Divisibility Check**: We then check if \\( 1162261467 \\) (the largest power of three that fits in a 32-bit signed integer) is divisible by \\( n \\). If it is, then \\( n \\) must be a power of three.\n\nThis method runs in constant time \\( O(1) \\) since it involves a few arithmetic operations and comparisons, regardless of the size of \\( n \\). The space complexity is also \\( O(1) \\) as we are using a fixed amount of space for our variables.\n\nOverall, this solution is efficient and meets the problem's constraints effectively."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: True\nTest case 2:\n[PASS] Test passed: False\nTest case 3:\n[PASS] Test passed: False\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:48"
+}

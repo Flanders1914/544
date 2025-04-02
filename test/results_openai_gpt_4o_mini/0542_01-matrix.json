@@ -1,0 +1,44 @@
+{
+  "problem": {
+    "id": "542",
+    "frontend_id": "542",
+    "title": "01 Matrix",
+    "description": "Given an m x n binary matrix mat, return the distance of the nearest 0 for each cell.\nThe distance between two cells sharing a common edge is 1.\n \nExample 1:\n\n\nInput: mat = [[0,0,0],[0,1,0],[0,0,0]]\nOutput: [[0,0,0],[0,1,0],[0,0,0]]\n\nExample 2:\n\n\nInput: mat = [[0,0,0],[0,1,0],[1,1,1]]\nOutput: [[0,0,0],[0,1,0],[1,2,1]]\n\n \nConstraints:\n\nm == mat.length\nn == mat[i].length\n1 <= m, n <= 104\n1 <= m * n <= 104\nmat[i][j] is either 0 or 1.\nThere is at least one 0 in mat.\n\n \nNote: This question is the same as 1765: https://leetcode.com/problems/map-of-highest-peak/\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[[0,0,0],[0,1,0],[0,0,0]]",
+      "[[0,0,0],[0,1,0],[1,1,1]]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "mat": "[[0,0,0]"
+        },
+        "expected": "[[0,0,0]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def updateMatrix(self, mat: List[List[int]]) -> List[List[int]]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "updateMatrix",
+      "params": [
+        {
+          "name": "mat",
+          "type": "integer[][]"
+        }
+      ],
+      "return": {
+        "type": "integer[][]"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\nfrom collections import deque\n\nclass Solution:\n    def updateMatrix(self, mat: List[List[int]]) -> List[List[int]]:\n        if not mat:\n            return []\n        \n        m, n = len(mat), len(mat[0])\n        # Initialize the result matrix with infinity\n        result = [[float('inf')] * n for _ in range(m)]\n        queue = deque()\n        \n        # Enqueue all the 0s and set their distance to 0 in the result matrix\n        for i in range(m):\n            for j in range(n):\n                if mat[i][j] == 0:\n                    result[i][j] = 0\n                    queue.append((i, j))\n        \n        # Directions for moving up, down, left, right\n        directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]\n        \n        # BFS to find the nearest 0 for each cell\n        while queue:\n            x, y = queue.popleft()\n            for dx, dy in directions:\n                nx, ny = x + dx, y + dy\n                # Check if the neighbor is within bounds\n                if 0 <= nx < m and 0 <= ny < n:\n                    # If the neighbor has not been visited\n                    if result[nx][ny] > result[x][y] + 1:\n                        result[nx][ny] = result[x][y] + 1\n                        queue.append((nx, ny))\n        \n        return result",
+    "explanation": "The provided solution uses a breadth-first search (BFS) algorithm to efficiently compute the distance of the nearest 0 for each cell in the binary matrix. \n\n1. **Initialization**: We create a result matrix initialized to infinity for all cells that are 1, and 0 for cells that are 0. We also initialize a queue to hold the positions of the 0s.\n\n2. **BFS Process**: We enqueue all the positions of the 0s and start processing them. For each cell processed, we check its four neighbors. If a neighbor has not been visited (still has the value infinity), we update its distance and enqueue it for further processing.\n\n3. **Time Complexity**: The time complexity of this solution is O(m * n), where m is the number of rows and n is the number of columns in the matrix. Each cell is processed at most once.\n\n4. **Space Complexity**: The space complexity is also O(m * n) due to the result matrix and the queue used for BFS.\n\nThis approach is efficient and works well within the problem's constraints, ensuring that we can handle the maximum input sizes effectively."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmpj9ipwdl7.py\", line 72\n    input_0_0 = [[0,0,0]\n                 ^^^^^^^\nSyntaxError: invalid syntax. Perhaps you forgot a comma?\n"
+  },
+  "timestamp": "2025-04-01 18:01:23"
+}

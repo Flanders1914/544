@@ -1,0 +1,46 @@
+{
+  "problem": {
+    "id": "107",
+    "frontend_id": "107",
+    "title": "Binary Tree Level Order Traversal II",
+    "description": "Given the root of a binary tree, return the bottom-up level order traversal of its nodes' values. (i.e., from left to right, level by level from leaf to root).\n \nExample 1:\n\n\nInput: root = [3,9,20,null,null,15,7]\nOutput: [[15,7],[9,20],[3]]\n\nExample 2:\n\nInput: root = [1]\nOutput: [[1]]\n\nExample 3:\n\nInput: root = []\nOutput: []\n\n \nConstraints:\n\nThe number of nodes in the tree is in the range [0, 2000].\n-1000 <= Node.val <= 1000\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[3,9,20,null,null,15,7]",
+      "[1]",
+      "[]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "root": "[3,9,20,null,null,15,7]"
+        },
+        "expected": "[[15,7]"
+      }
+    ],
+    "python_starter": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def levelOrderBottom(self, root: Optional[TreeNode]) -> List[List[int]]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "levelOrderBottom",
+      "params": [
+        {
+          "name": "root",
+          "type": "TreeNode"
+        }
+      ],
+      "return": {
+        "type": "list<list<integer>>",
+        "dealloc": true
+      }
+    }
+  },
+  "solution": {
+    "code": "from collections import deque\nfrom typing import List, Optional\n\n# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nclass Solution:\n    def levelOrderBottom(self, root: Optional[TreeNode]) -> List[List[int]]:\n        if not root:\n            return []\n        \n        result = []\n        queue = deque([root])\n        \n        while queue:\n            level_size = len(queue)\n            current_level = []\n            \n            for _ in range(level_size):\n                node = queue.popleft()\n                current_level.append(node.val)\n                \n                if node.left:\n                    queue.append(node.left)\n                if node.right:\n                    queue.append(node.right)\n            \n            result.append(current_level)\n        \n        # Reverse the result to get bottom-up level order\n        return result[::-1]",
+    "explanation": "The provided solution implements a breadth-first search (BFS) to achieve the bottom-up level order traversal of a binary tree. Here's a breakdown of the solution:\n\n1. **Initialization**: We check if the root is `None`. If it is, we return an empty list. We initialize a deque (double-ended queue) to facilitate level order traversal and a list to store the results.\n\n2. **BFS Traversal**: We enter a while loop that continues until the queue is empty. For each level, we determine the number of nodes at that level (`level_size`). We then create a temporary list (`current_level`) to store the values of the nodes at the current level.\n\n3. **Processing Nodes**: For each node at the current level, we dequeue it, append its value to `current_level`, and enqueue its left and right children (if they exist) for processing in the next level.\n\n4. **Storing Results**: After processing all nodes at the current level, we append `current_level` to the `result` list.\n\n5. **Reversing the Result**: Once all levels have been processed, we reverse the `result` list to achieve the bottom-up order and return it.\n\n**Time Complexity**: O(n), where n is the number of nodes in the tree. Each node is processed exactly once.\n\n**Space Complexity**: O(n) in the worst case, where the last level of the tree contains the maximum number of nodes, which can be up to n/2.\n\nThis solution efficiently captures the required traversal order while maintaining clarity and simplicity."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmpxc8vlu1d.py\", line 127\n    expected_0 = [[15,7]\n                 ^\nSyntaxError: '[' was never closed\n"
+  },
+  "timestamp": "2025-04-01 18:00:35"
+}

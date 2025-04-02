@@ -1,0 +1,51 @@
+{
+  "problem": {
+    "id": "600",
+    "frontend_id": "600",
+    "title": "Non-negative Integers without Consecutive Ones",
+    "description": "Given a positive integer n, return the number of the integers in the range [0, n] whose binary representations do not contain consecutive ones.\n \nExample 1:\n\nInput: n = 5\nOutput: 5\nExplanation:\nHere are the non-negative integers <= 5 with their corresponding binary representations:\n0 : 0\n1 : 1\n2 : 10\n3 : 11\n4 : 100\n5 : 101\nAmong them, only integer 3 disobeys the rule (two consecutive ones) and the other 5 satisfy the rule. \n\nExample 2:\n\nInput: n = 1\nOutput: 2\n\nExample 3:\n\nInput: n = 2\nOutput: 3\n\n \nConstraints:\n\n1 <= n <= 109\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "5",
+      "1",
+      "2"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "n": "5"
+        },
+        "expected": "5"
+      },
+      {
+        "input": {
+          "n": "1"
+        },
+        "expected": "2"
+      }
+    ],
+    "python_starter": "class Solution:\n    def findIntegers(self, n: int) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "findIntegers",
+      "params": [
+        {
+          "name": "n",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def findIntegers(self, n: int) -> int:\n        # Precompute Fibonacci numbers up to the maximum possible bits in n\n        fib = [0] * 32\n        fib[0], fib[1] = 1, 2  # fib[0] = 1 (for 1 bit), fib[1] = 2 (for 2 bits)\n        \n        for i in range(2, 32):\n            fib[i] = fib[i - 1] + fib[i - 2]\n        \n        count = 0\n        prev_bit = 0  # To track the previous bit\n        for i in range(31, -1, -1):\n            if (n & (1 << i)) != 0:  # If the i-th bit is set\n                count += fib[i]  # Add the count of valid numbers with i bits\n                if prev_bit == 1:  # If the previous bit was also set, we break\n                    return count\n                prev_bit = 1  # Update previous bit to 1\n            else:\n                prev_bit = 0  # Update previous bit to 0\n        \n        return count + 1  # Include n itself if it is valid",
+    "explanation": "The solution uses dynamic programming to precompute the number of valid integers for each bit length up to 31 bits (since `n` can be as large as `10^9`, which fits in 30 bits). The Fibonacci sequence is leveraged to count valid configurations of bits without consecutive ones.\n\n1. **Precomputation**: We fill an array `fib` where `fib[i]` gives the count of valid integers with `i` bits. The first two values are initialized, and the rest are computed using the recurrence relation.\n\n2. **Counting Valid Integers**: We iterate through the bits of `n` from the most significant to the least significant. For each bit:\n   - If the bit is set (1), we add the count of valid integers that can be formed with the remaining bits.\n   - If two consecutive bits are set, we stop counting as it violates the condition.\n\n3. **Final Count**: After processing all bits, we add 1 to include `n` itself if it is valid.\n\n**Time Complexity**: O(1) since the number of bits is constant (up to 32).\n\n**Space Complexity**: O(1) for the `fib` array, which has a fixed size.\n\nThis approach efficiently counts the valid integers without generating them explicitly, making it suitable for large values of `n`."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 5\nTest case 2:\n[PASS] Test passed: 2\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:01:27"
+}

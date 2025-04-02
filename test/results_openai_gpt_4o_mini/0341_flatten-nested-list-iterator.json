@@ -1,0 +1,51 @@
+{
+  "problem": {
+    "id": "341",
+    "frontend_id": "341",
+    "title": "Flatten Nested List Iterator",
+    "description": "You are given a nested list of integers nestedList. Each element is either an integer or a list whose elements may also be integers or other lists. Implement an iterator to flatten it.\nImplement the NestedIterator class:\n\nNestedIterator(List<NestedInteger> nestedList) Initializes the iterator with the nested list nestedList.\nint next() Returns the next integer in the nested list.\nboolean hasNext() Returns true if there are still some integers in the nested list and false otherwise.\n\nYour code will be tested with the following pseudocode:\n\ninitialize iterator with nestedList\nres = []\nwhile iterator.hasNext()\n    append iterator.next() to the end of res\nreturn res\n\nIf res matches the expected flattened list, then your code will be judged as correct.\n \nExample 1:\n\nInput: nestedList = [[1,1],2,[1,1]]\nOutput: [1,1,2,1,1]\nExplanation: By calling next repeatedly until hasNext returns false, the order of elements returned by next should be: [1,1,2,1,1].\n\nExample 2:\n\nInput: nestedList = [1,[4,[6]]]\nOutput: [1,4,6]\nExplanation: By calling next repeatedly until hasNext returns false, the order of elements returned by next should be: [1,4,6].\n\n \nConstraints:\n\n1 <= nestedList.length <= 500\nThe values of the integers in the nested list is in the range [-106, 106].\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[[1,1],2,[1,1]]",
+      "[1,[4,[6]]]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nestedList": "[[1,1]"
+        },
+        "expected": "[1,1,2,1,1]"
+      },
+      {
+        "input": {
+          "nestedList": "[1,[4,[6]"
+        },
+        "expected": "[1,4,6]"
+      }
+    ],
+    "python_starter": "# \"\"\"\n# This is the interface that allows for creating nested lists.\n# You should not implement it, or speculate about its implementation\n# \"\"\"\n#class NestedInteger:\n#    def isInteger(self) -> bool:\n#        \"\"\"\n#        @return True if this NestedInteger holds a single integer, rather than a nested list.\n#        \"\"\"\n#\n#    def getInteger(self) -> int:\n#        \"\"\"\n#        @return the single integer that this NestedInteger holds, if it holds a single integer\n#        Return None if this NestedInteger holds a nested list\n#        \"\"\"\n#\n#    def getList(self) -> [NestedInteger]:\n#        \"\"\"\n#        @return the nested list that this NestedInteger holds, if it holds a nested list\n#        Return None if this NestedInteger holds a single integer\n#        \"\"\"\n\nclass NestedIterator:\n    def __init__(self, nestedList: [NestedInteger]):\n        \n    \n    def next(self) -> int:\n        \n    \n    def hasNext(self) -> bool:\n         \n\n# Your NestedIterator object will be instantiated and called as such:\n# i, v = NestedIterator(nestedList), []\n# while i.hasNext(): v.append(i.next())",
+    "hints": [],
+    "meta_data": {
+      "name": "",
+      "params": [
+        {
+          "name": "nestedList",
+          "type": "list<NestedInteger>"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      },
+      "manual": true
+    }
+  },
+  "solution": {
+    "code": "class NestedIterator:\n    def __init__(self, nestedList: [NestedInteger]):\n        # Initialize the stack with the nested list in reverse order\n        self.stack = []\n        self._push_list_to_stack(nestedList)\n\n    def _push_list_to_stack(self, nestedList):\n        # Push elements of the nested list onto the stack in reverse order\n        for item in reversed(nestedList):\n            self.stack.append(item)\n\n    def next(self) -> int:\n        # Ensure that we have a valid integer to return\n        if self.hasNext():\n            return self.stack.pop().getInteger()\n        raise StopIteration(\"No more elements\")\n\n    def hasNext(self) -> bool:\n        # Ensure the stack has elements and find the next integer\n        while self.stack:\n            top = self.stack[-1]\n            if top.isInteger():\n                return True\n            # If it's a list, pop it and push its contents onto the stack\n            self.stack.pop()\n            self._push_list_to_stack(top.getList())\n        return False",
+    "explanation": "The `NestedIterator` class is designed to flatten a nested list of integers. The constructor initializes the iterator with a nested list and prepares a stack to manage the elements.\n\n1. **Initialization**: The constructor takes a list of `NestedInteger` objects and pushes them onto a stack in reverse order. This allows us to process the elements in the correct order when we pop from the stack.\n\n2. **hasNext() Method**: This method checks if there are any integers left to return. It continuously pops elements from the stack until it finds an integer or the stack is empty. If it finds a list, it pushes the contents of that list onto the stack for further processing.\n\n3. **next() Method**: This method returns the next integer from the stack. It first checks if there is a next integer available by calling `hasNext()`. If there is, it pops the integer from the stack and returns it.\n\n**Time Complexity**: The time complexity for both `next()` and `hasNext()` is O(1) on average, as each integer is processed once. However, in the worst case, if the nested structure is deeply nested, it could take O(n) time to flatten the entire structure.\n\n**Space Complexity**: The space complexity is O(n) in the worst case, where n is the total number of integers in the nested list, as we may need to store all of them in the stack.\n\nOverall, this approach efficiently flattens the nested list while maintaining the correct order of integers."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmp85nlvc8_.py\", line 63\n    input_0_0 = [[1,1]\n                 ^^^^^\nSyntaxError: invalid syntax. Perhaps you forgot a comma?\n"
+  },
+  "timestamp": "2025-04-01 18:00:49"
+}

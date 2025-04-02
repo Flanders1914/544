@@ -1,0 +1,47 @@
+{
+  "problem": {
+    "id": "238",
+    "frontend_id": "238",
+    "title": "Product of Array Except Self",
+    "description": "Given an integer array nums, return an array answer such that answer[i] is equal to the product of all the elements of nums except nums[i].\nThe product of any prefix or suffix of nums is guaranteed to fit in a 32-bit integer.\nYou must write an algorithm that runs in O(n) time and without using the division operation.\n \nExample 1:\nInput: nums = [1,2,3,4]\nOutput: [24,12,8,6]\nExample 2:\nInput: nums = [-1,1,0,-3,3]\nOutput: [0,0,9,0,0]\n\n \nConstraints:\n\n2 <= nums.length <= 105\n-30 <= nums[i] <= 30\nThe input is generated such that answer[i] is guaranteed to fit in a 32-bit integer.\n\n \nFollow up: Can you solve the problem in O(1) extra space complexity? (The output array does not count as extra space for space complexity analysis.)\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[1,2,3,4]",
+      "[-1,1,0,-3,3]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[1,2,3,4]"
+        },
+        "expected": "[24,12,8,6]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def productExceptSelf(self, nums: List[int]) -> List[int]:\n        ",
+    "hints": [
+      "Think how you can efficiently utilize prefix and suffix products to calculate the product of all elements except self for each index. Can you pre-compute the prefix and suffix products in linear time to avoid redundant calculations?",
+      "Can you minimize additional space usage by reusing memory or modifying the input array to store intermediate results?"
+    ],
+    "meta_data": {
+      "name": "productExceptSelf",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer[]"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def productExceptSelf(self, nums: List[int]) -> List[int]:\n        n = len(nums)\n        answer = [1] * n\n        \n        # First pass: calculate products of elements to the left of each index\n        left_product = 1\n        for i in range(n):\n            answer[i] = left_product\n            left_product *= nums[i]\n        \n        # Second pass: calculate products of elements to the right of each index\n        right_product = 1\n        for i in range(n - 1, -1, -1):\n            answer[i] *= right_product\n            right_product *= nums[i]\n        \n        return answer",
+    "explanation": "The solution consists of two main passes over the input array `nums`:\n\n1. **Left Products Calculation**:\n   - We initialize an array `answer` of the same length as `nums` with all elements set to 1.\n   - We maintain a variable `left_product` initialized to 1. As we iterate through `nums`, we set `answer[i]` to `left_product`, which represents the product of all elements to the left of index `i`. We then update `left_product` by multiplying it with `nums[i]`.\n\n2. **Right Products Calculation**:\n   - We again initialize a variable `right_product` to 1. We iterate through `nums` from the end to the beginning. For each index `i`, we multiply `answer[i]` by `right_product`, which represents the product of all elements to the right of index `i`. We then update `right_product` by multiplying it with `nums[i]`.\n\nThis two-pass method ensures that we compute the desired product for each index without using division and in O(n) time. \n\n**Time Complexity**: O(n), where n is the length of the input array `nums`.\n\n**Space Complexity**: O(1) for the extra space used (not counting the output array), as we only use a few variables for the products."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: [24, 12, 8, 6]\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:45"
+}

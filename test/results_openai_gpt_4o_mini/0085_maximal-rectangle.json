@@ -1,0 +1,51 @@
+{
+  "problem": {
+    "id": "85",
+    "frontend_id": "85",
+    "title": "Maximal Rectangle",
+    "description": "Given a rows x cols binary matrix filled with 0's and 1's, find the largest rectangle containing only 1's and return its area.\n \nExample 1:\n\n\nInput: matrix = [[\"1\",\"0\",\"1\",\"0\",\"0\"],[\"1\",\"0\",\"1\",\"1\",\"1\"],[\"1\",\"1\",\"1\",\"1\",\"1\"],[\"1\",\"0\",\"0\",\"1\",\"0\"]]\nOutput: 6\nExplanation: The maximal rectangle is shown in the above picture.\n\nExample 2:\n\nInput: matrix = [[\"0\"]]\nOutput: 0\n\nExample 3:\n\nInput: matrix = [[\"1\"]]\nOutput: 1\n\n \nConstraints:\n\nrows == matrix.length\ncols == matrix[i].length\n1 <= row, cols <= 200\nmatrix[i][j] is '0' or '1'.\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "[[\"1\",\"0\",\"1\",\"0\",\"0\"],[\"1\",\"0\",\"1\",\"1\",\"1\"],[\"1\",\"1\",\"1\",\"1\",\"1\"],[\"1\",\"0\",\"0\",\"1\",\"0\"]]",
+      "[[\"0\"]]",
+      "[[\"1\"]]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "matrix": "[[\"1\",\"0\",\"1\",\"0\",\"0\"]"
+        },
+        "expected": "6"
+      },
+      {
+        "input": {
+          "matrix": "[[\"0\"]"
+        },
+        "expected": "0"
+      }
+    ],
+    "python_starter": "class Solution:\n    def maximalRectangle(self, matrix: List[List[str]]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "maximalRectangle",
+      "params": [
+        {
+          "name": "matrix",
+          "type": "character[][]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def maximalRectangle(self, matrix: List[List[str]]) -> int:\n        if not matrix or not matrix[0]:\n            return 0\n        \n        rows, cols = len(matrix), len(matrix[0])\n        heights = [0] * cols\n        max_area = 0\n        \n        for row in matrix:\n            for j in range(cols):\n                # Update the heights array\n                if row[j] == '1':\n                    heights[j] += 1\n                else:\n                    heights[j] = 0\n            \n            # Calculate the maximal rectangle area for the current row's histogram\n            max_area = max(max_area, self._maxHistogramArea(heights))\n        \n        return max_area\n    \n    def _maxHistogramArea(self, heights: List[int]) -> int:\n        stack = []\n        max_area = 0\n        heights.append(0)  # Append a zero height to pop all bars at the end\n        \n        for i in range(len(heights)):\n            while stack and heights[stack[-1]] > heights[i]:\n                h = heights[stack.pop()]\n                w = i if not stack else i - stack[-1] - 1\n                max_area = max(max_area, h * w)\n            stack.append(i)\n        \n        return max_area",
+    "explanation": "The solution involves two main parts: calculating the heights of the histogram and finding the maximal rectangle area for each histogram.\n\n1. **Height Calculation**: We iterate through each row of the matrix. For each column, if the current cell is '1', we increment the height of that column; if it's '0', we reset the height to 0. This gives us a histogram representation of the matrix.\n\n2. **Maximal Rectangle in Histogram**: For each updated heights array, we call the helper function `_maxHistogramArea`. This function uses a stack to efficiently calculate the maximum rectangular area that can be formed in the histogram. We iterate through the heights, and for each height, we maintain a stack of indices. When we encounter a height that is less than the height at the index on the top of the stack, we pop from the stack and calculate the area using the popped height as the smallest height.\n\n3. **Complexity Analysis**:\n   - **Time Complexity**: O(n * m), where n is the number of rows and m is the number of columns. We process each cell once and calculate the area for each row's histogram.\n   - **Space Complexity**: O(m) for the heights array and O(m) for the stack used in the histogram area calculation.\n\nThis approach is efficient and works well within the given constraints of the problem."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmpuhjm03qo.py\", line 73\n    input_0_0 = [[\"1\",\"0\",\"1\",\"0\",\"0\"]\n                 ^^^^^^^^^^^^^^^^^^^^^\nSyntaxError: invalid syntax. Perhaps you forgot a comma?\n"
+  },
+  "timestamp": "2025-04-01 18:00:32"
+}

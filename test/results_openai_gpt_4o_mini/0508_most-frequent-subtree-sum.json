@@ -1,0 +1,44 @@
+{
+  "problem": {
+    "id": "508",
+    "frontend_id": "508",
+    "title": "Most Frequent Subtree Sum",
+    "description": "Given the root of a binary tree, return the most frequent subtree sum. If there is a tie, return all the values with the highest frequency in any order.\nThe subtree sum of a node is defined as the sum of all the node values formed by the subtree rooted at that node (including the node itself).\n \nExample 1:\n\n\nInput: root = [5,2,-3]\nOutput: [2,-3,4]\n\nExample 2:\n\n\nInput: root = [5,2,-5]\nOutput: [2]\n\n \nConstraints:\n\nThe number of nodes in the tree is in the range [1, 104].\n-105 <= Node.val <= 105\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[5,2,-3]",
+      "[5,2,-5]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "root": "[5,2,-3]"
+        },
+        "expected": "[2,-3,4]"
+      }
+    ],
+    "python_starter": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def findFrequentTreeSum(self, root: Optional[TreeNode]) -> List[int]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "findFrequentTreeSum",
+      "params": [
+        {
+          "name": "root",
+          "type": "TreeNode"
+        }
+      ],
+      "return": {
+        "type": "integer[]"
+      }
+    }
+  },
+  "solution": {
+    "code": "from collections import defaultdict\nfrom typing import List, Optional\n\n# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nclass Solution:\n    def findFrequentTreeSum(self, root: Optional[TreeNode]) -> List[int]:\n        # Dictionary to store the frequency of each subtree sum\n        sum_count = defaultdict(int)\n\n        # Helper function to calculate subtree sums\n        def dfs(node):\n            if not node:\n                return 0\n            \n            # Calculate the sum of left and right subtrees\n            left_sum = dfs(node.left)\n            right_sum = dfs(node.right)\n            \n            # Calculate the current subtree sum\n            subtree_sum = node.val + left_sum + right_sum\n            \n            # Update the frequency of the current subtree sum\n            sum_count[subtree_sum] += 1\n            \n            return subtree_sum\n        \n        # Start DFS from the root\n        dfs(root)\n        \n        # Find the maximum frequency\n        max_freq = max(sum_count.values())\n        \n        # Collect all sums that have the maximum frequency\n        result = [s for s, freq in sum_count.items() if freq == max_freq]\n        \n        return result",
+    "explanation": "The solution uses a depth-first search (DFS) to traverse the binary tree and calculate the subtree sums. Here's a breakdown of the approach:\n\n1. **DFS Function**: The `dfs` function computes the subtree sum for each node. It returns 0 for a null node, and for each non-null node, it calculates the sum of its left and right children, adds the node's value, and updates the frequency of this sum in the `sum_count` dictionary.\n\n2. **Frequency Count**: We use a `defaultdict` from the `collections` module to keep track of how many times each subtree sum occurs.\n\n3. **Finding Maximum Frequency**: After the DFS traversal, we determine the maximum frequency of subtree sums using `max(sum_count.values())`.\n\n4. **Collecting Results**: Finally, we create a list of all subtree sums that have this maximum frequency and return it.\n\n**Time Complexity**: O(N), where N is the number of nodes in the tree. Each node is visited once.\n\n**Space Complexity**: O(N) in the worst case for the recursion stack and the storage of subtree sums in the dictionary.\n\nThis solution efficiently computes the most frequent subtree sums while adhering to the constraints provided."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:01:21"
+}

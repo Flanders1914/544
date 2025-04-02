@@ -1,0 +1,52 @@
+{
+  "problem": {
+    "id": "49",
+    "frontend_id": "49",
+    "title": "Group Anagrams",
+    "description": "Given an array of strings strs, group the anagrams together. You can return the answer in any order.\n \nExample 1:\n\nInput: strs = [\"eat\",\"tea\",\"tan\",\"ate\",\"nat\",\"bat\"]\nOutput: [[\"bat\"],[\"nat\",\"tan\"],[\"ate\",\"eat\",\"tea\"]]\nExplanation:\n\nThere is no string in strs that can be rearranged to form \"bat\".\nThe strings \"nat\" and \"tan\" are anagrams as they can be rearranged to form each other.\nThe strings \"ate\", \"eat\", and \"tea\" are anagrams as they can be rearranged to form each other.\n\n\nExample 2:\n\nInput: strs = [\"\"]\nOutput: [[\"\"]]\n\nExample 3:\n\nInput: strs = [\"a\"]\nOutput: [[\"a\"]]\n\n \nConstraints:\n\n1 <= strs.length <= 104\n0 <= strs[i].length <= 100\nstrs[i] consists of lowercase English letters.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[\"eat\",\"tea\",\"tan\",\"ate\",\"nat\",\"bat\"]",
+      "[\"\"]",
+      "[\"a\"]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "strs": "[\"eat\",\"tea\",\"tan\",\"ate\",\"nat\",\"bat\"]"
+        },
+        "expected": "[[bat]"
+      },
+      {
+        "input": {
+          "strs": "[\"\"]"
+        },
+        "expected": "[[]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "groupAnagrams",
+      "params": [
+        {
+          "name": "strs",
+          "type": "string[]"
+        }
+      ],
+      "return": {
+        "type": "list<list<string>>",
+        "dealloc": true
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\nfrom collections import defaultdict\n\nclass Solution:\n    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:\n        # Dictionary to hold lists of anagrams\n        anagrams = defaultdict(list)\n        \n        # Iterate through each string in the input list\n        for s in strs:\n            # Sort the string to use as a key\n            key = ''.join(sorted(s))\n            # Append the original string to the list of its anagrams\n            anagrams[key].append(s)\n        \n        # Return the grouped anagrams as a list of lists\n        return list(anagrams.values())",
+    "explanation": "The solution uses a dictionary to group anagrams efficiently. Each string is sorted to create a key that represents its anagram group. The sorted string is used as a key in a `defaultdict`, which automatically initializes a list for new keys. \n\n1. **Time Complexity**: The time complexity is O(n * k log k), where n is the number of strings and k is the maximum length of a string. This is due to the sorting operation for each string.\n2. **Space Complexity**: The space complexity is O(n * k) in the worst case, where all strings are anagrams of each other and stored in the dictionary.\n\nThis method is efficient and straightforward, leveraging Python's built-in data structures to achieve the desired grouping of anagrams."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmpkpnw5z61.py\", line 56\n    if compare_results(result_0, expected_0):\n                                            ^\nSyntaxError: invalid syntax\n"
+  },
+  "timestamp": "2025-04-01 18:00:29"
+}

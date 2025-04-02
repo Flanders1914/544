@@ -1,0 +1,33 @@
+{
+  "id": "557",
+  "frontend_id": "557",
+  "title": "Reverse Words in a String III",
+  "description": "Given a string s, reverse the order of characters in each word within a sentence while still preserving whitespace and initial word order.\n \nExample 1:\n\nInput: s = \"Let's take LeetCode contest\"\nOutput: \"s'teL ekat edoCteeL tsetnoc\"\n\nExample 2:\n\nInput: s = \"Mr Ding\"\nOutput: \"rM gniD\"\n\n \nConstraints:\n\n1 <= s.length <= 5 * 104\ns contains printable ASCII characters.\ns does not contain any leading or trailing spaces.\nThere is at least one word in s.\nAll the words in s are separated by a single space.\n\n",
+  "difficulty": "Easy",
+  "examples": [
+    "\"Let's take LeetCode contest\"",
+    "\"Mr Ding\""
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "s": "\"Let's take LeetCode contest\""
+      },
+      "expected": "s'teL ekat edoCteeL tsetnoc"
+    }
+  ],
+  "python_starter": "class Solution:\n    def reverseWords(self, s: str) -> str:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "reverseWords",
+    "params": [
+      {
+        "name": "s",
+        "type": "string"
+      }
+    ],
+    "return": {
+      "type": "string"
+    }
+  }
+}

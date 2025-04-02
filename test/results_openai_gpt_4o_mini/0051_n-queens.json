@@ -1,0 +1,52 @@
+{
+  "problem": {
+    "id": "51",
+    "frontend_id": "51",
+    "title": "N-Queens",
+    "description": "The n-queens puzzle is the problem of placing n queens on an n x n chessboard such that no two queens attack each other.\nGiven an integer n, return all distinct solutions to the n-queens puzzle. You may return the answer in any order.\nEach solution contains a distinct board configuration of the n-queens' placement, where 'Q' and '.' both indicate a queen and an empty space, respectively.\n \nExample 1:\n\n\nInput: n = 4\nOutput: [[\".Q..\",\"...Q\",\"Q...\",\"..Q.\"],[\"..Q.\",\"Q...\",\"...Q\",\".Q..\"]]\nExplanation: There exist two distinct solutions to the 4-queens puzzle as shown above\n\nExample 2:\n\nInput: n = 1\nOutput: [[\"Q\"]]\n\n \nConstraints:\n\n1 <= n <= 9\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "4",
+      "1"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "n": "4"
+        },
+        "expected": "[[.Q..,...Q,Q...,..Q.]"
+      },
+      {
+        "input": {
+          "n": "1"
+        },
+        "expected": "[[Q]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def solveNQueens(self, n: int) -> List[List[str]]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "solveNQueens",
+      "params": [
+        {
+          "name": "n",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "list<list<string>>",
+        "colsize": "param_1",
+        "dealloc": true
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def solveNQueens(self, n: int) -> List[List[str]]:\n        def backtrack(row: int):\n            if row == n:  # All queens are placed\n                result.append([''.join(board[i]) for i in range(n)])\n                return\n            \n            for col in range(n):\n                if col in cols or (row - col) in diag1 or (row + col) in diag2:\n                    continue  # Skip if the column or diagonal is occupied\n                \n                # Place the queen\n                board[row][col] = 'Q'\n                cols.add(col)\n                diag1.add(row - col)\n                diag2.add(row + col)\n                \n                # Recur to place the next queen\n                backtrack(row + 1)\n                \n                # Remove the queen and backtrack\n                board[row][col] = '.'\n                cols.remove(col)\n                diag1.remove(row - col)\n                diag2.remove(row + col)\n\n        result = []\n        board = [['.'] * n for _ in range(n)]\n        cols = set()\n        diag1 = set()\n        diag2 = set()\n        \n        backtrack(0)\n        return result",
+    "explanation": "The solution uses a backtracking algorithm to explore all possible placements of queens on the chessboard. The `backtrack` function is called recursively for each row, attempting to place a queen in each column of that row. \n\n1. **Base Case**: When all queens are placed (i.e., `row == n`), the current configuration of the board is added to the results.\n2. **Column and Diagonal Checks**: Before placing a queen, we check if the column or either diagonal is already occupied using sets. This ensures that no two queens can attack each other.\n3. **Placing and Removing Queens**: After placing a queen, we mark the column and diagonals as occupied. If we cannot place a queen in any column of the current row, we backtrack by removing the queen and trying the next column.\n\nThe time complexity of this solution is O(N!), as in the worst case, we may need to explore all permutations of queen placements. The space complexity is O(N) for the recursion stack and the sets used to track occupied columns and diagonals.\n\nOverall, this approach efficiently finds all distinct solutions to the N-Queens problem for the given constraints."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmpzqowdd_o.py\", line 74\n    expected_0 = [[.Q..,...Q,Q...,..Q.]\n                   ^\nSyntaxError: invalid syntax\n"
+  },
+  "timestamp": "2025-04-01 18:00:29"
+}

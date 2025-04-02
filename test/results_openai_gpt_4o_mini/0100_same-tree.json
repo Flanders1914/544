@@ -1,0 +1,53 @@
+{
+  "problem": {
+    "id": "100",
+    "frontend_id": "100",
+    "title": "Same Tree",
+    "description": "Given the roots of two binary trees p and q, write a function to check if they are the same or not.\nTwo binary trees are considered the same if they are structurally identical, and the nodes have the same value.\n \nExample 1:\n\n\nInput: p = [1,2,3], q = [1,2,3]\nOutput: true\n\nExample 2:\n\n\nInput: p = [1,2], q = [1,null,2]\nOutput: false\n\nExample 3:\n\n\nInput: p = [1,2,1], q = [1,1,2]\nOutput: false\n\n \nConstraints:\n\nThe number of nodes in both trees is in the range [0, 100].\n-104 <= Node.val <= 104\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "[1,2,3]",
+      "[1,2,3]",
+      "[1,2]",
+      "[1,null,2]",
+      "[1,2,1]",
+      "[1,1,2]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "p": "[1,2,3]",
+          "q": "[1,2,3]"
+        },
+        "expected": "true"
+      }
+    ],
+    "python_starter": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "isSameTree",
+      "params": [
+        {
+          "name": "p",
+          "type": "TreeNode"
+        },
+        {
+          "name": "q",
+          "type": "TreeNode"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nclass Solution:\n    def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:\n        # If both nodes are None, trees are the same\n        if not p and not q:\n            return True\n        # If one of the nodes is None or values are different, trees are not the same\n        if not p or not q or p.val != q.val:\n            return False\n        # Recursively check the left and right subtrees\n        return self.isSameTree(p.left, q.left) and self.isSameTree(p.right, q.right)",
+    "explanation": "The solution uses a recursive function to compare two binary trees. The base cases check if both nodes are `None`, in which case the trees are the same, or if one of the nodes is `None` or their values differ, in which case the trees are not the same. If neither of these conditions is met, the function recursively checks the left and right children of both nodes.\n\n### Time Complexity\nThe time complexity of this solution is O(N), where N is the number of nodes in the trees. In the worst case, we may need to visit every node in both trees.\n\n### Space Complexity\nThe space complexity is O(H), where H is the height of the tree. This is due to the recursive call stack. In the worst case (for a skewed tree), the height could be N, but for a balanced tree, it would be log(N).\n\nOverall, this approach efficiently checks for tree equality by leveraging the properties of binary trees and recursion."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:34"
+}

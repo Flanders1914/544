@@ -1,0 +1,57 @@
+{
+  "problem": {
+    "id": "457",
+    "frontend_id": "457",
+    "title": "Circular Array Loop",
+    "description": "You are playing a game involving a circular array of non-zero integers nums. Each nums[i] denotes the number of indices forward/backward you must move if you are located at index i:\n\nIf nums[i] is positive, move nums[i] steps forward, and\nIf nums[i] is negative, move nums[i] steps backward.\n\nSince the array is circular, you may assume that moving forward from the last element puts you on the first element, and moving backwards from the first element puts you on the last element.\nA cycle in the array consists of a sequence of indices seq of length k where:\n\nFollowing the movement rules above results in the repeating index sequence seq[0] -> seq[1] -> ... -> seq[k - 1] -> seq[0] -> ...\nEvery nums[seq[j]] is either all positive or all negative.\nk > 1\n\nReturn true if there is a cycle in nums, or false otherwise.\n \nExample 1:\n\n\nInput: nums = [2,-1,1,2,2]\nOutput: true\nExplanation: The graph shows how the indices are connected. White nodes are jumping forward, while red is jumping backward.\nWe can see the cycle 0 --> 2 --> 3 --> 0 --> ..., and all of its nodes are white (jumping in the same direction).\n\nExample 2:\n\n\nInput: nums = [-1,-2,-3,-4,-5,6]\nOutput: false\nExplanation: The graph shows how the indices are connected. White nodes are jumping forward, while red is jumping backward.\nThe only cycle is of size 1, so we return false.\n\nExample 3:\n\n\nInput: nums = [1,-1,5,1,4]\nOutput: true\nExplanation: The graph shows how the indices are connected. White nodes are jumping forward, while red is jumping backward.\nWe can see the cycle 0 --> 1 --> 0 --> ..., and while it is of size > 1, it has a node jumping forward and a node jumping backward, so it is not a cycle.\nWe can see the cycle 3 --> 4 --> 3 --> ..., and all of its nodes are white (jumping in the same direction).\n\n \nConstraints:\n\n1 <= nums.length <= 5000\n-1000 <= nums[i] <= 1000\nnums[i] != 0\n\n \nFollow up: Could you solve it in O(n) time complexity and O(1) extra space complexity?\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[2,-1,1,2,2]",
+      "[-1,-2,-3,-4,-5,6]",
+      "[1,-1,5,1,4]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[2,-1,1,2,2]"
+        },
+        "expected": "true"
+      },
+      {
+        "input": {
+          "nums": "[-1,-2,-3,-4,-5,6]"
+        },
+        "expected": "false"
+      },
+      {
+        "input": {
+          "nums": "[1,-1,5,1,4]"
+        },
+        "expected": "true"
+      }
+    ],
+    "python_starter": "class Solution:\n    def circularArrayLoop(self, nums: List[int]) -> bool:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "circularArrayLoop",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def circularArrayLoop(self, nums: List[int]) -> bool:\n        n = len(nums)\n        \n        for i in range(n):\n            # Check if the current index is already visited\n            if nums[i] == 0:\n                continue\n            \n            # Initialize slow and fast pointers\n            slow, fast = i, i\n            direction = nums[i] > 0  # Determine the direction of the cycle\n            \n            while True:\n                # Move slow pointer one step\n                slow = (slow + nums[slow]) % n\n                # Move fast pointer two steps\n                fast = (fast + nums[fast]) % n\n                if direction != (nums[slow] > 0) or direction != (nums[fast] > 0):\n                    break  # Direction mismatch, exit\n                \n                fast = (fast + nums[fast]) % n  # Move fast pointer again\n                \n                if slow == fast:  # Cycle detected\n                    if slow == (slow + nums[slow]) % n:  # Check if cycle length is > 1\n                        break\n                    return True\n            \n            # Mark all elements in the current path as visited\n            marker = i\n            while nums[marker] != 0:\n                next_marker = (marker + nums[marker]) % n\n                nums[marker] = 0  # Mark as visited\n                marker = next_marker\n        \n        return False",
+    "explanation": "The solution uses a modified version of the Floyd's Tortoise and Hare algorithm to detect cycles in the circular array. Here's a step-by-step breakdown of the approach:\n\n1. **Initialization**: We iterate through each index of the array. If the current index has already been marked as visited (i.e., its value is 0), we skip it.\n\n2. **Direction Check**: For each starting index, we determine the direction of movement (positive or negative) based on the value at that index.\n\n3. **Cycle Detection**: We use two pointers:\n   - The slow pointer moves one step at a time.\n   - The fast pointer moves two steps at a time.\n   If both pointers meet, we have a potential cycle. However, we also check if the direction of movement is consistent.\n\n4. **Marking Visited Nodes**: If a cycle is detected, we mark all nodes in the current path as visited by setting their values to 0. This prevents revisiting nodes in future iterations.\n\n5. **Return Value**: If we find a valid cycle (length > 1), we return `True`. If we finish checking all indices without finding a cycle, we return `False`.\n\n**Time Complexity**: O(n) - Each index is processed at most twice.\n\n**Space Complexity**: O(1) - We modify the input array for marking visited indices, thus using no extra space."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: True\nTest case 2:\n[PASS] Test passed: False\nTest case 3:\n[PASS] Test passed: True\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:57"
+}

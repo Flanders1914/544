@@ -1,0 +1,50 @@
+{
+  "problem": {
+    "id": "345",
+    "frontend_id": "345",
+    "title": "Reverse Vowels of a String",
+    "description": "Given a string s, reverse only all the vowels in the string and return it.\nThe vowels are 'a', 'e', 'i', 'o', and 'u', and they can appear in both lower and upper cases, more than once.\n \nExample 1:\n\nInput: s = \"IceCreAm\"\nOutput: \"AceCreIm\"\nExplanation:\nThe vowels in s are ['I', 'e', 'e', 'A']. On reversing the vowels, s becomes \"AceCreIm\".\n\nExample 2:\n\nInput: s = \"leetcode\"\nOutput: \"leotcede\"\n\n \nConstraints:\n\n1 <= s.length <= 3 * 105\ns consist of printable ASCII characters.\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "\"IceCreAm\"",
+      "\"leetcode\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "s": "\"IceCreAm\""
+        },
+        "expected": "AceCreIm"
+      },
+      {
+        "input": {
+          "s": "\"leetcode\""
+        },
+        "expected": "leotcede"
+      }
+    ],
+    "python_starter": "class Solution:\n    def reverseVowels(self, s: str) -> str:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "reverseVowels",
+      "params": [
+        {
+          "name": "s",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "string"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def reverseVowels(self, s: str) -> str:\n        # Define a set of vowels for quick lookup\n        vowels = set('aeiouAEIOU')\n        # Convert the string to a list to allow modification\n        s_list = list(s)\n        \n        # Initialize two pointers\n        left, right = 0, len(s_list) - 1\n        \n        # Loop until the two pointers meet\n        while left < right:\n            # Move the left pointer to the right until a vowel is found\n            while left < right and s_list[left] not in vowels:\n                left += 1\n            # Move the right pointer to the left until a vowel is found\n            while left < right and s_list[right] not in vowels:\n                right -= 1\n            \n            # If both pointers are still valid, swap the vowels\n            if left < right:\n                s_list[left], s_list[right] = s_list[right], s_list[left]\n                left += 1\n                right -= 1\n        \n        # Join the list back into a string and return\n        return ''.join(s_list)",
+    "explanation": "The solution uses a two-pointer technique to efficiently reverse the vowels in the string. We first create a set of vowels for quick lookup. The string is converted into a list to allow for in-place modifications. \n\n1. We initialize two pointers: `left` starting at the beginning of the list and `right` at the end.\n2. We then enter a loop that continues until the `left` pointer is less than the `right` pointer.\n3. Inside the loop, we move the `left` pointer to the right until we find a vowel, and similarly, we move the `right` pointer to the left until we find a vowel.\n4. If both pointers point to valid vowels, we swap them and move both pointers inward.\n5. Finally, we join the list back into a string and return it.\n\nThe time complexity of this solution is O(n) because we traverse the string at most twice (once for each pointer). The space complexity is O(n) due to the list conversion of the string. This approach is efficient and works well within the given constraints."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:50"
+}

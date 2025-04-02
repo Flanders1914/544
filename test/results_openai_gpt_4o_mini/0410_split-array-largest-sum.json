@@ -1,0 +1,58 @@
+{
+  "problem": {
+    "id": "410",
+    "frontend_id": "410",
+    "title": "Split Array Largest Sum",
+    "description": "Given an integer array nums and an integer k, split nums into k non-empty subarrays such that the largest sum of any subarray is minimized.\nReturn the minimized largest sum of the split.\nA subarray is a contiguous part of the array.\n \nExample 1:\n\nInput: nums = [7,2,5,10,8], k = 2\nOutput: 18\nExplanation: There are four ways to split nums into two subarrays.\nThe best way is to split it into [7,2,5] and [10,8], where the largest sum among the two subarrays is only 18.\n\nExample 2:\n\nInput: nums = [1,2,3,4,5], k = 2\nOutput: 9\nExplanation: There are four ways to split nums into two subarrays.\nThe best way is to split it into [1,2,3] and [4,5], where the largest sum among the two subarrays is only 9.\n\n \nConstraints:\n\n1 <= nums.length <= 1000\n0 <= nums[i] <= 106\n1 <= k <= min(50, nums.length)\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "[7,2,5,10,8]",
+      "2",
+      "[1,2,3,4,5]",
+      "2"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[7,2,5,10,8]",
+          "k": "2"
+        },
+        "expected": "18"
+      },
+      {
+        "input": {
+          "nums": "[1,2,3,4,5]",
+          "k": "2"
+        },
+        "expected": "9"
+      }
+    ],
+    "python_starter": "class Solution:\n    def splitArray(self, nums: List[int], k: int) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "splitArray",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        },
+        {
+          "name": "k",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def splitArray(self, nums: List[int], k: int) -> int:\n        # Helper function to determine if we can split the array\n        # with the largest sum being less than or equal to max_sum\n        def can_split(max_sum):\n            current_sum = 0\n            count = 1  # Start with one subarray\n            for num in nums:\n                if current_sum + num > max_sum:\n                    # If adding this number exceeds max_sum, we need a new subarray\n                    current_sum = num\n                    count += 1\n                    if count > k:  # If we exceed k subarrays, return False\n                        return False\n                else:\n                    current_sum += num\n            return True\n        \n        left = max(nums)  # The largest single element\n        right = sum(nums)  # The sum of all elements\n        \n        while left < right:\n            mid = (left + right) // 2\n            if can_split(mid):\n                right = mid  # Try for a smaller maximum sum\n            else:\n                left = mid + 1  # Increase the minimum possible largest sum\n        \n        return left  # This will be the minimized largest sum",
+    "explanation": "The solution uses a binary search approach to efficiently find the minimized largest sum of the split array. \n\n1. **Binary Search**: We initialize our search range with `left` as the maximum element in `nums` and `right` as the total sum of `nums`. The mid-point is calculated in each iteration to check if it is feasible to split the array under the current mid value.\n\n2. **Greedy Check**: The `can_split` function checks if we can partition the array into k or fewer subarrays without exceeding the `max_sum`. It iterates through the array, maintaining a running sum and counting how many subarrays are formed. If the count exceeds k, it returns False.\n\n3. **Time Complexity**: The binary search runs in O(log(sum(nums))) and for each mid, the greedy check runs in O(n), leading to an overall time complexity of O(n log(sum(nums))) where n is the length of the array.\n\n4. **Space Complexity**: The space complexity is O(1) since we are using a constant amount of extra space.\n\nThis method is efficient and works well within the given constraints, ensuring that we find the optimal solution for the problem."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 18\nTest case 2:\n[PASS] Test passed: 9\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:54"
+}

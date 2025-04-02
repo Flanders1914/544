@@ -1,0 +1,50 @@
+{
+  "problem": {
+    "id": "390",
+    "frontend_id": "390",
+    "title": "Elimination Game",
+    "description": "You have a list arr of all integers in the range [1, n] sorted in a strictly increasing order. Apply the following algorithm on arr:\n\nStarting from left to right, remove the first number and every other number afterward until you reach the end of the list.\nRepeat the previous step again, but this time from right to left, remove the rightmost number and every other number from the remaining numbers.\nKeep repeating the steps again, alternating left to right and right to left, until a single number remains.\n\nGiven the integer n, return the last number that remains in arr.\n \nExample 1:\n\nInput: n = 9\nOutput: 6\nExplanation:\narr = [1, 2, 3, 4, 5, 6, 7, 8, 9]\narr = [2, 4, 6, 8]\narr = [2, 6]\narr = [6]\n\nExample 2:\n\nInput: n = 1\nOutput: 1\n\n \nConstraints:\n\n1 <= n <= 109\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "9",
+      "1"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "n": "9"
+        },
+        "expected": "6"
+      },
+      {
+        "input": {
+          "n": "1"
+        },
+        "expected": "1"
+      }
+    ],
+    "python_starter": "class Solution:\n    def lastRemaining(self, n: int) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "lastRemaining",
+      "params": [
+        {
+          "name": "n",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def lastRemaining(self, n: int) -> int:\n        # Initialize the starting position and the step size\n        left = 1\n        right = n\n        step = 1\n        is_left = True  # Start eliminating from the left\n        \n        while left < right:\n            if is_left:\n                # If eliminating from the left, we can calculate the new left position\n                left += step\n            else:\n                # If eliminating from the right, we can calculate the new right position\n                right -= step\n            \n            # Each complete pass doubles the step size\n            step *= 2\n            # Alternate the direction\n            is_left = not is_left\n        \n        return left  # At the end, left and right will converge to the last remaining number",
+    "explanation": "The solution uses an iterative approach to determine the last remaining number after repeatedly eliminating numbers from the list. \n\n1. We maintain two pointers, `left` and `right`, which represent the current range of numbers we are considering.\n2. We also keep track of the `step`, which indicates how many numbers we skip during each elimination round.\n3. The boolean `is_left` indicates whether we are currently eliminating from the left or the right.\n4. In each iteration, based on the direction of elimination, we adjust either the `left` or `right` pointer and double the `step` size for the next round.\n5. The loop continues until `left` equals `right`, at which point we have found the last remaining number.\n\nThe time complexity of this solution is O(log n) because the number of elements effectively halves with each complete pass. The space complexity is O(1) since we are using a constant amount of space for our variables.\n\nThus, this approach is efficient and works well even for the upper limit of n (10^9)."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 6\nTest case 2:\n[PASS] Test passed: 1\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:52"
+}

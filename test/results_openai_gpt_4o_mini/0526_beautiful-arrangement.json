@@ -1,0 +1,50 @@
+{
+  "problem": {
+    "id": "526",
+    "frontend_id": "526",
+    "title": "Beautiful Arrangement",
+    "description": "Suppose you have n integers labeled 1 through n. A permutation of those n integers perm (1-indexed) is considered a beautiful arrangement if for every i (1 <= i <= n), either of the following is true:\n\nperm[i] is divisible by i.\ni is divisible by perm[i].\n\nGiven an integer n, return the number of the beautiful arrangements that you can construct.\n \nExample 1:\n\nInput: n = 2\nOutput: 2\nExplanation: \nThe first beautiful arrangement is [1,2]:\n    - perm[1] = 1 is divisible by i = 1\n    - perm[2] = 2 is divisible by i = 2\nThe second beautiful arrangement is [2,1]:\n    - perm[1] = 2 is divisible by i = 1\n    - i = 2 is divisible by perm[2] = 1\n\nExample 2:\n\nInput: n = 1\nOutput: 1\n\n \nConstraints:\n\n1 <= n <= 15\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "2",
+      "1"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "n": "2"
+        },
+        "expected": "2"
+      },
+      {
+        "input": {
+          "n": "1"
+        },
+        "expected": "1"
+      }
+    ],
+    "python_starter": "class Solution:\n    def countArrangement(self, n: int) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "countArrangement",
+      "params": [
+        {
+          "name": "n",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def countArrangement(self, n: int) -> int:\n        # This will hold the count of beautiful arrangements\n        self.count = 0\n        \n        # Helper function for backtracking\n        def backtrack(pos, used):\n            # If we have filled all positions, we found a valid arrangement\n            if pos > n:\n                self.count += 1\n                return\n            \n            # Try placing each number from 1 to n in the current position\n            for num in range(1, n + 1):\n                # Check if the number is already used\n                if not (used & (1 << num)):\n                    # Check the beautiful arrangement condition\n                    if num % pos == 0 or pos % num == 0:\n                        # Mark the number as used and proceed to the next position\n                        backtrack(pos + 1, used | (1 << num))\n        \n        # Start backtracking from position 1 with no numbers used\n        backtrack(1, 0)\n        return self.count",
+    "explanation": "The solution uses a backtracking approach to explore all possible arrangements of the numbers from 1 to n. The `countArrangement` method initializes a counter and calls the `backtrack` function, which recursively builds the arrangement.\n\n1. **Backtracking Function**: The `backtrack` function takes the current position (`pos`) and a bitmask (`used`) to track which numbers have been used. \n   - If `pos` exceeds `n`, it means we have successfully filled all positions, and we increment our count of valid arrangements.\n   - For each number from 1 to n, we check if it has already been used (using the bitmask) and if it satisfies the beautiful arrangement conditions. If both conditions are met, we mark the number as used and recursively call `backtrack` for the next position.\n\n2. **Bitmasking**: The bitmask allows us to efficiently check and mark used numbers. Each bit in the integer represents whether a number is used (1) or not (0).\n\n3. **Time Complexity**: The time complexity is O(n!), as we are generating all permutations of n numbers. However, due to the constraints, this is manageable.\n\n4. **Space Complexity**: The space complexity is O(n) for the recursion stack and O(1) for the bitmask.\n\nOverall, this approach efficiently counts the number of beautiful arrangements by leveraging backtracking and bit manipulation."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 2\nTest case 2:\n[PASS] Test passed: 1\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:01:22"
+}

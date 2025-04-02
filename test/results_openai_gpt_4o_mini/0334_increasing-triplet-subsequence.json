@@ -1,0 +1,57 @@
+{
+  "problem": {
+    "id": "334",
+    "frontend_id": "334",
+    "title": "Increasing Triplet Subsequence",
+    "description": "Given an integer array nums, return true if there exists a triple of indices (i, j, k) such that i < j < k and nums[i] < nums[j] < nums[k]. If no such indices exists, return false.\n \nExample 1:\n\nInput: nums = [1,2,3,4,5]\nOutput: true\nExplanation: Any triplet where i < j < k is valid.\n\nExample 2:\n\nInput: nums = [5,4,3,2,1]\nOutput: false\nExplanation: No triplet exists.\n\nExample 3:\n\nInput: nums = [2,1,5,0,4,6]\nOutput: true\nExplanation: The triplet (3, 4, 5) is valid because nums[3] == 0 < nums[4] == 4 < nums[5] == 6.\n\n \nConstraints:\n\n1 <= nums.length <= 5 * 105\n-231 <= nums[i] <= 231 - 1\n\n \nFollow up: Could you implement a solution that runs in O(n) time complexity and O(1) space complexity?",
+    "difficulty": "Medium",
+    "examples": [
+      "[1,2,3,4,5]",
+      "[5,4,3,2,1]",
+      "[2,1,5,0,4,6]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[1,2,3,4,5]"
+        },
+        "expected": "true"
+      },
+      {
+        "input": {
+          "nums": "[5,4,3,2,1]"
+        },
+        "expected": "false"
+      },
+      {
+        "input": {
+          "nums": "[2,1,5,0,4,6]"
+        },
+        "expected": "true"
+      }
+    ],
+    "python_starter": "class Solution:\n    def increasingTriplet(self, nums: List[int]) -> bool:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "increasingTriplet",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def increasingTriplet(self, nums: List[int]) -> bool:\n        first = float('inf')\n        second = float('inf')\n        \n        for num in nums:\n            if num <= first:\n                first = num  # Update first to the smallest number\n            elif num <= second:\n                second = num  # Update second to the second smallest number\n            else:\n                # We found a number greater than both first and second\n                return True\n        \n        return False  # No triplet found",
+    "explanation": "The solution works by maintaining two variables, `first` and `second`, initialized to infinity. As we iterate through the `nums` array:\n\n1. If the current number `num` is less than or equal to `first`, we update `first` to `num`. This ensures that `first` always holds the smallest number encountered so far.\n2. If `num` is greater than `first` but less than or equal to `second`, we update `second` to `num`. This means we have found a valid candidate for the second number in the triplet.\n3. If we find a number that is greater than `second`, it indicates that we have found a valid triplet (since `first < second < num`), and we return `true`.\n\nIf we complete the loop without finding such a triplet, we return `false`.\n\n**Time Complexity:** O(n) - We traverse the list once.\n\n**Space Complexity:** O(1) - We use a constant amount of space for the variables `first` and `second`."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: True\nTest case 2:\n[PASS] Test passed: False\nTest case 3:\n[PASS] Test passed: True\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:49"
+}

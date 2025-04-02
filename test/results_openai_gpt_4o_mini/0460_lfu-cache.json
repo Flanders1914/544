@@ -1,0 +1,82 @@
+{
+  "problem": {
+    "id": "460",
+    "frontend_id": "460",
+    "title": "LFU Cache",
+    "description": "Design and implement a data structure for a Least Frequently Used (LFU) cache.\nImplement the LFUCache class:\n\nLFUCache(int capacity) Initializes the object with the capacity of the data structure.\nint get(int key) Gets the value of the key if the key exists in the cache. Otherwise, returns -1.\nvoid put(int key, int value) Update the value of the key if present, or inserts the key if not already present. When the cache reaches its capacity, it should invalidate and remove the least frequently used key before inserting a new item. For this problem, when there is a tie (i.e., two or more keys with the same frequency), the least recently used key would be invalidated.\n\nTo determine the least frequently used key, a use counter is maintained for each key in the cache. The key with the smallest use counter is the least frequently used key.\nWhen a key is first inserted into the cache, its use counter is set to 1 (due to the put operation). The use counter for a key in the cache is incremented either a get or put operation is called on it.\nThe functions get and put must each run in O(1) average time complexity.\n \nExample 1:\n\nInput\n[\"LFUCache\", \"put\", \"put\", \"get\", \"put\", \"get\", \"get\", \"put\", \"get\", \"get\", \"get\"]\n[[2], [1, 1], [2, 2], [1], [3, 3], [2], [3], [4, 4], [1], [3], [4]]\nOutput\n[null, null, null, 1, null, -1, 3, null, -1, 3, 4]\n\nExplanation\n// cnt(x) = the use counter for key x\n// cache=[] will show the last used order for tiebreakers (leftmost element is  most recent)\nLFUCache lfu = new LFUCache(2);\nlfu.put(1, 1);   // cache=[1,_], cnt(1)=1\nlfu.put(2, 2);   // cache=[2,1], cnt(2)=1, cnt(1)=1\nlfu.get(1);      // return 1\n                 // cache=[1,2], cnt(2)=1, cnt(1)=2\nlfu.put(3, 3);   // 2 is the LFU key because cnt(2)=1 is the smallest, invalidate 2.\n                 // cache=[3,1], cnt(3)=1, cnt(1)=2\nlfu.get(2);      // return -1 (not found)\nlfu.get(3);      // return 3\n                 // cache=[3,1], cnt(3)=2, cnt(1)=2\nlfu.put(4, 4);   // Both 1 and 3 have the same cnt, but 1 is LRU, invalidate 1.\n                 // cache=[4,3], cnt(4)=1, cnt(3)=2\nlfu.get(1);      // return -1 (not found)\nlfu.get(3);      // return 3\n                 // cache=[3,4], cnt(4)=1, cnt(3)=3\nlfu.get(4);      // return 4\n                 // cache=[4,3], cnt(4)=2, cnt(3)=3\n\n \nConstraints:\n\n1 <= capacity <= 104\n0 <= key <= 105\n0 <= value <= 109\nAt most 2 * 105 calls will be made to get and put.\n\n \n ",
+    "difficulty": "Hard",
+    "examples": [
+      "[\"LFUCache\",\"put\",\"put\",\"get\",\"put\",\"get\",\"get\",\"put\",\"get\",\"get\",\"get\"]",
+      "[[2],[1,1],[2,2],[1],[3,3],[2],[3],[4,4],[1],[3],[4]]"
+    ],
+    "structured_test_cases": [],
+    "python_starter": "class LFUCache:\n\n    def __init__(self, capacity: int):\n        \n\n    def get(self, key: int) -> int:\n        \n\n    def put(self, key: int, value: int) -> None:\n        \n\n\n# Your LFUCache object will be instantiated and called as such:\n# obj = LFUCache(capacity)\n# param_1 = obj.get(key)\n# obj.put(key,value)",
+    "hints": [],
+    "meta_data": {
+      "classname": "LFUCache",
+      "maxbytesperline": 200000,
+      "constructor": {
+        "params": [
+          {
+            "type": "integer",
+            "name": "capacity"
+          }
+        ]
+      },
+      "methods": [
+        {
+          "name": "get",
+          "params": [
+            {
+              "type": "integer",
+              "name": "key"
+            }
+          ],
+          "return": {
+            "type": "integer"
+          }
+        },
+        {
+          "name": "put",
+          "params": [
+            {
+              "type": "integer",
+              "name": "key"
+            },
+            {
+              "type": "integer",
+              "name": "value"
+            }
+          ],
+          "return": {
+            "type": "void"
+          }
+        }
+      ],
+      "systemdesign": true,
+      "params": [
+        {
+          "name": "inputs",
+          "type": "integer[]"
+        },
+        {
+          "name": "inputs",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "list<String>",
+        "dealloc": true
+      }
+    }
+  },
+  "solution": {
+    "code": "class LFUCache:\n\n    def __init__(self, capacity: int):\n        self.capacity = capacity\n        self.key_value = {}  # key to value mapping\n        self.key_freq = {}   # key to frequency mapping\n        self.freq_keys = {}  # frequency to keys mapping\n        self.min_freq = 0    # minimum frequency of keys in the cache\n\n    def get(self, key: int) -> int:\n        if key not in self.key_value:\n            return -1\n        \n        # Get the current frequency of the key\n        freq = self.key_freq[key]\n        \n        # Update the frequency of the key\n        self.key_freq[key] += 1\n        new_freq = self.key_freq[key]\n        \n        # Remove the key from the old frequency list\n        self.freq_keys[freq].remove(key)\n        if not self.freq_keys[freq]:\n            del self.freq_keys[freq]\n            if freq == self.min_freq:\n                self.min_freq += 1\n        \n        # Add the key to the new frequency list\n        if new_freq not in self.freq_keys:\n            self.freq_keys[new_freq] = []\n        self.freq_keys[new_freq].append(key)\n        \n        return self.key_value[key]\n\n    def put(self, key: int, value: int) -> None:\n        if self.capacity <= 0:\n            return\n        \n        if key in self.key_value:\n            # Update the value and call get to update frequency\n            self.key_value[key] = value\n            self.get(key)  # This will update the frequency\n            return\n        \n        if len(self.key_value) >= self.capacity:\n            # Evict the least frequently used key\n            lfu_key = self.freq_keys[self.min_freq][0]  # Get the LRU key with min frequency\n            self.freq_keys[self.min_freq].remove(lfu_key)\n            if not self.freq_keys[self.min_freq]:\n                del self.freq_keys[self.min_freq]\n            del self.key_value[lfu_key]\n            del self.key_freq[lfu_key]\n        \n        # Insert the new key-value pair\n        self.key_value[key] = value\n        self.key_freq[key] = 1\n        self.min_freq = 1\n        if self.min_freq not in self.freq_keys:\n            self.freq_keys[self.min_freq] = []\n        self.freq_keys[self.min_freq].append(key)\n\n# Your LFUCache object will be instantiated and called as such:\n# obj = LFUCache(capacity)\n# param_1 = obj.get(key)\n# obj.put(key,value)",
+    "explanation": "The LFU Cache implementation uses a combination of dictionaries to efficiently manage the cache's state. The `key_value` dictionary stores the actual values, while `key_freq` keeps track of how many times each key has been accessed. The `freq_keys` dictionary maps frequencies to lists of keys, allowing us to quickly find the least recently used key when we need to evict one.\n\n### Time Complexity:\n- Both `get` and `put` operations run in O(1) average time due to the use of hash maps for direct access.\n\n### Space Complexity:\n- The space complexity is O(capacity) since we store up to `capacity` keys in the cache, along with their frequencies and the lists of keys for each frequency"
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\nTraceback (most recent call last):\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmpz8bhe1n2.py\", line 92, in <module>\n    solution = LFUCache()\n               ^^^^^^^^^^\nTypeError: LFUCache.__init__() missing 1 required positional argument: 'capacity'\n"
+  },
+  "timestamp": "2025-04-01 18:00:57"
+}

@@ -1,0 +1,50 @@
+{
+  "problem": {
+    "id": "135",
+    "frontend_id": "135",
+    "title": "Candy",
+    "description": "There are n children standing in a line. Each child is assigned a rating value given in the integer array ratings.\nYou are giving candies to these children subjected to the following requirements:\n\nEach child must have at least one candy.\nChildren with a higher rating get more candies than their neighbors.\n\nReturn the minimum number of candies you need to have to distribute the candies to the children.\n \nExample 1:\n\nInput: ratings = [1,0,2]\nOutput: 5\nExplanation: You can allocate to the first, second and third child with 2, 1, 2 candies respectively.\n\nExample 2:\n\nInput: ratings = [1,2,2]\nOutput: 4\nExplanation: You can allocate to the first, second and third child with 1, 2, 1 candies respectively.\nThe third child gets 1 candy because it satisfies the above two conditions.\n\n \nConstraints:\n\nn == ratings.length\n1 <= n <= 2 * 104\n0 <= ratings[i] <= 2 * 104\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "[1,0,2]",
+      "[1,2,2]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "ratings": "[1,0,2]"
+        },
+        "expected": "5"
+      },
+      {
+        "input": {
+          "ratings": "[1,2,2]"
+        },
+        "expected": "4"
+      }
+    ],
+    "python_starter": "class Solution:\n    def candy(self, ratings: List[int]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "candy",
+      "params": [
+        {
+          "name": "ratings",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def candy(self, ratings: List[int]) -> int:\n        n = len(ratings)\n        if n == 0:\n            return 0\n        \n        # Step 1: Initialize candies array\n        candies = [1] * n\n        \n        # Step 2: Left to right pass\n        for i in range(1, n):\n            if ratings[i] > ratings[i - 1]:\n                candies[i] = candies[i - 1] + 1\n        \n        # Step 3: Right to left pass\n        for i in range(n - 2, -1, -1):\n            if ratings[i] > ratings[i + 1]:\n                candies[i] = max(candies[i], candies[i + 1] + 1)\n        \n        # Step 4: Return the total number of candies\n        return sum(candies)",
+    "explanation": "The solution uses a two-pass algorithm to ensure that the candy distribution meets the problem's requirements. \n\n1. **Initialization**: We start by creating a list `candies` initialized to 1 for each child, as each child must receive at least one candy.\n\n2. **First Pass (Left to Right)**: We iterate through the `ratings` array from the second child to the last. If the current child's rating is higher than the previous child's rating, we assign them one more candy than the previous child. This ensures that the left-to-right condition is satisfied.\n\n3. **Second Pass (Right to Left)**: We iterate through the `ratings` array from the second-to-last child back to the first. If the current child's rating is higher than the next child's rating, we check if they have more candies than the next child. If not, we update their candy count to be one more than the next child's candy count. This ensures that the right-to-left condition is satisfied.\n\n4. **Final Calculation**: Finally, we sum up all the values in the `candies` list to get the total number of candies needed.\n\n**Time Complexity**: O(n), where n is the number of children (length of the ratings array). We make two passes through the array.\n\n**Space Complexity**: O(n) for the `candies` list. However, we could optimize this to O(1) if we use a single variable to keep track of the total candies instead of storing them in a list, but that would complicate the logic.\n\nOverall, this solution efficiently meets the problem's requirements while ensuring minimal candy distribution."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 5\nTest case 2:\n[PASS] Test passed: 4\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:37"
+}

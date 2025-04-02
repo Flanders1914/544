@@ -1,0 +1,33 @@
+{
+  "id": "501",
+  "frontend_id": "501",
+  "title": "Find Mode in Binary Search Tree",
+  "description": "Given the root of a binary search tree (BST) with duplicates, return all the mode(s) (i.e., the most frequently occurred element) in it.\nIf the tree has more than one mode, return them in any order.\nAssume a BST is defined as follows:\n\nThe left subtree of a node contains only nodes with keys less than or equal to the node's key.\nThe right subtree of a node contains only nodes with keys greater than or equal to the node's key.\nBoth the left and right subtrees must also be binary search trees.\n\n \nExample 1:\n\n\nInput: root = [1,null,2,2]\nOutput: [2]\n\nExample 2:\n\nInput: root = [0]\nOutput: [0]\n\n \nConstraints:\n\nThe number of nodes in the tree is in the range [1, 104].\n-105 <= Node.val <= 105\n\n \nFollow up: Could you do that without using any extra space? (Assume that the implicit stack space incurred due to recursion does not count).",
+  "difficulty": "Easy",
+  "examples": [
+    "[1,null,2,2]",
+    "[0]"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "root": "[1,null,2,2]"
+      },
+      "expected": "[2]"
+    }
+  ],
+  "python_starter": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def findMode(self, root: Optional[TreeNode]) -> List[int]:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "findMode",
+    "params": [
+      {
+        "name": "root",
+        "type": "TreeNode"
+      }
+    ],
+    "return": {
+      "type": "integer[]"
+    }
+  }
+}

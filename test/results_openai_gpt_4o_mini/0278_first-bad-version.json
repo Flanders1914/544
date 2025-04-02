@@ -1,0 +1,59 @@
+{
+  "problem": {
+    "id": "278",
+    "frontend_id": "278",
+    "title": "First Bad Version",
+    "description": "You are a product manager and currently leading a team to develop a new product. Unfortunately, the latest version of your product fails the quality check. Since each version is developed based on the previous version, all the versions after a bad version are also bad.\nSuppose you have n versions [1, 2, ..., n] and you want to find out the first bad one, which causes all the following ones to be bad.\nYou are given an API bool isBadVersion(version) which returns whether version is bad. Implement a function to find the first bad version. You should minimize the number of calls to the API.\n \nExample 1:\n\nInput: n = 5, bad = 4\nOutput: 4\nExplanation:\ncall isBadVersion(3) -> false\ncall isBadVersion(5) -> true\ncall isBadVersion(4) -> true\nThen 4 is the first bad version.\n\nExample 2:\n\nInput: n = 1, bad = 1\nOutput: 1\n\n \nConstraints:\n\n1 <= bad <= n <= 231 - 1\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "5",
+      "4",
+      "1",
+      "1"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "n": "5",
+          "bad": "4"
+        },
+        "expected": "4"
+      },
+      {
+        "input": {
+          "n": "1",
+          "bad": "1"
+        },
+        "expected": "1"
+      }
+    ],
+    "python_starter": "# The isBadVersion API is already defined for you.\n# def isBadVersion(version: int) -> bool:\n\nclass Solution:\n    def firstBadVersion(self, n: int) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "firstBadVersion",
+      "params": [
+        {
+          "name": "n",
+          "type": "integer"
+        },
+        {
+          "name": "bad",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      },
+      "manual": true
+    }
+  },
+  "solution": {
+    "code": "# The isBadVersion API is already defined for you.\n# def isBadVersion(version: int) -> bool:\n\nclass Solution:\n    def firstBadVersion(self, n: int) -> int:\n        left, right = 1, n  # Initialize the search range\n        while left < right:  # Continue until the range is narrowed down\n            mid = left + (right - left) // 2  # Find the middle version\n            if isBadVersion(mid):  # Check if the middle version is bad\n                right = mid  # If it is bad, search in the left half\n            else:\n                left = mid + 1  # If it is not bad, search in the right half\n        return left  # When left == right, we found the first bad version",
+    "explanation": "The solution uses a binary search algorithm to efficiently find the first bad version among the given versions. The `firstBadVersion` function initializes two pointers, `left` and `right`, to represent the range of versions from 1 to `n`. \n\nIn each iteration of the while loop, we calculate the middle version `mid`. We then call the `isBadVersion(mid)` API to check if this version is bad. If it is bad, we know that the first bad version must be at `mid` or to the left of it, so we adjust the `right` pointer to `mid`. If it is not bad, we adjust the `left` pointer to `mid + 1`, indicating that the first bad version must be to the right of `mid`.\n\nThe loop continues until `left` equals `right`, at which point we have narrowed down the search to the first bad version, which is returned.\n\nThe time complexity of this solution is O(log n) due to the binary search, and the space complexity is O(1) since we are using a constant amount of space for the pointers."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:46"
+}

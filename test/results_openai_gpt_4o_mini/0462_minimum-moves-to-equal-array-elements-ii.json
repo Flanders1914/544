@@ -1,0 +1,50 @@
+{
+  "problem": {
+    "id": "462",
+    "frontend_id": "462",
+    "title": "Minimum Moves to Equal Array Elements II",
+    "description": "Given an integer array nums of size n, return the minimum number of moves required to make all array elements equal.\nIn one move, you can increment or decrement an element of the array by 1.\nTest cases are designed so that the answer will fit in a 32-bit integer.\n \nExample 1:\n\nInput: nums = [1,2,3]\nOutput: 2\nExplanation:\nOnly two moves are needed (remember each move increments or decrements one element):\n[1,2,3]  =>  [2,2,3]  =>  [2,2,2]\n\nExample 2:\n\nInput: nums = [1,10,2,9]\nOutput: 16\n\n \nConstraints:\n\nn == nums.length\n1 <= nums.length <= 105\n-109 <= nums[i] <= 109\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[1,2,3]",
+      "[1,10,2,9]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[1,2,3]"
+        },
+        "expected": "2"
+      },
+      {
+        "input": {
+          "nums": "[1,10,2,9]"
+        },
+        "expected": "16"
+      }
+    ],
+    "python_starter": "class Solution:\n    def minMoves2(self, nums: List[int]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "minMoves2",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def minMoves2(self, nums: List[int]) -> int:\n        # Sort the array to find the median\n        nums.sort()\n        n = len(nums)\n        median = nums[n // 2]  # Get the median\n        \n        # Calculate the total moves to make all elements equal to the median\n        moves = sum(abs(num - median) for num in nums)\n        \n        return moves",
+    "explanation": "The solution involves the following steps:\n\n1. **Sorting the Array**: We first sort the input array `nums`. This allows us to easily find the median, which is the key to minimizing the moves.\n\n2. **Finding the Median**: The median is determined based on the length of the sorted array. If the length is odd, the median is the middle element. If it's even, we can choose either of the two middle elements (in this case, we choose the lower middle).\n\n3. **Calculating Moves**: We then calculate the total number of moves required to make all elements equal to the median. This is done by summing the absolute differences between each element and the median.\n\n4. **Returning the Result**: Finally, we return the total number of moves.\n\n### Time Complexity\n- Sorting the array takes O(n log n), where n is the number of elements in the array.\n- Calculating the total moves takes O(n).\n- Therefore, the overall time complexity is O(n log n).\n\n### Space Complexity\n- The space complexity is O(1) if we disregard the space used by the input array, as we are only using a constant amount of extra space for variables.\n\nThis approach is efficient and works well within the given constraints."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 2\nTest case 2:\n[PASS] Test passed: 16\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:58"
+}

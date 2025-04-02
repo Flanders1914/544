@@ -1,0 +1,69 @@
+{
+  "problem": {
+    "id": "593",
+    "frontend_id": "593",
+    "title": "Valid Square",
+    "description": "Given the coordinates of four points in 2D space p1, p2, p3 and p4, return true if the four points construct a square.\nThe coordinate of a point pi is represented as [xi, yi]. The input is not given in any order.\nA valid square has four equal sides with positive length and four equal angles (90-degree angles).\n \nExample 1:\n\nInput: p1 = [0,0], p2 = [1,1], p3 = [1,0], p4 = [0,1]\nOutput: true\n\nExample 2:\n\nInput: p1 = [0,0], p2 = [1,1], p3 = [1,0], p4 = [0,12]\nOutput: false\n\nExample 3:\n\nInput: p1 = [1,0], p2 = [-1,0], p3 = [0,1], p4 = [0,-1]\nOutput: true\n\n \nConstraints:\n\np1.length == p2.length == p3.length == p4.length == 2\n-104 <= xi, yi <= 104\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[0,0]",
+      "[1,1]",
+      "[1,0]",
+      "[0,1]",
+      "[0,0]",
+      "[1,1]",
+      "[1,0]",
+      "[0,12]",
+      "[1,0]",
+      "[-1,0]",
+      "[0,1]",
+      "[0,-1]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "p1": "[0,0]",
+          "p2": "[1,1]",
+          "p3": "[1,0]",
+          "p4": "[0,1]"
+        },
+        "expected": "true"
+      }
+    ],
+    "python_starter": "class Solution:\n    def validSquare(self, p1: List[int], p2: List[int], p3: List[int], p4: List[int]) -> bool:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "validSquare",
+      "params": [
+        {
+          "name": "p1",
+          "type": "integer[]"
+        },
+        {
+          "name": "p2",
+          "type": "integer[]"
+        },
+        {
+          "name": "p3",
+          "type": "integer[]"
+        },
+        {
+          "name": "p4",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def validSquare(self, p1: List[int], p2: List[int], p3: List[int], p4: List[int]) -> bool:\n        def squared_distance(p1, p2):\n            return (p1[0] - p2[0]) ** 2 + (p1[1] - p2[1]) ** 2\n        \n        # Calculate all squared distances\n        distances = [\n            squared_distance(p1, p2),\n            squared_distance(p1, p3),\n            squared_distance(p1, p4),\n            squared_distance(p2, p3),\n            squared_distance(p2, p4),\n            squared_distance(p3, p4)\n        ]\n        \n        # Sort the distances\n        distances.sort()\n        \n        # Check the conditions for a valid square\n        return (distances[0] > 0 and \n                distances[0] == distances[1] == distances[2] == distances[3] and \n                distances[4] == distances[5] and \n                distances[4] > distances[0])",
+    "explanation": "The solution involves calculating the squared distances between all pairs of the four points. The `squared_distance` function computes the squared distance to avoid the computational overhead and potential inaccuracies of square roots. \n\n1. We compute the squared distances for all combinations of the four points, resulting in six distances.\n2. We sort these distances. For a valid square:\n   - The first four distances (the sides) must be equal and greater than zero.\n   - The last two distances (the diagonals) must also be equal and greater than the side lengths.\n3. The conditions are checked in a single return statement for clarity.\n\nThe time complexity of this solution is O(1) since the number of points is fixed (always four), and the space complexity is also O(1) as we are using a fixed amount of space for the distances."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: True\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:01:27"
+}

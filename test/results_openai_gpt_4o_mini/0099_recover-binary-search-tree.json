@@ -1,0 +1,53 @@
+{
+  "problem": {
+    "id": "99",
+    "frontend_id": "99",
+    "title": "Recover Binary Search Tree",
+    "description": "You are given the root of a binary search tree (BST), where the values of exactly two nodes of the tree were swapped by mistake. Recover the tree without changing its structure.\n \nExample 1:\n\n\nInput: root = [1,3,null,null,2]\nOutput: [3,1,null,null,2]\nExplanation: 3 cannot be a left child of 1 because 3 > 1. Swapping 1 and 3 makes the BST valid.\n\nExample 2:\n\n\nInput: root = [3,1,4,null,null,2]\nOutput: [2,1,4,null,null,3]\nExplanation: 2 cannot be in the right subtree of 3 because 2 < 3. Swapping 2 and 3 makes the BST valid.\n\n \nConstraints:\n\nThe number of nodes in the tree is in the range [2, 1000].\n-231 <= Node.val <= 231 - 1\n\n \nFollow up: A solution using O(n) space is pretty straight-forward. Could you devise a constant O(1) space solution?",
+    "difficulty": "Medium",
+    "examples": [
+      "[1,3,null,null,2]",
+      "[3,1,4,null,null,2]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "root": "[1,3,null,null,2]"
+        },
+        "expected": "[3,1,null,null,2]"
+      },
+      {
+        "input": {
+          "root": "[3,1,4,null,null,2]"
+        },
+        "expected": "[2,1,4,null,null,3]"
+      }
+    ],
+    "python_starter": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def recoverTree(self, root: Optional[TreeNode]) -> None:\n        \"\"\"\n        Do not return anything, modify root in-place instead.\n        \"\"\"\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "recoverTree",
+      "params": [
+        {
+          "name": "root",
+          "type": "TreeNode"
+        }
+      ],
+      "return": {
+        "type": "void"
+      },
+      "output": {
+        "paramindex": 0
+      }
+    }
+  },
+  "solution": {
+    "code": "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nclass Solution:\n    def recoverTree(self, root: Optional[TreeNode]) -> None:\n        \"\"\"\n        Do not return anything, modify root in-place instead.\n        \"\"\"\n        # Initialize pointers for the two nodes to be swapped\n        first = second = prev = None\n        \n        # Helper function for in-order traversal\n        def inorder(node):\n            nonlocal first, second, prev\n            if not node:\n                return\n            \n            # Traverse the left subtree\n            inorder(node.left)\n            \n            # Check for the first violation\n            if prev and prev.val > node.val:\n                if not first:\n                    first = prev  # First node to be swapped\n                second = node  # Second node to be swapped\n            \n            # Update prev to the current node\n            prev = node\n            \n            # Traverse the right subtree\n            inorder(node.right)\n        \n        # Perform in-order traversal\n        inorder(root)\n        \n        # Swap the values of the two nodes\n        if first and second:\n            first.val, second.val = second.val, first.val",
+    "explanation": "The solution uses an in-order traversal to identify the two nodes that were swapped in the BST. The in-order traversal visits nodes in a left-root-right order, which should yield a sorted sequence of values for a valid BST. \n\n1. **In-order Traversal**: We define a helper function `inorder` that recursively traverses the tree. During the traversal, we keep track of the previous node visited (`prev`).\n2. **Identifying Violations**: As we visit each node, we check if the current node's value is less than the previous node's value. If it is, we have found a violation:\n   - The first violation indicates the first node that needs to be swapped (`first`).\n   - The second violation indicates the second node that needs to be swapped (`second`).\n3. **Swapping Values**: After the traversal, if we have identified both nodes, we swap their values to restore the BST.\n\n**Time Complexity**: O(n), where n is the number of nodes in the tree, since we visit each node exactly once.\n\n**Space Complexity**: O(1), as we are using a constant amount of space for pointers and do not use any additional data structures.\n\nThis approach efficiently recovers the BST in-place without requiring extra space for storing node values."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:34"
+}

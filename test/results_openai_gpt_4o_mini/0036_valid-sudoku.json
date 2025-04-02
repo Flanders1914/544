@@ -1,0 +1,44 @@
+{
+  "problem": {
+    "id": "36",
+    "frontend_id": "36",
+    "title": "Valid Sudoku",
+    "description": "Determine if a 9 x 9 Sudoku board is valid. Only the filled cells need to be validated according to the following rules:\n\nEach row must contain the digits 1-9 without repetition.\nEach column must contain the digits 1-9 without repetition.\nEach of the nine 3 x 3 sub-boxes of the grid must contain the digits 1-9 without repetition.\n\nNote:\n\nA Sudoku board (partially filled) could be valid but is not necessarily solvable.\nOnly the filled cells need to be validated according to the mentioned rules.\n\n \nExample 1:\n\n\nInput: board = \n[[\"5\",\"3\",\".\",\".\",\"7\",\".\",\".\",\".\",\".\"]\n,[\"6\",\".\",\".\",\"1\",\"9\",\"5\",\".\",\".\",\".\"]\n,[\".\",\"9\",\"8\",\".\",\".\",\".\",\".\",\"6\",\".\"]\n,[\"8\",\".\",\".\",\".\",\"6\",\".\",\".\",\".\",\"3\"]\n,[\"4\",\".\",\".\",\"8\",\".\",\"3\",\".\",\".\",\"1\"]\n,[\"7\",\".\",\".\",\".\",\"2\",\".\",\".\",\".\",\"6\"]\n,[\".\",\"6\",\".\",\".\",\".\",\".\",\"2\",\"8\",\".\"]\n,[\".\",\".\",\".\",\"4\",\"1\",\"9\",\".\",\".\",\"5\"]\n,[\".\",\".\",\".\",\".\",\"8\",\".\",\".\",\"7\",\"9\"]]\nOutput: true\n\nExample 2:\n\nInput: board = \n[[\"8\",\"3\",\".\",\".\",\"7\",\".\",\".\",\".\",\".\"]\n,[\"6\",\".\",\".\",\"1\",\"9\",\"5\",\".\",\".\",\".\"]\n,[\".\",\"9\",\"8\",\".\",\".\",\".\",\".\",\"6\",\".\"]\n,[\"8\",\".\",\".\",\".\",\"6\",\".\",\".\",\".\",\"3\"]\n,[\"4\",\".\",\".\",\"8\",\".\",\"3\",\".\",\".\",\"1\"]\n,[\"7\",\".\",\".\",\".\",\"2\",\".\",\".\",\".\",\"6\"]\n,[\".\",\"6\",\".\",\".\",\".\",\".\",\"2\",\"8\",\".\"]\n,[\".\",\".\",\".\",\"4\",\"1\",\"9\",\".\",\".\",\"5\"]\n,[\".\",\".\",\".\",\".\",\"8\",\".\",\".\",\"7\",\"9\"]]\nOutput: false\nExplanation: Same as Example 1, except with the 5 in the top left corner being modified to 8. Since there are two 8's in the top left 3x3 sub-box, it is invalid.\n\n \nConstraints:\n\nboard.length == 9\nboard[i].length == 9\nboard[i][j] is a digit 1-9 or '.'.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[[\"5\",\"3\",\".\",\".\",\"7\",\".\",\".\",\".\",\".\"],[\"6\",\".\",\".\",\"1\",\"9\",\"5\",\".\",\".\",\".\"],[\".\",\"9\",\"8\",\".\",\".\",\".\",\".\",\"6\",\".\"],[\"8\",\".\",\".\",\".\",\"6\",\".\",\".\",\".\",\"3\"],[\"4\",\".\",\".\",\"8\",\".\",\"3\",\".\",\".\",\"1\"],[\"7\",\".\",\".\",\".\",\"2\",\".\",\".\",\".\",\"6\"],[\".\",\"6\",\".\",\".\",\".\",\".\",\"2\",\"8\",\".\"],[\".\",\".\",\".\",\"4\",\"1\",\"9\",\".\",\".\",\"5\"],[\".\",\".\",\".\",\".\",\"8\",\".\",\".\",\"7\",\"9\"]]",
+      "[[\"8\",\"3\",\".\",\".\",\"7\",\".\",\".\",\".\",\".\"],[\"6\",\".\",\".\",\"1\",\"9\",\"5\",\".\",\".\",\".\"],[\".\",\"9\",\"8\",\".\",\".\",\".\",\".\",\"6\",\".\"],[\"8\",\".\",\".\",\".\",\"6\",\".\",\".\",\".\",\"3\"],[\"4\",\".\",\".\",\"8\",\".\",\"3\",\".\",\".\",\"1\"],[\"7\",\".\",\".\",\".\",\"2\",\".\",\".\",\".\",\"6\"],[\".\",\"6\",\".\",\".\",\".\",\".\",\"2\",\"8\",\".\"],[\".\",\".\",\".\",\"4\",\"1\",\"9\",\".\",\".\",\"5\"],[\".\",\".\",\".\",\".\",\"8\",\".\",\".\",\"7\",\"9\"]]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "board": "[[\"5\",\"3\",\".\",\".\",\"7\",\".\",\".\",\".\",\".\"]"
+        },
+        "expected": "true"
+      }
+    ],
+    "python_starter": "class Solution:\n    def isValidSudoku(self, board: List[List[str]]) -> bool:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "isValidSudoku",
+      "params": [
+        {
+          "name": "board",
+          "type": "character[][]"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def isValidSudoku(self, board: List[List[str]]) -> bool:\n        # Sets to track seen numbers in rows, columns, and boxes\n        rows = [set() for _ in range(9)]\n        cols = [set() for _ in range(9)]\n        boxes = [set() for _ in range(9)]\n        \n        for i in range(9):\n            for j in range(9):\n                num = board[i][j]\n                if num != '.':\n                    # Calculate the index for the 3x3 box\n                    box_index = (i // 3) * 3 + (j // 3)\n                    \n                    # Check if the number is already in the row, column, or box\n                    if (num in rows[i]) or (num in cols[j]) or (num in boxes[box_index]):\n                        return False\n                    \n                    # Add the number to the respective sets\n                    rows[i].add(num)\n                    cols[j].add(num)\n                    boxes[box_index].add(num)\n        \n        return True",
+    "explanation": "The solution uses three lists of sets to keep track of the numbers seen in each row, column, and 3x3 sub-box. The algorithm iterates through each cell in the 9x9 board:\n\n1. For each cell, if the cell contains a digit (not a '.'), it calculates which 3x3 sub-box the cell belongs to using the formula `(i // 3) * 3 + (j // 3)`.\n2. It checks if the digit is already present in the corresponding row, column, or sub-box set. If it is found in any of these sets, the function returns `False`, indicating the board is invalid.\n3. If the digit is not found in any of the sets, it adds the digit to the respective row, column, and box sets.\n4. If the function completes the iteration without finding any duplicates, it returns `True`, indicating the board is valid.\n\nThe time complexity of this solution is O(1) since the board size is fixed at 9x9, leading to a constant number of operations. The space complexity is also O(1) because the maximum number of unique digits we store in the sets is limited to 9 for each of the rows, columns, and boxes."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmp0xiouxaz.py\", line 62\n    input_0_0 = [[\"5\",\"3\",\".\",\".\",\"7\",\".\",\".\",\".\",\".\"]\n                ^\nSyntaxError: '[' was never closed\n"
+  },
+  "timestamp": "2025-04-01 18:00:28"
+}

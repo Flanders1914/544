@@ -1,0 +1,51 @@
+{
+  "problem": {
+    "id": "132",
+    "frontend_id": "132",
+    "title": "Palindrome Partitioning II",
+    "description": "Given a string s, partition s such that every substring of the partition is a palindrome.\nReturn the minimum cuts needed for a palindrome partitioning of s.\n \nExample 1:\n\nInput: s = \"aab\"\nOutput: 1\nExplanation: The palindrome partitioning [\"aa\",\"b\"] could be produced using 1 cut.\n\nExample 2:\n\nInput: s = \"a\"\nOutput: 0\n\nExample 3:\n\nInput: s = \"ab\"\nOutput: 1\n\n \nConstraints:\n\n1 <= s.length <= 2000\ns consists of lowercase English letters only.\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "\"aab\"",
+      "\"a\"",
+      "\"ab\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "s": "\"aab\""
+        },
+        "expected": "1"
+      },
+      {
+        "input": {
+          "s": "\"a\""
+        },
+        "expected": "0"
+      }
+    ],
+    "python_starter": "class Solution:\n    def minCut(self, s: str) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "minCut",
+      "params": [
+        {
+          "name": "s",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def minCut(self, s: str) -> int:\n        n = len(s)\n        if n == 0:\n            return 0\n        \n        # Create a 2D array to store palindrome information\n        is_palindrome = [[False] * n for _ in range(n)]\n        \n        # Fill the is_palindrome table\n        for end in range(n):\n            for start in range(end + 1):\n                if s[start] == s[end]:\n                    if end - start <= 2:  # Single character or two characters\n                        is_palindrome[start][end] = True\n                    else:\n                        is_palindrome[start][end] = is_palindrome[start + 1][end - 1]\n        \n        # Create a dp array to store the minimum cuts\n        dp = [0] * n\n        \n        for i in range(n):\n            if is_palindrome[0][i]:\n                dp[i] = 0  # No cuts needed if the whole substring is a palindrome\n            else:\n                min_cuts = float('inf')\n                for j in range(i):\n                    if is_palindrome[j + 1][i]:  # Check if s[j+1:i+1] is a palindrome\n                        min_cuts = min(min_cuts, dp[j] + 1)\n                dp[i] = min_cuts\n        \n        return dp[-1]",
+    "explanation": "The solution uses dynamic programming to efficiently determine the minimum cuts needed for palindrome partitioning of the string. The `is_palindrome` table is constructed to check if any substring is a palindrome, which allows us to quickly evaluate potential cuts.\n\n1. **Palindrome Table Construction**: We iterate through all possible substrings and fill the `is_palindrome` table based on the conditions for palindromes. This takes O(n^2) time.\n\n2. **Dynamic Programming Array**: We maintain a `dp` array where each entry `dp[i]` represents the minimum cuts needed for the substring `s[0:i+1]`. If the entire substring is a palindrome, no cuts are needed. Otherwise, we check all possible cuts and update the minimum cuts accordingly.\n\n3. **Time Complexity**: The overall time complexity is O(n^2) due to the nested loops for filling the palindrome table and calculating the minimum cuts.\n\n4. **Space Complexity**: The space complexity is O(n) for storing the `dp` and `is_palindrome` arrays.\n\nThis approach is efficient and works well within the problem's constraints, ensuring that we can handle strings of length up to 2000."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:37"
+}

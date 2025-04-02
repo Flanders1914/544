@@ -1,0 +1,47 @@
+{
+  "id": "378",
+  "frontend_id": "378",
+  "title": "Kth Smallest Element in a Sorted Matrix",
+  "description": "Given an n x n matrix where each of the rows and columns is sorted in ascending order, return the kth smallest element in the matrix.\nNote that it is the kth smallest element in the sorted order, not the kth distinct element.\nYou must find a solution with a memory complexity better than O(n2).\n \nExample 1:\n\nInput: matrix = [[1,5,9],[10,11,13],[12,13,15]], k = 8\nOutput: 13\nExplanation: The elements in the matrix are [1,5,9,10,11,12,13,13,15], and the 8th smallest number is 13\n\nExample 2:\n\nInput: matrix = [[-5]], k = 1\nOutput: -5\n\n \nConstraints:\n\nn == matrix.length == matrix[i].length\n1 <= n <= 300\n-109 <= matrix[i][j] <= 109\nAll the rows and columns of matrix are guaranteed to be sorted in non-decreasing order.\n1 <= k <= n2\n\n \nFollow up:\n\nCould you solve the problem with a constant memory (i.e., O(1) memory complexity)?\nCould you solve the problem in O(n) time complexity? The solution may be too advanced for an interview but you may find reading this paper fun.\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "[[1,5,9],[10,11,13],[12,13,15]]",
+    "8",
+    "[[-5]]",
+    "1"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "matrix": "[[1,5,9]",
+        "k": "8"
+      },
+      "expected": "13"
+    },
+    {
+      "input": {
+        "matrix": "[[-5]",
+        "k": "1"
+      },
+      "expected": "-5"
+    }
+  ],
+  "python_starter": "class Solution:\n    def kthSmallest(self, matrix: List[List[int]], k: int) -> int:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "kthSmallest",
+    "params": [
+      {
+        "name": "matrix",
+        "type": "integer[][]"
+      },
+      {
+        "name": "k",
+        "type": "integer"
+      }
+    ],
+    "return": {
+      "type": "integer"
+    }
+  }
+}

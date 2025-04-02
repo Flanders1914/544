@@ -1,0 +1,39 @@
+{
+  "id": "120",
+  "frontend_id": "120",
+  "title": "Triangle",
+  "description": "Given a triangle array, return the minimum path sum from top to bottom.\nFor each step, you may move to an adjacent number of the row below. More formally, if you are on index i on the current row, you may move to either index i or index i + 1 on the next row.\n \nExample 1:\n\nInput: triangle = [[2],[3,4],[6,5,7],[4,1,8,3]]\nOutput: 11\nExplanation: The triangle looks like:\n   2\n  3 4\n 6 5 7\n4 1 8 3\nThe minimum path sum from top to bottom is 2 + 3 + 5 + 1 = 11 (underlined above).\n\nExample 2:\n\nInput: triangle = [[-10]]\nOutput: -10\n\n \nConstraints:\n\n1 <= triangle.length <= 200\ntriangle[0].length == 1\ntriangle[i].length == triangle[i - 1].length + 1\n-104 <= triangle[i][j] <= 104\n\n \nFollow up: Could you do this using only O(n) extra space, where n is the total number of rows in the triangle?",
+  "difficulty": "Medium",
+  "examples": [
+    "[[2],[3,4],[6,5,7],[4,1,8,3]]",
+    "[[-10]]"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "triangle": "[[2]"
+      },
+      "expected": "11"
+    },
+    {
+      "input": {
+        "triangle": "[[-10]"
+      },
+      "expected": "-10"
+    }
+  ],
+  "python_starter": "class Solution:\n    def minimumTotal(self, triangle: List[List[int]]) -> int:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "minimumTotal",
+    "params": [
+      {
+        "name": "triangle",
+        "type": "list<list<integer>>"
+      }
+    ],
+    "return": {
+      "type": "integer"
+    }
+  }
+}

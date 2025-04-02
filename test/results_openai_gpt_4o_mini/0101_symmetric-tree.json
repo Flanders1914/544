@@ -1,0 +1,44 @@
+{
+  "problem": {
+    "id": "101",
+    "frontend_id": "101",
+    "title": "Symmetric Tree",
+    "description": "Given the root of a binary tree, check whether it is a mirror of itself (i.e., symmetric around its center).\n \nExample 1:\n\n\nInput: root = [1,2,2,3,4,4,3]\nOutput: true\n\nExample 2:\n\n\nInput: root = [1,2,2,null,3,null,3]\nOutput: false\n\n \nConstraints:\n\nThe number of nodes in the tree is in the range [1, 1000].\n-100 <= Node.val <= 100\n\n \nFollow up: Could you solve it both recursively and iteratively?",
+    "difficulty": "Easy",
+    "examples": [
+      "[1,2,2,3,4,4,3]",
+      "[1,2,2,null,3,null,3]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "root": "[1,2,2,3,4,4,3]"
+        },
+        "expected": "true"
+      }
+    ],
+    "python_starter": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def isSymmetric(self, root: Optional[TreeNode]) -> bool:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "isSymmetric",
+      "params": [
+        {
+          "name": "root",
+          "type": "TreeNode"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nclass Solution:\n    def isSymmetric(self, root: Optional[TreeNode]) -> bool:\n        if not root:\n            return True\n        \n        # Helper function for recursion\n        def isMirror(left, right):\n            if not left and not right:\n                return True\n            if not left or not right:\n                return False\n            return (left.val == right.val) and isMirror(left.left, right.right) and isMirror(left.right, right.left)\n        \n        return isMirror(root.left, root.right)\n\n    def isSymmetricIterative(self, root: Optional[TreeNode]) -> bool:\n        if not root:\n            return True\n        \n        queue = [(root.left, root.right)]\n        \n        while queue:\n            left, right = queue.pop(0)\n            if not left and not right:\n                continue\n            if not left or not right:\n                return False\n            if left.val != right.val:\n                return False\n            \n            queue.append((left.left, right.right))\n            queue.append((left.right, right.left))\n        \n        return True",
+    "explanation": "The solution consists of two methods to check if a binary tree is symmetric: a recursive method and an iterative method.\n\n1. **Recursive Method**:\n   - We define a helper function `isMirror` that takes two nodes as input.\n   - The base cases check if both nodes are `None` (symmetric) or if one is `None` and the other is not (not symmetric).\n   - If both nodes are present, we check if their values are equal and recursively check their children in a mirrored manner.\n   - The time complexity of this approach is O(n), where n is the number of nodes in the tree, as we visit each node once. The space complexity is O(h), where h is the height of the tree, due to the recursion stack.\n\n2. **Iterative Method**:\n   - We use a queue to store pairs of nodes to compare.\n   - We process each pair, checking for symmetry as described in the recursive method.\n   - If we find any asymmetry, we return `False`. If we finish processing all pairs without finding asymmetry, we return `True`.\n   - The time complexity remains O(n) and the space complexity is O(n) in the worst case, as we may store all nodes in the queue.\n\nBoth methods effectively determine if the tree is symmetric around its center."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:34"
+}

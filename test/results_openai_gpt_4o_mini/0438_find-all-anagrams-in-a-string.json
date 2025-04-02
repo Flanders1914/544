@@ -1,0 +1,58 @@
+{
+  "problem": {
+    "id": "438",
+    "frontend_id": "438",
+    "title": "Find All Anagrams in a String",
+    "description": "Given two strings s and p, return an array of all the start indices of p's anagrams in s. You may return the answer in any order.\n \nExample 1:\n\nInput: s = \"cbaebabacd\", p = \"abc\"\nOutput: [0,6]\nExplanation:\nThe substring with start index = 0 is \"cba\", which is an anagram of \"abc\".\nThe substring with start index = 6 is \"bac\", which is an anagram of \"abc\".\n\nExample 2:\n\nInput: s = \"abab\", p = \"ab\"\nOutput: [0,1,2]\nExplanation:\nThe substring with start index = 0 is \"ab\", which is an anagram of \"ab\".\nThe substring with start index = 1 is \"ba\", which is an anagram of \"ab\".\nThe substring with start index = 2 is \"ab\", which is an anagram of \"ab\".\n\n \nConstraints:\n\n1 <= s.length, p.length <= 3 * 104\ns and p consist of lowercase English letters.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "\"cbaebabacd\"",
+      "\"abc\"",
+      "\"abab\"",
+      "\"ab\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "s": "\"cbaebabacd\"",
+          "p": "\"abc\""
+        },
+        "expected": "[0,6]"
+      },
+      {
+        "input": {
+          "s": "\"abab\"",
+          "p": "\"ab\""
+        },
+        "expected": "[0,1,2]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def findAnagrams(self, s: str, p: str) -> List[int]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "findAnagrams",
+      "params": [
+        {
+          "name": "s",
+          "type": "string"
+        },
+        {
+          "name": "p",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "list<integer>"
+      }
+    }
+  },
+  "solution": {
+    "code": "from collections import Counter\nfrom typing import List\n\nclass Solution:\n    def findAnagrams(self, s: str, p: str) -> List[int]:\n        # Lengths of the strings\n        len_s, len_p = len(s), len(p)\n        \n        # Result list to store the starting indices of anagrams\n        result = []\n        \n        # Edge case: if p is longer than s, return empty list\n        if len_p > len_s:\n            return result\n        \n        # Frequency count of characters in p\n        p_count = Counter(p)\n        # Frequency count of the first window in s\n        s_count = Counter(s[:len_p])\n        \n        # Check if the first window is an anagram\n        if s_count == p_count:\n            result.append(0)\n        \n        # Sliding window\n        for i in range(len_p, len_s):\n            # Add the new character to the window\n            s_count[s[i]] += 1\n            # Remove the character that is sliding out of the window\n            s_count[s[i - len_p]] -= 1\n            \n            # If the count goes to zero, remove it from the counter\n            if s_count[s[i - len_p]] == 0:\n                del s_count[s[i - len_p]]\n            \n            # Compare the frequency counts\n            if s_count == p_count:\n                result.append(i - len_p + 1)\n        \n        return result",
+    "explanation": "The solution uses the sliding window technique combined with character frequency counting to efficiently find all anagrams of `p` in `s`. \n\n1. **Initialization**: We first check if `p` is longer than `s`. If it is, we return an empty list since no anagrams can exist. We then create a frequency count for `p` and the first window of `s`.\n\n2. **Sliding Window**: We iterate through `s` starting from the end of the first window. For each new character that enters the window, we update the frequency count. We also decrement the count of the character that is sliding out of the window. If the count of any character drops to zero, we remove it from the frequency count to keep the comparison efficient.\n\n3. **Comparison**: After updating the frequency counts, we check if they are equal. If they are, it means the current window is an anagram of `p`, and we record the starting index.\n\n4. **Time Complexity**: The algorithm runs in O(n) time, where n is the length of `s`, since we make a single pass through `s` and perform constant-time operations for each character.\n\n5. **Space Complexity**: The space complexity is O(1) because the frequency count only needs to store counts for 26 lowercase English letters, which is a constant size.\n\nThis approach is efficient and works well within the problem's constraints."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:56"
+}

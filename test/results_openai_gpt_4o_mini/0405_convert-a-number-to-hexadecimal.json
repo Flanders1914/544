@@ -1,0 +1,44 @@
+{
+  "problem": {
+    "id": "405",
+    "frontend_id": "405",
+    "title": "Convert a Number to Hexadecimal",
+    "description": "Given a 32-bit integer num, return a string representing its hexadecimal representation. For negative integers, two’s complement method is used.\nAll the letters in the answer string should be lowercase characters, and there should not be any leading zeros in the answer except for the zero itself.\nNote: You are not allowed to use any built-in library method to directly solve this problem.\n \nExample 1:\nInput: num = 26\nOutput: \"1a\"\nExample 2:\nInput: num = -1\nOutput: \"ffffffff\"\n\n \nConstraints:\n\n-231 <= num <= 231 - 1\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "26",
+      "-1"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "num": "26"
+        },
+        "expected": "1a"
+      }
+    ],
+    "python_starter": "class Solution:\n    def toHex(self, num: int) -> str:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "toHex",
+      "params": [
+        {
+          "name": "num",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "string"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def toHex(self, num: int) -> str:\n        # Handle the case for zero\n        if num == 0:\n            return \"0\"\n        \n        # If the number is negative, convert it to its two's complement\n        if num < 0:\n            num += 2**32\n        \n        hex_chars = \"0123456789abcdef\"\n        hex_string = \"\"\n        \n        # Convert the number to hexadecimal\n        while num > 0:\n            remainder = num % 16\n            hex_string += hex_chars[remainder]\n            num //= 16\n        \n        # The hex_string is in reverse order, so we need to reverse it\n        return hex_string[::-1]",
+    "explanation": "The solution works by converting the integer to its hexadecimal representation using a manual method without relying on built-in functions. \n\n1. **Zero Handling**: If the input number is zero, we immediately return \"0\" since its hexadecimal representation is also \"0\".\n2. **Two's Complement for Negatives**: For negative integers, we convert them to their two's complement by adding \\(2^{32}\\). This allows us to treat the negative number as a large positive number in the range of 0 to \\(2^{32}-1\\).\n3. **Hexadecimal Conversion**: We maintain a string of hexadecimal characters. In a loop, we repeatedly divide the number by 16, using the remainder to find the corresponding hexadecimal character, which we append to our result string.\n4. **Reversing the Result**: Since the hexadecimal digits are generated in reverse order, we reverse the string before returning it.\n\n**Time Complexity**: The time complexity of this solution is \\(O(\\log n)\\), where \\(n\\) is the absolute value of the input number. This is because we are dividing the number by 16 in each iteration, which reduces the number of digits we need to process.\n\n**Space Complexity**: The space complexity is \\(O(1)\\) for the variables used, but the space used for the output string can be considered \\(O(k)\\), where \\(k\\) is the number of hexadecimal digits (at most 8 for a 32-bit integer).\n\nOverall, this solution efficiently converts a 32-bit integer to its hexadecimal representation while adhering to the constraints provided."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 1a\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:53"
+}

@@ -1,0 +1,55 @@
+{
+  "problem": {
+    "id": "258",
+    "frontend_id": "258",
+    "title": "Add Digits",
+    "description": "Given an integer num, repeatedly add all its digits until the result has only one digit, and return it.\n \nExample 1:\n\nInput: num = 38\nOutput: 2\nExplanation: The process is\n38 --> 3 + 8 --> 11\n11 --> 1 + 1 --> 2 \nSince 2 has only one digit, return it.\n\nExample 2:\n\nInput: num = 0\nOutput: 0\n\n \nConstraints:\n\n0 <= num <= 231 - 1\n\n \nFollow up: Could you do it without any loop/recursion in O(1) runtime?\n",
+    "difficulty": "Easy",
+    "examples": [
+      "38",
+      "0"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "num": "38"
+        },
+        "expected": "2"
+      },
+      {
+        "input": {
+          "num": "0"
+        },
+        "expected": "0"
+      }
+    ],
+    "python_starter": "class Solution:\n    def addDigits(self, num: int) -> int:\n        ",
+    "hints": [
+      "A naive implementation of the above process is trivial. Could you come up with other methods?",
+      "What are all the possible results?",
+      "How do they occur, periodically or randomly?",
+      "You may find this <a href=\"https://en.wikipedia.org/wiki/Digital_root\" target=\"_blank\">Wikipedia article</a> useful."
+    ],
+    "meta_data": {
+      "name": "addDigits",
+      "params": [
+        {
+          "name": "num",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def addDigits(self, num: int) -> int:\n        # If num is 0, return 0\n        if num == 0:\n            return 0\n        # Use the digital root formula\n        return 1 + (num - 1) % 9",
+    "explanation": "The solution leverages the mathematical property of the digital root to achieve the desired result in constant time. The formula `1 + (num - 1) % 9` effectively computes the single-digit result without needing to iterate through the digits of the number.\n\n### Time Complexity\nThe time complexity of this solution is O(1) since it performs a constant number of operations regardless of the size of the input number.\n\n### Space Complexity\nThe space complexity is also O(1) because we are using a fixed amount of space for the variables, and no additional data structures are required.\n\nThis approach is efficient and meets the problem's requirement of avoiding loops or recursion while providing the correct result for any valid input within the specified constraints."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 2\nTest case 2:\n[PASS] Test passed: 0\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:45"
+}

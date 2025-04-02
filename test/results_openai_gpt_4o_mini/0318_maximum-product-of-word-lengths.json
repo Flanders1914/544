@@ -1,0 +1,57 @@
+{
+  "problem": {
+    "id": "318",
+    "frontend_id": "318",
+    "title": "Maximum Product of Word Lengths",
+    "description": "Given a string array words, return the maximum value of length(word[i]) * length(word[j]) where the two words do not share common letters. If no such two words exist, return 0.\n \nExample 1:\n\nInput: words = [\"abcw\",\"baz\",\"foo\",\"bar\",\"xtfn\",\"abcdef\"]\nOutput: 16\nExplanation: The two words can be \"abcw\", \"xtfn\".\n\nExample 2:\n\nInput: words = [\"a\",\"ab\",\"abc\",\"d\",\"cd\",\"bcd\",\"abcd\"]\nOutput: 4\nExplanation: The two words can be \"ab\", \"cd\".\n\nExample 3:\n\nInput: words = [\"a\",\"aa\",\"aaa\",\"aaaa\"]\nOutput: 0\nExplanation: No such pair of words.\n\n \nConstraints:\n\n2 <= words.length <= 1000\n1 <= words[i].length <= 1000\nwords[i] consists only of lowercase English letters.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[\"abcw\",\"baz\",\"foo\",\"bar\",\"xtfn\",\"abcdef\"]",
+      "[\"a\",\"ab\",\"abc\",\"d\",\"cd\",\"bcd\",\"abcd\"]",
+      "[\"a\",\"aa\",\"aaa\",\"aaaa\"]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "words": "[\"abcw\",\"baz\",\"foo\",\"bar\",\"xtfn\",\"abcdef\"]"
+        },
+        "expected": "16"
+      },
+      {
+        "input": {
+          "words": "[\"a\",\"ab\",\"abc\",\"d\",\"cd\",\"bcd\",\"abcd\"]"
+        },
+        "expected": "4"
+      },
+      {
+        "input": {
+          "words": "[\"a\",\"aa\",\"aaa\",\"aaaa\"]"
+        },
+        "expected": "0"
+      }
+    ],
+    "python_starter": "class Solution:\n    def maxProduct(self, words: List[str]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "maxProduct",
+      "params": [
+        {
+          "name": "words",
+          "type": "string[]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def maxProduct(self, words: List[str]) -> int:\n        # Create a list to hold the bitmask for each word\n        bitmasks = []\n        lengths = []\n        \n        for word in words:\n            bitmask = 0\n            for char in word:\n                # Set the bit corresponding to the character\n                bitmask |= 1 << (ord(char) - ord('a'))\n            bitmasks.append(bitmask)\n            lengths.append(len(word))\n        \n        max_product = 0\n        \n        # Compare each pair of words\n        for i in range(len(words)):\n            for j in range(i + 1, len(words)):\n                # Check if the two words share common letters\n                if bitmasks[i] & bitmasks[j] == 0:\n                    # Calculate the product of their lengths\n                    product = lengths[i] * lengths[j]\n                    max_product = max(max_product, product)\n        \n        return max_product",
+    "explanation": "The solution uses a bitmasking technique to efficiently determine if two words share any common letters. Each word is converted into a bitmask where each bit represents whether a particular letter (from 'a' to 'z') is present in the word. This allows us to perform quick checks for common letters using bitwise operations.\n\n1. **Bitmask Creation**: For each word, we create a bitmask by iterating through its characters and setting the corresponding bit in an integer. This is done using the expression `bitmask |= 1 << (ord(char) - ord('a'))`, which shifts a 1 to the position corresponding to the character.\n\n2. **Pair Comparison**: We then compare each pair of words using nested loops. For each pair, we check if their bitmasks share any bits using the expression `bitmasks[i] & bitmasks[j] == 0`. If they do not share any bits, we calculate the product of their lengths and update the maximum product found.\n\n3. **Time Complexity**: The time complexity of this solution is O(n^2), where n is the number of words. This is due to the nested loops that compare each pair of words. The bitmask operations and length calculations are O(1).\n\n4. **Space Complexity**: The space complexity is O(n), where n is the number of words, as we store the bitmasks and lengths in separate lists.\n\nOverall, this approach is efficient and works well within the problem's constraints."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 16\nTest case 2:\n[PASS] Test passed: 4\nTest case 3:\n[PASS] Test passed: 0\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:48"
+}

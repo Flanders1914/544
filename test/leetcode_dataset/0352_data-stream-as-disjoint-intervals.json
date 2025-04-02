@@ -1,0 +1,45 @@
+{
+  "id": "352",
+  "frontend_id": "352",
+  "title": "Data Stream as Disjoint Intervals",
+  "description": "Given a data stream input of non-negative integers a1, a2, ..., an, summarize the numbers seen so far as a list of disjoint intervals.\nImplement the SummaryRanges class:\n\nSummaryRanges() Initializes the object with an empty stream.\nvoid addNum(int value) Adds the integer value to the stream.\nint[][] getIntervals() Returns a summary of the integers in the stream currently as a list of disjoint intervals [starti, endi]. The answer should be sorted by starti.\n\n \nExample 1:\n\nInput\n[\"SummaryRanges\", \"addNum\", \"getIntervals\", \"addNum\", \"getIntervals\", \"addNum\", \"getIntervals\", \"addNum\", \"getIntervals\", \"addNum\", \"getIntervals\"]\n[[], [1], [], [3], [], [7], [], [2], [], [6], []]\nOutput\n[null, null, [[1, 1]], null, [[1, 1], [3, 3]], null, [[1, 1], [3, 3], [7, 7]], null, [[1, 3], [7, 7]], null, [[1, 3], [6, 7]]]\n\nExplanation\nSummaryRanges summaryRanges = new SummaryRanges();\nsummaryRanges.addNum(1);      // arr = [1]\nsummaryRanges.getIntervals(); // return [[1, 1]]\nsummaryRanges.addNum(3);      // arr = [1, 3]\nsummaryRanges.getIntervals(); // return [[1, 1], [3, 3]]\nsummaryRanges.addNum(7);      // arr = [1, 3, 7]\nsummaryRanges.getIntervals(); // return [[1, 1], [3, 3], [7, 7]]\nsummaryRanges.addNum(2);      // arr = [1, 2, 3, 7]\nsummaryRanges.getIntervals(); // return [[1, 3], [7, 7]]\nsummaryRanges.addNum(6);      // arr = [1, 2, 3, 6, 7]\nsummaryRanges.getIntervals(); // return [[1, 3], [6, 7]]\n\n \nConstraints:\n\n0 <= value <= 104\nAt most 3 * 104 calls will be made to addNum and getIntervals.\nAt most 102 calls will be made to getIntervals.\n\n \nFollow up: What if there are lots of merges and the number of disjoint intervals is small compared to the size of the data stream?\n",
+  "difficulty": "Hard",
+  "examples": [
+    "[\"SummaryRanges\",\"addNum\",\"getIntervals\",\"addNum\",\"getIntervals\",\"addNum\",\"getIntervals\",\"addNum\",\"getIntervals\",\"addNum\",\"getIntervals\"]",
+    "[[],[1],[],[3],[],[7],[],[2],[],[6],[]]"
+  ],
+  "structured_test_cases": [],
+  "python_starter": "class SummaryRanges:\n\n    def __init__(self):\n        \n\n    def addNum(self, value: int) -> None:\n        \n\n    def getIntervals(self) -> List[List[int]]:\n        \n\n\n# Your SummaryRanges object will be instantiated and called as such:\n# obj = SummaryRanges()\n# obj.addNum(value)\n# param_2 = obj.getIntervals()",
+  "hints": [],
+  "meta_data": {
+    "classname": "SummaryRanges",
+    "constructor": {
+      "params": []
+    },
+    "methods": [
+      {
+        "params": [
+          {
+            "type": "integer",
+            "name": "value"
+          }
+        ],
+        "return": {
+          "type": "void"
+        },
+        "name": "addNum"
+      },
+      {
+        "params": [],
+        "return": {
+          "type": "integer[][]"
+        },
+        "name": "getIntervals"
+      }
+    ],
+    "return": {
+      "type": "boolean"
+    },
+    "systemdesign": true
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "problem": {
+    "id": "144",
+    "frontend_id": "144",
+    "title": "Binary Tree Preorder Traversal",
+    "description": "Given the root of a binary tree, return the preorder traversal of its nodes' values.\n \nExample 1:\n\nInput: root = [1,null,2,3]\nOutput: [1,2,3]\nExplanation:\n\n\nExample 2:\n\nInput: root = [1,2,3,4,5,null,8,null,null,6,7,9]\nOutput: [1,2,4,5,6,7,3,8,9]\nExplanation:\n\n\nExample 3:\n\nInput: root = []\nOutput: []\n\nExample 4:\n\nInput: root = [1]\nOutput: [1]\n\n \nConstraints:\n\nThe number of nodes in the tree is in the range [0, 100].\n-100 <= Node.val <= 100\n\n \nFollow up: Recursive solution is trivial, could you do it iteratively?\n",
+    "difficulty": "Easy",
+    "examples": [
+      "[1,null,2,3]",
+      "[1,2,3,4,5,null,8,null,null,6,7,9]",
+      "[]",
+      "[1]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "root": "[1,null,2,3]"
+        },
+        "expected": "[1,2,3]"
+      },
+      {
+        "input": {
+          "root": "[1,2,3,4,5,null,8,null,null,6,7,9]"
+        },
+        "expected": "[1,2,4,5,6,7,3,8,9]"
+      },
+      {
+        "input": {
+          "root": "[]"
+        },
+        "expected": "[]"
+      }
+    ],
+    "python_starter": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "preorderTraversal",
+      "params": [
+        {
+          "name": "root",
+          "type": "TreeNode"
+        }
+      ],
+      "return": {
+        "type": "list<integer>",
+        "dealloc": true
+      }
+    }
+  },
+  "solution": {
+    "code": "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nclass Solution:\n    def preorderTraversal(self, root: Optional[TreeNode]) -> List[int]:\n        # Initialize an empty list to store the result\n        result = []\n        # Use a stack to keep track of nodes\n        stack = []\n        \n        # Start with the root node\n        if root:\n            stack.append(root)\n        \n        # Iterate while there are nodes in the stack\n        while stack:\n            # Pop the top node from the stack\n            node = stack.pop()\n            # Visit the node by adding its value to the result\n            result.append(node.val)\n            # Push the right child first so that the left child is processed next\n            if node.right:\n                stack.append(node.right)\n            if node.left:\n                stack.append(node.left)\n        \n        return result",
+    "explanation": "The provided solution implements an iterative preorder traversal of a binary tree using a stack. The algorithm works as follows:\n\n1. **Initialization**: We create an empty list `result` to store the values of the nodes in preorder. We also initialize a stack to keep track of the nodes we need to visit.\n\n2. **Starting Point**: If the root is not null, we push it onto the stack.\n\n3. **Traversal Loop**: We enter a while loop that continues until the stack is empty. Inside the loop:\n   - We pop the top node from the stack.\n   - We append the value of this node to the `result` list.\n   - We then check if the node has a right child. If it does, we push it onto the stack. We do the same for the left child. This order ensures that the left child is processed before the right child, adhering to the preorder traversal order.\n\n4. **Return Result**: Once the stack is empty, we return the `result` list containing the values in preorder.\n\n**Time Complexity**: The time complexity of this algorithm is O(n), where n is the number of nodes in the binary tree. Each node is processed exactly once.\n\n**Space Complexity**: The space complexity is O(h), where h is the height of the tree. In the worst case (for a skewed tree), the stack can grow to the height of the tree, which is O(n). In a balanced tree, the height would be O(log n).\n\nOverall, this solution efficiently performs a preorder traversal iteratively while adhering to the constraints and requirements of the problem."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:38"
+}

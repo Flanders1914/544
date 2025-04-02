@@ -1,0 +1,51 @@
+{
+  "problem": {
+    "id": "242",
+    "frontend_id": "242",
+    "title": "Valid Anagram",
+    "description": "Given two strings s and t, return true if t is an anagram of s, and false otherwise.\n \nExample 1:\n\nInput: s = \"anagram\", t = \"nagaram\"\nOutput: true\n\nExample 2:\n\nInput: s = \"rat\", t = \"car\"\nOutput: false\n\n \nConstraints:\n\n1 <= s.length, t.length <= 5 * 104\ns and t consist of lowercase English letters.\n\n \nFollow up: What if the inputs contain Unicode characters? How would you adapt your solution to such a case?\n",
+    "difficulty": "Easy",
+    "examples": [
+      "\"anagram\"",
+      "\"nagaram\"",
+      "\"rat\"",
+      "\"car\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "s": "\"anagram\"",
+          "t": "\"nagaram\""
+        },
+        "expected": "true"
+      }
+    ],
+    "python_starter": "class Solution:\n    def isAnagram(self, s: str, t: str) -> bool:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "isAnagram",
+      "params": [
+        {
+          "name": "s",
+          "type": "string"
+        },
+        {
+          "name": "t",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "from collections import Counter\n\nclass Solution:\n    def isAnagram(self, s: str, t: str) -> bool:\n        # Count the frequency of each character in both strings\n        return Counter(s) == Counter(t)",
+    "explanation": "In the provided solution, we use the `Counter` class from the `collections` module to count the occurrences of each character in both strings `s` and `t`. The `Counter` creates a dictionary-like object where keys are the characters and values are their respective counts.\n\n1. We call `Counter(s)` to create a frequency count for string `s`.\n2. We call `Counter(t)` to create a frequency count for string `t`.\n3. We then compare the two `Counter` objects. If they are equal, it means both strings have the same characters with the same frequencies, and thus `t` is an anagram of `s`.\n\nThis solution is efficient and handles the constraints provided in the problem statement. \n\nFor the follow-up question regarding Unicode characters, the same approach can be used since `Counter` can handle any hashable object, including Unicode characters. The only consideration would be the potential increase in space complexity depending on the variety of characters in the input strings.\n\nOverall, the time complexity remains O(n) and the space complexity is O(k), where k is the number of unique characters in the input strings."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: True\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:45"
+}

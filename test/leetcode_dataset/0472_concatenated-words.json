@@ -1,0 +1,39 @@
+{
+  "id": "472",
+  "frontend_id": "472",
+  "title": "Concatenated Words",
+  "description": "Given an array of strings words (without duplicates), return all the concatenated words in the given list of words.\nA concatenated word is defined as a string that is comprised entirely of at least two shorter words (not necessarily distinct) in the given array.\n \nExample 1:\n\nInput: words = [\"cat\",\"cats\",\"catsdogcats\",\"dog\",\"dogcatsdog\",\"hippopotamuses\",\"rat\",\"ratcatdogcat\"]\nOutput: [\"catsdogcats\",\"dogcatsdog\",\"ratcatdogcat\"]\nExplanation: \"catsdogcats\" can be concatenated by \"cats\", \"dog\" and \"cats\"; \n\"dogcatsdog\" can be concatenated by \"dog\", \"cats\" and \"dog\"; \n\"ratcatdogcat\" can be concatenated by \"rat\", \"cat\", \"dog\" and \"cat\".\nExample 2:\n\nInput: words = [\"cat\",\"dog\",\"catdog\"]\nOutput: [\"catdog\"]\n\n \nConstraints:\n\n1 <= words.length <= 104\n1 <= words[i].length <= 30\nwords[i] consists of only lowercase English letters.\nAll the strings of words are unique.\n1 <= sum(words[i].length) <= 105\n\n",
+  "difficulty": "Hard",
+  "examples": [
+    "[\"cat\",\"cats\",\"catsdogcats\",\"dog\",\"dogcatsdog\",\"hippopotamuses\",\"rat\",\"ratcatdogcat\"]",
+    "[\"cat\",\"dog\",\"catdog\"]"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "words": "[\"cat\",\"cats\",\"catsdogcats\",\"dog\",\"dogcatsdog\",\"hippopotamuses\",\"rat\",\"ratcatdogcat\"]"
+      },
+      "expected": "[catsdogcats,dogcatsdog,ratcatdogcat]"
+    },
+    {
+      "input": {
+        "words": "[\"cat\",\"dog\",\"catdog\"]"
+      },
+      "expected": "[catdog]"
+    }
+  ],
+  "python_starter": "class Solution:\n    def findAllConcatenatedWordsInADict(self, words: List[str]) -> List[str]:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "findAllConcatenatedWordsInADict",
+    "params": [
+      {
+        "name": "words",
+        "type": "string[]"
+      }
+    ],
+    "return": {
+      "type": "list<string>"
+    }
+  }
+}

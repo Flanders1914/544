@@ -1,0 +1,67 @@
+{
+  "problem": {
+    "id": "373",
+    "frontend_id": "373",
+    "title": "Find K Pairs with Smallest Sums",
+    "description": "You are given two integer arrays nums1 and nums2 sorted in non-decreasing order and an integer k.\nDefine a pair (u, v) which consists of one element from the first array and one element from the second array.\nReturn the k pairs (u1, v1), (u2, v2), ..., (uk, vk) with the smallest sums.\n \nExample 1:\n\nInput: nums1 = [1,7,11], nums2 = [2,4,6], k = 3\nOutput: [[1,2],[1,4],[1,6]]\nExplanation: The first 3 pairs are returned from the sequence: [1,2],[1,4],[1,6],[7,2],[7,4],[11,2],[7,6],[11,4],[11,6]\n\nExample 2:\n\nInput: nums1 = [1,1,2], nums2 = [1,2,3], k = 2\nOutput: [[1,1],[1,1]]\nExplanation: The first 2 pairs are returned from the sequence: [1,1],[1,1],[1,2],[2,1],[1,2],[2,2],[1,3],[1,3],[2,3]\n\n \nConstraints:\n\n1 <= nums1.length, nums2.length <= 105\n-109 <= nums1[i], nums2[i] <= 109\nnums1 and nums2 both are sorted in non-decreasing order.\n1 <= k <= 104\nk <= nums1.length * nums2.length\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[1,7,11]",
+      "[2,4,6]",
+      "3",
+      "[1,1,2]",
+      "[1,2,3]",
+      "2"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums1": "[1,7,11]",
+          "nums2": "[2,4,6]",
+          "k": "3"
+        },
+        "expected": "[[1,2]"
+      },
+      {
+        "input": {
+          "nums1": "[1,1,2]",
+          "nums2": "[1,2,3]",
+          "k": "2"
+        },
+        "expected": "[[1,1]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def kSmallestPairs(self, nums1: List[int], nums2: List[int], k: int) -> List[List[int]]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "kSmallestPairs",
+      "params": [
+        {
+          "name": "nums1",
+          "type": "integer[]"
+        },
+        {
+          "name": "nums2",
+          "type": "integer[]"
+        },
+        {
+          "name": "k",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "list<list<integer>>"
+      },
+      "manual": false
+    }
+  },
+  "solution": {
+    "code": "import heapq\nfrom typing import List\n\nclass Solution:\n    def kSmallestPairs(self, nums1: List[int], nums2: List[int], k: int) -> List[List[int]]:\n        # Min-heap to store pairs and their sums\n        min_heap = []\n        result = []\n        \n        # Initialize the heap with the first element of nums1 paired with all elements of nums2\n        for j in range(min(k, len(nums2))):  # Only need to consider up to k elements from nums2\n            heapq.heappush(min_heap, (nums1[0] + nums2[j], 0, j))  # (sum, index in nums1, index in nums2)\n        \n        # Extract the smallest pairs k times\n        while k > 0 and min_heap:\n            sum_val, i, j = heapq.heappop(min_heap)  # Get the smallest sum pair\n            result.append([nums1[i], nums2[j]])  # Add the pair to the result\n            \n            # If there is a next element in nums1, push the new pair into the heap\n            if i + 1 < len(nums1):\n                heapq.heappush(min_heap, (nums1[i + 1] + nums2[j], i + 1, j))\n            \n            k -= 1  # Decrease the count of pairs we need\n        \n        return result",
+    "explanation": "The solution uses a min-heap to efficiently find the k pairs with the smallest sums from two sorted arrays. \n\n1. **Heap Initialization**: We start by pushing pairs formed by the first element of `nums1` with each element of `nums2` into the heap. This ensures we are starting with the smallest possible sums.\n\n2. **Heap Extraction**: We repeatedly extract the smallest sum from the heap. Each time we extract a pair, we check if we can form a new pair by moving to the next element in `nums1` while keeping the current element in `nums2`. This is done to ensure we explore all potential pairs in a controlled manner.\n\n3. **Time Complexity**: The time complexity of this approach is O(k log k) because we perform k extractions from the heap, and each extraction takes O(log k) time. The initial heap population takes O(min(k, m) log k), where m is the length of `nums2`.\n\n4. **Space Complexity**: The space complexity is O(k) for storing the result and O(k) for the heap in the worst case.\n\nThis method is efficient and works well within the given constraints, ensuring we can find the k smallest pairs without generating all possible pairs explicitly."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmpko6u403o.py\", line 66\n    if compare_results(result_0, expected_0):\n                                            ^\nSyntaxError: invalid syntax\n"
+  },
+  "timestamp": "2025-04-01 18:00:51"
+}

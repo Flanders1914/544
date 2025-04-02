@@ -1,0 +1,58 @@
+{
+  "problem": {
+    "id": "482",
+    "frontend_id": "482",
+    "title": "License Key Formatting",
+    "description": "You are given a license key represented as a string s that consists of only alphanumeric characters and dashes. The string is separated into n + 1 groups by n dashes. You are also given an integer k.\nWe want to reformat the string s such that each group contains exactly k characters, except for the first group, which could be shorter than k but still must contain at least one character. Furthermore, there must be a dash inserted between two groups, and you should convert all lowercase letters to uppercase.\nReturn the reformatted license key.\n \nExample 1:\n\nInput: s = \"5F3Z-2e-9-w\", k = 4\nOutput: \"5F3Z-2E9W\"\nExplanation: The string s has been split into two parts, each part has 4 characters.\nNote that the two extra dashes are not needed and can be removed.\n\nExample 2:\n\nInput: s = \"2-5g-3-J\", k = 2\nOutput: \"2-5G-3J\"\nExplanation: The string s has been split into three parts, each part has 2 characters except the first part as it could be shorter as mentioned above.\n\n \nConstraints:\n\n1 <= s.length <= 105\ns consists of English letters, digits, and dashes '-'.\n1 <= k <= 104\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "\"5F3Z-2e-9-w\"",
+      "4",
+      "\"2-5g-3-J\"",
+      "2"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "s": "\"5F3Z-2e-9-w\"",
+          "k": "4"
+        },
+        "expected": "5F3Z-2E9W"
+      },
+      {
+        "input": {
+          "s": "\"2-5g-3-J\"",
+          "k": "2"
+        },
+        "expected": "2-5G-3J"
+      }
+    ],
+    "python_starter": "class Solution:\n    def licenseKeyFormatting(self, s: str, k: int) -> str:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "licenseKeyFormatting",
+      "params": [
+        {
+          "name": "s",
+          "type": "string"
+        },
+        {
+          "name": "k",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "string"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def licenseKeyFormatting(self, s: str, k: int) -> str:\n        # Step 1: Remove dashes and convert to uppercase\n        s = s.replace('-', '').upper()\n        \n        # Step 2: Determine the length of the first group\n        n = len(s)\n        first_group_length = n % k or k  # If n % k is 0, first group should be of size k\n        \n        # Step 3: Initialize the result list with the first group\n        result = [s[:first_group_length]]\n        \n        # Step 4: Add the remaining groups of size k\n        for i in range(first_group_length, n, k):\n            result.append(s[i:i + k])\n        \n        # Step 5: Join the groups with dashes and return\n        return '-'.join(result)",
+    "explanation": "The solution begins by removing all dashes from the input string `s` and converting it to uppercase. This is done to simplify the formatting process. \n\nNext, we calculate the length of the first group. If the total length of the string (after removing dashes) is divisible by `k`, the first group will have a length of `k`. Otherwise, it will have a length equal to the remainder of the total length divided by `k`. This is handled by the expression `n % k or k`, which ensures that if `n % k` is zero, we still set the first group length to `k`.\n\nWe then initialize a list called `result` with the first group of characters. After that, we iterate through the string in steps of `k`, appending each subsequent group to the `result` list.\n\nFinally, we join all the groups in the `result` list with dashes and return the formatted string.\n\n### Time Complexity\nThe time complexity of this solution is O(n), where n is the length of the input string `s`. This is because we traverse the string a constant number of times (removing dashes, converting to uppercase, and grouping).\n\n### Space Complexity\nThe space complexity is also O(n) due to the storage of the result list, which can potentially hold all characters of the input string in the worst case."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:59"
+}

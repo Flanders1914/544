@@ -1,0 +1,53 @@
+{
+  "problem": {
+    "id": "18",
+    "frontend_id": "18",
+    "title": "4Sum",
+    "description": "Given an array nums of n integers, return an array of all the unique quadruplets [nums[a], nums[b], nums[c], nums[d]] such that:\n\n0 <= a, b, c, d < n\na, b, c, and d are distinct.\nnums[a] + nums[b] + nums[c] + nums[d] == target\n\nYou may return the answer in any order.\n \nExample 1:\n\nInput: nums = [1,0,-1,0,-2,2], target = 0\nOutput: [[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]\n\nExample 2:\n\nInput: nums = [2,2,2,2,2], target = 8\nOutput: [[2,2,2,2]]\n\n \nConstraints:\n\n1 <= nums.length <= 200\n-109 <= nums[i] <= 109\n-109 <= target <= 109\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[1,0,-1,0,-2,2]",
+      "0",
+      "[2,2,2,2,2]",
+      "8"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[1,0,-1,0,-2,2]",
+          "target": "0"
+        },
+        "expected": "[[-2,-1,1,2]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def fourSum(self, nums: List[int], target: int) -> List[List[int]]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "fourSum",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        },
+        {
+          "name": "target",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "list<list<integer>>",
+        "colsize": 4,
+        "dealloc": true
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def fourSum(self, nums: List[int], target: int) -> List[List[int]]:\n        nums.sort()  # Sort the array to facilitate the two-pointer approach\n        quadruplets = []\n        n = len(nums)\n\n        for i in range(n - 3):\n            # Skip duplicate values for the first number\n            if i > 0 and nums[i] == nums[i - 1]:\n                continue\n            \n            for j in range(i + 1, n - 2):\n                # Skip duplicate values for the second number\n                if j > i + 1 and nums[j] == nums[j - 1]:\n                    continue\n                \n                left, right = j + 1, n - 1\n                while left < right:\n                    current_sum = nums[i] + nums[j] + nums[left] + nums[right]\n                    if current_sum < target:\n                        left += 1\n                    elif current_sum > target:\n                        right -= 1\n                    else:\n                        # Found a quadruplet\n                        quadruplets.append([nums[i], nums[j], nums[left], nums[right]])\n                        # Skip duplicates for the third number\n                        while left < right and nums[left] == nums[left + 1]:\n                            left += 1\n                        # Skip duplicates for the fourth number\n                        while left < right and nums[right] == nums[right - 1]:\n                            right -= 1\n                        left += 1\n                        right -= 1\n        \n        return quadruplets",
+    "explanation": "The solution begins by sorting the input array, which allows us to efficiently find quadruplets and skip duplicates. We use two nested loops to fix the first two numbers of the quadruplet. For each pair of fixed numbers, we employ a two-pointer technique to find the remaining two numbers that complete the quadruplet.\n\n1. **Outer Loop**: The first loop iterates through the array to select the first number of the quadruplet. We skip duplicates to avoid repeating the same quadruplet.\n2. **Inner Loop**: The second loop selects the second number, again skipping duplicates.\n3. **Two-Pointer Technique**: For the remaining two numbers, we initialize two pointers: one at the start of the remaining part of the array and one at the end. We calculate the sum of the four numbers. If the sum is less than the target, we move the left pointer to the right to increase the sum. If the sum is greater than the target, we move the right pointer to the left to decrease the sum. If we find a valid quadruplet, we add it to the result list and skip over any duplicates for both the left and right pointers.\n\nThe time complexity of this solution is O(n^3), where n is the number of elements in the input array. The space complexity is O(1) for the pointers and O(k) for the output list, where k is the number of unique quadruplets found."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmp5oe5ldvx.py\", line 77\n    expected_0 = [[-2,-1,1,2]\n                 ^\nSyntaxError: '[' was never closed\n"
+  },
+  "timestamp": "2025-04-01 18:00:26"
+}

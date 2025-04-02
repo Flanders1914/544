@@ -1,0 +1,63 @@
+{
+  "problem": {
+    "id": "443",
+    "frontend_id": "443",
+    "title": "String Compression",
+    "description": "Given an array of characters chars, compress it using the following algorithm:\nBegin with an empty string s. For each group of consecutive repeating characters in chars:\n\nIf the group's length is 1, append the character to s.\nOtherwise, append the character followed by the group's length.\n\nThe compressed string s should not be returned separately, but instead, be stored in the input character array chars. Note that group lengths that are 10 or longer will be split into multiple characters in chars.\nAfter you are done modifying the input array, return the new length of the array.\nYou must write an algorithm that uses only constant extra space.\n \nExample 1:\n\nInput: chars = [\"a\",\"a\",\"b\",\"b\",\"c\",\"c\",\"c\"]\nOutput: Return 6, and the first 6 characters of the input array should be: [\"a\",\"2\",\"b\",\"2\",\"c\",\"3\"]\nExplanation: The groups are \"aa\", \"bb\", and \"ccc\". This compresses to \"a2b2c3\".\n\nExample 2:\n\nInput: chars = [\"a\"]\nOutput: Return 1, and the first character of the input array should be: [\"a\"]\nExplanation: The only group is \"a\", which remains uncompressed since it's a single character.\n\nExample 3:\n\nInput: chars = [\"a\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\"]\nOutput: Return 4, and the first 4 characters of the input array should be: [\"a\",\"b\",\"1\",\"2\"].\nExplanation: The groups are \"a\" and \"bbbbbbbbbbbb\". This compresses to \"ab12\".\n \nConstraints:\n\n1 <= chars.length <= 2000\nchars[i] is a lowercase English letter, uppercase English letter, digit, or symbol.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[\"a\",\"a\",\"b\",\"b\",\"c\",\"c\",\"c\"]",
+      "[\"a\"]",
+      "[\"a\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\"]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "chars": "[\"a\",\"a\",\"b\",\"b\",\"c\",\"c\",\"c\"]"
+        },
+        "expected": "Return 6, and the first 6 characters of the input array should be: [a,2,b,2,c,3]"
+      },
+      {
+        "input": {
+          "chars": "[\"a\"]"
+        },
+        "expected": "Return 1, and the first character of the input array should be: [a]"
+      },
+      {
+        "input": {
+          "chars": "[\"a\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\",\"b\"]"
+        },
+        "expected": "Return 4, and the first 4 characters of the input array should be: [a,b,1,2]."
+      }
+    ],
+    "python_starter": "class Solution:\n    def compress(self, chars: List[str]) -> int:\n        ",
+    "hints": [
+      "How do you know if you are at the end of a consecutive group of characters?"
+    ],
+    "meta_data": {
+      "name": "compress",
+      "params": [
+        {
+          "name": "chars",
+          "type": "character[]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      },
+      "output": {
+        "paramindex": 0,
+        "size": "ret"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def compress(self, chars: List[str]) -> int:\n        write = 0  # Pointer for the position to write in chars\n        read = 0   # Pointer for reading through chars\n        \n        while read < len(chars):\n            current_char = chars[read]\n            count = 0\n            \n            # Count the number of occurrences of current_char\n            while read < len(chars) and chars[read] == current_char:\n                read += 1\n                count += 1\n            \n            # Write the character\n            chars[write] = current_char\n            write += 1\n            \n            # If count is more than 1, write the count as well\n            if count > 1:\n                for digit in str(count):\n                    chars[write] = digit\n                    write += 1\n        \n        return write  # The new length of the compressed array",
+    "explanation": "The solution iterates through the input array `chars` using two pointers: `read` to traverse the array and `write` to keep track of where to write the compressed characters. \n\n1. For each unique character, we count how many times it appears consecutively.\n2. We write the character to the `chars` array at the `write` index.\n3. If the count of the character is greater than 1, we convert the count to a string and write each digit to the `chars` array.\n4. The `write` pointer is updated accordingly after each write operation.\n\nThe time complexity of this solution is O(n), where n is the length of the input array `chars`, since we traverse the array once. The space complexity is O(1) because we are modifying the input array in place and not using any additional data structures that grow with input size.\n\nFinally, we return the new length of the compressed array, which is the value of the `write` pointer."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:56"
+}

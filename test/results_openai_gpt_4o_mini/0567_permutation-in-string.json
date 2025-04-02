@@ -1,0 +1,65 @@
+{
+  "problem": {
+    "id": "567",
+    "frontend_id": "567",
+    "title": "Permutation in String",
+    "description": "Given two strings s1 and s2, return true if s2 contains a permutation of s1, or false otherwise.\nIn other words, return true if one of s1's permutations is the substring of s2.\n \nExample 1:\n\nInput: s1 = \"ab\", s2 = \"eidbaooo\"\nOutput: true\nExplanation: s2 contains one permutation of s1 (\"ba\").\n\nExample 2:\n\nInput: s1 = \"ab\", s2 = \"eidboaoo\"\nOutput: false\n\n \nConstraints:\n\n1 <= s1.length, s2.length <= 104\ns1 and s2 consist of lowercase English letters.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "\"ab\"",
+      "\"eidbaooo\"",
+      "\"ab\"",
+      "\"eidboaoo\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "s1": "\"ab\"",
+          "s2": "\"eidbaooo\""
+        },
+        "expected": "true"
+      },
+      {
+        "input": {
+          "s1": "\"ab\"",
+          "s2": "\"eidboaoo\""
+        },
+        "expected": "false"
+      }
+    ],
+    "python_starter": "class Solution:\n    def checkInclusion(self, s1: str, s2: str) -> bool:\n        ",
+    "hints": [
+      "Obviously, brute force will result in TLE. Think of something else.",
+      "How will you check whether one string is a permutation of another string?",
+      "One way is to sort the string and then compare. But, Is there a better way?",
+      "If one string is a permutation of another string then they must have one common metric. What is that?",
+      "Both strings must have same character frequencies, if  one is permutation of another. Which data structure should be used to store frequencies?",
+      "What about hash table?  An array of size 26?"
+    ],
+    "meta_data": {
+      "name": "checkInclusion",
+      "params": [
+        {
+          "name": "s1",
+          "type": "string"
+        },
+        {
+          "name": "s2",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def checkInclusion(self, s1: str, s2: str) -> bool:\n        from collections import Counter\n        \n        # Lengths of the strings\n        len_s1, len_s2 = len(s1), len(s2)\n        \n        # If s1 is longer than s2, it's impossible for s2 to contain a permutation of s1\n        if len_s1 > len_s2:\n            return False\n        \n        # Count frequency of characters in s1\n        s1_count = Counter(s1)\n        # Count frequency of characters in the first window of s2\n        s2_count = Counter(s2[:len_s1])\n        \n        # Check if the first window matches\n        if s1_count == s2_count:\n            return True\n        \n        # Slide the window over s2\n        for i in range(len_s1, len_s2):\n            # Add the new character to the window\n            s2_count[s2[i]] += 1\n            # Remove the character that is left out of the window\n            s2_count[s2[i - len_s1]] -= 1\n            \n            # If the count goes to zero, remove it from the counter\n            if s2_count[s2[i - len_s1]] == 0:\n                del s2_count[s2[i - len_s1]]\n            \n            # Compare the counts\n            if s1_count == s2_count:\n                return True\n        \n        return False",
+    "explanation": "The solution uses the sliding window technique combined with character frequency counting to efficiently determine if s2 contains a permutation of s1. \n\n1. **Character Counting**: We use the `Counter` from the `collections` module to count the frequency of characters in both s1 and the current window of s2. This allows us to easily compare the two counts.\n\n2. **Sliding Window**: We initialize the window with the first `len(s1)` characters of s2. As we slide the window one character at a time, we update the character counts by adding the new character that enters the window and removing the character that exits.\n\n3. **Comparison**: After each update, we check if the character counts of the current window match those of s1. If they do, we return `True`. If we finish sliding through s2 without finding a match, we return `False`.\n\n**Time Complexity**: O(n), where n is the length of s2, since we traverse s2 once.\n\n**Space Complexity**: O(1), as we only use a fixed-size array for character counts (26 lowercase letters).\n\nThis approach is efficient and works well within the given constraints."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:01:25"
+}

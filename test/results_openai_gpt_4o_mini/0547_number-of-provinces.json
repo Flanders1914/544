@@ -1,0 +1,45 @@
+{
+  "problem": {
+    "id": "547",
+    "frontend_id": "547",
+    "title": "Number of Provinces",
+    "description": "There are n cities. Some of them are connected, while some are not. If city a is connected directly with city b, and city b is connected directly with city c, then city a is connected indirectly with city c.\nA province is a group of directly or indirectly connected cities and no other cities outside of the group.\nYou are given an n x n matrix isConnected where isConnected[i][j] = 1 if the ith city and the jth city are directly connected, and isConnected[i][j] = 0 otherwise.\nReturn the total number of provinces.\n \nExample 1:\n\n\nInput: isConnected = [[1,1,0],[1,1,0],[0,0,1]]\nOutput: 2\n\nExample 2:\n\n\nInput: isConnected = [[1,0,0],[0,1,0],[0,0,1]]\nOutput: 3\n\n \nConstraints:\n\n1 <= n <= 200\nn == isConnected.length\nn == isConnected[i].length\nisConnected[i][j] is 1 or 0.\nisConnected[i][i] == 1\nisConnected[i][j] == isConnected[j][i]\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[[1,1,0],[1,1,0],[0,0,1]]",
+      "[[1,0,0],[0,1,0],[0,0,1]]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "isConnected": "[[1,1,0]"
+        },
+        "expected": "2"
+      }
+    ],
+    "python_starter": "class Solution:\n    def findCircleNum(self, isConnected: List[List[int]]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "findCircleNum",
+      "params": [
+        {
+          "name": "isConnected",
+          "type": "integer[][]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      },
+      "manual": false
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def findCircleNum(self, isConnected: List[List[int]]) -> int:\n        n = len(isConnected)  # Number of cities\n        visited = [False] * n  # Track visited cities\n        provinces = 0  # Count of provinces\n\n        def dfs(city: int):\n            for neighbor in range(n):\n                if isConnected[city][neighbor] == 1 and not visited[neighbor]:\n                    visited[neighbor] = True  # Mark as visited\n                    dfs(neighbor)  # Visit the neighbor\n\n        for i in range(n):\n            if not visited[i]:  # If the city is not visited\n                provinces += 1  # Found a new province\n                visited[i] = True  # Mark the city as visited\n                dfs(i)  # Start DFS from this city\n\n        return provinces",
+    "explanation": "The solution uses a Depth-First Search (DFS) approach to explore the graph represented by the `isConnected` matrix. Here's a breakdown of the solution:\n\n1. **Initialization**: We determine the number of cities `n` and create a `visited` list to keep track of which cities have been visited. We also initialize a `provinces` counter to zero.\n\n2. **DFS Function**: The `dfs` function takes a city index as input and explores all its directly connected neighbors. If a neighbor is connected (i.e., `isConnected[city][neighbor] == 1`) and has not been visited, we mark it as visited and recursively call `dfs` on that neighbor.\n\n3. **Main Loop**: We iterate through each city. If a city has not been visited, it indicates the start of a new province. We increment the `provinces` counter, mark the city as visited, and call `dfs` to explore all cities connected to it.\n\n4. **Return Value**: After processing all cities, we return the total count of provinces.\n\n**Time Complexity**: The time complexity of this solution is O(n^2), where n is the number of cities. This is because we potentially check each entry in the `isConnected` matrix.\n\n**Space Complexity**: The space complexity is O(n) due to the `visited` list used to track visited cities.\n\nOverall, this approach efficiently counts the number of provinces in the given graph representation of cities."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmppigmwh1z.py\", line 57\n    input_0_0 = [[1,1,0]\n                ^\nSyntaxError: '[' was never closed\n"
+  },
+  "timestamp": "2025-04-01 18:01:23"
+}

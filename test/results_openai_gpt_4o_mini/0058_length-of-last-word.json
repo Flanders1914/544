@@ -1,0 +1,57 @@
+{
+  "problem": {
+    "id": "58",
+    "frontend_id": "58",
+    "title": "Length of Last Word",
+    "description": "Given a string s consisting of words and spaces, return the length of the last word in the string.\nA word is a maximal substring consisting of non-space characters only.\n \nExample 1:\n\nInput: s = \"Hello World\"\nOutput: 5\nExplanation: The last word is \"World\" with length 5.\n\nExample 2:\n\nInput: s = \"   fly me   to   the moon  \"\nOutput: 4\nExplanation: The last word is \"moon\" with length 4.\n\nExample 3:\n\nInput: s = \"luffy is still joyboy\"\nOutput: 6\nExplanation: The last word is \"joyboy\" with length 6.\n\n \nConstraints:\n\n1 <= s.length <= 104\ns consists of only English letters and spaces ' '.\nThere will be at least one word in s.\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "\"Hello World\"",
+      "\"   fly me   to   the moon  \"",
+      "\"luffy is still joyboy\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "s": "\"Hello World\""
+        },
+        "expected": "5"
+      },
+      {
+        "input": {
+          "s": "\"   fly me   to   the moon  \""
+        },
+        "expected": "4"
+      },
+      {
+        "input": {
+          "s": "\"luffy is still joyboy\""
+        },
+        "expected": "6"
+      }
+    ],
+    "python_starter": "class Solution:\n    def lengthOfLastWord(self, s: str) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "lengthOfLastWord",
+      "params": [
+        {
+          "name": "s",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def lengthOfLastWord(self, s: str) -> int:\n        # Step 1: Trim the string to remove leading and trailing spaces\n        trimmed_string = s.strip()\n        \n        # Step 2: Split the string into words\n        words = trimmed_string.split()\n        \n        # Step 3: Get the last word and return its length\n        return len(words[-1]) if words else 0",
+    "explanation": "The solution begins by trimming the input string `s` to remove any unnecessary spaces at the beginning and end. This is done using the `strip()` method. After trimming, we split the string into a list of words using the `split()` method, which by default splits by whitespace and handles multiple spaces correctly.\n\nOnce we have the list of words, we simply access the last word using `words[-1]` and return its length using the `len()` function. If for some reason the list of words is empty (which shouldn't happen given the problem constraints), we return 0.\n\n### Time Complexity\nThe time complexity of this solution is O(n), where n is the length of the input string. This is because we potentially traverse the entire string to trim and split it.\n\n### Space Complexity\nThe space complexity is also O(n) in the worst case, as we may need to store all the words in the list created by the `split()` method.\n\nOverall, this solution is efficient and straightforward, making good use of Python's string manipulation capabilities."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:30"
+}

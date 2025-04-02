@@ -1,0 +1,50 @@
+{
+  "problem": {
+    "id": "114",
+    "frontend_id": "114",
+    "title": "Flatten Binary Tree to Linked List",
+    "description": "Given the root of a binary tree, flatten the tree into a \"linked list\":\n\nThe \"linked list\" should use the same TreeNode class where the right child pointer points to the next node in the list and the left child pointer is always null.\nThe \"linked list\" should be in the same order as a pre-order traversal of the binary tree.\n\n \nExample 1:\n\n\nInput: root = [1,2,5,3,4,null,6]\nOutput: [1,null,2,null,3,null,4,null,5,null,6]\n\nExample 2:\n\nInput: root = []\nOutput: []\n\nExample 3:\n\nInput: root = [0]\nOutput: [0]\n\n \nConstraints:\n\nThe number of nodes in the tree is in the range [0, 2000].\n-100 <= Node.val <= 100\n\n \nFollow up: Can you flatten the tree in-place (with O(1) extra space)?",
+    "difficulty": "Medium",
+    "examples": [
+      "[1,2,5,3,4,null,6]",
+      "[]",
+      "[0]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "root": "[1,2,5,3,4,null,6]"
+        },
+        "expected": "[1,null,2,null,3,null,4,null,5,null,6]"
+      }
+    ],
+    "python_starter": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def flatten(self, root: Optional[TreeNode]) -> None:\n        \"\"\"\n        Do not return anything, modify root in-place instead.\n        \"\"\"\n        ",
+    "hints": [
+      "If you notice carefully in the flattened tree, each node's right child points to the next node of a pre-order traversal."
+    ],
+    "meta_data": {
+      "name": "flatten",
+      "params": [
+        {
+          "name": "root",
+          "type": "TreeNode"
+        }
+      ],
+      "return": {
+        "type": "void"
+      },
+      "output": {
+        "paramindex": 0
+      }
+    }
+  },
+  "solution": {
+    "code": "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nclass Solution:\n    def flatten(self, root: Optional[TreeNode]) -> None:\n        \"\"\"\n        Do not return anything, modify root in-place instead.\n        \"\"\"\n        # Initialize the last processed node as None\n        self.last_processed = None\n        \n        def flatten_tree(node):\n            if not node:\n                return\n            \n            # First, flatten the right subtree\n            flatten_tree(node.right)\n            # Then, flatten the left subtree\n            flatten_tree(node.left)\n            \n            # Now, we process the current node\n            node.right = self.last_processed  # Set the right child to the last processed node\n            node.left = None                   # Set the left child to None\n            self.last_processed = node          # Update the last processed node to the current node\n        \n        flatten_tree(root)",
+    "explanation": "The solution uses a recursive helper function `flatten_tree` to perform a pre-order traversal of the binary tree. The key steps in the function are:\n\n1. **Base Case**: If the current node is `None`, we simply return.\n2. **Recursive Calls**: We first flatten the right subtree and then the left subtree. This order is crucial because we need to ensure that the right child of the current node points to the next node in the pre-order sequence.\n3. **Rearranging Pointers**: After processing the left and right subtrees, we set the current node's right child to the last processed node and its left child to `None`. We then update the `last_processed` reference to the current node.\n\n### Time Complexity\nThe time complexity of this solution is O(n), where n is the number of nodes in the binary tree. This is because we visit each node exactly once.\n\n### Space Complexity\nThe space complexity is O(h), where h is the height of the tree, due to the recursion stack. In the worst case (for a skewed tree), this could be O(n), but for a balanced tree, it would be O(log n). However, since we are not using any additional data structures, the extra space used is O(1)."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:35"
+}

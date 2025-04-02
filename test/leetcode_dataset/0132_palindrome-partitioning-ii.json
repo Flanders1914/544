@@ -1,0 +1,40 @@
+{
+  "id": "132",
+  "frontend_id": "132",
+  "title": "Palindrome Partitioning II",
+  "description": "Given a string s, partition s such that every substring of the partition is a palindrome.\nReturn the minimum cuts needed for a palindrome partitioning of s.\n \nExample 1:\n\nInput: s = \"aab\"\nOutput: 1\nExplanation: The palindrome partitioning [\"aa\",\"b\"] could be produced using 1 cut.\n\nExample 2:\n\nInput: s = \"a\"\nOutput: 0\n\nExample 3:\n\nInput: s = \"ab\"\nOutput: 1\n\n \nConstraints:\n\n1 <= s.length <= 2000\ns consists of lowercase English letters only.\n\n",
+  "difficulty": "Hard",
+  "examples": [
+    "\"aab\"",
+    "\"a\"",
+    "\"ab\""
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "s": "\"aab\""
+      },
+      "expected": "1"
+    },
+    {
+      "input": {
+        "s": "\"a\""
+      },
+      "expected": "0"
+    }
+  ],
+  "python_starter": "class Solution:\n    def minCut(self, s: str) -> int:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "minCut",
+    "params": [
+      {
+        "name": "s",
+        "type": "string"
+      }
+    ],
+    "return": {
+      "type": "integer"
+    }
+  }
+}

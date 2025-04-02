@@ -1,0 +1,61 @@
+{
+  "problem": {
+    "id": "336",
+    "frontend_id": "336",
+    "title": "Palindrome Pairs",
+    "description": "You are given a 0-indexed array of unique strings words.\nA palindrome pair is a pair of integers (i, j) such that:\n\n0 <= i, j < words.length,\ni != j, and\nwords[i] + words[j] (the concatenation of the two strings) is a palindrome.\n\nReturn an array of all the palindrome pairs of words.\nYou must write an algorithm with O(sum of words[i].length) runtime complexity.\n \nExample 1:\n\nInput: words = [\"abcd\",\"dcba\",\"lls\",\"s\",\"sssll\"]\nOutput: [[0,1],[1,0],[3,2],[2,4]]\nExplanation: The palindromes are [\"abcddcba\",\"dcbaabcd\",\"slls\",\"llssssll\"]\n\nExample 2:\n\nInput: words = [\"bat\",\"tab\",\"cat\"]\nOutput: [[0,1],[1,0]]\nExplanation: The palindromes are [\"battab\",\"tabbat\"]\n\nExample 3:\n\nInput: words = [\"a\",\"\"]\nOutput: [[0,1],[1,0]]\nExplanation: The palindromes are [\"a\",\"a\"]\n\n \nConstraints:\n\n1 <= words.length <= 5000\n0 <= words[i].length <= 300\nwords[i] consists of lowercase English letters.\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "[\"abcd\",\"dcba\",\"lls\",\"s\",\"sssll\"]",
+      "[\"bat\",\"tab\",\"cat\"]",
+      "[\"a\",\"\"]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "words": "[\"abcd\",\"dcba\",\"lls\",\"s\",\"sssll\"]"
+        },
+        "expected": "[[0,1]"
+      },
+      {
+        "input": {
+          "words": "[\"bat\",\"tab\",\"cat\"]"
+        },
+        "expected": "[[0,1]"
+      },
+      {
+        "input": {
+          "words": "[\"a\",\"\"]"
+        },
+        "expected": "[[0,1]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def palindromePairs(self, words: List[str]) -> List[List[int]]:\n        ",
+    "hints": [
+      "Checking every two pairs will exceed the time limit. It will be O(n^2 * k). We need a faster way.",
+      "If we hash every string in the array, how can we check if two pairs form a palindrome after the concatenation?",
+      "We can check every string in words and consider it as words[j] (i.e., the suffix of the target palindrome). We can check if there is a hash of string that can be the prefix to make it a palindrome."
+    ],
+    "meta_data": {
+      "name": "palindromePairs",
+      "params": [
+        {
+          "name": "words",
+          "type": "string[]"
+        }
+      ],
+      "return": {
+        "type": "list<list<integer>>"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def palindromePairs(self, words: List[str]) -> List[List[int]]:\n        def is_palindrome(s: str) -> bool:\n            return s == s[::-1]\n\n        word_map = {word: i for i, word in enumerate(words)}\n        result = []\n\n        for i, word in enumerate(words):\n            for j in range(len(word) + 1):\n                prefix = word[:j]\n                suffix = word[j:]\n\n                # Check if the prefix is a palindrome\n                if is_palindrome(prefix):\n                    # Check if the reversed suffix exists in the map\n                    reversed_suffix = suffix[::-1]\n                    if reversed_suffix in word_map and word_map[reversed_suffix] != i:\n                        result.append([word_map[reversed_suffix], i])\n\n                # Check if the suffix is a palindrome\n                if j != len(word) and is_palindrome(suffix):  # Avoid double counting\n                    # Check if the reversed prefix exists in the map\n                    reversed_prefix = prefix[::-1]\n                    if reversed_prefix in word_map and word_map[reversed_prefix] != i:\n                        result.append([i, word_map[reversed_prefix]])\n\n        return result",
+    "explanation": "The solution uses a hash map to store the indices of the words for quick look-up. The function `is_palindrome` checks if a given string is a palindrome by comparing it to its reverse.\n\n1. **Outer Loop**: We iterate through each word in the list. For each word, we consider all possible splits into a prefix and a suffix.\n\n2. **Inner Loop**: For each split, we check:\n   - If the prefix is a palindrome, we look for the reversed suffix in the hash map. If found and the index is different from the current word's index, we add the pair to the result.\n   - If the suffix is a palindrome, we look for the reversed prefix in the hash map under the same conditions.\n\n3. **Time Complexity**: The overall time complexity is O(N * M), where N is the number of words and M is the maximum length of a word. This is efficient given the constraints.\n\n4. **Space Complexity**: The space complexity is O(N) due to the storage of the words in the hash map.\n\nThis approach ensures that we efficiently find all palindrome pairs while adhering to the problem's constraints."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmpd2n3phji.py\", line 67\n    if compare_results(result_0, expected_0):\n                                            ^\nSyntaxError: invalid syntax\n"
+  },
+  "timestamp": "2025-04-01 18:00:49"
+}

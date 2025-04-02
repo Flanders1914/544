@@ -1,0 +1,45 @@
+{
+  "problem": {
+    "id": "168",
+    "frontend_id": "168",
+    "title": "Excel Sheet Column Title",
+    "description": "Given an integer columnNumber, return its corresponding column title as it appears in an Excel sheet.\nFor example:\n\nA -> 1\nB -> 2\nC -> 3\n...\nZ -> 26\nAA -> 27\nAB -> 28 \n...\n\n \nExample 1:\n\nInput: columnNumber = 1\nOutput: \"A\"\n\nExample 2:\n\nInput: columnNumber = 28\nOutput: \"AB\"\n\nExample 3:\n\nInput: columnNumber = 701\nOutput: \"ZY\"\n\n \nConstraints:\n\n1 <= columnNumber <= 231 - 1\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "1",
+      "28",
+      "701"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "columnNumber": "1"
+        },
+        "expected": "A"
+      }
+    ],
+    "python_starter": "class Solution:\n    def convertToTitle(self, columnNumber: int) -> str:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "convertToTitle",
+      "params": [
+        {
+          "name": "columnNumber",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "string"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def convertToTitle(self, columnNumber: int) -> str:\n        result = \"\"\n        while columnNumber > 0:\n            # Decrement columnNumber to handle 1-based indexing\n            columnNumber -= 1\n            # Get the remainder and convert to corresponding character\n            remainder = columnNumber % 26\n            result = chr(remainder + ord('A')) + result\n            # Update columnNumber for the next iteration\n            columnNumber //= 26\n        return result",
+    "explanation": "The solution uses a loop to convert the given `columnNumber` into its corresponding Excel column title. The loop continues until `columnNumber` is reduced to 0. \n\n1. **Decrementing `columnNumber`**: This adjustment allows us to treat the problem as a 0-based index, which simplifies the calculation of the character corresponding to the remainder.\n2. **Calculating the remainder**: The expression `columnNumber % 26` gives us the index of the character in the alphabet. We convert this index to a character using `chr(remainder + ord('A'))`.\n3. **Building the result**: We prepend the character to the result string, ensuring that the characters are in the correct order.\n4. **Updating `columnNumber`**: The integer division by 26 prepares `columnNumber` for the next iteration.\n\n### Time Complexity\nThe time complexity of this solution is O(log26(N)), where N is the input `columnNumber`. This is because we are effectively dividing the number by 26 in each iteration.\n\n### Space Complexity\nThe space complexity is O(1) for the variables used, but the space used for the result string can be considered O(log26(N)) in terms of the number of characters stored, which corresponds to the number of iterations.\n\nOverall, this solution is efficient and handles the constraints provided in the problem statement."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: A\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:40"
+}

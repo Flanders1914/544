@@ -1,0 +1,33 @@
+{
+  "id": "14",
+  "frontend_id": "14",
+  "title": "Longest Common Prefix",
+  "description": "Write a function to find the longest common prefix string amongst an array of strings.\nIf there is no common prefix, return an empty string \"\".\n \nExample 1:\n\nInput: strs = [\"flower\",\"flow\",\"flight\"]\nOutput: \"fl\"\n\nExample 2:\n\nInput: strs = [\"dog\",\"racecar\",\"car\"]\nOutput: \"\"\nExplanation: There is no common prefix among the input strings.\n\n \nConstraints:\n\n1 <= strs.length <= 200\n0 <= strs[i].length <= 200\nstrs[i] consists of only lowercase English letters if it is non-empty.\n\n",
+  "difficulty": "Easy",
+  "examples": [
+    "[\"flower\",\"flow\",\"flight\"]",
+    "[\"dog\",\"racecar\",\"car\"]"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "strs": "[\"flower\",\"flow\",\"flight\"]"
+      },
+      "expected": "fl"
+    }
+  ],
+  "python_starter": "class Solution:\n    def longestCommonPrefix(self, strs: List[str]) -> str:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "longestCommonPrefix",
+    "params": [
+      {
+        "name": "strs",
+        "type": "string[]"
+      }
+    ],
+    "return": {
+      "type": "string"
+    }
+  }
+}

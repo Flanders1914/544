@@ -1,0 +1,44 @@
+{
+  "problem": {
+    "id": "332",
+    "frontend_id": "332",
+    "title": "Reconstruct Itinerary",
+    "description": "You are given a list of airline tickets where tickets[i] = [fromi, toi] represent the departure and the arrival airports of one flight. Reconstruct the itinerary in order and return it.\nAll of the tickets belong to a man who departs from \"JFK\", thus, the itinerary must begin with \"JFK\". If there are multiple valid itineraries, you should return the itinerary that has the smallest lexical order when read as a single string.\n\nFor example, the itinerary [\"JFK\", \"LGA\"] has a smaller lexical order than [\"JFK\", \"LGB\"].\n\nYou may assume all tickets form at least one valid itinerary. You must use all the tickets once and only once.\n \nExample 1:\n\n\nInput: tickets = [[\"MUC\",\"LHR\"],[\"JFK\",\"MUC\"],[\"SFO\",\"SJC\"],[\"LHR\",\"SFO\"]]\nOutput: [\"JFK\",\"MUC\",\"LHR\",\"SFO\",\"SJC\"]\n\nExample 2:\n\n\nInput: tickets = [[\"JFK\",\"SFO\"],[\"JFK\",\"ATL\"],[\"SFO\",\"ATL\"],[\"ATL\",\"JFK\"],[\"ATL\",\"SFO\"]]\nOutput: [\"JFK\",\"ATL\",\"JFK\",\"SFO\",\"ATL\",\"SFO\"]\nExplanation: Another possible reconstruction is [\"JFK\",\"SFO\",\"ATL\",\"JFK\",\"ATL\",\"SFO\"] but it is larger in lexical order.\n\n \nConstraints:\n\n1 <= tickets.length <= 300\ntickets[i].length == 2\nfromi.length == 3\ntoi.length == 3\nfromi and toi consist of uppercase English letters.\nfromi != toi\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "[[\"MUC\",\"LHR\"],[\"JFK\",\"MUC\"],[\"SFO\",\"SJC\"],[\"LHR\",\"SFO\"]]",
+      "[[\"JFK\",\"SFO\"],[\"JFK\",\"ATL\"],[\"SFO\",\"ATL\"],[\"ATL\",\"JFK\"],[\"ATL\",\"SFO\"]]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "tickets": "[[\"MUC\",\"LHR\"]"
+        },
+        "expected": "[JFK,MUC,LHR,SFO,SJC]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def findItinerary(self, tickets: List[List[str]]) -> List[str]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "findItinerary",
+      "params": [
+        {
+          "name": "tickets",
+          "type": "list<list<string>>"
+        }
+      ],
+      "return": {
+        "type": "list<string>"
+      }
+    }
+  },
+  "solution": {
+    "code": "from collections import defaultdict\nfrom typing import List\n\nclass Solution:\n    def findItinerary(self, tickets: List[List[str]]) -> List[str]:\n        # Create a graph from the tickets\n        graph = defaultdict(list)\n        for from_airport, to_airport in tickets:\n            graph[from_airport].append(to_airport)\n        \n        # Sort the destinations for each airport in reverse order\n        for airport in graph:\n            graph[airport].sort(reverse=True)\n        \n        itinerary = []\n        \n        def dfs(airport):\n            # While there are destinations available from the current airport\n            while graph[airport]:\n                # Get the next destination (smallest lexicographically)\n                next_airport = graph[airport].pop()\n                dfs(next_airport)\n            # Add the airport to the itinerary after visiting all its destinations\n            itinerary.append(airport)\n        \n        # Start the DFS from \"JFK\"\n        dfs(\"JFK\")\n        \n        # Since we added airports in reverse order, we need to reverse the itinerary\n        return itinerary[::-1]",
+    "explanation": "The solution uses a depth-first search (DFS) approach to reconstruct the itinerary from the given tickets. Here's a breakdown of the solution:\n\n1. **Graph Construction**: We use a `defaultdict` to create an adjacency list representation of the graph where each airport points to a list of its destinations. We populate this graph by iterating through the list of tickets.\n\n2. **Sorting Destinations**: Each list of destinations is sorted in reverse order. This allows us to use a stack-like behavior (pop from the end) to always get the smallest airport when we perform DFS.\n\n3. **DFS Function**: The `dfs` function recursively visits each airport. It continues to visit until there are no more destinations left from the current airport. Once it has visited all possible destinations, it appends the airport to the itinerary.\n\n4. **Final Itinerary**: After the DFS completes, the itinerary is in reverse order (since we append airports after visiting them), so we reverse it before returning.\n\n**Time Complexity**: O(N log N), where N is the number of tickets. This accounts for sorting the destinations.\n\n**Space Complexity**: O(N), for storing the graph and the itinerary.\n\nThis approach efficiently reconstructs the itinerary while ensuring the lexicographical order is maintained."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmpqbzw3pv8.py\", line 66\n    input_0_0 = [[\"MUC\",\"LHR\"]\n                ^\nSyntaxError: '[' was never closed\n"
+  },
+  "timestamp": "2025-04-01 18:00:49"
+}

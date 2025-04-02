@@ -1,0 +1,95 @@
+{
+  "problem": {
+    "id": "88",
+    "frontend_id": "88",
+    "title": "Merge Sorted Array",
+    "description": "You are given two integer arrays nums1 and nums2, sorted in non-decreasing order, and two integers m and n, representing the number of elements in nums1 and nums2 respectively.\nMerge nums1 and nums2 into a single array sorted in non-decreasing order.\nThe final sorted array should not be returned by the function, but instead be stored inside the array nums1. To accommodate this, nums1 has a length of m + n, where the first m elements denote the elements that should be merged, and the last n elements are set to 0 and should be ignored. nums2 has a length of n.\n \nExample 1:\n\nInput: nums1 = [1,2,3,0,0,0], m = 3, nums2 = [2,5,6], n = 3\nOutput: [1,2,2,3,5,6]\nExplanation: The arrays we are merging are [1,2,3] and [2,5,6].\nThe result of the merge is [1,2,2,3,5,6] with the underlined elements coming from nums1.\n\nExample 2:\n\nInput: nums1 = [1], m = 1, nums2 = [], n = 0\nOutput: [1]\nExplanation: The arrays we are merging are [1] and [].\nThe result of the merge is [1].\n\nExample 3:\n\nInput: nums1 = [0], m = 0, nums2 = [1], n = 1\nOutput: [1]\nExplanation: The arrays we are merging are [] and [1].\nThe result of the merge is [1].\nNote that because m = 0, there are no elements in nums1. The 0 is only there to ensure the merge result can fit in nums1.\n\n \nConstraints:\n\nnums1.length == m + n\nnums2.length == n\n0 <= m, n <= 200\n1 <= m + n <= 200\n-109 <= nums1[i], nums2[j] <= 109\n\n \nFollow up: Can you come up with an algorithm that runs in O(m + n) time?\n",
+    "difficulty": "Easy",
+    "examples": [
+      "[1,2,3,0,0,0]",
+      "3",
+      "[2,5,6]",
+      "3",
+      "[1]",
+      "1",
+      "[]",
+      "0",
+      "[0]",
+      "0",
+      "[1]",
+      "1"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums1": "[1,2,3,0,0,0]",
+          "m": "3",
+          "nums2": "[2,5,6]",
+          "n": "3"
+        },
+        "expected": "[1,2,2,3,5,6]"
+      },
+      {
+        "input": {
+          "nums1": "[1]",
+          "m": "1",
+          "nums2": "[]",
+          "n": "0"
+        },
+        "expected": "[1]"
+      },
+      {
+        "input": {
+          "nums1": "[0]",
+          "m": "0",
+          "nums2": "[1]",
+          "n": "1"
+        },
+        "expected": "[1]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def merge(self, nums1: List[int], m: int, nums2: List[int], n: int) -> None:\n        \"\"\"\n        Do not return anything, modify nums1 in-place instead.\n        \"\"\"\n        ",
+    "hints": [
+      "You can easily solve this problem if you simply think about two elements at a time rather than two arrays. We know that each of the individual arrays is sorted. What we don't know is how they will intertwine. Can we take a local decision and arrive at an optimal solution?",
+      "If you simply consider one element each at a time from the two arrays and make a decision and proceed accordingly, you will arrive at the optimal solution."
+    ],
+    "meta_data": {
+      "name": "merge",
+      "params": [
+        {
+          "name": "nums1",
+          "type": "integer[]",
+          "implicitsizeparam": false
+        },
+        {
+          "name": "m",
+          "type": "integer"
+        },
+        {
+          "name": "nums2",
+          "type": "integer[]",
+          "implicitsizeparam": false
+        },
+        {
+          "name": "n",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "void"
+      },
+      "output": {
+        "paramindex": 0
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def merge(self, nums1: List[int], m: int, nums2: List[int], n: int) -> None:\n        \"\"\"\n        Do not return anything, modify nums1 in-place instead.\n        \"\"\"\n        # Last index of nums1\n        i = m - 1\n        # Last index of nums2\n        j = n - 1\n        # Last index of merged array\n        k = m + n - 1\n        \n        # Merge in reverse order\n        while i >= 0 and j >= 0:\n            if nums1[i] > nums2[j]:\n                nums1[k] = nums1[i]\n                i -= 1\n            else:\n                nums1[k] = nums2[j]\n                j -= 1\n            k -= 1\n        \n        # If there are remaining elements in nums2, copy them\n        while j >= 0:\n            nums1[k] = nums2[j]\n            j -= 1\n            k -= 1",
+    "explanation": "The solution uses a two-pointer technique to merge the two sorted arrays efficiently. \n\n1. **Initialization**: We set up three pointers:\n   - `i` for the last valid element in `nums1` (index `m - 1`).\n   - `j` for the last element in `nums2` (index `n - 1`).\n   - `k` for the last position in `nums1` (index `m + n - 1`).\n\n2. **Merging Process**: We compare the elements pointed to by `i` and `j`. The larger of the two is placed at index `k` in `nums1`, and we decrement the respective pointer (`i` or `j`) and `k`. This continues until we have processed all elements from either `nums1` or `nums2`.\n\n3. **Handling Remaining Elements**: If there are any remaining elements in `nums2` (i.e., `j` is still non-negative), we copy them directly into `nums1`. This is necessary because if `nums1` has already been filled with larger elements, the remaining elements in `nums2` will be smaller and should be placed at the beginning of `nums1`.\n\n**Time Complexity**: O(m + n) because we traverse both arrays once.\n\n**Space Complexity**: O(1) since we are modifying `nums1` in place and not using any additional data structures.\n\nThis solution efficiently merges the two sorted arrays while adhering to the constraints provided."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:33"
+}

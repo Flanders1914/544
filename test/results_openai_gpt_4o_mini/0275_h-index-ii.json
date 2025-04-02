@@ -1,0 +1,52 @@
+{
+  "problem": {
+    "id": "275",
+    "frontend_id": "275",
+    "title": "H-Index II",
+    "description": "Given an array of integers citations where citations[i] is the number of citations a researcher received for their ith paper and citations is sorted in ascending order, return the researcher's h-index.\nAccording to the definition of h-index on Wikipedia: The h-index is defined as the maximum value of h such that the given researcher has published at least h papers that have each been cited at least h times.\nYou must write an algorithm that runs in logarithmic time.\n \nExample 1:\n\nInput: citations = [0,1,3,5,6]\nOutput: 3\nExplanation: [0,1,3,5,6] means the researcher has 5 papers in total and each of them had received 0, 1, 3, 5, 6 citations respectively.\nSince the researcher has 3 papers with at least 3 citations each and the remaining two with no more than 3 citations each, their h-index is 3.\n\nExample 2:\n\nInput: citations = [1,2,100]\nOutput: 2\n\n \nConstraints:\n\nn == citations.length\n1 <= n <= 105\n0 <= citations[i] <= 1000\ncitations is sorted in ascending order.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[0,1,3,5,6]",
+      "[1,2,100]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "citations": "[0,1,3,5,6]"
+        },
+        "expected": "3"
+      },
+      {
+        "input": {
+          "citations": "[1,2,100]"
+        },
+        "expected": "2"
+      }
+    ],
+    "python_starter": "class Solution:\n    def hIndex(self, citations: List[int]) -> int:\n        ",
+    "hints": [
+      "Expected runtime complexity is in <i>O</i>(log <i>n</i>) and the input is sorted."
+    ],
+    "meta_data": {
+      "name": "hIndex",
+      "params": [
+        {
+          "name": "citations",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def hIndex(self, citations: List[int]) -> int:\n        n = len(citations)\n        left, right = 0, n - 1\n        \n        while left <= right:\n            mid = left + (right - left) // 2\n            # Calculate the number of papers with at least citations[mid] citations\n            if citations[mid] >= n - mid:\n                right = mid - 1  # Look for a potentially higher h-index\n            else:\n                left = mid + 1  # Look for a lower h-index\n        \n        return n - left  # The h-index is the number of papers with at least that many citations",
+    "explanation": "The solution uses binary search to efficiently find the h-index in a sorted list of citations. The key steps are as follows:\n\n1. **Initialization**: We define two pointers, `left` and `right`, to represent the current search range in the citations array.\n\n2. **Binary Search Loop**: We continue the search while `left` is less than or equal to `right`. We calculate the midpoint `mid` and check if the number of papers with at least `citations[mid]` citations is sufficient to satisfy the h-index condition.\n\n3. **Condition Check**: If `citations[mid]` is greater than or equal to `n - mid`, it means there are enough papers (at least `n - mid` papers) that have at least `citations[mid]` citations. Therefore, we move the `right` pointer to `mid - 1` to check for a potentially higher h-index.\n\n4. **Adjusting Pointers**: If the condition is not met, we move the `left` pointer to `mid + 1` to search for a lower h-index.\n\n5. **Result Calculation**: After the loop, `left` will point to the first index where the number of papers with at least that many citations is not sufficient. Thus, the h-index is calculated as `n - left`.\n\n**Time Complexity**: O(log n) due to the binary search.\n\n**Space Complexity**: O(1) since we are using a constant amount of space for pointers and variables.\n\nThis approach ensures that we efficiently find the h-index while adhering to the logarithmic time requirement."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 3\nTest case 2:\n[PASS] Test passed: 2\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:45"
+}

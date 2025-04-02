@@ -1,0 +1,62 @@
+{
+  "problem": {
+    "id": "764",
+    "frontend_id": "429",
+    "title": "N-ary Tree Level Order Traversal",
+    "description": "Given an n-ary tree, return the level order traversal of its nodes' values.\nNary-Tree input serialization is represented in their level order traversal, each group of children is separated by the null value (See examples).\n \nExample 1:\n\n\nInput: root = [1,null,3,2,4,null,5,6]\nOutput: [[1],[3,2,4],[5,6]]\n\nExample 2:\n\n\nInput: root = [1,null,2,3,4,5,null,null,6,7,null,8,null,9,10,null,null,11,null,12,null,13,null,null,14]\nOutput: [[1],[2,3,4,5],[6,7,8,9,10],[11,12,13],[14]]\n\n \nConstraints:\n\nThe height of the n-ary tree is less than or equal to 1000\nThe total number of nodes is between [0, 104]\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[1,null,3,2,4,null,5,6]",
+      "[1,null,2,3,4,5,null,null,6,7,null,8,null,9,10,null,null,11,null,12,null,13,null,null,14]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "root": "[1,null,3,2,4,null,5,6]"
+        },
+        "expected": "[[1]"
+      }
+    ],
+    "python_starter": "\"\"\"\n# Definition for a Node.\nclass Node:\n    def __init__(self, val: Optional[int] = None, children: Optional[List['Node']] = None):\n        self.val = val\n        self.children = children\n\"\"\"\n\nclass Solution:\n    def levelOrder(self, root: 'Node') -> List[List[int]]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "levelOrder",
+      "params": [
+        {
+          "name": "root",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "list<list<integer>>"
+      },
+      "languages": [
+        "cpp",
+        "java",
+        "python",
+        "csharp",
+        "javascript",
+        "python3",
+        "golang",
+        "ruby",
+        "c",
+        "kotlin",
+        "scala",
+        "php",
+        "swift",
+        "typescript"
+      ],
+      "manual": true,
+      "typescriptCustomType": "class _Node {\n    val: number\n    children: _Node[]\n    \n    constructor(v: number) {\n        this.val = v;\n        this.children = [];\n    }\n}\n"
+    }
+  },
+  "solution": {
+    "code": "from typing import List, Optional\n\n# Definition for a Node.\nclass Node:\n    def __init__(self, val: Optional[int] = None, children: Optional[List['Node']] = None):\n        self.val = val\n        self.children = children if children is not None else []\n\nclass Solution:\n    def levelOrder(self, root: 'Node') -> List[List[int]]:\n        if not root:\n            return []\n        \n        result = []\n        queue = [root]  # Initialize the queue with the root node\n        \n        while queue:\n            level_size = len(queue)  # Number of nodes at the current level\n            current_level = []  # List to store the current level's values\n            \n            for _ in range(level_size):\n                node = queue.pop(0)  # Dequeue the front node\n                current_level.append(node.val)  # Add its value to the current level list\n                \n                # Enqueue all children of the current node\n                for child in node.children:\n                    queue.append(child)\n            \n            result.append(current_level)  # Add the current level to the result\n        \n        return result",
+    "explanation": "The provided solution implements a level order traversal of an n-ary tree using a queue. The algorithm starts by checking if the root is `None`, in which case it returns an empty list. It initializes a queue with the root node and enters a loop that continues until the queue is empty.\n\nWithin the loop, the algorithm determines the number of nodes at the current level by checking the size of the queue. It then initializes a list to hold the values of the nodes at that level. For each node at the current level, it dequeues the node, appends its value to the current level list, and enqueues all of its children.\n\nAfter processing all nodes at the current level, the current level list is appended to the result list. This process repeats until all levels of the tree have been processed.\n\nThe time complexity of this solution is O(N), where N is the total number of nodes in the tree, as each node is processed exactly once. The space complexity is O(M), where M is the maximum number of nodes at any level, which can occur in the queue at the same time.\n\nOverall, this approach efficiently captures the level order traversal of an n-ary tree."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmpkf2zn8t1.py\", line 69\n    expected_0 = [[1]\n                 ^\nSyntaxError: '[' was never closed\n"
+  },
+  "timestamp": "2025-04-01 18:00:55"
+}

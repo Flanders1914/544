@@ -1,0 +1,48 @@
+{
+  "id": "9",
+  "frontend_id": "9",
+  "title": "Palindrome Number",
+  "description": "Given an integer x, return true if x is a palindrome, and false otherwise.\n \nExample 1:\n\nInput: x = 121\nOutput: true\nExplanation: 121 reads as 121 from left to right and from right to left.\n\nExample 2:\n\nInput: x = -121\nOutput: false\nExplanation: From left to right, it reads -121. From right to left, it becomes 121-. Therefore it is not a palindrome.\n\nExample 3:\n\nInput: x = 10\nOutput: false\nExplanation: Reads 01 from right to left. Therefore it is not a palindrome.\n\n \nConstraints:\n\n-231 <= x <= 231 - 1\n\n \nFollow up: Could you solve it without converting the integer to a string?",
+  "difficulty": "Easy",
+  "examples": [
+    "121",
+    "-121",
+    "10"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "x": "121"
+      },
+      "expected": "true"
+    },
+    {
+      "input": {
+        "x": "-121"
+      },
+      "expected": "false"
+    },
+    {
+      "input": {
+        "x": "10"
+      },
+      "expected": "false"
+    }
+  ],
+  "python_starter": "class Solution:\n    def isPalindrome(self, x: int) -> bool:\n        ",
+  "hints": [
+    "Beware of overflow when you reverse the integer."
+  ],
+  "meta_data": {
+    "name": "isPalindrome",
+    "params": [
+      {
+        "name": "x",
+        "type": "integer"
+      }
+    ],
+    "return": {
+      "type": "boolean"
+    }
+  }
+}

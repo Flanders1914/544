@@ -1,0 +1,35 @@
+{
+  "id": "233",
+  "frontend_id": "233",
+  "title": "Number of Digit One",
+  "description": "Given an integer n, count the total number of digit 1 appearing in all non-negative integers less than or equal to n.\n \nExample 1:\n\nInput: n = 13\nOutput: 6\n\nExample 2:\n\nInput: n = 0\nOutput: 0\n\n \nConstraints:\n\n0 <= n <= 109\n\n",
+  "difficulty": "Hard",
+  "examples": [
+    "13",
+    "0"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "n": "13"
+      },
+      "expected": "6"
+    }
+  ],
+  "python_starter": "class Solution:\n    def countDigitOne(self, n: int) -> int:\n        ",
+  "hints": [
+    "Beware of overflow."
+  ],
+  "meta_data": {
+    "name": "countDigitOne",
+    "params": [
+      {
+        "name": "n",
+        "type": "integer"
+      }
+    ],
+    "return": {
+      "type": "integer"
+    }
+  }
+}

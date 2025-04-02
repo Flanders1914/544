@@ -1,0 +1,68 @@
+{
+  "problem": {
+    "id": "216",
+    "frontend_id": "216",
+    "title": "Combination Sum III",
+    "description": "Find all valid combinations of k numbers that sum up to n such that the following conditions are true:\n\nOnly numbers 1 through 9 are used.\nEach number is used at most once.\n\nReturn a list of all possible valid combinations. The list must not contain the same combination twice, and the combinations may be returned in any order.\n \nExample 1:\n\nInput: k = 3, n = 7\nOutput: [[1,2,4]]\nExplanation:\n1 + 2 + 4 = 7\nThere are no other valid combinations.\nExample 2:\n\nInput: k = 3, n = 9\nOutput: [[1,2,6],[1,3,5],[2,3,4]]\nExplanation:\n1 + 2 + 6 = 9\n1 + 3 + 5 = 9\n2 + 3 + 4 = 9\nThere are no other valid combinations.\n\nExample 3:\n\nInput: k = 4, n = 1\nOutput: []\nExplanation: There are no valid combinations.\nUsing 4 different numbers in the range [1,9], the smallest sum we can get is 1+2+3+4 = 10 and since 10 > 1, there are no valid combination.\n\n \nConstraints:\n\n2 <= k <= 9\n1 <= n <= 60\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "3",
+      "7",
+      "3",
+      "9",
+      "4",
+      "1"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "k": "3",
+          "n": "7"
+        },
+        "expected": "[[1,2,4]"
+      },
+      {
+        "input": {
+          "k": "3",
+          "n": "9"
+        },
+        "expected": "[[1,2,6]"
+      },
+      {
+        "input": {
+          "k": "4",
+          "n": "1"
+        },
+        "expected": "[]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def combinationSum3(self, k: int, n: int) -> List[List[int]]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "combinationSum3",
+      "params": [
+        {
+          "name": "k",
+          "type": "integer"
+        },
+        {
+          "name": "n",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "list<list<integer>>",
+        "dealloc": true
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def combinationSum3(self, k: int, n: int) -> List[List[int]]:\n        def backtrack(start, k, n, path, result):\n            # Base case: if k is 0 and n is 0, we found a valid combination\n            if k == 0 and n == 0:\n                result.append(path)\n                return\n            # If k is 0 or n is 0, or if we exceed the bounds, we stop\n            if k == 0 or n <= 0:\n                return\n            \n            for i in range(start, 10):  # Numbers from 1 to 9\n                backtrack(i + 1, k - 1, n - i, path + [i], result)\n\n        result = []\n        backtrack(1, k, n, [], result)\n        return result",
+    "explanation": "The provided solution uses a backtracking algorithm to explore all possible combinations of numbers from 1 to 9 that sum up to `n` with exactly `k` numbers. \n\n1. **Function Definition**: The main function `combinationSum3` initializes the backtracking process. It calls the helper function `backtrack` with the starting number, the count of numbers left to choose (`k`), the remaining sum (`n`), the current path (combination being built), and the result list to store valid combinations.\n\n2. **Backtracking Logic**: \n   - The `backtrack` function checks if we have found a valid combination (when both `k` and `n` are 0). If so, it appends the current path to the result.\n   - If `k` is 0 or `n` is less than or equal to 0, it returns early as no valid combination can be formed.\n   - It iterates through numbers starting from `start` to 9, recursively calling itself with updated parameters (next number, reduced `k`, and reduced `n`).\n\n3. **Time Complexity**: The time complexity is O(2^k) in the worst case, as we explore all combinations of `k` numbers. However, since we are limited to numbers 1 through 9, the actual number of combinations is much smaller.\n\n4. **Space Complexity**: The space complexity is O(k) due to the recursion stack and the space used to store the current combination.\n\nThis approach efficiently finds all valid combinations while adhering to the problem constraints."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmptz5cy71a.py\", line 59\n    if compare_results(result_0, expected_0):\n                                            ^\nSyntaxError: invalid syntax\n"
+  },
+  "timestamp": "2025-04-01 18:00:43"
+}

@@ -1,0 +1,57 @@
+{
+  "problem": {
+    "id": "436",
+    "frontend_id": "436",
+    "title": "Find Right Interval",
+    "description": "You are given an array of intervals, where intervals[i] = [starti, endi] and each starti is unique.\nThe right interval for an interval i is an interval j such that startj >= endi and startj is minimized. Note that i may equal j.\nReturn an array of right interval indices for each interval i. If no right interval exists for interval i, then put -1 at index i.\n \nExample 1:\n\nInput: intervals = [[1,2]]\nOutput: [-1]\nExplanation: There is only one interval in the collection, so it outputs -1.\n\nExample 2:\n\nInput: intervals = [[3,4],[2,3],[1,2]]\nOutput: [-1,0,1]\nExplanation: There is no right interval for [3,4].\nThe right interval for [2,3] is [3,4] since start0 = 3 is the smallest start that is >= end1 = 3.\nThe right interval for [1,2] is [2,3] since start1 = 2 is the smallest start that is >= end2 = 2.\n\nExample 3:\n\nInput: intervals = [[1,4],[2,3],[3,4]]\nOutput: [-1,2,-1]\nExplanation: There is no right interval for [1,4] and [3,4].\nThe right interval for [2,3] is [3,4] since start2 = 3 is the smallest start that is >= end1 = 3.\n\n \nConstraints:\n\n1 <= intervals.length <= 2 * 104\nintervals[i].length == 2\n-106 <= starti <= endi <= 106\nThe start point of each interval is unique.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[[1,2]]",
+      "[[3,4],[2,3],[1,2]]",
+      "[[1,4],[2,3],[3,4]]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "intervals": "[[1,2]"
+        },
+        "expected": "[-1]"
+      },
+      {
+        "input": {
+          "intervals": "[[3,4]"
+        },
+        "expected": "[-1,0,1]"
+      },
+      {
+        "input": {
+          "intervals": "[[1,4]"
+        },
+        "expected": "[-1,2,-1]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def findRightInterval(self, intervals: List[List[int]]) -> List[int]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "findRightInterval",
+      "params": [
+        {
+          "name": "intervals",
+          "type": "integer[][]"
+        }
+      ],
+      "return": {
+        "type": "integer[]"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\nimport bisect\n\nclass Solution:\n    def findRightInterval(self, intervals: List[List[int]]) -> List[int]:\n        # Create a list of tuples (start, index) for sorting\n        indexed_intervals = [(start, i) for i, (start, end) in enumerate(intervals)]\n        # Sort the intervals based on the start times\n        indexed_intervals.sort()\n        \n        # Prepare the result array with -1 as default\n        result = [-1] * len(intervals)\n        \n        # Iterate through each interval to find the right interval\n        for start, i in indexed_intervals:\n            end = intervals[i][1]\n            # Use binary search to find the right interval\n            # We need to find the first interval whose start is >= end\n            j = bisect.bisect_left(indexed_intervals, (end,))  # (end,) to search by end\n            if j < len(indexed_intervals):\n                result[i] = indexed_intervals[j][1]  # Get the original index\n        \n        return result",
+    "explanation": "The solution begins by creating a list of tuples that pair each interval's start time with its original index. This allows us to sort the intervals while keeping track of their original positions. \n\nAfter sorting, we initialize a result list filled with -1, which will hold the indices of the right intervals for each original interval.\n\nFor each interval in the sorted list, we extract its end time and use the `bisect_left` function from the `bisect` module to find the position of the first interval whose start time is greater than or equal to the end time. If such an interval exists, we update the result list with the original index of that interval.\n\nThe overall time complexity of the solution is O(n log n) due to the sorting step and the binary search for each interval. The space complexity is O(n) for storing the indexed intervals and the result list.\n\nThis approach efficiently finds the right intervals while ensuring that we maintain the original indices required for the output."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmps6om3wx2.py\", line 59\n    input_0_0 = [[1,2]\n                 ^^^^^\nSyntaxError: invalid syntax. Perhaps you forgot a comma?\n"
+  },
+  "timestamp": "2025-04-01 18:00:55"
+}

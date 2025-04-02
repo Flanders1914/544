@@ -1,0 +1,44 @@
+{
+  "problem": {
+    "id": "179",
+    "frontend_id": "179",
+    "title": "Largest Number",
+    "description": "Given a list of non-negative integers nums, arrange them such that they form the largest number and return it.\nSince the result may be very large, so you need to return a string instead of an integer.\n \nExample 1:\n\nInput: nums = [10,2]\nOutput: \"210\"\n\nExample 2:\n\nInput: nums = [3,30,34,5,9]\nOutput: \"9534330\"\n\n \nConstraints:\n\n1 <= nums.length <= 100\n0 <= nums[i] <= 109\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[10,2]",
+      "[3,30,34,5,9]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[10,2]"
+        },
+        "expected": "210"
+      }
+    ],
+    "python_starter": "class Solution:\n    def largestNumber(self, nums: List[int]) -> str:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "largestNumber",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "string"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def largestNumber(self, nums: List[int]) -> str:\n        # Convert all integers to strings for comparison\n        nums_str = list(map(str, nums))\n        \n        # Custom sort using the comparison of concatenated strings\n        nums_str.sort(key=lambda x: x*10, reverse=True)\n        \n        # Join the sorted numbers into a single string\n        largest_num = ''.join(nums_str)\n        \n        # Handle the case where the largest number is '0'\n        return largest_num if largest_num[0] != '0' else '0'",
+    "explanation": "The solution involves the following steps:\n\n1. **Conversion to Strings**: We first convert all integers in the list to strings since we need to compare their concatenated forms.\n\n2. **Custom Sorting**: We sort the list of strings using a custom key. The key is defined as `x*10`, which effectively allows us to compare the concatenated results of two numbers. By repeating the string, we ensure that the comparison is valid even for numbers of different lengths. The sorting is done in descending order to ensure that the largest combinations come first.\n\n3. **Concatenation**: After sorting, we concatenate the sorted list of strings to form the final largest number.\n\n4. **Edge Case Handling**: If the first character of the resulting string is '0', it means all numbers were zeros, and we should return \"0\".\n\n**Time Complexity**: The sorting step dominates the time complexity, which is O(n log n), where n is the number of elements in the input list.\n\n**Space Complexity**: The space complexity is O(n) due to the storage of the string representations of the numbers.\n\nThis approach efficiently constructs the largest number possible from the given list of integers."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:40"
+}

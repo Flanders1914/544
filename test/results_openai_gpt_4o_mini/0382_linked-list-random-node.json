@@ -1,0 +1,49 @@
+{
+  "problem": {
+    "id": "382",
+    "frontend_id": "382",
+    "title": "Linked List Random Node",
+    "description": "Given a singly linked list, return a random node's value from the linked list. Each node must have the same probability of being chosen.\nImplement the Solution class:\n\nSolution(ListNode head) Initializes the object with the head of the singly-linked list head.\nint getRandom() Chooses a node randomly from the list and returns its value. All the nodes of the list should be equally likely to be chosen.\n\n \nExample 1:\n\n\nInput\n[\"Solution\", \"getRandom\", \"getRandom\", \"getRandom\", \"getRandom\", \"getRandom\"]\n[[[1, 2, 3]], [], [], [], [], []]\nOutput\n[null, 1, 3, 2, 2, 3]\n\nExplanation\nSolution solution = new Solution([1, 2, 3]);\nsolution.getRandom(); // return 1\nsolution.getRandom(); // return 3\nsolution.getRandom(); // return 2\nsolution.getRandom(); // return 2\nsolution.getRandom(); // return 3\n// getRandom() should return either 1, 2, or 3 randomly. Each element should have equal probability of returning.\n\n \nConstraints:\n\nThe number of nodes in the linked list will be in the range [1, 104].\n-104 <= Node.val <= 104\nAt most 104 calls will be made to getRandom.\n\n \nFollow up:\n\nWhat if the linked list is extremely large and its length is unknown to you?\nCould you solve this efficiently without using extra space?\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[\"Solution\",\"getRandom\",\"getRandom\",\"getRandom\",\"getRandom\",\"getRandom\"]",
+      "[[[1,2,3]],[],[],[],[],[]]"
+    ],
+    "structured_test_cases": [],
+    "python_starter": "# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution:\n\n    def __init__(self, head: Optional[ListNode]):\n        \n\n    def getRandom(self) -> int:\n        \n\n\n# Your Solution object will be instantiated and called as such:\n# obj = Solution(head)\n# param_1 = obj.getRandom()",
+    "hints": [],
+    "meta_data": {
+      "classname": "Solution",
+      "constructor": {
+        "params": [
+          {
+            "type": "ListNode",
+            "name": "head"
+          }
+        ]
+      },
+      "methods": [
+        {
+          "params": [],
+          "name": "getRandom",
+          "return": {
+            "type": "integer"
+          }
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      },
+      "systemdesign": true
+    }
+  },
+  "solution": {
+    "code": "import random\nfrom typing import Optional\n\n# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\n\nclass Solution:\n\n    def __init__(self, head: Optional[ListNode]):\n        self.head = head\n\n    def getRandom(self) -> int:\n        current = self.head\n        result = current.val\n        count = 1\n        \n        while current:\n            if random.randint(1, count) == 1:\n                result = current.val\n            current = current.next\n            count += 1\n        \n        return result",
+    "explanation": "In the provided solution, we define a `ListNode` class to represent each node in the linked list. The `Solution` class is initialized with the head of the linked list. \n\nThe `getRandom` method implements the Reservoir Sampling algorithm:\n1. We start with the head of the list and initialize `result` with the value of the first node and a counter `count` set to 1.\n2. We traverse the linked list using a while loop. For each node, we generate a random integer between 1 and `count`.\n3. If the random integer equals 1, we update `result` to the current node's value. This ensures that each node has a 1/count chance of being selected.\n4. We move to the next node and increment the count.\n5. Finally, we return the value stored in `result`.\n\nThe time complexity of this solution is O(n), where n is the number of nodes in the linked list, as we need to traverse the entire list to ensure uniform selection. The space complexity is O(1) since we are using a constant amount of extra space regardless of the input size.\n\nThis method is efficient and works well even for very large linked lists, as it does not require any additional data structures to store the nodes."
+  },
+  "test_result": {
+    "success": true,
+    "output": "\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:51"
+}

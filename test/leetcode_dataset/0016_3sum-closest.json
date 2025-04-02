@@ -1,0 +1,47 @@
+{
+  "id": "16",
+  "frontend_id": "16",
+  "title": "3Sum Closest",
+  "description": "Given an integer array nums of length n and an integer target, find three integers in nums such that the sum is closest to target.\nReturn the sum of the three integers.\nYou may assume that each input would have exactly one solution.\n \nExample 1:\n\nInput: nums = [-1,2,1,-4], target = 1\nOutput: 2\nExplanation: The sum that is closest to the target is 2. (-1 + 2 + 1 = 2).\n\nExample 2:\n\nInput: nums = [0,0,0], target = 1\nOutput: 0\nExplanation: The sum that is closest to the target is 0. (0 + 0 + 0 = 0).\n\n \nConstraints:\n\n3 <= nums.length <= 500\n-1000 <= nums[i] <= 1000\n-104 <= target <= 104\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "[-1,2,1,-4]",
+    "1",
+    "[0,0,0]",
+    "1"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "nums": "[-1,2,1,-4]",
+        "target": "1"
+      },
+      "expected": "2"
+    },
+    {
+      "input": {
+        "nums": "[0,0,0]",
+        "target": "1"
+      },
+      "expected": "0"
+    }
+  ],
+  "python_starter": "class Solution:\n    def threeSumClosest(self, nums: List[int], target: int) -> int:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "threeSumClosest",
+    "params": [
+      {
+        "name": "nums",
+        "type": "integer[]"
+      },
+      {
+        "name": "target",
+        "type": "integer"
+      }
+    ],
+    "return": {
+      "type": "integer"
+    }
+  }
+}

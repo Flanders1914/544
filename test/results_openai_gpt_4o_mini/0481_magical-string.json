@@ -1,0 +1,50 @@
+{
+  "problem": {
+    "id": "481",
+    "frontend_id": "481",
+    "title": "Magical String",
+    "description": "A magical string s consists of only '1' and '2' and obeys the following rules:\n\nThe string s is magical because concatenating the number of contiguous occurrences of characters '1' and '2' generates the string s itself.\n\nThe first few elements of s is s = \"1221121221221121122……\". If we group the consecutive 1's and 2's in s, it will be \"1 22 11 2 1 22 1 22 11 2 11 22 ......\" and the occurrences of 1's or 2's in each group are \"1 2 2 1 1 2 1 2 2 1 2 2 ......\". You can see that the occurrence sequence is s itself.\nGiven an integer n, return the number of 1's in the first n number in the magical string s.\n \nExample 1:\n\nInput: n = 6\nOutput: 3\nExplanation: The first 6 elements of magical string s is \"122112\" and it contains three 1's, so return 3.\n\nExample 2:\n\nInput: n = 1\nOutput: 1\n\n \nConstraints:\n\n1 <= n <= 105\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "6",
+      "1"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "n": "6"
+        },
+        "expected": "3"
+      },
+      {
+        "input": {
+          "n": "1"
+        },
+        "expected": "1"
+      }
+    ],
+    "python_starter": "class Solution:\n    def magicalString(self, n: int) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "magicalString",
+      "params": [
+        {
+          "name": "n",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def magicalString(self, n: int) -> int:\n        if n == 0:\n            return 0\n        \n        # Initialize the magical string with the first character\n        magical_string = [1]  # Start with '1'\n        count_of_ones = 1  # We have one '1' initially\n        \n        # Pointer to track the position in the magical string\n        index = 1\n        \n        while len(magical_string) < n:\n            # The current character determines how many times to append the next character\n            current_char = magical_string[index]\n            next_char = 2 if magical_string[-1] == 1 else 1\n            \n            # Append the next_char current_char times\n            for _ in range(current_char):\n                if len(magical_string) < n:\n                    magical_string.append(next_char)\n                    if next_char == 1:\n                        count_of_ones += 1\n            \n            # Move to the next character in the magical string\n            index += 1\n        \n        return count_of_ones",
+    "explanation": "The solution constructs the magical string iteratively based on the rules provided. \n\n1. **Initialization**: We start with the magical string containing just the first character '1' and initialize a count for '1's.\n2. **Looping**: We use a while loop to continue generating characters until the length of the magical string reaches `n`. The current character at the `index` tells us how many times to append the next character (which alternates between '1' and '2').\n3. **Counting '1's**: Each time we append '1', we increment our count of '1's.\n4. **Termination**: The loop stops once we have generated at least `n` characters, and we return the count of '1's.\n\n**Time Complexity**: O(n) - We generate the magical string up to `n` characters, and each character is processed a constant number of times.\n\n**Space Complexity**: O(n) - We store the magical string in a list, which can grow up to `n` characters.\n\nThis approach efficiently counts the number of '1's in the magical string without unnecessary computations or storage."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:59"
+}

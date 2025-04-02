@@ -1,0 +1,77 @@
+{
+  "problem": {
+    "id": "97",
+    "frontend_id": "97",
+    "title": "Interleaving String",
+    "description": "Given strings s1, s2, and s3, find whether s3 is formed by an interleaving of s1 and s2.\nAn interleaving of two strings s and t is a configuration where s and t are divided into n and m substrings respectively, such that:\n\ns = s1 + s2 + ... + sn\nt = t1 + t2 + ... + tm\n|n - m| <= 1\nThe interleaving is s1 + t1 + s2 + t2 + s3 + t3 + ... or t1 + s1 + t2 + s2 + t3 + s3 + ...\n\nNote: a + b is the concatenation of strings a and b.\n \nExample 1:\n\n\nInput: s1 = \"aabcc\", s2 = \"dbbca\", s3 = \"aadbbcbcac\"\nOutput: true\nExplanation: One way to obtain s3 is:\nSplit s1 into s1 = \"aa\" + \"bc\" + \"c\", and s2 into s2 = \"dbbc\" + \"a\".\nInterleaving the two splits, we get \"aa\" + \"dbbc\" + \"bc\" + \"a\" + \"c\" = \"aadbbcbcac\".\nSince s3 can be obtained by interleaving s1 and s2, we return true.\n\nExample 2:\n\nInput: s1 = \"aabcc\", s2 = \"dbbca\", s3 = \"aadbbbaccc\"\nOutput: false\nExplanation: Notice how it is impossible to interleave s2 with any other string to obtain s3.\n\nExample 3:\n\nInput: s1 = \"\", s2 = \"\", s3 = \"\"\nOutput: true\n\n \nConstraints:\n\n0 <= s1.length, s2.length <= 100\n0 <= s3.length <= 200\ns1, s2, and s3 consist of lowercase English letters.\n\n \nFollow up: Could you solve it using only O(s2.length) additional memory space?\n",
+    "difficulty": "Medium",
+    "examples": [
+      "\"aabcc\"",
+      "\"dbbca\"",
+      "\"aadbbcbcac\"",
+      "\"aabcc\"",
+      "\"dbbca\"",
+      "\"aadbbbaccc\"",
+      "\"\"",
+      "\"\"",
+      "\"\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "s1": "\"aabcc\"",
+          "s2": "\"dbbca\"",
+          "s3": "\"aadbbcbcac\""
+        },
+        "expected": "true"
+      },
+      {
+        "input": {
+          "s1": "\"aabcc\"",
+          "s2": "\"dbbca\"",
+          "s3": "\"aadbbbaccc\""
+        },
+        "expected": "false"
+      },
+      {
+        "input": {
+          "s1": "\"\"",
+          "s2": "\"\"",
+          "s3": "\"\""
+        },
+        "expected": "true"
+      }
+    ],
+    "python_starter": "class Solution:\n    def isInterleave(self, s1: str, s2: str, s3: str) -> bool:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "isInterleave",
+      "params": [
+        {
+          "name": "s1",
+          "type": "string"
+        },
+        {
+          "name": "s2",
+          "type": "string"
+        },
+        {
+          "name": "s3",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def isInterleave(self, s1: str, s2: str, s3: str) -> bool:\n        # Check if the lengths of s1 and s2 match the length of s3\n        if len(s1) + len(s2) != len(s3):\n            return False\n        \n        # Create a 2D DP array\n        dp = [[False] * (len(s2) + 1) for _ in range(len(s1) + 1)]\n        \n        # Initialize the DP table\n        dp[0][0] = True\n        \n        # Fill the first row\n        for j in range(1, len(s2) + 1):\n            dp[0][j] = dp[0][j - 1] and s2[j - 1] == s3[j - 1]\n        \n        # Fill the first column\n        for i in range(1, len(s1) + 1):\n            dp[i][0] = dp[i - 1][0] and s1[i - 1] == s3[i - 1]\n        \n        # Fill the rest of the DP table\n        for i in range(1, len(s1) + 1):\n            for j in range(1, len(s2) + 1):\n                dp[i][j] = (dp[i - 1][j] and s1[i - 1] == s3[i + j - 1]) or \\\n                           (dp[i][j - 1] and s2[j - 1] == s3[i + j - 1])\n        \n        return dp[len(s1)][len(s2)]",
+    "explanation": "The solution uses a dynamic programming approach to determine if `s3` can be formed by interleaving `s1` and `s2`. \n\n1. **Initialization**: We first check if the combined length of `s1` and `s2` matches the length of `s3`. If not, we return `False`. We then create a 2D list `dp` where `dp[i][j]` indicates whether the first `i` characters of `s1` and the first `j` characters of `s2` can form the first `i + j` characters of `s3`.\n\n2. **Base Cases**: We initialize `dp[0][0]` to `True` since two empty strings can form an empty string. We then fill the first row and first column of the `dp` table based on whether the characters of `s2` and `s1` match with `s3`.\n\n3. **Filling the DP Table**: For each character in `s1` and `s2`, we check if we can form the corresponding character in `s3` by either taking from `s1` or `s2`. The value of `dp[i][j]` is `True` if either the character from `s1` matches the current character in `s3` and the previous state `dp[i-1][j]` is `True`, or the character from `s2` matches and the previous state `dp[i][j-1]` is `True`.\n\n4. **Final Result**: The value at `dp[len(s1)][len(s2)]` gives the final answer.\n\n**Time Complexity**: O(n * m), where n is the length of `s1` and m is the length of `s2`, since we fill a table of size (n"
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:34"
+}

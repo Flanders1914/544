@@ -1,0 +1,57 @@
+{
+  "problem": {
+    "id": "66",
+    "frontend_id": "66",
+    "title": "Plus One",
+    "description": "You are given a large integer represented as an integer array digits, where each digits[i] is the ith digit of the integer. The digits are ordered from most significant to least significant in left-to-right order. The large integer does not contain any leading 0's.\nIncrement the large integer by one and return the resulting array of digits.\n \nExample 1:\n\nInput: digits = [1,2,3]\nOutput: [1,2,4]\nExplanation: The array represents the integer 123.\nIncrementing by one gives 123 + 1 = 124.\nThus, the result should be [1,2,4].\n\nExample 2:\n\nInput: digits = [4,3,2,1]\nOutput: [4,3,2,2]\nExplanation: The array represents the integer 4321.\nIncrementing by one gives 4321 + 1 = 4322.\nThus, the result should be [4,3,2,2].\n\nExample 3:\n\nInput: digits = [9]\nOutput: [1,0]\nExplanation: The array represents the integer 9.\nIncrementing by one gives 9 + 1 = 10.\nThus, the result should be [1,0].\n\n \nConstraints:\n\n1 <= digits.length <= 100\n0 <= digits[i] <= 9\ndigits does not contain any leading 0's.\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "[1,2,3]",
+      "[4,3,2,1]",
+      "[9]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "digits": "[1,2,3]"
+        },
+        "expected": "[1,2,4]"
+      },
+      {
+        "input": {
+          "digits": "[4,3,2,1]"
+        },
+        "expected": "[4,3,2,2]"
+      },
+      {
+        "input": {
+          "digits": "[9]"
+        },
+        "expected": "[1,0]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def plusOne(self, digits: List[int]) -> List[int]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "plusOne",
+      "params": [
+        {
+          "name": "digits",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer[]"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def plusOne(self, digits: List[int]) -> List[int]:\n        n = len(digits)\n        \n        # Start from the last digit and add one\n        for i in range(n - 1, -1, -1):\n            if digits[i] < 9:\n                digits[i] += 1\n                return digits\n            digits[i] = 0  # Set current digit to 0 and carry over\n        \n        # If we exit the loop, it means we had a carry for the most significant digit\n        return [1] + digits  # Prepend 1 to the list",
+    "explanation": "The solution iterates through the `digits` array from the last element to the first. The key steps are as follows:\n\n1. **Loop through the digits**: We start from the last digit (least significant) and check if it is less than 9. If it is, we simply increment that digit by 1 and return the modified list.\n2. **Handle carry**: If the digit is 9, we set it to 0 (since 9 + 1 = 10) and continue to the next digit to the left, carrying over the 1.\n3. **Final carry check**: If we finish the loop and still have a carry (which happens if all digits were 9), we prepend a 1 to the list, resulting in a new most significant digit.\n\n### Time Complexity\nThe time complexity of this solution is O(n), where n is the number of digits in the input array. In the worst case, we may need to iterate through all digits.\n\n### Space Complexity\nThe space complexity is O(1) if we consider the output list as part of the input, since we are modifying the input list in place. However, if we consider the output list as additional space, it can be O(n) in the case where we need to create a new list with an extra digit."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: [1, 2, 4]\nTest case 2:\n[PASS] Test passed: [4, 3, 2, 2]\nTest case 3:\n[PASS] Test passed: [1, 0]\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:31"
+}

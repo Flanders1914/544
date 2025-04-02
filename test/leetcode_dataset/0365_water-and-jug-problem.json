@@ -1,0 +1,52 @@
+{
+  "id": "365",
+  "frontend_id": "365",
+  "title": "Water and Jug Problem",
+  "description": "You are given two jugs with capacities x liters and y liters. You have an infinite water supply. Return whether the total amount of water in both jugs may reach target using the following operations:\n\nFill either jug completely with water.\nCompletely empty either jug.\nPour water from one jug into another until the receiving jug is full, or the transferring jug is empty.\n\n \nExample 1: \n\nInput:   x = 3, y = 5, target = 4 \nOutput:   true \nExplanation:\nFollow these steps to reach a total of 4 liters:\n\nFill the 5-liter jug (0, 5).\nPour from the 5-liter jug into the 3-liter jug, leaving 2 liters (3, 2).\nEmpty the 3-liter jug (0, 2).\nTransfer the 2 liters from the 5-liter jug to the 3-liter jug (2, 0).\nFill the 5-liter jug again (2, 5).\nPour from the 5-liter jug into the 3-liter jug until the 3-liter jug is full. This leaves 4 liters in the 5-liter jug (3, 4).\nEmpty the 3-liter jug. Now, you have exactly 4 liters in the 5-liter jug (0, 4).\n\nReference: The Die Hard example.\n\nExample 2: \n\nInput:   x = 2, y = 6, target = 5 \nOutput:   false \n\nExample 3: \n\nInput:   x = 1, y = 2, target = 3 \nOutput:   true \nExplanation: Fill both jugs. The total amount of water in both jugs is equal to 3 now.\n\n \nConstraints:\n\n1 <= x, y, target <= 103\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "3",
+    "5",
+    "4"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "x": "3",
+        "y": "5",
+        "target": "4"
+      },
+      "expected": "true"
+    },
+    {
+      "input": {
+        "x": "2",
+        "y": "6",
+        "target": "5"
+      },
+      "expected": "false"
+    }
+  ],
+  "python_starter": "class Solution:\n    def canMeasureWater(self, x: int, y: int, target: int) -> bool:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "canMeasureWater",
+    "params": [
+      {
+        "name": "x",
+        "type": "integer"
+      },
+      {
+        "name": "y",
+        "type": "integer"
+      },
+      {
+        "name": "target",
+        "type": "integer"
+      }
+    ],
+    "return": {
+      "type": "boolean"
+    }
+  }
+}

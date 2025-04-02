@@ -1,0 +1,55 @@
+{
+  "id": "183",
+  "frontend_id": "183",
+  "title": "Customers Who Never Order",
+  "description": "Table: Customers\n\n+-------------+---------+\n| Column Name | Type    |\n+-------------+---------+\n| id          | int     |\n| name        | varchar |\n+-------------+---------+\nid is the primary key (column with unique values) for this table.\nEach row of this table indicates the ID and name of a customer.\n\n \nTable: Orders\n\n+-------------+------+\n| Column Name | Type |\n+-------------+------+\n| id          | int  |\n| customerId  | int  |\n+-------------+------+\nid is the primary key (column with unique values) for this table.\ncustomerId is a foreign key (reference columns) of the ID from the Customers table.\nEach row of this table indicates the ID of an order and the ID of the customer who ordered it.\n\n \nWrite a solution to find all customers who never order anything.\nReturn the result table in any order.\nThe result format is in the following example.\n \nExample 1:\n\nInput: \nCustomers table:\n+----+-------+\n| id | name  |\n+----+-------+\n| 1  | Joe   |\n| 2  | Henry |\n| 3  | Sam   |\n| 4  | Max   |\n+----+-------+\nOrders table:\n+----+------------+\n| id | customerId |\n+----+------------+\n| 1  | 3          |\n| 2  | 1          |\n+----+------------+\nOutput: \n+-----------+\n| Customers |\n+-----------+\n| Henry     |\n| Max       |\n+-----------+\n\n",
+  "difficulty": "Easy",
+  "examples": [
+    "{\"headers\": {\"Customers\": [\"id\", \"name\"], \"Orders\": [\"id\", \"customerId\"]}, \"rows\": {\"Customers\": [[1, \"Joe\"], [2, \"Henry\"], [3, \"Sam\"], [4, \"Max\"]], \"Orders\": [[1, 3], [2, 1]]}}"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "param0": "Customers table: +----+-------+ | id | name  | +----+-------+ | 1  | Joe   | | 2  | Henry | | 3  | Sam   | | 4  | Max   | +----+-------+ Orders table: +----+------------+ | id | customerId | +----+------------+ | 1  | 3          | | 2  | 1          | +----+------------+"
+      },
+      "expected": "+-----------+"
+    }
+  ],
+  "python_starter": null,
+  "hints": [],
+  "meta_data": {
+    "mysql": [
+      "Create table If Not Exists Customers (id int, name varchar(255))",
+      "Create table If Not Exists Orders (id int, customerId int)"
+    ],
+    "mssql": [
+      "Create table Customers (id int, name varchar(255))",
+      "Create table Orders (id int, customerId int)"
+    ],
+    "oraclesql": [
+      "Create table Customers (id int, name varchar(255))",
+      "Create table Orders (id int, customerId int)"
+    ],
+    "database": true,
+    "name": "find_customers",
+    "pythondata": [
+      "Customers = pd.DataFrame([], columns=['id', 'name']).astype({'id':'Int64', 'name':'object'})",
+      "Orders = pd.DataFrame([], columns=['id', 'customerId']).astype({'id':'Int64', 'customerId':'Int64'})"
+    ],
+    "manual": false,
+    "postgresql": [
+      "Create table If Not Exists Customers (id int, name varchar(255))",
+      "Create table If Not Exists Orders (id int, customerId int)"
+    ],
+    "database_schema": {
+      "Customers": {
+        "id": "INT",
+        "name": "VARCHAR(255)"
+      },
+      "Orders": {
+        "id": "INT",
+        "customerId": "INT"
+      }
+    }
+  }
+}

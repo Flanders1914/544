@@ -1,0 +1,47 @@
+{
+  "id": "537",
+  "frontend_id": "537",
+  "title": "Complex Number Multiplication",
+  "description": "A complex number can be represented as a string on the form \"real+imaginaryi\" where:\n\nreal is the real part and is an integer in the range [-100, 100].\nimaginary is the imaginary part and is an integer in the range [-100, 100].\ni2 == -1.\n\nGiven two complex numbers num1 and num2 as strings, return a string of the complex number that represents their multiplications.\n \nExample 1:\n\nInput: num1 = \"1+1i\", num2 = \"1+1i\"\nOutput: \"0+2i\"\nExplanation: (1 + i) * (1 + i) = 1 + i2 + 2 * i = 2i, and you need convert it to the form of 0+2i.\n\nExample 2:\n\nInput: num1 = \"1+-1i\", num2 = \"1+-1i\"\nOutput: \"0+-2i\"\nExplanation: (1 - i) * (1 - i) = 1 + i2 - 2 * i = -2i, and you need convert it to the form of 0+-2i.\n\n \nConstraints:\n\nnum1 and num2 are valid complex numbers.\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "\"1+1i\"",
+    "\"1+1i\"",
+    "\"1+-1i\"",
+    "\"1+-1i\""
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "num1": "\"1+1i\"",
+        "num2": "\"1+1i\""
+      },
+      "expected": "0+2i"
+    },
+    {
+      "input": {
+        "num1": "\"1+-1i\"",
+        "num2": "\"1+-1i\""
+      },
+      "expected": "0+-2i"
+    }
+  ],
+  "python_starter": "class Solution:\n    def complexNumberMultiply(self, num1: str, num2: str) -> str:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "complexNumberMultiply",
+    "params": [
+      {
+        "name": "num1",
+        "type": "string"
+      },
+      {
+        "name": "num2",
+        "type": "string"
+      }
+    ],
+    "return": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,55 @@
+{
+  "problem": {
+    "id": "204",
+    "frontend_id": "204",
+    "title": "Count Primes",
+    "description": "Given an integer n, return the number of prime numbers that are strictly less than n.\n \nExample 1:\n\nInput: n = 10\nOutput: 4\nExplanation: There are 4 prime numbers less than 10, they are 2, 3, 5, 7.\n\nExample 2:\n\nInput: n = 0\nOutput: 0\n\nExample 3:\n\nInput: n = 1\nOutput: 0\n\n \nConstraints:\n\n0 <= n <= 5 * 106\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "10",
+      "0",
+      "1"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "n": "10"
+        },
+        "expected": "4"
+      },
+      {
+        "input": {
+          "n": "0"
+        },
+        "expected": "0"
+      }
+    ],
+    "python_starter": "class Solution:\n    def countPrimes(self, n: int) -> int:\n        ",
+    "hints": [
+      "Checking all the integers in the range [1, n - 1] is not efficient. Think about a better approach.",
+      "Since most of the numbers are not primes, we need a fast approach to exclude the non-prime integers.",
+      "Use Sieve of Eratosthenes."
+    ],
+    "meta_data": {
+      "name": "countPrimes",
+      "params": [
+        {
+          "name": "n",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def countPrimes(self, n: int) -> int:\n        if n <= 2:\n            return 0  # There are no primes less than 2\n        \n        # Initialize a list to track prime status\n        is_prime = [True] * n\n        is_prime[0] = is_prime[1] = False  # 0 and 1 are not prime numbers\n        \n        # Implement the Sieve of Eratosthenes\n        for i in range(2, int(n**0.5) + 1):\n            if is_prime[i]:  # If i is a prime\n                for j in range(i * i, n, i):  # Mark all multiples of i as not prime\n                    is_prime[j] = False\n        \n        # Count the number of primes\n        return sum(is_prime)",
+    "explanation": "The provided solution uses the Sieve of Eratosthenes to efficiently count the number of prime numbers less than a given integer `n`. \n\n1. **Initialization**: We create a boolean list `is_prime` of size `n`, where each index represents whether that number is prime. We initialize all entries to `True`, except for indices 0 and 1, which are set to `False`.\n\n2. **Sieve Process**: We iterate from 2 to the square root of `n`. For each number `i` that is still marked as prime, we mark all of its multiples (starting from `i*i` to `n-1`) as not prime. This is done because any multiple of a prime number cannot be prime itself.\n\n3. **Counting Primes**: After marking the non-prime numbers, we simply count the number of `True` values in the `is_prime` list, which gives us the total number of primes less than `n`.\n\n**Time Complexity**: The algorithm runs in O(n log log n) due to the nature of the Sieve of Eratosthenes, which is efficient for large values of `n`.\n\n**Space Complexity**: The space complexity is O(n) because we maintain a list of size `n` to track the prime status of each number.\n\nThis solution is optimal and works well within the given constraints of the problem."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 4\nTest case 2:\n[PASS] Test passed: 0\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:41"
+}

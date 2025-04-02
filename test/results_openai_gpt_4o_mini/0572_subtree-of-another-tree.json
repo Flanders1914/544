@@ -1,0 +1,56 @@
+{
+  "problem": {
+    "id": "572",
+    "frontend_id": "572",
+    "title": "Subtree of Another Tree",
+    "description": "Given the roots of two binary trees root and subRoot, return true if there is a subtree of root with the same structure and node values of subRoot and false otherwise.\nA subtree of a binary tree tree is a tree that consists of a node in tree and all of this node's descendants. The tree tree could also be considered as a subtree of itself.\n \nExample 1:\n\n\nInput: root = [3,4,5,1,2], subRoot = [4,1,2]\nOutput: true\n\nExample 2:\n\n\nInput: root = [3,4,5,1,2,null,null,null,null,0], subRoot = [4,1,2]\nOutput: false\n\n \nConstraints:\n\nThe number of nodes in the root tree is in the range [1, 2000].\nThe number of nodes in the subRoot tree is in the range [1, 1000].\n-104 <= root.val <= 104\n-104 <= subRoot.val <= 104\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "[3,4,5,1,2]",
+      "[4,1,2]",
+      "[3,4,5,1,2,null,null,null,null,0]",
+      "[4,1,2]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "root": "[3,4,5,1,2]",
+          "subRoot": "[4,1,2]"
+        },
+        "expected": "true"
+      }
+    ],
+    "python_starter": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def isSubtree(self, root: Optional[TreeNode], subRoot: Optional[TreeNode]) -> bool:\n        ",
+    "hints": [
+      "Which approach is better here- recursive or iterative?",
+      "If recursive approach is better, can you write recursive function with its parameters?",
+      "Two trees <b>s</b> and <b>t</b> are said to be identical if their root values are same and their left and right subtrees are identical. Can you write this in form of recursive formulae?",
+      "Recursive formulae can be: \r\nisIdentical(s,t)= s.val==t.val AND isIdentical(s.left,t.left) AND isIdentical(s.right,t.right)"
+    ],
+    "meta_data": {
+      "name": "isSubtree",
+      "params": [
+        {
+          "name": "root",
+          "type": "TreeNode"
+        },
+        {
+          "name": "subRoot",
+          "type": "TreeNode"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nclass Solution:\n    def isSubtree(self, root: Optional[TreeNode], subRoot: Optional[TreeNode]) -> bool:\n        if not root:\n            return False\n        if self.isSameTree(root, subRoot):\n            return True\n        return self.isSubtree(root.left, subRoot) or self.isSubtree(root.right, subRoot)\n\n    def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:\n        if not p and not q:\n            return True\n        if not p or not q:\n            return False\n        if p.val != q.val:\n            return False\n        return self.isSameTree(p.left, q.left) and self.isSameTree(p.right, q.right)",
+    "explanation": "The solution consists of two main functions: `isSubtree` and `isSameTree`.\n\n1. **isSubtree**:\n   - This function checks if `subRoot` is a subtree of `root`.\n   - If `root` is `None`, it returns `False` since an empty tree cannot contain a subtree.\n   - It checks if the current node of `root` matches `subRoot` using the `isSameTree` function.\n   - If they match, it returns `True`. If not, it recursively checks the left and right children of `root`.\n\n2. **isSameTree**:\n   - This function checks if two trees are identical.\n   - It returns `True` if both nodes are `None`, indicating both trees are empty.\n   - If one of the nodes is `None` while the other is not, it returns `False`.\n   - If the values of the nodes do not match, it also returns `False`.\n   - Finally, it recursively checks the left and right children of both nodes.\n\n**Time Complexity**: The worst-case time complexity is O(N * M), where N is the number of nodes in `root` and M is the number of nodes in `subRoot`. This occurs when we have to check every node in `root` against every node in `subRoot`.\n\n**Space Complexity**: The space complexity is O(H) due to the recursion stack, where H is the height of the tree. In the worst case (a skewed tree), this could be O(N).\n\nOverall, this solution efficiently checks for the subtree structure and values using recursion."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:01:25"
+}

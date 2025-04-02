@@ -1,0 +1,53 @@
+{
+  "problem": {
+    "id": "383",
+    "frontend_id": "383",
+    "title": "Ransom Note",
+    "description": "Given two strings ransomNote and magazine, return true if ransomNote can be constructed by using the letters from magazine and false otherwise.\nEach letter in magazine can only be used once in ransomNote.\n \nExample 1:\nInput: ransomNote = \"a\", magazine = \"b\"\nOutput: false\nExample 2:\nInput: ransomNote = \"aa\", magazine = \"ab\"\nOutput: false\nExample 3:\nInput: ransomNote = \"aa\", magazine = \"aab\"\nOutput: true\n\n \nConstraints:\n\n1 <= ransomNote.length, magazine.length <= 105\nransomNote and magazine consist of lowercase English letters.\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "\"a\"",
+      "\"b\"",
+      "\"aa\"",
+      "\"ab\"",
+      "\"aa\"",
+      "\"aab\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "ransomNote": "\"a\"",
+          "magazine": "\"b\""
+        },
+        "expected": "false"
+      }
+    ],
+    "python_starter": "class Solution:\n    def canConstruct(self, ransomNote: str, magazine: str) -> bool:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "canConstruct",
+      "params": [
+        {
+          "name": "ransomNote",
+          "type": "string"
+        },
+        {
+          "name": "magazine",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def canConstruct(self, ransomNote: str, magazine: str) -> bool:\n        # Create a dictionary to count the frequency of each character in magazine\n        char_count = {}\n        \n        # Count each character in magazine\n        for char in magazine:\n            if char in char_count:\n                char_count[char] += 1\n            else:\n                char_count[char] = 1\n        \n        # Check if we can construct ransomNote using characters from magazine\n        for char in ransomNote:\n            if char in char_count and char_count[char] > 0:\n                char_count[char] -= 1  # Use one occurrence of the character\n            else:\n                return False  # Not enough characters to construct ransomNote\n        \n        return True  # All characters in ransomNote can be constructed",
+    "explanation": "The solution uses a dictionary to count the occurrences of each character in the `magazine`. We iterate through each character in `magazine` and populate the dictionary with the counts. Then, we iterate through each character in `ransomNote` and check if it exists in the dictionary with a count greater than zero. If it does, we decrement the count in the dictionary to indicate that we have used that character. If we encounter a character in `ransomNote` that is not available in sufficient quantity in `magazine`, we return `False`. If we successfully check all characters in `ransomNote`, we return `True`.\n\nThe time complexity of this solution is O(m + n), where m is the length of `magazine` and n is the length of `ransomNote`, since we are iterating through both strings once. The space complexity is O(1) in terms of the character count dictionary, as the maximum number of unique characters is limited to 26 (the lowercase English letters)."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: False\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:51"
+}

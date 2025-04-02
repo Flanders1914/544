@@ -1,0 +1,46 @@
+{
+  "problem": {
+    "id": "233",
+    "frontend_id": "233",
+    "title": "Number of Digit One",
+    "description": "Given an integer n, count the total number of digit 1 appearing in all non-negative integers less than or equal to n.\n \nExample 1:\n\nInput: n = 13\nOutput: 6\n\nExample 2:\n\nInput: n = 0\nOutput: 0\n\n \nConstraints:\n\n0 <= n <= 109\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "13",
+      "0"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "n": "13"
+        },
+        "expected": "6"
+      }
+    ],
+    "python_starter": "class Solution:\n    def countDigitOne(self, n: int) -> int:\n        ",
+    "hints": [
+      "Beware of overflow."
+    ],
+    "meta_data": {
+      "name": "countDigitOne",
+      "params": [
+        {
+          "name": "n",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def countDigitOne(self, n: int) -> int:\n        count = 0\n        factor = 1  # This represents the current digit place (1, 10, 100, ...)\n        \n        while factor <= n:\n            lower_numbers = n - (n // factor) * factor  # Numbers to the right of the current digit\n            current_digit = (n // factor) % 10  # The current digit we are analyzing\n            higher_numbers = n // (factor * 10)  # Numbers to the left of the current digit\n            \n            # Count the contribution of the current digit\n            if current_digit == 0:\n                count += higher_numbers * factor\n            elif current_digit == 1:\n                count += higher_numbers * factor + lower_numbers + 1\n            else:\n                count += (higher_numbers + 1) * factor\n            \n            factor *= 10  # Move to the next digit place\n        \n        return count",
+    "explanation": "The solution iterates through each digit place of the number `n`, calculating how many times the digit '1' appears in that place. \n\n1. **Initialization**: We start with `count` set to 0 and `factor` set to 1, which represents the current digit place (units, tens, hundreds, etc.).\n\n2. **Loop through digit places**: We continue the loop as long as `factor` is less than or equal to `n`. In each iteration:\n   - We calculate `lower_numbers`, which are the digits to the right of the current digit.\n   - We determine `current_digit`, which is the digit at the current place.\n   - We calculate `higher_numbers`, which are the digits to the left of the current digit.\n\n3. **Count contributions**:\n   - If `current_digit` is 0, it contributes `higher_numbers * factor` to the count.\n   - If `current_digit` is 1, it contributes `higher_numbers * factor + lower_numbers + 1`.\n   - If `current_digit` is greater than 1, it contributes `(higher_numbers + 1) * factor`.\n\n4. **Update factor**: We multiply `factor` by 10 to move to the next digit place.\n\n5. **Return the total count**: After processing all digit places, we return the total count of '1's.\n\n**Time Complexity**: O(log n), since we are processing each digit of `n`.\n\n**Space Complexity**: O(1), as we are using a constant amount of space regardless of the input size."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 6\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:44"
+}

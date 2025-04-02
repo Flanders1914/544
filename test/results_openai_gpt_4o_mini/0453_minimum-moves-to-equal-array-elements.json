@@ -1,0 +1,50 @@
+{
+  "problem": {
+    "id": "453",
+    "frontend_id": "453",
+    "title": "Minimum Moves to Equal Array Elements",
+    "description": "Given an integer array nums of size n, return the minimum number of moves required to make all array elements equal.\nIn one move, you can increment n - 1 elements of the array by 1.\n \nExample 1:\n\nInput: nums = [1,2,3]\nOutput: 3\nExplanation: Only three moves are needed (remember each move increments two elements):\n[1,2,3]  =>  [2,3,3]  =>  [3,4,3]  =>  [4,4,4]\n\nExample 2:\n\nInput: nums = [1,1,1]\nOutput: 0\n\n \nConstraints:\n\nn == nums.length\n1 <= nums.length <= 105\n-109 <= nums[i] <= 109\nThe answer is guaranteed to fit in a 32-bit integer.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[1,2,3]",
+      "[1,1,1]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[1,2,3]"
+        },
+        "expected": "3"
+      },
+      {
+        "input": {
+          "nums": "[1,1,1]"
+        },
+        "expected": "0"
+      }
+    ],
+    "python_starter": "class Solution:\n    def minMoves(self, nums: List[int]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "minMoves",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def minMoves(self, nums: List[int]) -> int:\n        # Find the minimum value in the array\n        min_value = min(nums)\n        \n        # Calculate the total number of moves required\n        total_moves = sum(num - min_value for num in nums)\n        \n        return total_moves",
+    "explanation": "The solution begins by importing the necessary type `List` from the `typing` module. The `minMoves` function is defined within the `Solution` class, taking a list of integers `nums` as input.\n\n1. **Finding the Minimum Value**: We use the built-in `min()` function to find the smallest element in the array. This operation takes O(n) time.\n  \n2. **Calculating Total Moves**: We then compute the total number of moves required by iterating through the list and summing the differences between each element and the minimum value. This is done using a generator expression within the `sum()` function, which also runs in O(n) time.\n\n3. **Returning the Result**: Finally, we return the total number of moves.\n\nThe overall time complexity of the solution is O(n), and the space complexity is O(1) since we are using a constant amount of extra space regardless of the input size. This makes the solution efficient and suitable for the input constraints provided."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 3\nTest case 2:\n[PASS] Test passed: 0\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:57"
+}

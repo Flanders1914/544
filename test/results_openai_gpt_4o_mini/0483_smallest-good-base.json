@@ -1,0 +1,57 @@
+{
+  "problem": {
+    "id": "483",
+    "frontend_id": "483",
+    "title": "Smallest Good Base",
+    "description": "Given an integer n represented as a string, return the smallest good base of n.\nWe call k >= 2 a good base of n, if all digits of n base k are 1's.\n \nExample 1:\n\nInput: n = \"13\"\nOutput: \"3\"\nExplanation: 13 base 3 is 111.\n\nExample 2:\n\nInput: n = \"4681\"\nOutput: \"8\"\nExplanation: 4681 base 8 is 11111.\n\nExample 3:\n\nInput: n = \"1000000000000000000\"\nOutput: \"999999999999999999\"\nExplanation: 1000000000000000000 base 999999999999999999 is 11.\n\n \nConstraints:\n\nn is an integer in the range [3, 1018].\nn does not contain any leading zeros.\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "\"13\"",
+      "\"4681\"",
+      "\"1000000000000000000\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "n": "\"13\""
+        },
+        "expected": "3"
+      },
+      {
+        "input": {
+          "n": "\"4681\""
+        },
+        "expected": "8"
+      },
+      {
+        "input": {
+          "n": "\"1000000000000000000\""
+        },
+        "expected": "999999999999999999"
+      }
+    ],
+    "python_starter": "class Solution:\n    def smallestGoodBase(self, n: str) -> str:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "smallestGoodBase",
+      "params": [
+        {
+          "name": "n",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "string"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def smallestGoodBase(self, n: str) -> str:\n        n = int(n)\n        max_m = int(n**0.5)  # The maximum possible value for m\n        \n        for m in range(max_m, 1, -1):\n            # Calculate k using the formula derived from the quadratic equation\n            k = int(n**(1/m))  # This is the integer part of the m-th root of n\n            \n            # Check if this k is a valid base\n            if (k**(m+1) - 1) // (k - 1) == n:\n                return str(k)\n        \n        # If no valid base found, the smallest good base is n-1\n        return str(n - 1)",
+    "explanation": "The solution iterates over possible values of \\( m \\) starting from the maximum possible value down to 2. For each \\( m \\), it calculates the potential base \\( k \\) as the integer part of the \\( m \\)-th root of \\( n \\). It then checks if this \\( k \\) satisfies the condition of being a good base by verifying if the sum of the geometric series equals \\( n \\).\n\nThe time complexity of this solution is \\( O(\\sqrt{n}) \\) because we are iterating from \\( \\sqrt{n} \\) down to 2, and for each \\( m \\), we perform constant time calculations. The space complexity is \\( O(1) \\) since we are using a fixed amount of space regardless of the input size.\n\nIn summary, the algorithm efficiently finds the smallest good base by leveraging mathematical properties of numbers in different bases and iterating through potential values of \\( m \\) to find the corresponding \\( k \\)."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:59"
+}

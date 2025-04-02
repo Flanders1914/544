@@ -1,0 +1,51 @@
+{
+  "problem": {
+    "id": "371",
+    "frontend_id": "371",
+    "title": "Sum of Two Integers",
+    "description": "Given two integers a and b, return the sum of the two integers without using the operators + and -.\n \nExample 1:\nInput: a = 1, b = 2\nOutput: 3\nExample 2:\nInput: a = 2, b = 3\nOutput: 5\n\n \nConstraints:\n\n-1000 <= a, b <= 1000\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "1",
+      "2",
+      "2",
+      "3"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "a": "1",
+          "b": "2"
+        },
+        "expected": "3"
+      }
+    ],
+    "python_starter": "class Solution:\n    def getSum(self, a: int, b: int) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "getSum",
+      "params": [
+        {
+          "name": "a",
+          "type": "integer"
+        },
+        {
+          "name": "b",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def getSum(self, a: int, b: int) -> int:\n        while b != 0:\n            # Calculate carry\n            carry = a & b\n            # Sum without carry\n            a = a ^ b\n            # Shift carry to the left\n            b = carry << 1\n        return a",
+    "explanation": "The solution uses a loop to repeatedly calculate the sum of two integers `a` and `b` using bitwise operations until there are no carries left. \n\n1. **Carry Calculation**: The carry is calculated using `carry = a & b`. This gives us the bits that will need to be carried over to the next higher bit.\n\n2. **Sum Calculation**: The sum without carry is calculated using `a = a ^ b`. This operation adds the bits of `a` and `b` where there is no carry.\n\n3. **Updating Carry**: The carry is then shifted left by one position using `b = carry << 1`, preparing it to be added to the next higher bit in the next iteration.\n\n4. **Termination**: The loop continues until `b` becomes `0`, which means there are no more carries to add.\n\n**Time Complexity**: The time complexity of this solution is O(1) in terms of the number of bits in the integers, as the maximum number of iterations is limited by the number of bits in the integers (which is constant for the given constraints).\n\n**Space Complexity**: The space complexity is O(1) since we are using a constant amount of space for the variables.\n\nOverall, this approach efficiently computes the sum of two integers without using the `+` or `-` operators."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 3\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:51"
+}

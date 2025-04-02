@@ -1,0 +1,61 @@
+{
+  "problem": {
+    "id": "321",
+    "frontend_id": "321",
+    "title": "Create Maximum Number",
+    "description": "You are given two integer arrays nums1 and nums2 of lengths m and n respectively. nums1 and nums2 represent the digits of two numbers. You are also given an integer k.\nCreate the maximum number of length k <= m + n from digits of the two numbers. The relative order of the digits from the same array must be preserved.\nReturn an array of the k digits representing the answer.\n \nExample 1:\n\nInput: nums1 = [3,4,6,5], nums2 = [9,1,2,5,8,3], k = 5\nOutput: [9,8,6,5,3]\n\nExample 2:\n\nInput: nums1 = [6,7], nums2 = [6,0,4], k = 5\nOutput: [6,7,6,0,4]\n\nExample 3:\n\nInput: nums1 = [3,9], nums2 = [8,9], k = 3\nOutput: [9,8,9]\n\n \nConstraints:\n\nm == nums1.length\nn == nums2.length\n1 <= m, n <= 500\n0 <= nums1[i], nums2[i] <= 9\n1 <= k <= m + n\nnums1 and nums2 do not have leading zeros.\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "[3,4,6,5]",
+      "[9,1,2,5,8,3]",
+      "5",
+      "[6,7]",
+      "[6,0,4]",
+      "5",
+      "[3,9]",
+      "[8,9]",
+      "3"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums1": "[3,4,6,5]",
+          "nums2": "[9,1,2,5,8,3]",
+          "k": "5"
+        },
+        "expected": "[9,8,6,5,3]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def maxNumber(self, nums1: List[int], nums2: List[int], k: int) -> List[int]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "maxNumber",
+      "params": [
+        {
+          "name": "nums1",
+          "type": "integer[]"
+        },
+        {
+          "name": "nums2",
+          "type": "integer[]"
+        },
+        {
+          "name": "k",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer[]"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def maxNumber(self, nums1: List[int], nums2: List[int], k: int) -> List[int]:\n        def maxSubArray(nums: List[int], length: int) -> List[int]:\n            stack = []\n            drop = len(nums) - length\n            for num in nums:\n                while drop and stack and stack[-1] < num:\n                    stack.pop()\n                    drop -= 1\n                stack.append(num)\n            return stack[:length]\n\n        def merge(arr1: List[int], arr2: List[int]) -> List[int]:\n            result = []\n            while arr1 or arr2:\n                if arr1 > arr2:\n                    result.append(arr1.pop(0))\n                else:\n                    result.append(arr2.pop(0))\n            return result\n\n        max_result = []\n        m, n = len(nums1), len(nums2)\n        \n        for i in range(max(0, k - n), min(m, k) + 1):\n            j = k - i\n            if j < 0 or j > n:\n                continue\n            max_sub1 = maxSubArray(nums1, i)\n            max_sub2 = maxSubArray(nums2, j)\n            candidate = merge(max_sub1, max_sub2)\n            max_result = max(max_result, candidate)\n\n        return max_result",
+    "explanation": "The solution consists of three main components: the `maxSubArray` function, the `merge` function, and the main logic in `maxNumber`.\n\n1. **maxSubArray**: This function takes an array and a desired length and returns the maximum subarray of that length. It uses a stack to maintain the largest possible digits while allowing for dropping smaller digits if a larger one is found, ensuring that the order is preserved.\n\n2. **merge**: This function merges two arrays into the largest possible number by comparing the leading digits of both arrays and appending the larger one to the result. This continues until both arrays are exhausted.\n\n3. **maxNumber**: The main function iterates through all possible splits of digits taken from `nums1` and `nums2`, computes the maximum subarrays for each split, merges them, and keeps track of the maximum result found.\n\n**Time Complexity**: The overall time complexity is O(m + n + k^2) in the worst case, where m and n are the lengths of the input arrays, and k is the length of the result. The merging process is O(k), and we may need to compute the maximum subarray for each possible split.\n\n**Space Complexity**: The space complexity is O(k) for storing the result and the maximum subarrays.\n\nThis approach efficiently combines the necessary components to solve the problem while adhering to the constraints provided."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: [9, 8, 6, 5, 3]\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:48"
+}

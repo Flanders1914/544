@@ -1,0 +1,52 @@
+{
+  "problem": {
+    "id": "218",
+    "frontend_id": "218",
+    "title": "The Skyline Problem",
+    "description": "A city's skyline is the outer contour of the silhouette formed by all the buildings in that city when viewed from a distance. Given the locations and heights of all the buildings, return the skyline formed by these buildings collectively.\nThe geometric information of each building is given in the array buildings where buildings[i] = [lefti, righti, heighti]:\n\nlefti is the x coordinate of the left edge of the ith building.\nrighti is the x coordinate of the right edge of the ith building.\nheighti is the height of the ith building.\n\nYou may assume all buildings are perfect rectangles grounded on an absolutely flat surface at height 0.\nThe skyline should be represented as a list of \"key points\" sorted by their x-coordinate in the form [[x1,y1],[x2,y2],...]. Each key point is the left endpoint of some horizontal segment in the skyline except the last point in the list, which always has a y-coordinate 0 and is used to mark the skyline's termination where the rightmost building ends. Any ground between the leftmost and rightmost buildings should be part of the skyline's contour.\nNote: There must be no consecutive horizontal lines of equal height in the output skyline. For instance, [...,[2 3],[4 5],[7 5],[11 5],[12 7],...] is not acceptable; the three lines of height 5 should be merged into one in the final output as such: [...,[2 3],[4 5],[12 7],...]\n \nExample 1:\n\n\nInput: buildings = [[2,9,10],[3,7,15],[5,12,12],[15,20,10],[19,24,8]]\nOutput: [[2,10],[3,15],[7,12],[12,0],[15,10],[20,8],[24,0]]\nExplanation:\nFigure A shows the buildings of the input.\nFigure B shows the skyline formed by those buildings. The red points in figure B represent the key points in the output list.\n\nExample 2:\n\nInput: buildings = [[0,2,3],[2,5,3]]\nOutput: [[0,3],[5,0]]\n\n \nConstraints:\n\n1 <= buildings.length <= 104\n0 <= lefti < righti <= 231 - 1\n1 <= heighti <= 231 - 1\nbuildings is sorted by lefti in non-decreasing order.\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "[[2,9,10],[3,7,15],[5,12,12],[15,20,10],[19,24,8]]",
+      "[[0,2,3],[2,5,3]]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "buildings": "[[2,9,10]"
+        },
+        "expected": "[[2,10]"
+      },
+      {
+        "input": {
+          "buildings": "[[0,2,3]"
+        },
+        "expected": "[[0,3]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def getSkyline(self, buildings: List[List[int]]) -> List[List[int]]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "getSkyline",
+      "params": [
+        {
+          "name": "buildings",
+          "type": "integer[][]"
+        }
+      ],
+      "return": {
+        "type": "list<list<integer>>",
+        "colsize": 2,
+        "dealloc": true
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\nimport heapq\n\nclass Solution:\n    def getSkyline(self, buildings: List[List[int]]) -> List[List[int]]:\n        # Create a list of events\n        events = []\n        for left, right, height in buildings:\n            events.append((left, -height))  # Start of a building\n            events.append((right, height))   # End of a building\n        \n        # Sort events: first by x, then by height\n        events.sort()\n        \n        # Resultant skyline points\n        result = []\n        # Max-heap to keep track of heights\n        max_heap = [(0, float('inf'))]  # (height, end)\n        \n        # Previous maximum height\n        prev_max_height = 0\n        \n        for x, h in events:\n            if h < 0:  # Starting a building\n                heapq.heappush(max_heap, (h, x))  # Push negative height for max-heap\n            else:  # Ending a building\n                # Remove the height from the heap\n                max_heap = [(height, end) for height, end in max_heap if end != x]\n                heapq.heapify(max_heap)  # Re-heapify after removal\n            \n            # Get the current maximum height\n            current_max_height = -max_heap[0][0]  # Since we stored negative heights\n            \n            # If the maximum height has changed, we have a new key point\n            if current_max_height != prev_max_height:\n                result.append([x, current_max_height])\n                prev_max_height = current_max_height\n        \n        return result",
+    "explanation": "The solution uses a sweep line algorithm to efficiently compute the skyline formed by a set of buildings. The key steps are:\n\n1. **Event Creation**: Each building generates two events: one for its start and one for its end. These events are stored in a list.\n\n2. **Sorting Events**: The events are sorted by their x-coordinates. If two events have the same x-coordinate, the start event is processed before the end event. This ensures that we handle overlapping buildings correctly.\n\n3. **Max-Heap for Heights**: A max-heap is used to keep track of the heights of the buildings that are currently active. The heap allows us to efficiently retrieve the maximum height at any point.\n\n4. **Processing Events**: As we process each event:\n   - For a start event, we add the building's height to the heap.\n   - For an end event, we remove the height from the heap. This is done by filtering the heap and re-heapifying, which is efficient given the constraints.\n\n5. **Key Points Generation**: Whenever the maximum height changes, we record a new key point in the result.\n\nThe overall time complexity is O(N log N) due to the sorting of events and the heap operations, while the space complexity is O(N) for storing the events and the heap. This makes the solution efficient and suitable for the input constraints."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmp3oso_785.py\", line 75\n    input_0_0 = [[2,9,10]\n                 ^^^^^^^^\nSyntaxError: invalid syntax. Perhaps you forgot a comma?\n"
+  },
+  "timestamp": "2025-04-01 18:00:43"
+}

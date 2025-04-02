@@ -1,0 +1,45 @@
+{
+  "problem": {
+    "id": "90",
+    "frontend_id": "90",
+    "title": "Subsets II",
+    "description": "Given an integer array nums that may contain duplicates, return all possible subsets (the power set).\nThe solution set must not contain duplicate subsets. Return the solution in any order.\n \nExample 1:\nInput: nums = [1,2,2]\nOutput: [[],[1],[1,2],[1,2,2],[2],[2,2]]\nExample 2:\nInput: nums = [0]\nOutput: [[],[0]]\n\n \nConstraints:\n\n1 <= nums.length <= 10\n-10 <= nums[i] <= 10\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[1,2,2]",
+      "[0]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[1,2,2]"
+        },
+        "expected": "[[]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "subsetsWithDup",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "list<list<integer>>",
+        "dealloc": true
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def subsetsWithDup(self, nums: List[int]) -> List[List[int]]:\n        # Sort the input to handle duplicates\n        nums.sort()\n        result = []\n        \n        def backtrack(start: int, path: List[int]):\n            # Append the current subset (path) to the result\n            result.append(path[:])\n            \n            for i in range(start, len(nums)):\n                # Skip duplicates\n                if i > start and nums[i] == nums[i - 1]:\n                    continue\n                # Include nums[i] in the current subset\n                path.append(nums[i])\n                # Move on to the next element\n                backtrack(i + 1, path)\n                # Backtrack, remove the last element added\n                path.pop()\n        \n        backtrack(0, [])\n        return result",
+    "explanation": "The provided solution uses a backtracking algorithm to generate all possible subsets of the input list `nums`, while ensuring that no duplicate subsets are included in the final result. \n\n1. **Sorting**: The input list is sorted to facilitate the skipping of duplicates. This is crucial because it allows us to easily identify when we encounter a duplicate number.\n\n2. **Backtracking Function**: The `backtrack` function is defined to explore all subsets. It takes two parameters: `start`, which indicates the current index in `nums`, and `path`, which holds the current subset being constructed.\n\n3. **Base Case**: At the beginning of each call to `backtrack`, the current subset (`path`) is added to the `result`. This ensures that all subsets, including the empty subset, are captured.\n\n4. **Looping through Elements**: The loop iterates through the elements starting from the `start` index. If a duplicate is found (i.e., `nums[i] == nums[i - 1]`), it is skipped to prevent adding the same subset multiple times.\n\n5. **Recursive Calls**: For each element, we include it in the current subset and make a recursive call to explore further elements. After returning from the recursive call, we backtrack by removing the last added element from `path`.\n\n6. **Time Complexity**: The time complexity of this solution is O(2^n), where n is the number of elements in `nums`, as we potentially generate all subsets. The sorting step takes O(n log n), but this is dominated by the subset generation.\n\n7. **Space Complexity**: The space complexity is O(n) for the recursion stack and the storage of the result.\n\nOverall, this solution efficiently generates all unique subsets of the input list while handling duplicates appropriately."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmpttind_mo.py\", line 63\n    expected_0 = [[]\n                 ^\nSyntaxError: '[' was never closed\n"
+  },
+  "timestamp": "2025-04-01 18:00:33"
+}

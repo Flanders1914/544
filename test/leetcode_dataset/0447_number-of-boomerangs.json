@@ -1,0 +1,40 @@
+{
+  "id": "447",
+  "frontend_id": "447",
+  "title": "Number of Boomerangs",
+  "description": "You are given n points in the plane that are all distinct, where points[i] = [xi, yi]. A boomerang is a tuple of points (i, j, k) such that the distance between i and j equals the distance between i and k (the order of the tuple matters).\nReturn the number of boomerangs.\n \nExample 1:\n\nInput: points = [[0,0],[1,0],[2,0]]\nOutput: 2\nExplanation: The two boomerangs are [[1,0],[0,0],[2,0]] and [[1,0],[2,0],[0,0]].\n\nExample 2:\n\nInput: points = [[1,1],[2,2],[3,3]]\nOutput: 2\n\nExample 3:\n\nInput: points = [[1,1]]\nOutput: 0\n\n \nConstraints:\n\nn == points.length\n1 <= n <= 500\npoints[i].length == 2\n-104 <= xi, yi <= 104\nAll the points are unique.\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "[[0,0],[1,0],[2,0]]",
+    "[[1,1],[2,2],[3,3]]",
+    "[[1,1]]"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "points": "[[0,0]"
+      },
+      "expected": "2"
+    },
+    {
+      "input": {
+        "points": "[[1,1]"
+      },
+      "expected": "2"
+    }
+  ],
+  "python_starter": "class Solution:\n    def numberOfBoomerangs(self, points: List[List[int]]) -> int:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "numberOfBoomerangs",
+    "params": [
+      {
+        "name": "points",
+        "type": "integer[][]"
+      }
+    ],
+    "return": {
+      "type": "integer"
+    }
+  }
+}

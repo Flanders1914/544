@@ -1,0 +1,51 @@
+{
+  "problem": {
+    "id": "300",
+    "frontend_id": "300",
+    "title": "Longest Increasing Subsequence",
+    "description": "Given an integer array nums, return the length of the longest strictly increasing subsequence.\n \nExample 1:\n\nInput: nums = [10,9,2,5,3,7,101,18]\nOutput: 4\nExplanation: The longest increasing subsequence is [2,3,7,101], therefore the length is 4.\n\nExample 2:\n\nInput: nums = [0,1,0,3,2,3]\nOutput: 4\n\nExample 3:\n\nInput: nums = [7,7,7,7,7,7,7]\nOutput: 1\n\n \nConstraints:\n\n1 <= nums.length <= 2500\n-104 <= nums[i] <= 104\n\n \nFollow up: Can you come up with an algorithm that runs in O(n log(n)) time complexity?\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[10,9,2,5,3,7,101,18]",
+      "[0,1,0,3,2,3]",
+      "[7,7,7,7,7,7,7]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[10,9,2,5,3,7,101,18]"
+        },
+        "expected": "4"
+      },
+      {
+        "input": {
+          "nums": "[0,1,0,3,2,3]"
+        },
+        "expected": "4"
+      }
+    ],
+    "python_starter": "class Solution:\n    def lengthOfLIS(self, nums: List[int]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "lengthOfLIS",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\nimport bisect\n\nclass Solution:\n    def lengthOfLIS(self, nums: List[int]) -> int:\n        # Array to store the smallest tail of all increasing subsequences\n        tails = []\n        \n        for num in nums:\n            # Use binary search to find the insertion point\n            index = bisect.bisect_left(tails, num)\n            # If index is equal to the length of tails, it means num is greater than all elements in tails\n            if index == len(tails):\n                tails.append(num)  # Extend the size of tails\n            else:\n                tails[index] = num  # Replace the existing value with num\n        \n        # The length of tails is the length of the longest increasing subsequence\n        return len(tails)",
+    "explanation": "The provided solution uses a combination of dynamic programming and binary search to efficiently find the length of the longest increasing subsequence in O(n log n) time complexity.\n\n1. **Initialization**: We start with an empty list `tails` that will store the smallest tail values of increasing subsequences.\n\n2. **Iterating through `nums`**: For each number in the input list:\n   - We use `bisect.bisect_left` to find the index in `tails` where the current number can be placed. This function performs a binary search, which is efficient and runs in O(log n) time.\n   - If the index is equal to the length of `tails`, it means the current number is larger than any element in `tails`, and we can extend the list by appending the number.\n   - If the index is less than the length of `tails`, we replace the existing value at that index with the current number, ensuring that we maintain the smallest possible tail for subsequences of that length.\n\n3. **Result**: The length of the `tails` list at the end of the iteration represents the length of the longest increasing subsequence.\n\n**Time Complexity**: O(n log n) due to the iteration through the list and the binary search for each element.\n\n**Space Complexity**: O(n) in the worst case for the `tails` list, which can grow to the size of the input list."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 4\nTest case 2:\n[PASS] Test passed: 4\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:47"
+}

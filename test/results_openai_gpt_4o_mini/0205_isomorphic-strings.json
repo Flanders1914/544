@@ -1,0 +1,67 @@
+{
+  "problem": {
+    "id": "205",
+    "frontend_id": "205",
+    "title": "Isomorphic Strings",
+    "description": "Given two strings s and t, determine if they are isomorphic.\nTwo strings s and t are isomorphic if the characters in s can be replaced to get t.\nAll occurrences of a character must be replaced with another character while preserving the order of characters. No two characters may map to the same character, but a character may map to itself.\n \nExample 1:\n\nInput: s = \"egg\", t = \"add\"\nOutput: true\nExplanation:\nThe strings s and t can be made identical by:\n\nMapping 'e' to 'a'.\nMapping 'g' to 'd'.\n\n\nExample 2:\n\nInput: s = \"foo\", t = \"bar\"\nOutput: false\nExplanation:\nThe strings s and t can not be made identical as 'o' needs to be mapped to both 'a' and 'r'.\n\nExample 3:\n\nInput: s = \"paper\", t = \"title\"\nOutput: true\n\n \nConstraints:\n\n1 <= s.length <= 5 * 104\nt.length == s.length\ns and t consist of any valid ascii character.\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "\"egg\"",
+      "\"add\"",
+      "\"foo\"",
+      "\"bar\"",
+      "\"paper\"",
+      "\"title\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "s": "\"egg\"",
+          "t": "\"add\""
+        },
+        "expected": "true"
+      },
+      {
+        "input": {
+          "s": "\"foo\"",
+          "t": "\"bar\""
+        },
+        "expected": "false"
+      },
+      {
+        "input": {
+          "s": "\"paper\"",
+          "t": "\"title\""
+        },
+        "expected": "true"
+      }
+    ],
+    "python_starter": "class Solution:\n    def isIsomorphic(self, s: str, t: str) -> bool:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "isIsomorphic",
+      "params": [
+        {
+          "name": "s",
+          "type": "string"
+        },
+        {
+          "name": "t",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def isIsomorphic(self, s: str, t: str) -> bool:\n        # Create two dictionaries for mapping characters\n        s_to_t = {}\n        t_to_s = {}\n        \n        # Iterate through both strings\n        for char_s, char_t in zip(s, t):\n            # Check mapping from s to t\n            if char_s in s_to_t:\n                if s_to_t[char_s] != char_t:\n                    return False\n            else:\n                s_to_t[char_s] = char_t\n            \n            # Check mapping from t to s\n            if char_t in t_to_s:\n                if t_to_s[char_t] != char_s:\n                    return False\n            else:\n                t_to_s[char_t] = char_s\n        \n        return True",
+    "explanation": "The solution uses two dictionaries to maintain the mappings between characters of the two strings. The `zip` function is used to iterate through both strings simultaneously, allowing us to compare corresponding characters.\n\n1. For each character pair `(char_s, char_t)`:\n   - We first check if `char_s` has already been mapped to a character in `t`. If it has, we verify that it maps to the same character `char_t`. If not, we create a new mapping.\n   - We perform a similar check for `char_t` to ensure that it maps back to `char_s`.\n\n2. If we find any discrepancies in the mappings, we return `False`. If we complete the iteration without issues, we return `True`.\n\nThe time complexity of this solution is O(n), where n is the length of the strings, since we are making a single pass through the strings. The space complexity is O(1) in terms of the number of unique characters, as the maximum size of the dictionaries is limited by the character set (ASCII characters)."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: True\nTest case 2:\n[PASS] Test passed: False\nTest case 3:\n[PASS] Test passed: True\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:42"
+}

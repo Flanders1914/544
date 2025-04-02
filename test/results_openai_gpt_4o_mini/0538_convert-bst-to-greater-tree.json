@@ -1,0 +1,45 @@
+{
+  "problem": {
+    "id": "538",
+    "frontend_id": "538",
+    "title": "Convert BST to Greater Tree",
+    "description": "Given the root of a Binary Search Tree (BST), convert it to a Greater Tree such that every key of the original BST is changed to the original key plus the sum of all keys greater than the original key in BST.\nAs a reminder, a binary search tree is a tree that satisfies these constraints:\n\nThe left subtree of a node contains only nodes with keys less than the node's key.\nThe right subtree of a node contains only nodes with keys greater than the node's key.\nBoth the left and right subtrees must also be binary search trees.\n\n \nExample 1:\n\n\nInput: root = [4,1,6,0,2,5,7,null,null,null,3,null,null,null,8]\nOutput: [30,36,21,36,35,26,15,null,null,null,33,null,null,null,8]\n\nExample 2:\n\nInput: root = [0,null,1]\nOutput: [1,null,1]\n\n \nConstraints:\n\nThe number of nodes in the tree is in the range [0, 104].\n-104 <= Node.val <= 104\nAll the values in the tree are unique.\nroot is guaranteed to be a valid binary search tree.\n\n \nNote: This question is the same as 1038: https://leetcode.com/problems/binary-search-tree-to-greater-sum-tree/\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[4,1,6,0,2,5,7,null,null,null,3,null,null,null,8]",
+      "[0,null,1]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "root": "[4,1,6,0,2,5,7,null,null,null,3,null,null,null,8]"
+        },
+        "expected": "[30,36,21,36,35,26,15,null,null,null,33,null,null,null,8]"
+      }
+    ],
+    "python_starter": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def convertBST(self, root: Optional[TreeNode]) -> Optional[TreeNode]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "convertBST",
+      "params": [
+        {
+          "name": "root",
+          "type": "TreeNode"
+        }
+      ],
+      "return": {
+        "type": "TreeNode"
+      },
+      "manual": false
+    }
+  },
+  "solution": {
+    "code": "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nclass Solution:\n    def convertBST(self, root: Optional[TreeNode]) -> Optional[TreeNode]:\n        # Initialize the running sum\n        self.running_sum = 0\n        \n        # Helper function to perform reverse in-order traversal\n        def reverse_inorder(node):\n            if not node:\n                return\n            \n            # Traverse the right subtree first (greater values)\n            reverse_inorder(node.right)\n            \n            # Update the current node's value\n            self.running_sum += node.val\n            node.val = self.running_sum\n            \n            # Traverse the left subtree\n            reverse_inorder(node.left)\n        \n        # Start the reverse in-order traversal from the root\n        reverse_inorder(root)\n        return root",
+    "explanation": "The solution uses a recursive approach to traverse the BST in reverse in-order (right-root-left). The key steps are as follows:\n\n1. **Initialization**: We initialize a variable `self.running_sum` to keep track of the cumulative sum of the node values we have processed.\n\n2. **Reverse In-order Traversal**: We define a helper function `reverse_inorder` that takes a node as input. If the node is not null, we:\n   - Recursively call `reverse_inorder` on the right child (to process greater values first).\n   - Update the `running_sum` by adding the current node's value to it.\n   - Set the current node's value to the updated `running_sum`.\n   - Finally, we recursively call `reverse_inorder` on the left child.\n\n3. **Return the Modified Tree**: After the traversal is complete, we return the modified root of the tree.\n\n**Time Complexity**: The time complexity of this solution is O(n), where n is the number of nodes in the tree, as we visit each node exactly once.\n\n**Space Complexity**: The space complexity is O(h), where h is the height of the tree. This is due to the recursion stack used during the traversal. In the worst case (for a skewed tree), this could be O(n), but for a balanced tree, it would be O(log n).\n\nOverall, this approach efficiently converts the BST to a Greater Tree while maintaining the properties of the original tree structure."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:01:23"
+}

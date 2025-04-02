@@ -1,0 +1,57 @@
+{
+  "problem": {
+    "id": "19",
+    "frontend_id": "19",
+    "title": "Remove Nth Node From End of List",
+    "description": "Given the head of a linked list, remove the nth node from the end of the list and return its head.\n \nExample 1:\n\n\nInput: head = [1,2,3,4,5], n = 2\nOutput: [1,2,3,5]\n\nExample 2:\n\nInput: head = [1], n = 1\nOutput: []\n\nExample 3:\n\nInput: head = [1,2], n = 1\nOutput: [1]\n\n \nConstraints:\n\nThe number of nodes in the list is sz.\n1 <= sz <= 30\n0 <= Node.val <= 100\n1 <= n <= sz\n\n \nFollow up: Could you do this in one pass?\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[1,2,3,4,5]",
+      "2",
+      "[1]",
+      "1",
+      "[1,2]",
+      "1"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "head": "[1,2,3,4,5]",
+          "n": "2"
+        },
+        "expected": "[1,2,3,5]"
+      }
+    ],
+    "python_starter": "# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution:\n    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:\n        ",
+    "hints": [
+      "Maintain two pointers and update one with a delay of n steps."
+    ],
+    "meta_data": {
+      "name": "removeNthFromEnd",
+      "params": [
+        {
+          "name": "head",
+          "type": "ListNode",
+          "dealloc": false
+        },
+        {
+          "name": "n",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "ListNode",
+        "dealloc": true
+      }
+    }
+  },
+  "solution": {
+    "code": "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\n\nclass Solution:\n    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:\n        # Create a dummy node that points to the head\n        dummy = ListNode(0, head)\n        first = dummy\n        second = dummy\n        \n        # Move first pointer n+1 steps ahead\n        for _ in range(n + 1):\n            first = first.next\n        \n        # Move both pointers until first reaches the end\n        while first:\n            first = first.next\n            second = second.next\n        \n        # Remove the nth node from the end\n        second.next = second.next.next\n        \n        # Return the new head\n        return dummy.next",
+    "explanation": "The solution uses a dummy node to simplify edge cases, such as when the head of the list needs to be removed. We initialize two pointers, `first` and `second`, both starting at the dummy node. The `first` pointer is moved `n + 1` steps ahead to create a gap of `n` nodes between the two pointers. \n\nOnce the `first` pointer reaches the end of the list, the `second` pointer will be positioned just before the node that needs to be removed. We then adjust the `next` pointer of the `second` node to skip the `nth` node from the end. Finally, we return `dummy.next`, which points to the new head of the list.\n\nThe time complexity of this solution is O(sz) because we traverse the list a constant number of times, and the space complexity is O(1) since we only use a few pointers regardless of the input size."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:26"
+}

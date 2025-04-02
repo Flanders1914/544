@@ -1,0 +1,57 @@
+{
+  "problem": {
+    "id": "172",
+    "frontend_id": "172",
+    "title": "Factorial Trailing Zeroes",
+    "description": "Given an integer n, return the number of trailing zeroes in n!.\nNote that n! = n * (n - 1) * (n - 2) * ... * 3 * 2 * 1.\n \nExample 1:\n\nInput: n = 3\nOutput: 0\nExplanation: 3! = 6, no trailing zero.\n\nExample 2:\n\nInput: n = 5\nOutput: 1\nExplanation: 5! = 120, one trailing zero.\n\nExample 3:\n\nInput: n = 0\nOutput: 0\n\n \nConstraints:\n\n0 <= n <= 104\n\n \nFollow up: Could you write a solution that works in logarithmic time complexity?\n",
+    "difficulty": "Medium",
+    "examples": [
+      "3",
+      "5",
+      "0"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "n": "3"
+        },
+        "expected": "0"
+      },
+      {
+        "input": {
+          "n": "5"
+        },
+        "expected": "1"
+      },
+      {
+        "input": {
+          "n": "0"
+        },
+        "expected": "0"
+      }
+    ],
+    "python_starter": "class Solution:\n    def trailingZeroes(self, n: int) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "trailingZeroes",
+      "params": [
+        {
+          "name": "n",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def trailingZeroes(self, n: int) -> int:\n        count = 0\n        power_of_5 = 5\n        \n        # Count the number of factors of 5 in n!\n        while n >= power_of_5:\n            count += n // power_of_5\n            power_of_5 *= 5\n        \n        return count",
+    "explanation": "The solution involves counting the number of times 5 is a factor in the numbers from 1 to \\( n \\). We initialize a counter `count` to zero and a variable `power_of_5` starting at 5. \n\nIn a loop, we check how many multiples of `power_of_5` are present in the range from 1 to \\( n \\) using integer division (`n // power_of_5`). This gives us the count of numbers contributing at least one factor of 5. We then increment `count` by this value. \n\nNext, we multiply `power_of_5` by 5 to check for higher powers (25, 125, etc.) and repeat the process until `power_of_5` exceeds \\( n \\).\n\nThe time complexity of this solution is \\( O(\\log_5 n) \\) because we are dividing \\( n \\) by increasing powers of 5, and the space complexity is \\( O(1) \\) since we are using a constant amount of space for our variables.\n\nThus, this solution efficiently counts the trailing zeroes in \\( n! \\) without needing to compute the factorial directly, which would be infeasible for large \\( n \\)."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 0\nTest case 2:\n[PASS] Test passed: 1\nTest case 3:\n[PASS] Test passed: 0\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:40"
+}

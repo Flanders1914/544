@@ -1,0 +1,73 @@
+{
+  "id": "141",
+  "frontend_id": "141",
+  "title": "Linked List Cycle",
+  "description": "Given head, the head of a linked list, determine if the linked list has a cycle in it.\nThere is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the next pointer. Internally, pos is used to denote the index of the node that tail's next pointer is connected to. Note that pos is not passed as a parameter.\nReturn true if there is a cycle in the linked list. Otherwise, return false.\n \nExample 1:\n\n\nInput: head = [3,2,0,-4], pos = 1\nOutput: true\nExplanation: There is a cycle in the linked list, where the tail connects to the 1st node (0-indexed).\n\nExample 2:\n\n\nInput: head = [1,2], pos = 0\nOutput: true\nExplanation: There is a cycle in the linked list, where the tail connects to the 0th node.\n\nExample 3:\n\n\nInput: head = [1], pos = -1\nOutput: false\nExplanation: There is no cycle in the linked list.\n\n \nConstraints:\n\nThe number of the nodes in the list is in the range [0, 104].\n-105 <= Node.val <= 105\npos is -1 or a valid index in the linked-list.\n\n \nFollow up: Can you solve it using O(1) (i.e. constant) memory?\n",
+  "difficulty": "Easy",
+  "examples": [
+    "[3,2,0,-4]",
+    "1",
+    "[1,2]",
+    "0",
+    "[1]",
+    "-1"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "head": "[3,2,0,-4]",
+        "pos": "1"
+      },
+      "expected": "true"
+    },
+    {
+      "input": {
+        "head": "[1,2]",
+        "pos": "0"
+      },
+      "expected": "true"
+    },
+    {
+      "input": {
+        "head": "[1]",
+        "pos": "-1"
+      },
+      "expected": "false"
+    }
+  ],
+  "python_starter": "# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, x):\n#         self.val = x\n#         self.next = None\n\nclass Solution:\n    def hasCycle(self, head: Optional[ListNode]) -> bool:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "hasCycle",
+    "params": [
+      {
+        "name": "head",
+        "type": "ListNode"
+      },
+      {
+        "name": "pos",
+        "type": "integer"
+      }
+    ],
+    "return": {
+      "type": "boolean"
+    },
+    "manual": true,
+    "languages": [
+      "cpp",
+      "java",
+      "python",
+      "c",
+      "csharp",
+      "javascript",
+      "ruby",
+      "swift",
+      "golang",
+      "python3",
+      "scala",
+      "kotlin",
+      "php",
+      "typescript"
+    ]
+  }
+}

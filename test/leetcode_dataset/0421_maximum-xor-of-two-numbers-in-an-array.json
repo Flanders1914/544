@@ -1,0 +1,39 @@
+{
+  "id": "421",
+  "frontend_id": "421",
+  "title": "Maximum XOR of Two Numbers in an Array",
+  "description": "Given an integer array nums, return the maximum result of nums[i] XOR nums[j], where 0 <= i <= j < n.\n \nExample 1:\n\nInput: nums = [3,10,5,25,2,8]\nOutput: 28\nExplanation: The maximum result is 5 XOR 25 = 28.\n\nExample 2:\n\nInput: nums = [14,70,53,83,49,91,36,80,92,51,66,70]\nOutput: 127\n\n \nConstraints:\n\n1 <= nums.length <= 2 * 105\n0 <= nums[i] <= 231 - 1\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "[3,10,5,25,2,8]",
+    "[14,70,53,83,49,91,36,80,92,51,66,70]"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "nums": "[3,10,5,25,2,8]"
+      },
+      "expected": "28"
+    },
+    {
+      "input": {
+        "nums": "[14,70,53,83,49,91,36,80,92,51,66,70]"
+      },
+      "expected": "127"
+    }
+  ],
+  "python_starter": "class Solution:\n    def findMaximumXOR(self, nums: List[int]) -> int:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "findMaximumXOR",
+    "params": [
+      {
+        "name": "nums",
+        "type": "integer[]"
+      }
+    ],
+    "return": {
+      "type": "integer"
+    }
+  }
+}

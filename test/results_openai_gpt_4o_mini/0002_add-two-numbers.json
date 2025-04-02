@@ -1,0 +1,63 @@
+{
+  "problem": {
+    "id": "2",
+    "frontend_id": "2",
+    "title": "Add Two Numbers",
+    "description": "You are given two non-empty linked lists representing two non-negative integers. The digits are stored in reverse order, and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.\nYou may assume the two numbers do not contain any leading zero, except the number 0 itself.\n \nExample 1:\n\n\nInput: l1 = [2,4,3], l2 = [5,6,4]\nOutput: [7,0,8]\nExplanation: 342 + 465 = 807.\n\nExample 2:\n\nInput: l1 = [0], l2 = [0]\nOutput: [0]\n\nExample 3:\n\nInput: l1 = [9,9,9,9,9,9,9], l2 = [9,9,9,9]\nOutput: [8,9,9,9,0,0,0,1]\n\n \nConstraints:\n\nThe number of nodes in each linked list is in the range [1, 100].\n0 <= Node.val <= 9\nIt is guaranteed that the list represents a number that does not have leading zeros.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[2,4,3]",
+      "[5,6,4]",
+      "[0]",
+      "[0]",
+      "[9,9,9,9,9,9,9]",
+      "[9,9,9,9]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "l1": "[2,4,3]",
+          "l2": "[5,6,4]"
+        },
+        "expected": "[7,0,8]"
+      },
+      {
+        "input": {
+          "l1": "[0]",
+          "l2": "[0]"
+        },
+        "expected": "[0]"
+      }
+    ],
+    "python_starter": "# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution:\n    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "addTwoNumbers",
+      "params": [
+        {
+          "name": "l1",
+          "type": "ListNode",
+          "dealloc": false
+        },
+        {
+          "name": "l2",
+          "type": "ListNode",
+          "dealloc": false
+        }
+      ],
+      "return": {
+        "type": "ListNode",
+        "dealloc": true
+      }
+    }
+  },
+  "solution": {
+    "code": "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\n\nclass Solution:\n    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:\n        # Initialize a dummy node to simplify the result list construction\n        dummy_head = ListNode(0)\n        current = dummy_head\n        carry = 0\n        \n        # Traverse both linked lists\n        while l1 or l2 or carry:\n            # Get the values from the current nodes, if they exist\n            val1 = l1.val if l1 else 0\n            val2 = l2.val if l2 else 0\n            \n            # Calculate the sum of the two digits and the carry\n            total = val1 + val2 + carry\n            \n            # Update carry for the next iteration\n            carry = total // 10\n            \n            # Create a new node with the digit value (total % 10)\n            current.next = ListNode(total % 10)\n            current = current.next\n            \n            # Move to the next nodes in the lists\n            if l1:\n                l1 = l1.next\n            if l2:\n                l2 = l2.next\n        \n        # Return the next of dummy head which is the actual head of the result list\n        return dummy_head.next",
+    "explanation": "The solution uses a dummy head node to simplify the process of building the resulting linked list. We initialize a carry variable to handle sums that exceed 9. The while loop continues until both linked lists are fully traversed and there is no carry left.\n\n1. **Time Complexity**: O(max(m, n)), where m and n are the lengths of the two linked lists. We traverse each list once.\n2. **Space Complexity**: O(max(m, n)), for the resulting linked list which can be as long as the longer of the two input lists.\n\nThis approach efficiently handles the addition of two numbers represented as linked lists, ensuring that we correctly manage the carry and construct the result in the required format."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:25"
+}

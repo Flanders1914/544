@@ -1,0 +1,46 @@
+{
+  "id": "125",
+  "frontend_id": "125",
+  "title": "Valid Palindrome",
+  "description": "A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.\nGiven a string s, return true if it is a palindrome, or false otherwise.\n \nExample 1:\n\nInput: s = \"A man, a plan, a canal: Panama\"\nOutput: true\nExplanation: \"amanaplanacanalpanama\" is a palindrome.\n\nExample 2:\n\nInput: s = \"race a car\"\nOutput: false\nExplanation: \"raceacar\" is not a palindrome.\n\nExample 3:\n\nInput: s = \" \"\nOutput: true\nExplanation: s is an empty string \"\" after removing non-alphanumeric characters.\nSince an empty string reads the same forward and backward, it is a palindrome.\n\n \nConstraints:\n\n1 <= s.length <= 2 * 105\ns consists only of printable ASCII characters.\n\n",
+  "difficulty": "Easy",
+  "examples": [
+    "\"A man, a plan, a canal: Panama\"",
+    "\"race a car\"",
+    "\" \""
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "s": "\"A man, a plan, a canal: Panama\""
+      },
+      "expected": "true"
+    },
+    {
+      "input": {
+        "s": "\"race a car\""
+      },
+      "expected": "false"
+    },
+    {
+      "input": {
+        "s": "\" \""
+      },
+      "expected": "true"
+    }
+  ],
+  "python_starter": "class Solution:\n    def isPalindrome(self, s: str) -> bool:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "isPalindrome",
+    "params": [
+      {
+        "name": "s",
+        "type": "string"
+      }
+    ],
+    "return": {
+      "type": "boolean"
+    }
+  }
+}

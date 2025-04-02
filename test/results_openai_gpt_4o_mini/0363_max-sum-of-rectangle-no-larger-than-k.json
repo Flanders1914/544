@@ -1,0 +1,58 @@
+{
+  "problem": {
+    "id": "363",
+    "frontend_id": "363",
+    "title": "Max Sum of Rectangle No Larger Than K",
+    "description": "Given an m x n matrix matrix and an integer k, return the max sum of a rectangle in the matrix such that its sum is no larger than k.\nIt is guaranteed that there will be a rectangle with a sum no larger than k.\n \nExample 1:\n\n\nInput: matrix = [[1,0,1],[0,-2,3]], k = 2\nOutput: 2\nExplanation: Because the sum of the blue rectangle [[0, 1], [-2, 3]] is 2, and 2 is the max number no larger than k (k = 2).\n\nExample 2:\n\nInput: matrix = [[2,2,-1]], k = 3\nOutput: 3\n\n \nConstraints:\n\nm == matrix.length\nn == matrix[i].length\n1 <= m, n <= 100\n-100 <= matrix[i][j] <= 100\n-105 <= k <= 105\n\n \nFollow up: What if the number of rows is much larger than the number of columns?\n",
+    "difficulty": "Hard",
+    "examples": [
+      "[[1,0,1],[0,-2,3]]",
+      "2",
+      "[[2,2,-1]]",
+      "3"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "matrix": "[[1,0,1]",
+          "k": "2"
+        },
+        "expected": "2"
+      },
+      {
+        "input": {
+          "matrix": "[[2,2,-1]",
+          "k": "3"
+        },
+        "expected": "3"
+      }
+    ],
+    "python_starter": "class Solution:\n    def maxSumSubmatrix(self, matrix: List[List[int]], k: int) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "maxSumSubmatrix",
+      "params": [
+        {
+          "name": "matrix",
+          "type": "integer[][]"
+        },
+        {
+          "name": "k",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\nimport sortedcontainers\n\nclass Solution:\n    def maxSumSubmatrix(self, matrix: List[List[int]], k: int) -> int:\n        if not matrix or not matrix[0]:\n            return 0\n        \n        m, n = len(matrix), len(matrix[0])\n        max_sum = float('-inf')\n        \n        # Iterate over all pairs of rows\n        for top in range(m):\n            # Initialize a list to store the cumulative sums for each column\n            col_sums = [0] * n\n            \n            for bottom in range(top, m):\n                # Update the column sums for the current bottom row\n                for col in range(n):\n                    col_sums[col] += matrix[bottom][col]\n                \n                # Now we need to find the maximum sum of subarray <= k\n                # We will use a sorted list to keep track of the prefix sums\n                sorted_sums = sortedcontainers.SortedList([0])  # Start with 0 for the prefix sum\n                current_sum = 0\n                \n                for sum_val in col_sums:\n                    current_sum += sum_val\n                    \n                    # We need to find the largest prefix sum such that current_sum - prefix <= k\n                    # This means prefix >= current_sum - k\n                    target = current_sum - k\n                    \n                    # Use binary search to find the smallest prefix sum >= target\n                    idx = sorted_sums.bisect_left(target)\n                    \n                    if idx < len(sorted_sums):\n                        # If we found a valid prefix sum\n                        max_sum = max(max_sum, current_sum - sorted_sums[idx])\n                    \n                    # Add the current prefix sum to the sorted list\n                    sorted_sums.add(current_sum)\n        \n        return max_sum",
+    "explanation": "The solution uses a two-dimensional approach to iterate through all possible pairs of rows in the matrix. For each pair of rows, we compute the cumulative sums for each column, effectively transforming the problem into a one-dimensional maximum subarray sum problem.\n\n1. **Cumulative Sums**: For each pair of rows (top and bottom), we maintain a cumulative sum for each column. This allows us to represent the sum of any rectangle defined by these two rows and any two columns.\n\n2. **Sorted List for Prefix Sums**: We utilize a sorted list to keep track of the prefix sums encountered so far. This allows us to efficiently find the maximum sum of a subarray that does not exceed k using binary search.\n\n3. **Time Complexity**: The overall time complexity is O(m * n^2 * log(n)), where m is the number of rows and n is the number of columns. This is efficient given the constraints (m, n ≤ 100).\n\n4. **Space Complexity**: The space complexity is O(n) for storing the cumulative sums and the sorted list of prefix sums.\n\nThis method ensures that we can find the maximum sum of a rectangle in the matrix that is no larger than k efficiently."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmpmfude0xb.py\", line 80\n    input_0_0 = [[1,0,1]\n                 ^^^^^^^\nSyntaxError: invalid syntax. Perhaps you forgot a comma?\n"
+  },
+  "timestamp": "2025-04-01 18:00:50"
+}

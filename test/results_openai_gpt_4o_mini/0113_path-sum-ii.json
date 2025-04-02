@@ -1,0 +1,61 @@
+{
+  "problem": {
+    "id": "113",
+    "frontend_id": "113",
+    "title": "Path Sum II",
+    "description": "Given the root of a binary tree and an integer targetSum, return all root-to-leaf paths where the sum of the node values in the path equals targetSum. Each path should be returned as a list of the node values, not node references.\nA root-to-leaf path is a path starting from the root and ending at any leaf node. A leaf is a node with no children.\n \nExample 1:\n\n\nInput: root = [5,4,8,11,null,13,4,7,2,null,null,5,1], targetSum = 22\nOutput: [[5,4,11,2],[5,8,4,5]]\nExplanation: There are two paths whose sum equals targetSum:\n5 + 4 + 11 + 2 = 22\n5 + 8 + 4 + 5 = 22\n\nExample 2:\n\n\nInput: root = [1,2,3], targetSum = 5\nOutput: []\n\nExample 3:\n\nInput: root = [1,2], targetSum = 0\nOutput: []\n\n \nConstraints:\n\nThe number of nodes in the tree is in the range [0, 5000].\n-1000 <= Node.val <= 1000\n-1000 <= targetSum <= 1000\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[5,4,8,11,null,13,4,7,2,null,null,5,1]",
+      "22",
+      "[1,2,3]",
+      "5",
+      "[1,2]",
+      "0"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "root": "[5,4,8,11,null,13,4,7,2,null,null,5,1]",
+          "targetSum": "22"
+        },
+        "expected": "[[5,4,11,2]"
+      },
+      {
+        "input": {
+          "root": "[1,2,3]",
+          "targetSum": "5"
+        },
+        "expected": "[]"
+      }
+    ],
+    "python_starter": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> List[List[int]]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "pathSum",
+      "params": [
+        {
+          "name": "root",
+          "type": "TreeNode"
+        },
+        {
+          "name": "targetSum",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "list<list<integer>>",
+        "dealloc": true
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List, Optional\n\n# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nclass Solution:\n    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> List[List[int]]:\n        def dfs(node, current_path, current_sum):\n            if not node:\n                return\n            \n            # Include the current node in the path\n            current_path.append(node.val)\n            current_sum += node.val\n            \n            # Check if it's a leaf node and if the current sum equals targetSum\n            if not node.left and not node.right:\n                if current_sum == targetSum:\n                    result.append(list(current_path))\n            else:\n                # Continue the search on left and right children\n                dfs(node.left, current_path, current_sum)\n                dfs(node.right, current_path, current_sum)\n            \n            # Backtrack: remove the current node from the path\n            current_path.pop()\n        \n        result = []\n        dfs(root, [], 0)\n        return result",
+    "explanation": "The provided solution uses a depth-first search (DFS) approach to explore all root-to-leaf paths in the binary tree. Here's a breakdown of how the solution works:\n\n1. **DFS Function**: A helper function `dfs` is defined to traverse the tree. It takes the current node, the path taken so far, and the sum of the values in that path.\n\n2. **Base Case**: If the current node is `None`, the function returns immediately, as there is nothing to process.\n\n3. **Path and Sum Update**: The current node's value is added to the `current_path` list and the `current_sum` is updated.\n\n4. **Leaf Node Check**: If the current node is a leaf (both left and right children are `None`), we check if the `current_sum` equals the `targetSum`. If it does, we append a copy of the `current_path` to the `result` list.\n\n5. **Recursive Calls**: If the current node is not a leaf, the function recursively calls itself for the left and right children.\n\n6. **Backtracking**: After exploring both children, the last node is removed from the `current_path` to backtrack and explore other paths.\n\n7. **Result Compilation**: Finally, the `result` list containing all valid paths is returned.\n\n**Time Complexity**: The time complexity of this solution is O(N), where N is the number of nodes in the tree. In the worst case, we may visit every node once.\n\n**Space Complexity**: The space complexity is O(H), where H is the height of the tree. This accounts for the space used by the recursion stack and the space used to store the paths in the result list.\n\nOverall, this solution efficiently finds all root-to-leaf paths that sum to the specified target value."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmp3av8wwrz.py\", line 129\n    expected_0 = [[5,4,11,2]\n                 ^\nSyntaxError: '[' was never closed\n"
+  },
+  "timestamp": "2025-04-01 18:00:35"
+}

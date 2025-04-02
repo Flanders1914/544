@@ -1,0 +1,66 @@
+{
+  "problem": {
+    "id": "126",
+    "frontend_id": "126",
+    "title": "Word Ladder II",
+    "description": "A transformation sequence from word beginWord to word endWord using a dictionary wordList is a sequence of words beginWord -> s1 -> s2 -> ... -> sk such that:\n\nEvery adjacent pair of words differs by a single letter.\nEvery si for 1 <= i <= k is in wordList. Note that beginWord does not need to be in wordList.\nsk == endWord\n\nGiven two words, beginWord and endWord, and a dictionary wordList, return all the shortest transformation sequences from beginWord to endWord, or an empty list if no such sequence exists. Each sequence should be returned as a list of the words [beginWord, s1, s2, ..., sk].\n \nExample 1:\n\nInput: beginWord = \"hit\", endWord = \"cog\", wordList = [\"hot\",\"dot\",\"dog\",\"lot\",\"log\",\"cog\"]\nOutput: [[\"hit\",\"hot\",\"dot\",\"dog\",\"cog\"],[\"hit\",\"hot\",\"lot\",\"log\",\"cog\"]]\nExplanation: There are 2 shortest transformation sequences:\n\"hit\" -> \"hot\" -> \"dot\" -> \"dog\" -> \"cog\"\n\"hit\" -> \"hot\" -> \"lot\" -> \"log\" -> \"cog\"\n\nExample 2:\n\nInput: beginWord = \"hit\", endWord = \"cog\", wordList = [\"hot\",\"dot\",\"dog\",\"lot\",\"log\"]\nOutput: []\nExplanation: The endWord \"cog\" is not in wordList, therefore there is no valid transformation sequence.\n\n \nConstraints:\n\n1 <= beginWord.length <= 5\nendWord.length == beginWord.length\n1 <= wordList.length <= 500\nwordList[i].length == beginWord.length\nbeginWord, endWord, and wordList[i] consist of lowercase English letters.\nbeginWord != endWord\nAll the words in wordList are unique.\nThe sum of all shortest transformation sequences does not exceed 105.\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "\"hit\"",
+      "\"cog\"",
+      "[\"hot\",\"dot\",\"dog\",\"lot\",\"log\",\"cog\"]",
+      "\"hit\"",
+      "\"cog\"",
+      "[\"hot\",\"dot\",\"dog\",\"lot\",\"log\"]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "beginWord": "\"hit\"",
+          "endWord": "\"cog\"",
+          "wordList": "[\"hot\",\"dot\",\"dog\",\"lot\",\"log\",\"cog\"]"
+        },
+        "expected": "[[hit,hot,dot,dog,cog]"
+      },
+      {
+        "input": {
+          "beginWord": "\"hit\"",
+          "endWord": "\"cog\"",
+          "wordList": "[\"hot\",\"dot\",\"dog\",\"lot\",\"log\"]"
+        },
+        "expected": "[]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "findLadders",
+      "params": [
+        {
+          "name": "beginWord",
+          "type": "string"
+        },
+        {
+          "name": "endWord",
+          "type": "string"
+        },
+        {
+          "name": "wordList",
+          "type": "list<string>"
+        }
+      ],
+      "return": {
+        "type": "list<list<string>>"
+      }
+    }
+  },
+  "solution": {
+    "code": "from collections import defaultdict, deque\nfrom typing import List\n\nclass Solution:\n    def findLadders(self, beginWord: str, endWord: str, wordList: List[str]) -> List[List[str]]:\n        wordSet = set(wordList)\n        if endWord not in wordSet:\n            return []\n        \n        # Step 1: BFS to find the shortest path length\n        layer = {}\n        layer[beginWord] = [[beginWord]]\n        \n        while layer:\n            newLayer = defaultdict(list)\n            for word in layer:\n                if word == endWord:\n                    return layer[word]  # Return the first found paths to endWord\n                for i in range(len(word)):\n                    for c in 'abcdefghijklmnopqrstuvwxyz':\n                        newWord = word[:i] + c + word[i+1:]\n                        if newWord in wordSet:\n                            newLayer[newWord] += [j + [newWord] for j in layer[word]]\n            wordSet -= set(newLayer.keys())  # Remove visited words\n            layer = newLayer\n        \n        return []  # If no paths found",
+    "explanation": "The solution uses a breadth-first search (BFS) approach to find all the shortest transformation sequences from `beginWord` to `endWord`. \n\n1. **BFS Implementation**: We start by initializing a dictionary `layer` that maps words to lists of paths leading to them. We begin with `beginWord` and its initial path. In each iteration, we generate all possible transformations of the current words by changing one letter at a time. If a transformed word exists in the `wordSet`, we add it to the `newLayer` with all paths leading to it.\n\n2. **Path Construction**: When we reach `endWord`, we return the paths stored in `layer[endWord]`. This ensures that we only return the shortest paths since BFS explores all nodes at the present depth level before moving on to nodes at the next depth level.\n\n3. **Time Complexity**: The time complexity is O(N * M^2) where N is the number of words in the wordList and M is the length of each word. This is due to the BFS exploring each word and generating M possible transformations for each.\n\n4. **Space Complexity**: The space complexity is O(N * M) for storing the paths and the wordSet.\n\nThis approach efficiently finds all shortest transformation sequences while adhering to the constraints provided in the problem statement."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmpf7j9tk8l.py\", line 67\n    expected_0 = [[hit,hot,dot,dog,cog]\n                 ^\nSyntaxError: '[' was never closed\n"
+  },
+  "timestamp": "2025-04-01 18:00:36"
+}

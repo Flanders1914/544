@@ -1,0 +1,92 @@
+{
+  "problem": {
+    "id": "116",
+    "frontend_id": "116",
+    "title": "Populating Next Right Pointers in Each Node",
+    "description": "You are given a perfect binary tree where all leaves are on the same level, and every parent has two children. The binary tree has the following definition:\n\nstruct Node {\n  int val;\n  Node *left;\n  Node *right;\n  Node *next;\n}\n\nPopulate each next pointer to point to its next right node. If there is no next right node, the next pointer should be set to NULL.\nInitially, all next pointers are set to NULL.\n \nExample 1:\n\n\nInput: root = [1,2,3,4,5,6,7]\nOutput: [1,#,2,3,#,4,5,6,7,#]\nExplanation: Given the above perfect binary tree (Figure A), your function should populate each next pointer to point to its next right node, just like in Figure B. The serialized output is in level order as connected by the next pointers, with '#' signifying the end of each level.\n\nExample 2:\n\nInput: root = []\nOutput: []\n\n \nConstraints:\n\nThe number of nodes in the tree is in the range [0, 212 - 1].\n-1000 <= Node.val <= 1000\n\n \nFollow-up:\n\nYou may only use constant extra space.\nThe recursive approach is fine. You may assume implicit stack space does not count as extra space for this problem.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[1,2,3,4,5,6,7]",
+      "[]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "root": "[1,2,3,4,5,6,7]"
+        },
+        "expected": "[1,#,2,3,#,4,5,6,7,#]"
+      },
+      {
+        "input": {
+          "root": "[]"
+        },
+        "expected": "[]"
+      }
+    ],
+    "python_starter": "\"\"\"\n# Definition for a Node.\nclass Node:\n    def __init__(self, val: int = 0, left: 'Node' = None, right: 'Node' = None, next: 'Node' = None):\n        self.val = val\n        self.left = left\n        self.right = right\n        self.next = next\n\"\"\"\n\nclass Solution:\n    def connect(self, root: 'Optional[Node]') -> 'Optional[Node]':\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "connect",
+      "params": [
+        {
+          "name": "root",
+          "type": "TreeNode"
+        }
+      ],
+      "return": {
+        "type": "TreeNode"
+      },
+      "structures": [
+        {
+          "name": "TreeNode",
+          "comment": "Definition for a Node.",
+          "members": [
+            {
+              "name": "val",
+              "type": "integer"
+            },
+            {
+              "name": "left",
+              "type": "TreeNode"
+            },
+            {
+              "name": "right",
+              "type": "TreeNode"
+            },
+            {
+              "name": "next",
+              "type": "TreeNode"
+            }
+          ]
+        }
+      ],
+      "languages": [
+        "cpp",
+        "java",
+        "python",
+        "csharp",
+        "javascript",
+        "python3",
+        "swift",
+        "golang",
+        "kotlin",
+        "ruby",
+        "c",
+        "scala",
+        "php",
+        "typescript"
+      ],
+      "manual": true,
+      "typescriptCustomType": "class _Node {\n    val: number\n    left: _Node | null\n    right: _Node | null\n    next: _Node | null\n\n    constructor(val?: number, left?: _Node, right?: _Node, next?: _Node) {\n        this.val = (val===undefined ? 0 : val)\n        this.left = (left===undefined ? null : left)\n        this.right = (right===undefined ? null : right)\n        this.next = (next===undefined ? null : next)\n    }\n}"
+    }
+  },
+  "solution": {
+    "code": "# Definition for a Node.\nclass Node:\n    def __init__(self, val: int = 0, left: 'Node' = None, right: 'Node' = None, next: 'Node' = None):\n        self.val = val\n        self.left = left\n        self.right = right\n        self.next = next\n\nclass Solution:\n    def connect(self, root: 'Optional[Node]') -> 'Optional[Node]':\n        if not root:\n            return root\n        \n        # Start with the root node\n        leftmost = root\n        \n        while leftmost.left:  # Since it's a perfect binary tree, we can check left child\n            # Iterate through the current level\n            head = leftmost\n            while head:\n                # Connect the left child to the right child\n                head.left.next = head.right\n                \n                # Connect the right child to the next left child if it exists\n                if head.next:\n                    head.right.next = head.next.left\n                \n                # Move to the next node in the current level\n                head = head.next\n            \n            # Move to the next level\n            leftmost = leftmost.left\n        \n        return root",
+    "explanation": "The solution uses a level-order traversal approach to connect the `next` pointers in a perfect binary tree. The algorithm works as follows:\n\n1. **Initialization**: We start with the `leftmost` node at the root of the tree.\n2. **Outer Loop**: The outer loop continues as long as there is a left child, indicating that we have more levels to process.\n3. **Inner Loop**: The inner loop iterates through the current level using the `head` pointer:\n   - It connects the left child of the current node to its right child.\n   - If the current node has a `next` pointer, it connects the right child of the current node to the left child of the next node.\n4. **Move Down**: After processing the current level, we move down to the next level by updating `leftmost` to its left child.\n\n**Time Complexity**: The time complexity of this solution is O(N), where N is the number of nodes in the tree, as we visit each node exactly once.\n\n**Space Complexity**: The space complexity is O(1) since we are using only a constant amount of extra space (the pointers for traversal), and we do not use any additional data structures.\n\nThis efficient approach ensures that we meet the problem's constraints while correctly populating the `next` pointers in the tree."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmpoivi68du.py\", line 72\n    expected_0 = [1,#,2,3,#,4,5,6,7,#]\n                 ^\nSyntaxError: '[' was never closed\n"
+  },
+  "timestamp": "2025-04-01 18:00:36"
+}

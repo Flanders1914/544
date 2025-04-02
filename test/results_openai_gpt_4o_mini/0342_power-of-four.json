@@ -1,0 +1,45 @@
+{
+  "problem": {
+    "id": "342",
+    "frontend_id": "342",
+    "title": "Power of Four",
+    "description": "Given an integer n, return true if it is a power of four. Otherwise, return false.\nAn integer n is a power of four, if there exists an integer x such that n == 4x.\n \nExample 1:\nInput: n = 16\nOutput: true\nExample 2:\nInput: n = 5\nOutput: false\nExample 3:\nInput: n = 1\nOutput: true\n\n \nConstraints:\n\n-231 <= n <= 231 - 1\n\n \nFollow up: Could you solve it without loops/recursion?",
+    "difficulty": "Easy",
+    "examples": [
+      "16",
+      "5",
+      "1"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "n": "16"
+        },
+        "expected": "true"
+      }
+    ],
+    "python_starter": "class Solution:\n    def isPowerOfFour(self, n: int) -> bool:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "isPowerOfFour",
+      "params": [
+        {
+          "name": "n",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def isPowerOfFour(self, n: int) -> bool:\n        # Check if n is positive and a power of two\n        if n > 0 and (n & (n - 1)) == 0:\n            # Check if the only set bit is in an even position\n            return n % 3 == 1\n        return False",
+    "explanation": "The solution checks if the given integer `n` is a power of four using bit manipulation and mathematical properties. \n\n1. **Positive Check**: The first condition `n > 0` ensures that we only consider positive integers, as negative numbers and zero cannot be powers of four.\n2. **Power of Two Check**: The expression `(n & (n - 1)) == 0` checks if `n` is a power of two. This works because a power of two has exactly one bit set in its binary representation.\n3. **Even Position Check**: The condition `n % 3 == 1` is used to determine if the single set bit is in an even position, which is characteristic of powers of four. For example:\n   - \\(4^0 = 1\\) (binary `0001`)\n   - \\(4^1 = 4\\) (binary `0100`)\n   - \\(4^2 = 16\\) (binary `10000`)\n   - \\(4^3 = 64\\) (binary `1000000`)\n   The pattern shows that the only set bit for powers of four appears at positions 0, 2, 4, etc., which corresponds to `n % 3 == 1`.\n\n**Time Complexity**: O(1) - The solution runs in constant time since it involves a few arithmetic operations and bit manipulation.\n\n**Space Complexity**: O(1) - The solution uses a constant amount of space.\n\nThus, the function efficiently determines if `n` is a power of four without using loops or recursion."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: True\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:49"
+}

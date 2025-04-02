@@ -1,0 +1,46 @@
+{
+  "problem": {
+    "id": "82",
+    "frontend_id": "82",
+    "title": "Remove Duplicates from Sorted List II",
+    "description": "Given the head of a sorted linked list, delete all nodes that have duplicate numbers, leaving only distinct numbers from the original list. Return the linked list sorted as well.\n \nExample 1:\n\n\nInput: head = [1,2,3,3,4,4,5]\nOutput: [1,2,5]\n\nExample 2:\n\n\nInput: head = [1,1,1,2,3]\nOutput: [2,3]\n\n \nConstraints:\n\nThe number of nodes in the list is in the range [0, 300].\n-100 <= Node.val <= 100\nThe list is guaranteed to be sorted in ascending order.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[1,2,3,3,4,4,5]",
+      "[1,1,1,2,3]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "head": "[1,2,3,3,4,4,5]"
+        },
+        "expected": "[1,2,5]"
+      }
+    ],
+    "python_starter": "# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution:\n    def deleteDuplicates(self, head: Optional[ListNode]) -> Optional[ListNode]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "deleteDuplicates",
+      "params": [
+        {
+          "name": "head",
+          "type": "ListNode",
+          "dealloc": false
+        }
+      ],
+      "return": {
+        "type": "ListNode",
+        "dealloc": true
+      }
+    }
+  },
+  "solution": {
+    "code": "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\n\nclass Solution:\n    def deleteDuplicates(self, head: Optional[ListNode]) -> Optional[ListNode]:\n        # Create a dummy node to handle edge cases\n        dummy = ListNode(0)\n        dummy.next = head\n        prev = dummy  # Previous node starts at dummy\n        current = head  # Current node starts at head\n\n        while current:\n            # Check if it's a start of duplicates\n            if current.next and current.val == current.next.val:\n                # Skip all nodes with the same value\n                while current.next and current.val == current.next.val:\n                    current = current.next\n                # Link previous node to the next distinct node\n                prev.next = current.next\n            else:\n                # No duplicates, move prev to current\n                prev = prev.next\n            \n            # Move current to the next node\n            current = current.next\n        \n        return dummy.next  # Return the next of dummy node which is the new head",
+    "explanation": "The solution uses a dummy node to simplify the handling of edge cases, such as when the head of the list itself contains duplicates. The `prev` pointer is used to keep track of the last distinct node, while the `current` pointer traverses the list.\n\n1. **Initialization**: We create a dummy node that points to the head of the list. This helps in cases where the head itself might be removed. We initialize `prev` to point to the dummy node and `current` to point to the head.\n\n2. **Traversal**: We iterate through the linked list using the `current` pointer. For each node, we check if it has duplicates by comparing its value with the next node's value.\n\n3. **Skipping Duplicates**: If duplicates are found, we continue moving the `current` pointer until we reach a node with a different value. After skipping all duplicates, we link the `prev` node to the next distinct node.\n\n4. **Updating Pointers**: If no duplicates are found, we simply move the `prev` pointer to the `current` node. Finally, we move the `current` pointer to the next node.\n\n5. **Return Result**: After the loop, we return `dummy.next`, which points to the head of the modified list without duplicates.\n\n**Time Complexity**: O(n), where n is the number of nodes in the linked list, since we traverse the list once.\n\n**Space Complexity**: O(1), as we are using a constant amount of extra space (the dummy node and pointers)."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:32"
+}

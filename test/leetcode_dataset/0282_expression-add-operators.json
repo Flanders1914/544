@@ -1,0 +1,62 @@
+{
+  "id": "282",
+  "frontend_id": "282",
+  "title": "Expression Add Operators",
+  "description": "Given a string num that contains only digits and an integer target, return all possibilities to insert the binary operators '+', '-', and/or '*' between the digits of num so that the resultant expression evaluates to the target value.\nNote that operands in the returned expressions should not contain leading zeros.\n \nExample 1:\n\nInput: num = \"123\", target = 6\nOutput: [\"1*2*3\",\"1+2+3\"]\nExplanation: Both \"1*2*3\" and \"1+2+3\" evaluate to 6.\n\nExample 2:\n\nInput: num = \"232\", target = 8\nOutput: [\"2*3+2\",\"2+3*2\"]\nExplanation: Both \"2*3+2\" and \"2+3*2\" evaluate to 8.\n\nExample 3:\n\nInput: num = \"3456237490\", target = 9191\nOutput: []\nExplanation: There are no expressions that can be created from \"3456237490\" to evaluate to 9191.\n\n \nConstraints:\n\n1 <= num.length <= 10\nnum consists of only digits.\n-231 <= target <= 231 - 1\n\n",
+  "difficulty": "Hard",
+  "examples": [
+    "\"123\"",
+    "6",
+    "\"232\"",
+    "8",
+    "\"3456237490\"",
+    "9191"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "num": "\"123\"",
+        "target": "6"
+      },
+      "expected": "[1*2*3,1+2+3]"
+    },
+    {
+      "input": {
+        "num": "\"232\"",
+        "target": "8"
+      },
+      "expected": "[2*3+2,2+3*2]"
+    },
+    {
+      "input": {
+        "num": "\"3456237490\"",
+        "target": "9191"
+      },
+      "expected": "[]"
+    }
+  ],
+  "python_starter": "class Solution:\n    def addOperators(self, num: str, target: int) -> List[str]:\n        ",
+  "hints": [
+    "Note that a number can contain multiple digits.",
+    "Since the question asks us to find <b>all</b> of the valid expressions, we need a way to iterate over all of them. (<b>Hint:</b> Recursion!)",
+    "We can keep track of the expression string and evaluate it at the very end. But that would take a lot of time. Can we keep track of the expression's value as well so as to avoid the evaluation at the very end of recursion?",
+    "Think carefully about the multiply operator. It has a higher precedence than the addition and subtraction operators. \r\n\r\n<br> 1 + 2 = 3  <br>\r\n1 + 2 - 4 --> 3 - 4 --> -1 <br>\r\n1 + 2 - 4 * 12 --> -1 * 12 --> -12 (WRONG!) <br>\r\n1 + 2 - 4 * 12 --> -1 - (-4) + (-4 * 12) --> 3 + (-48) --> -45 (CORRECT!)",
+    "We simply need to keep track of the last operand in our expression and reverse it's effect on the expression's value while considering the multiply operator."
+  ],
+  "meta_data": {
+    "name": "addOperators",
+    "params": [
+      {
+        "name": "num",
+        "type": "string"
+      },
+      {
+        "name": "target",
+        "type": "integer"
+      }
+    ],
+    "return": {
+      "type": "list<string>"
+    }
+  }
+}

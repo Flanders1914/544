@@ -1,0 +1,45 @@
+{
+  "problem": {
+    "id": "449",
+    "frontend_id": "449",
+    "title": "Serialize and Deserialize BST",
+    "description": "Serialization is converting a data structure or object into a sequence of bits so that it can be stored in a file or memory buffer, or transmitted across a network connection link to be reconstructed later in the same or another computer environment.\nDesign an algorithm to serialize and deserialize a binary search tree. There is no restriction on how your serialization/deserialization algorithm should work. You need to ensure that a binary search tree can be serialized to a string, and this string can be deserialized to the original tree structure.\nThe encoded string should be as compact as possible.\n \nExample 1:\nInput: root = [2,1,3]\nOutput: [2,1,3]\nExample 2:\nInput: root = []\nOutput: []\n\n \nConstraints:\n\nThe number of nodes in the tree is in the range [0, 104].\n0 <= Node.val <= 104\nThe input tree is guaranteed to be a binary search tree.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[2,1,3]",
+      "[]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "root": "[2,1,3]"
+        },
+        "expected": "[2,1,3]"
+      }
+    ],
+    "python_starter": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, x):\n#         self.val = x\n#         self.left = None\n#         self.right = None\n\nclass Codec:\n\n    def serialize(self, root: Optional[TreeNode]) -> str:\n        \"\"\"Encodes a tree to a single string.\n        \"\"\"\n        \n\n    def deserialize(self, data: str) -> Optional[TreeNode]:\n        \"\"\"Decodes your encoded data to tree.\n        \"\"\"\n        \n\n# Your Codec object will be instantiated and called as such:\n# Your Codec object will be instantiated and called as such:\n# ser = Codec()\n# deser = Codec()\n# tree = ser.serialize(root)\n# ans = deser.deserialize(tree)\n# return ans",
+    "hints": [],
+    "meta_data": {
+      "name": "CodecDriver",
+      "params": [
+        {
+          "name": "root",
+          "type": "TreeNode"
+        }
+      ],
+      "return": {
+        "type": "TreeNode"
+      },
+      "manual": true
+    }
+  },
+  "solution": {
+    "code": "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, x):\n        self.val = x\n        self.left = None\n        self.right = None\n\nclass Codec:\n\n    def serialize(self, root: Optional[TreeNode]) -> str:\n        \"\"\"Encodes a tree to a single string.\"\"\"\n        def pre_order(node):\n            if not node:\n                return \"None,\"\n            return str(node.val) + \",\" + pre_order(node.left) + pre_order(node.right)\n        \n        return pre_order(root)\n\n    def deserialize(self, data: str) -> Optional[TreeNode]:\n        \"\"\"Decodes your encoded data to tree.\"\"\"\n        def build_tree(values):\n            if values[0] == \"None\":\n                values.pop(0)\n                return None\n            \n            root = TreeNode(int(values[0]))\n            values.pop(0)  # Remove the value from the list\n            root.left = build_tree(values)\n            root.right = build_tree(values)\n            return root\n        \n        value_list = data.split(',')\n        value_list.pop()  # Remove the last empty element due to trailing comma\n        return build_tree(value_list)\n\n# Your Codec object will be instantiated and called as such:\n# ser = Codec()\n# deser = Codec()\n# tree = ser.serialize(root)\n# ans = deser.deserialize(tree)\n# return ans",
+    "explanation": "The solution consists of two main methods: `serialize` and `deserialize`.\n\n1. **Serialization**:\n   - We define a helper function `pre_order` that performs a pre-order traversal of the tree.\n   - If the current node is `None`, we append \"None,\" to the result string. Otherwise, we append the node's value followed by a comma, and recursively call `pre_order` for the left and right children.\n   - The final serialized string is a comma-separated list of node values and \"None\" for absent nodes.\n\n2. **Deserialization**:\n   - We split the serialized string by commas to get a list of values.\n   - We define a helper function `build_tree` that constructs the tree from the list of values.\n   - If the first value is \"None\", we pop it from the list and return `None`. Otherwise, we create a new `TreeNode` with the first value, pop it from the list, and recursively build the left and right subtrees.\n\n**Time Complexity**:\n- The time complexity for both serialization and deserialization is O(n), where n is the number of nodes in the tree. This is because we visit each node exactly once during both processes.\n\n**Space Complexity**:\n- The space complexity is O(n) for the serialized string and O(h) for the recursion stack during deserialization, where h is the height of the tree. In the worst case (a skewed tree), h can be O(n).\n\nOverall, this approach efficiently handles the serialization and deserialization of a binary search tree while maintaining the properties of the tree structure."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:57"
+}

@@ -1,0 +1,35 @@
+{
+  "id": "107",
+  "frontend_id": "107",
+  "title": "Binary Tree Level Order Traversal II",
+  "description": "Given the root of a binary tree, return the bottom-up level order traversal of its nodes' values. (i.e., from left to right, level by level from leaf to root).\n \nExample 1:\n\n\nInput: root = [3,9,20,null,null,15,7]\nOutput: [[15,7],[9,20],[3]]\n\nExample 2:\n\nInput: root = [1]\nOutput: [[1]]\n\nExample 3:\n\nInput: root = []\nOutput: []\n\n \nConstraints:\n\nThe number of nodes in the tree is in the range [0, 2000].\n-1000 <= Node.val <= 1000\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "[3,9,20,null,null,15,7]",
+    "[1]",
+    "[]"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "root": "[3,9,20,null,null,15,7]"
+      },
+      "expected": "[[15,7]"
+    }
+  ],
+  "python_starter": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def levelOrderBottom(self, root: Optional[TreeNode]) -> List[List[int]]:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "levelOrderBottom",
+    "params": [
+      {
+        "name": "root",
+        "type": "TreeNode"
+      }
+    ],
+    "return": {
+      "type": "list<list<integer>>",
+      "dealloc": true
+    }
+  }
+}

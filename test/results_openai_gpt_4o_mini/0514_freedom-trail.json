@@ -1,0 +1,58 @@
+{
+  "problem": {
+    "id": "514",
+    "frontend_id": "514",
+    "title": "Freedom Trail",
+    "description": "In the video game Fallout 4, the quest \"Road to Freedom\" requires players to reach a metal dial called the \"Freedom Trail Ring\" and use the dial to spell a specific keyword to open the door.\nGiven a string ring that represents the code engraved on the outer ring and another string key that represents the keyword that needs to be spelled, return the minimum number of steps to spell all the characters in the keyword.\nInitially, the first character of the ring is aligned at the \"12:00\" direction. You should spell all the characters in key one by one by rotating ring clockwise or anticlockwise to make each character of the string key aligned at the \"12:00\" direction and then by pressing the center button.\nAt the stage of rotating the ring to spell the key character key[i]:\n\nYou can rotate the ring clockwise or anticlockwise by one place, which counts as one step. The final purpose of the rotation is to align one of ring's characters at the \"12:00\" direction, where this character must equal key[i].\nIf the character key[i] has been aligned at the \"12:00\" direction, press the center button to spell, which also counts as one step. After the pressing, you could begin to spell the next character in the key (next stage). Otherwise, you have finished all the spelling.\n\n \nExample 1:\n\n\nInput: ring = \"godding\", key = \"gd\"\nOutput: 4\nExplanation:\nFor the first key character 'g', since it is already in place, we just need 1 step to spell this character. \nFor the second key character 'd', we need to rotate the ring \"godding\" anticlockwise by two steps to make it become \"ddinggo\".\nAlso, we need 1 more step for spelling.\nSo the final output is 4.\n\nExample 2:\n\nInput: ring = \"godding\", key = \"godding\"\nOutput: 13\n\n \nConstraints:\n\n1 <= ring.length, key.length <= 100\nring and key consist of only lower case English letters.\nIt is guaranteed that key could always be spelled by rotating ring.\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "\"godding\"",
+      "\"gd\"",
+      "\"godding\"",
+      "\"godding\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "ring": "\"godding\"",
+          "key": "\"gd\""
+        },
+        "expected": "4"
+      },
+      {
+        "input": {
+          "ring": "\"godding\"",
+          "key": "\"godding\""
+        },
+        "expected": "13"
+      }
+    ],
+    "python_starter": "class Solution:\n    def findRotateSteps(self, ring: str, key: str) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "findRotateSteps",
+      "params": [
+        {
+          "name": "ring",
+          "type": "string"
+        },
+        {
+          "name": "key",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def findRotateSteps(self, ring: str, key: str) -> int:\n        from collections import defaultdict\n        \n        # Create a mapping of characters to their indices in the ring\n        char_indices = defaultdict(list)\n        for i, char in enumerate(ring):\n            char_indices[char].append(i)\n        \n        # Lengths of ring and key\n        n, m = len(ring), len(key)\n        \n        # Initialize the DP table\n        dp = [[float('inf')] * n for _ in range(m + 1)]\n        dp[0][0] = 0  # Starting point, no steps to spell an empty key\n        \n        # Fill the DP table\n        for i in range(1, m + 1):\n            for j in range(n):\n                if key[i - 1] in char_indices:\n                    for k in char_indices[key[i - 1]]:\n                        # Calculate the distance from ring[j] to ring[k]\n                        distance = abs(k - j)\n                        # Minimum of clockwise and counterclockwise\n                        distance = min(distance, n - distance)\n                        # Update the DP table\n                        dp[i][k] = min(dp[i][k], dp[i - 1][j] + distance + 1)\n        \n        # The answer is the minimum steps to spell the entire key\n        return min(dp[m][j] for j in range(n))",
+    "explanation": "The solution uses dynamic programming to efficiently calculate the minimum steps required to spell the keyword using the ring. \n\n1. **Data Structure**: A 2D list `dp` is created where `dp[i][j]` holds the minimum steps to spell the first `i` characters of the key with the `j`-th character of the ring aligned at the \"12:00\" position.\n\n2. **Character Mapping**: A dictionary `char_indices` is used to map each character in the ring to its indices, allowing quick access to all positions of a character.\n\n3. **DP Transition**: For each character in the key, we check all positions in the ring where that character can be found. We calculate the distance from the current position to the target position in both clockwise and counterclockwise directions, updating the DP table accordingly.\n\n4. **Final Result**: The minimum value in the last row of the DP table gives the minimum steps required to spell the entire key.\n\n**Time Complexity**: O(m * n^2), where `m` is the length of the key and `n` is the length of the ring. This is due to the nested loops iterating over the key and the ring.\n\n**Space Complexity**: O(m * n) for the DP table.\n\nThis approach ensures that we efficiently compute the minimum steps while considering all possible alignments of the ring for each character in the key."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:01:21"
+}

@@ -1,0 +1,51 @@
+{
+  "problem": {
+    "id": "459",
+    "frontend_id": "459",
+    "title": "Repeated Substring Pattern",
+    "description": "Given a string s, check if it can be constructed by taking a substring of it and appending multiple copies of the substring together.\n \nExample 1:\n\nInput: s = \"abab\"\nOutput: true\nExplanation: It is the substring \"ab\" twice.\n\nExample 2:\n\nInput: s = \"aba\"\nOutput: false\n\nExample 3:\n\nInput: s = \"abcabcabcabc\"\nOutput: true\nExplanation: It is the substring \"abc\" four times or the substring \"abcabc\" twice.\n\n \nConstraints:\n\n1 <= s.length <= 104\ns consists of lowercase English letters.\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "\"abab\"",
+      "\"aba\"",
+      "\"abcabcabcabc\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "s": "\"abab\""
+        },
+        "expected": "true"
+      },
+      {
+        "input": {
+          "s": "\"aba\""
+        },
+        "expected": "false"
+      }
+    ],
+    "python_starter": "class Solution:\n    def repeatedSubstringPattern(self, s: str) -> bool:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "repeatedSubstringPattern",
+      "params": [
+        {
+          "name": "s",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def repeatedSubstringPattern(self, s: str) -> bool:\n        # Concatenate the string with itself\n        doubled_s = s + s\n        # Check if the original string exists in the doubled string\n        # excluding the first and last character\n        return s in doubled_s[1:-1]",
+    "explanation": "The solution uses a string manipulation technique to determine if the input string can be constructed by repeating a substring. The steps are as follows:\n\n1. **Concatenation**: We create a new string by concatenating the input string `s` with itself. This results in `doubled_s = s + s`.\n\n2. **Substring Check**: We then check if the original string `s` exists within the substring of `doubled_s` that excludes the first and last characters. This is done using the expression `doubled_s[1:-1]`.\n\n3. **Return Value**: If `s` is found in this modified string, it indicates that `s` can be formed by repeating a substring, and we return `True`. Otherwise, we return `False`.\n\n### Time Complexity\nThe time complexity of this solution is O(n), where n is the length of the string `s`. This is because the concatenation and substring search operations are linear with respect to the length of the string.\n\n### Space Complexity\nThe space complexity is also O(n) due to the creation of the `doubled_s` string, which is twice the length of the original string.\n\nOverall, this approach is efficient and straightforward, leveraging string properties to solve the problem effectively."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:57"
+}

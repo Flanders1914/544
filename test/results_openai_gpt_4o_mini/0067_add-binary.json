@@ -1,0 +1,51 @@
+{
+  "problem": {
+    "id": "67",
+    "frontend_id": "67",
+    "title": "Add Binary",
+    "description": "Given two binary strings a and b, return their sum as a binary string.\n \nExample 1:\nInput: a = \"11\", b = \"1\"\nOutput: \"100\"\nExample 2:\nInput: a = \"1010\", b = \"1011\"\nOutput: \"10101\"\n\n \nConstraints:\n\n1 <= a.length, b.length <= 104\na and b consist only of '0' or '1' characters.\nEach string does not contain leading zeros except for the zero itself.\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "\"11\"",
+      "\"1\"",
+      "\"1010\"",
+      "\"1011\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "a": "\"11\"",
+          "b": "\"1\""
+        },
+        "expected": "100"
+      }
+    ],
+    "python_starter": "class Solution:\n    def addBinary(self, a: str, b: str) -> str:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "addBinary",
+      "params": [
+        {
+          "name": "a",
+          "type": "string"
+        },
+        {
+          "name": "b",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "string"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def addBinary(self, a: str, b: str) -> str:\n        result = []\n        carry = 0\n        i, j = len(a) - 1, len(b) - 1\n        \n        while i >= 0 or j >= 0 or carry:\n            sum = carry\n            if i >= 0:\n                sum += int(a[i])\n                i -= 1\n            if j >= 0:\n                sum += int(b[j])\n                j -= 1\n            \n            result.append(str(sum % 2))  # Append the binary digit\n            carry = sum // 2  # Update carry\n        \n        return ''.join(result[::-1])  # Reverse the result and join to form the final string",
+    "explanation": "The solution implements a straightforward binary addition algorithm. We traverse both binary strings from the end to the beginning, simulating the addition process while keeping track of the carry. \n\n1. **Initialization**: We start with an empty list `result` to store the binary digits of the sum and a `carry` variable initialized to 0.\n2. **Loop through the strings**: We use two indices `i` and `j` to point to the last characters of strings `a` and `b`, respectively. We continue the loop until both indices are out of bounds and there is no carry left.\n3. **Calculate the sum**: For each position, we add the corresponding bits from `a` and `b` (if they exist) along with the carry. The sum is calculated, and we determine the new bit to append to the result and the new carry.\n4. **Final result**: After the loop, if there is still a carry, we append it to the result. Finally, we reverse the result list and join it to form the final binary string.\n\n**Time Complexity**: O(max(m, n)), where m and n are the lengths of the input strings `a` and `b`. This is because we may need to traverse both strings entirely.\n\n**Space Complexity**: O(max(m, n)), for storing the result in the list before converting it to a string.\n\nThis solution efficiently handles the addition of binary strings and adheres to the constraints provided in the problem statement."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:31"
+}

@@ -1,0 +1,84 @@
+{
+  "problem": {
+    "id": "141",
+    "frontend_id": "141",
+    "title": "Linked List Cycle",
+    "description": "Given head, the head of a linked list, determine if the linked list has a cycle in it.\nThere is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the next pointer. Internally, pos is used to denote the index of the node that tail's next pointer is connected to. Note that pos is not passed as a parameter.\nReturn true if there is a cycle in the linked list. Otherwise, return false.\n \nExample 1:\n\n\nInput: head = [3,2,0,-4], pos = 1\nOutput: true\nExplanation: There is a cycle in the linked list, where the tail connects to the 1st node (0-indexed).\n\nExample 2:\n\n\nInput: head = [1,2], pos = 0\nOutput: true\nExplanation: There is a cycle in the linked list, where the tail connects to the 0th node.\n\nExample 3:\n\n\nInput: head = [1], pos = -1\nOutput: false\nExplanation: There is no cycle in the linked list.\n\n \nConstraints:\n\nThe number of the nodes in the list is in the range [0, 104].\n-105 <= Node.val <= 105\npos is -1 or a valid index in the linked-list.\n\n \nFollow up: Can you solve it using O(1) (i.e. constant) memory?\n",
+    "difficulty": "Easy",
+    "examples": [
+      "[3,2,0,-4]",
+      "1",
+      "[1,2]",
+      "0",
+      "[1]",
+      "-1"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "head": "[3,2,0,-4]",
+          "pos": "1"
+        },
+        "expected": "true"
+      },
+      {
+        "input": {
+          "head": "[1,2]",
+          "pos": "0"
+        },
+        "expected": "true"
+      },
+      {
+        "input": {
+          "head": "[1]",
+          "pos": "-1"
+        },
+        "expected": "false"
+      }
+    ],
+    "python_starter": "# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, x):\n#         self.val = x\n#         self.next = None\n\nclass Solution:\n    def hasCycle(self, head: Optional[ListNode]) -> bool:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "hasCycle",
+      "params": [
+        {
+          "name": "head",
+          "type": "ListNode"
+        },
+        {
+          "name": "pos",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      },
+      "manual": true,
+      "languages": [
+        "cpp",
+        "java",
+        "python",
+        "c",
+        "csharp",
+        "javascript",
+        "ruby",
+        "swift",
+        "golang",
+        "python3",
+        "scala",
+        "kotlin",
+        "php",
+        "typescript"
+      ]
+    }
+  },
+  "solution": {
+    "code": "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\nclass Solution:\n    def hasCycle(self, head: Optional[ListNode]) -> bool:\n        # Initialize two pointers\n        tortoise = head\n        hare = head\n        \n        # Traverse the list\n        while hare and hare.next:\n            tortoise = tortoise.next          # Move tortoise by 1 step\n            hare = hare.next.next             # Move hare by 2 steps\n            \n            # Check if they meet\n            if tortoise == hare:\n                return True  # Cycle detected\n        \n        return False  # No cycle detected",
+    "explanation": "The solution uses Floyd's Tortoise and Hare algorithm to detect a cycle in a linked list. We initialize two pointers, `tortoise` and `hare`, both starting at the head of the list. In a loop, we move the `tortoise` pointer one step forward and the `hare` pointer two steps forward. If there is a cycle, the `hare` will eventually catch up to the `tortoise`, and we return `True`. If the `hare` reaches the end of the list (i.e., `hare` or `hare.next` becomes `None`), we return `False`, indicating that there is no cycle.\n\nThe time complexity of this solution is O(n) because in the worst case, we may need to traverse all nodes in the list. The space complexity is O(1) since we are using only a fixed amount of space for the two pointers, regardless of the size of the input linked list."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:38"
+}

@@ -1,0 +1,52 @@
+{
+  "problem": {
+    "id": "105",
+    "frontend_id": "105",
+    "title": "Construct Binary Tree from Preorder and Inorder Traversal",
+    "description": "Given two integer arrays preorder and inorder where preorder is the preorder traversal of a binary tree and inorder is the inorder traversal of the same tree, construct and return the binary tree.\n \nExample 1:\n\n\nInput: preorder = [3,9,20,15,7], inorder = [9,3,15,20,7]\nOutput: [3,9,20,null,null,15,7]\n\nExample 2:\n\nInput: preorder = [-1], inorder = [-1]\nOutput: [-1]\n\n \nConstraints:\n\n1 <= preorder.length <= 3000\ninorder.length == preorder.length\n-3000 <= preorder[i], inorder[i] <= 3000\npreorder and inorder consist of unique values.\nEach value of inorder also appears in preorder.\npreorder is guaranteed to be the preorder traversal of the tree.\ninorder is guaranteed to be the inorder traversal of the tree.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[3,9,20,15,7]",
+      "[9,3,15,20,7]",
+      "[-1]",
+      "[-1]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "preorder": "[3,9,20,15,7]",
+          "inorder": "[9,3,15,20,7]"
+        },
+        "expected": "[3,9,20,null,null,15,7]"
+      }
+    ],
+    "python_starter": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "buildTree",
+      "params": [
+        {
+          "name": "preorder",
+          "type": "integer[]"
+        },
+        {
+          "name": "inorder",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "TreeNode",
+        "dealloc": true
+      }
+    }
+  },
+  "solution": {
+    "code": "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nclass Solution:\n    def buildTree(self, preorder: List[int], inorder: List[int]) -> Optional[TreeNode]:\n        if not preorder or not inorder:\n            return None\n        \n        # The first element in preorder is the root\n        root_val = preorder[0]\n        root = TreeNode(root_val)\n        \n        # Find the index of the root in inorder\n        root_index = inorder.index(root_val)\n        \n        # Recursively build the left and right subtrees\n        # Left subtree: elements before root_index in inorder\n        # Right subtree: elements after root_index in inorder\n        root.left = self.buildTree(preorder[1:1 + root_index], inorder[:root_index])\n        root.right = self.buildTree(preorder[1 + root_index:], inorder[root_index + 1:])\n        \n        return root",
+    "explanation": "The solution uses a recursive approach to construct the binary tree. Here's a breakdown of the process:\n\n1. **Base Case**: If either `preorder` or `inorder` is empty, we return `None`, indicating that there are no nodes to construct.\n\n2. **Root Node Creation**: The first element of the `preorder` list is taken as the root of the current subtree. A new `TreeNode` is created with this value.\n\n3. **Finding the Root Index**: We locate the index of the root value in the `inorder` list. This index helps us determine which elements belong to the left and right subtrees.\n\n4. **Recursive Calls**:\n   - For the left subtree, we take the elements from `preorder` that correspond to the left subtree (from index 1 to `1 + root_index`) and the elements from `inorder` that are to the left of the root index.\n   - For the right subtree, we take the remaining elements from `preorder` (from `1 + root_index` to the end) and the elements from `inorder` that are to the right of the root index.\n\n5. **Time Complexity**: The overall time complexity is O(n^2) in the worst case due to the `index` method used to find the root in the `inorder` list. However, if we use a hashmap to store the indices of the `inorder` elements, we can reduce this to O(n).\n\n6. **Space Complexity**: The space complexity is O(n) due to the recursion stack and the storage of the tree nodes.\n\nThis method effectively reconstructs the binary tree from the given traversals."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:34"
+}

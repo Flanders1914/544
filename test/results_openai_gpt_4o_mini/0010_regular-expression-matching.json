@@ -1,0 +1,67 @@
+{
+  "problem": {
+    "id": "10",
+    "frontend_id": "10",
+    "title": "Regular Expression Matching",
+    "description": "Given an input string s and a pattern p, implement regular expression matching with support for '.' and '*' where:\n\n'.' Matches any single character.​​​​\n'*' Matches zero or more of the preceding element.\n\nThe matching should cover the entire input string (not partial).\n \nExample 1:\n\nInput: s = \"aa\", p = \"a\"\nOutput: false\nExplanation: \"a\" does not match the entire string \"aa\".\n\nExample 2:\n\nInput: s = \"aa\", p = \"a*\"\nOutput: true\nExplanation: '*' means zero or more of the preceding element, 'a'. Therefore, by repeating 'a' once, it becomes \"aa\".\n\nExample 3:\n\nInput: s = \"ab\", p = \".*\"\nOutput: true\nExplanation: \".*\" means \"zero or more (*) of any character (.)\".\n\n \nConstraints:\n\n1 <= s.length <= 20\n1 <= p.length <= 20\ns contains only lowercase English letters.\np contains only lowercase English letters, '.', and '*'.\nIt is guaranteed for each appearance of the character '*', there will be a previous valid character to match.\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "\"aa\"",
+      "\"a\"",
+      "\"aa\"",
+      "\"a*\"",
+      "\"ab\"",
+      "\".*\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "s": "\"aa\"",
+          "p": "\"a\""
+        },
+        "expected": "false"
+      },
+      {
+        "input": {
+          "s": "\"aa\"",
+          "p": "\"a*\""
+        },
+        "expected": "true"
+      },
+      {
+        "input": {
+          "s": "\"ab\"",
+          "p": "\".*\""
+        },
+        "expected": "true"
+      }
+    ],
+    "python_starter": "class Solution:\n    def isMatch(self, s: str, p: str) -> bool:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "isMatch",
+      "params": [
+        {
+          "name": "s",
+          "type": "string"
+        },
+        {
+          "name": "p",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def isMatch(self, s: str, p: str) -> bool:\n        # Initialize the DP table\n        dp = [[False] * (len(p) + 1) for _ in range(len(s) + 1)]\n        dp[0][0] = True  # Empty string matches empty pattern\n        \n        # Handle patterns like a*, a*b*, a*b*c* at the start\n        for j in range(1, len(p) + 1):\n            if p[j - 1] == '*':\n                dp[0][j] = dp[0][j - 2]\n        \n        # Fill the DP table\n        for i in range(1, len(s) + 1):\n            for j in range(1, len(p) + 1):\n                if p[j - 1] == s[i - 1] or p[j - 1] == '.':\n                    dp[i][j] = dp[i - 1][j - 1]\n                elif p[j - 1] == '*':\n                    dp[i][j] = dp[i][j - 2] or (dp[i - 1][j] and (s[i - 1] == p[j - 2] or p[j - 2] == '.'))\n        \n        return dp[len(s)][len(p)]",
+    "explanation": "The solution uses dynamic programming to efficiently determine if the string `s` matches the pattern `p`. The DP table `dp` is constructed such that `dp[i][j]` indicates whether the first `i` characters of `s` match the first `j` characters of `p`.\n\n1. **Time Complexity**: The time complexity of this solution is O(m * n), where `m` is the length of the string `s` and `n` is the length of the pattern `p`. This is because we fill a table of size `(m+1) x (n+1)`.\n\n2. **Space Complexity**: The space complexity is also O(m * n) due to the storage of the DP table. However, we can optimize this to O(n) by only keeping track of the current and previous rows, but for clarity, we maintain the full table in this implementation.\n\nOverall, this approach is efficient given the constraints and handles all edge cases, including patterns with multiple `'*'` and `'.'` characters."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: False\nTest case 2:\n[PASS] Test passed: True\nTest case 3:\n[PASS] Test passed: True\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:26"
+}

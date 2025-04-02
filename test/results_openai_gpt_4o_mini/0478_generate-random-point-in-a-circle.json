@@ -1,0 +1,69 @@
+{
+  "problem": {
+    "id": "915",
+    "frontend_id": "478",
+    "title": "Generate Random Point in a Circle",
+    "description": "Given the radius and the position of the center of a circle, implement the function randPoint which generates a uniform random point inside the circle.\nImplement the Solution class:\n\nSolution(double radius, double x_center, double y_center) initializes the object with the radius of the circle radius and the position of the center (x_center, y_center).\nrandPoint() returns a random point inside the circle. A point on the circumference of the circle is considered to be in the circle. The answer is returned as an array [x, y].\n\n \nExample 1:\n\nInput\n[\"Solution\", \"randPoint\", \"randPoint\", \"randPoint\"]\n[[1.0, 0.0, 0.0], [], [], []]\nOutput\n[null, [-0.02493, -0.38077], [0.82314, 0.38945], [0.36572, 0.17248]]\n\nExplanation\nSolution solution = new Solution(1.0, 0.0, 0.0);\nsolution.randPoint(); // return [-0.02493, -0.38077]\nsolution.randPoint(); // return [0.82314, 0.38945]\nsolution.randPoint(); // return [0.36572, 0.17248]\n\n \nConstraints:\n\n0 < radius <= 108\n-107 <= x_center, y_center <= 107\nAt most 3 * 104 calls will be made to randPoint.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[\"Solution\",\"randPoint\",\"randPoint\",\"randPoint\"]",
+      "[[1.0,0.0,0.0],[],[],[]]"
+    ],
+    "structured_test_cases": [],
+    "python_starter": "class Solution:\n\n    def __init__(self, radius: float, x_center: float, y_center: float):\n        \n\n    def randPoint(self) -> List[float]:\n        \n\n\n# Your Solution object will be instantiated and called as such:\n# obj = Solution(radius, x_center, y_center)\n# param_1 = obj.randPoint()",
+    "hints": [],
+    "meta_data": {
+      "classname": "Solution",
+      "maxbytesperline": 200000,
+      "constructor": {
+        "params": [
+          {
+            "name": "radius",
+            "type": "double"
+          },
+          {
+            "name": "x_center",
+            "type": "double"
+          },
+          {
+            "name": "y_center",
+            "type": "double"
+          }
+        ]
+      },
+      "methods": [
+        {
+          "name": "randPoint",
+          "params": [],
+          "return": {
+            "type": "double[]"
+          }
+        }
+      ],
+      "systemdesign": true,
+      "params": [
+        {
+          "name": "inputs",
+          "type": "integer[]"
+        },
+        {
+          "name": "inputs",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "list<String>",
+        "dealloc": true
+      }
+    }
+  },
+  "solution": {
+    "code": "import random\nimport math\nfrom typing import List\n\nclass Solution:\n\n    def __init__(self, radius: float, x_center: float, y_center: float):\n        self.radius = radius\n        self.x_center = x_center\n        self.y_center = y_center\n\n    def randPoint(self) -> List[float]:\n        # Generate a random angle\n        angle = random.uniform(0, 2 * math.pi)\n        # Generate a random radius\n        r = math.sqrt(random.uniform(0, 1)) * self.radius\n        # Convert polar coordinates to Cartesian coordinates\n        x = self.x_center + r * math.cos(angle)\n        y = self.y_center + r * math.sin(angle)\n        return [x, y]",
+    "explanation": "The solution defines a class `Solution` that initializes with the radius and center of the circle. The `randPoint` method generates a random point within the circle using polar coordinates.\n\n1. **Initialization**: The constructor `__init__` takes the radius and center coordinates and stores them as instance variables.\n\n2. **Generating Random Points**:\n   - The angle is generated using `random.uniform(0, 2 * math.pi)`, which gives a random angle in radians.\n   - The radius is generated using `math.sqrt(random.uniform(0, 1)) * self.radius`. The `sqrt` function ensures that the distribution of points is uniform across the area of the circle.\n   - The Cartesian coordinates are calculated using the cosine and sine functions to convert from polar to Cartesian coordinates.\n\n3. **Time Complexity**: The time complexity of the `randPoint` method is O(1) since it performs a constant amount of work regardless of the input size.\n\n4. **Space Complexity**: The space complexity is also O(1) as we are using a fixed amount of space for variables.\n\nThis implementation efficiently generates random points within the specified circle, adhering to the constraints provided in the problem statement."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\nTraceback (most recent call last):\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmp1q3nl5qo.py\", line 47, in <module>\n    solution = Solution()\n               ^^^^^^^^^^\nTypeError: Solution.__init__() missing 3 required positional arguments: 'radius', 'x_center', and 'y_center'\n"
+  },
+  "timestamp": "2025-04-01 18:00:59"
+}

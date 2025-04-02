@@ -1,0 +1,67 @@
+{
+  "problem": {
+    "id": "330",
+    "frontend_id": "330",
+    "title": "Patching Array",
+    "description": "Given a sorted integer array nums and an integer n, add/patch elements to the array such that any number in the range [1, n] inclusive can be formed by the sum of some elements in the array.\nReturn the minimum number of patches required.\n \nExample 1:\n\nInput: nums = [1,3], n = 6\nOutput: 1\nExplanation:\nCombinations of nums are [1], [3], [1,3], which form possible sums of: 1, 3, 4.\nNow if we add/patch 2 to nums, the combinations are: [1], [2], [3], [1,3], [2,3], [1,2,3].\nPossible sums are 1, 2, 3, 4, 5, 6, which now covers the range [1, 6].\nSo we only need 1 patch.\n\nExample 2:\n\nInput: nums = [1,5,10], n = 20\nOutput: 2\nExplanation: The two patches can be [2, 4].\n\nExample 3:\n\nInput: nums = [1,2,2], n = 5\nOutput: 0\n\n \nConstraints:\n\n1 <= nums.length <= 1000\n1 <= nums[i] <= 104\nnums is sorted in ascending order.\n1 <= n <= 231 - 1\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "[1,3]",
+      "6",
+      "[1,5,10]",
+      "20",
+      "[1,2,2]",
+      "5"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[1,3]",
+          "n": "6"
+        },
+        "expected": "1"
+      },
+      {
+        "input": {
+          "nums": "[1,5,10]",
+          "n": "20"
+        },
+        "expected": "2"
+      },
+      {
+        "input": {
+          "nums": "[1,2,2]",
+          "n": "5"
+        },
+        "expected": "0"
+      }
+    ],
+    "python_starter": "class Solution:\n    def minPatches(self, nums: List[int], n: int) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "minPatches",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        },
+        {
+          "name": "n",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def minPatches(self, nums: List[int], n: int) -> int:\n        patches = 0  # Count of patches added\n        max_reachable = 0  # Maximum number we can reach with current nums and patches\n        i = 0  # Index for nums\n        \n        while max_reachable < n:\n            if i < len(nums) and nums[i] <= max_reachable + 1:\n                # If the current number can be used to extend our reach\n                max_reachable += nums[i]\n                i += 1\n            else:\n                # We need to add a patch\n                patches += 1\n                max_reachable += (max_reachable + 1)  # Add the next patch which is max_reachable + 1\n        \n        return patches",
+    "explanation": "The solution uses a greedy algorithm to determine the minimum number of patches required to cover the range [1, n]. The key steps are as follows:\n\n1. **Initialization**: We start with `max_reachable` set to 0, which indicates the maximum number we can form with the current elements and patches. The `patches` counter is initialized to 0.\n\n2. **Iterating through the range**: We loop until `max_reachable` is less than `n`. In each iteration, we check if the current number in `nums` can be used to extend our reach. If it can, we add it to `max_reachable` and move to the next number in `nums`.\n\n3. **Adding patches**: If the current number in `nums` is greater than `max_reachable + 1`, we need to add a patch. The optimal patch to add is `max_reachable + 1`, which allows us to double our reach. We increment the `patches` counter and update `max_reachable` accordingly.\n\n4. **Complexity Analysis**:\n   - **Time Complexity**: O(m), where m is the number of patches added. In the worst case, we may need to add patches until we reach n, leading to a logarithmic number of patches relative to n.\n   - **Space Complexity**: O(1), as we are using a constant amount of space for variables.\n\nThis approach efficiently determines the minimum number of patches required to cover the range [1, n] using the given sorted array `nums`."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 1\nTest case 2:\n[PASS] Test passed: 2\nTest case 3:\n[PASS] Test passed: 0\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:49"
+}

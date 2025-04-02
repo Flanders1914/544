@@ -1,0 +1,62 @@
+{
+  "problem": {
+    "id": "774",
+    "frontend_id": "559",
+    "title": "Maximum Depth of N-ary Tree",
+    "description": "Given a n-ary tree, find its maximum depth.\nThe maximum depth is the number of nodes along the longest path from the root node down to the farthest leaf node.\nNary-Tree input serialization is represented in their level order traversal, each group of children is separated by the null value (See examples).\n \nExample 1:\n\n\nInput: root = [1,null,3,2,4,null,5,6]\nOutput: 3\n\nExample 2:\n\n\nInput: root = [1,null,2,3,4,5,null,null,6,7,null,8,null,9,10,null,null,11,null,12,null,13,null,null,14]\nOutput: 5\n\n \nConstraints:\n\nThe total number of nodes is in the range [0, 104].\nThe depth of the n-ary tree is less than or equal to 1000.\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "[1,null,3,2,4,null,5,6]",
+      "[1,null,2,3,4,5,null,null,6,7,null,8,null,9,10,null,null,11,null,12,null,13,null,null,14]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "root": "[1,null,3,2,4,null,5,6]"
+        },
+        "expected": "3"
+      }
+    ],
+    "python_starter": "\"\"\"\n# Definition for a Node.\nclass Node:\n    def __init__(self, val: Optional[int] = None, children: Optional[List['Node']] = None):\n        self.val = val\n        self.children = children\n\"\"\"\n\nclass Solution:\n    def maxDepth(self, root: 'Node') -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "maxDepth",
+      "params": [
+        {
+          "name": "root",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      },
+      "languages": [
+        "cpp",
+        "java",
+        "python",
+        "csharp",
+        "javascript",
+        "python3",
+        "golang",
+        "ruby",
+        "c",
+        "kotlin",
+        "scala",
+        "php",
+        "swift",
+        "typescript"
+      ],
+      "manual": true,
+      "typescriptCustomType": "class _Node {\n    val: number\n    children: _Node[]\n\n    constructor(val?: number, children?: _Node[]) {\n        this.val = (val===undefined ? 0 : val)\n        this.children = (children===undefined ? [] : children)\n    }\n}"
+    }
+  },
+  "solution": {
+    "code": "# Definition for a Node.\nclass Node:\n    def __init__(self, val: Optional[int] = None, children: Optional[List['Node']] = None):\n        self.val = val\n        self.children = children if children is not None else []\n\nclass Solution:\n    def maxDepth(self, root: 'Node') -> int:\n        # Base case: if the root is None, the depth is 0\n        if not root:\n            return 0\n        \n        # Initialize maximum depth\n        max_depth = 0\n        \n        # Iterate through each child and find the maximum depth\n        for child in root.children:\n            max_depth = max(max_depth, self.maxDepth(child))\n        \n        # Return the maximum depth found plus one for the current node\n        return max_depth + 1",
+    "explanation": "The solution uses a recursive approach to determine the maximum depth of an N-ary tree. The `maxDepth` function checks if the root node is `None`, returning 0 if it is. If the root is not `None`, it initializes a variable `max_depth` to keep track of the maximum depth found among the children.\n\nThe function then iterates through each child of the current node, recursively calling `maxDepth` on each child to calculate their respective depths. The maximum depth among all children is updated accordingly. Finally, the function returns the maximum depth found plus one to account for the current node.\n\n### Time Complexity\nThe time complexity of this solution is O(N), where N is the number of nodes in the tree. This is because we visit each node exactly once.\n\n### Space Complexity\nThe space complexity is O(H), where H is the height of the tree. This is due to the recursion stack that is used during the depth-first traversal of the tree. In the worst case, if the tree is skewed, the height could be equal to N, leading to O(N) space complexity. However, in a balanced tree, the height would be much smaller."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:01:24"
+}

@@ -1,0 +1,55 @@
+{
+  "id": "327",
+  "frontend_id": "327",
+  "title": "Count of Range Sum",
+  "description": "Given an integer array nums and two integers lower and upper, return the number of range sums that lie in [lower, upper] inclusive.\nRange sum S(i, j) is defined as the sum of the elements in nums between indices i and j inclusive, where i <= j.\n \nExample 1:\n\nInput: nums = [-2,5,-1], lower = -2, upper = 2\nOutput: 3\nExplanation: The three ranges are: [0,0], [2,2], and [0,2] and their respective sums are: -2, -1, 2.\n\nExample 2:\n\nInput: nums = [0], lower = 0, upper = 0\nOutput: 1\n\n \nConstraints:\n\n1 <= nums.length <= 105\n-231 <= nums[i] <= 231 - 1\n-105 <= lower <= upper <= 105\nThe answer is guaranteed to fit in a 32-bit integer.\n\n",
+  "difficulty": "Hard",
+  "examples": [
+    "[-2,5,-1]",
+    "-2",
+    "2",
+    "[0]",
+    "0",
+    "0"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "nums": "[-2,5,-1]",
+        "lower": "-2",
+        "upper": "2"
+      },
+      "expected": "3"
+    },
+    {
+      "input": {
+        "nums": "[0]",
+        "lower": "0",
+        "upper": "0"
+      },
+      "expected": "1"
+    }
+  ],
+  "python_starter": "class Solution:\n    def countRangeSum(self, nums: List[int], lower: int, upper: int) -> int:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "countRangeSum",
+    "params": [
+      {
+        "name": "nums",
+        "type": "integer[]"
+      },
+      {
+        "name": "lower",
+        "type": "integer"
+      },
+      {
+        "name": "upper",
+        "type": "integer"
+      }
+    ],
+    "return": {
+      "type": "integer"
+    }
+  }
+}

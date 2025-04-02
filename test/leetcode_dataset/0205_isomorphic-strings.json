@@ -1,0 +1,56 @@
+{
+  "id": "205",
+  "frontend_id": "205",
+  "title": "Isomorphic Strings",
+  "description": "Given two strings s and t, determine if they are isomorphic.\nTwo strings s and t are isomorphic if the characters in s can be replaced to get t.\nAll occurrences of a character must be replaced with another character while preserving the order of characters. No two characters may map to the same character, but a character may map to itself.\n \nExample 1:\n\nInput: s = \"egg\", t = \"add\"\nOutput: true\nExplanation:\nThe strings s and t can be made identical by:\n\nMapping 'e' to 'a'.\nMapping 'g' to 'd'.\n\n\nExample 2:\n\nInput: s = \"foo\", t = \"bar\"\nOutput: false\nExplanation:\nThe strings s and t can not be made identical as 'o' needs to be mapped to both 'a' and 'r'.\n\nExample 3:\n\nInput: s = \"paper\", t = \"title\"\nOutput: true\n\n \nConstraints:\n\n1 <= s.length <= 5 * 104\nt.length == s.length\ns and t consist of any valid ascii character.\n\n",
+  "difficulty": "Easy",
+  "examples": [
+    "\"egg\"",
+    "\"add\"",
+    "\"foo\"",
+    "\"bar\"",
+    "\"paper\"",
+    "\"title\""
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "s": "\"egg\"",
+        "t": "\"add\""
+      },
+      "expected": "true"
+    },
+    {
+      "input": {
+        "s": "\"foo\"",
+        "t": "\"bar\""
+      },
+      "expected": "false"
+    },
+    {
+      "input": {
+        "s": "\"paper\"",
+        "t": "\"title\""
+      },
+      "expected": "true"
+    }
+  ],
+  "python_starter": "class Solution:\n    def isIsomorphic(self, s: str, t: str) -> bool:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "isIsomorphic",
+    "params": [
+      {
+        "name": "s",
+        "type": "string"
+      },
+      {
+        "name": "t",
+        "type": "string"
+      }
+    ],
+    "return": {
+      "type": "boolean"
+    }
+  }
+}

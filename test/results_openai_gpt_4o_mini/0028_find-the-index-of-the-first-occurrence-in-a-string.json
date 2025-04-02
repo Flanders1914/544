@@ -1,0 +1,58 @@
+{
+  "problem": {
+    "id": "28",
+    "frontend_id": "28",
+    "title": "Find the Index of the First Occurrence in a String",
+    "description": "Given two strings needle and haystack, return the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.\n \nExample 1:\n\nInput: haystack = \"sadbutsad\", needle = \"sad\"\nOutput: 0\nExplanation: \"sad\" occurs at index 0 and 6.\nThe first occurrence is at index 0, so we return 0.\n\nExample 2:\n\nInput: haystack = \"leetcode\", needle = \"leeto\"\nOutput: -1\nExplanation: \"leeto\" did not occur in \"leetcode\", so we return -1.\n\n \nConstraints:\n\n1 <= haystack.length, needle.length <= 104\nhaystack and needle consist of only lowercase English characters.\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "\"sadbutsad\"",
+      "\"sad\"",
+      "\"leetcode\"",
+      "\"leeto\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "haystack": "\"sadbutsad\"",
+          "needle": "\"sad\""
+        },
+        "expected": "0"
+      },
+      {
+        "input": {
+          "haystack": "\"leetcode\"",
+          "needle": "\"leeto\""
+        },
+        "expected": "-1"
+      }
+    ],
+    "python_starter": "class Solution:\n    def strStr(self, haystack: str, needle: str) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "strStr",
+      "params": [
+        {
+          "name": "haystack",
+          "type": "string"
+        },
+        {
+          "name": "needle",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def strStr(self, haystack: str, needle: str) -> int:\n        # Use the built-in find method to locate the first occurrence of needle in haystack\n        return haystack.find(needle)",
+    "explanation": "The solution uses the `find()` method of the string class in Python, which is designed to search for a substring within a string. The method operates in O(n) time complexity in the average case, where n is the length of the haystack, making it efficient for the input constraints provided (up to 10,000 characters). \n\nThe space complexity is O(1) since we are not using any additional data structures that grow with the input size. The method returns the index of the first occurrence of `needle` in `haystack`, or -1 if `needle` is not found. This solution is optimal for the problem requirements and handles all edge cases, including when `needle` is an empty string or longer than `haystack`."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:27"
+}

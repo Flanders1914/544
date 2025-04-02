@@ -1,0 +1,53 @@
+{
+  "problem": {
+    "id": "219",
+    "frontend_id": "219",
+    "title": "Contains Duplicate II",
+    "description": "Given an integer array nums and an integer k, return true if there are two distinct indices i and j in the array such that nums[i] == nums[j] and abs(i - j) <= k.\n \nExample 1:\n\nInput: nums = [1,2,3,1], k = 3\nOutput: true\n\nExample 2:\n\nInput: nums = [1,0,1,1], k = 1\nOutput: true\n\nExample 3:\n\nInput: nums = [1,2,3,1,2,3], k = 2\nOutput: false\n\n \nConstraints:\n\n1 <= nums.length <= 105\n-109 <= nums[i] <= 109\n0 <= k <= 105\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "[1,2,3,1]",
+      "3",
+      "[1,0,1,1]",
+      "1",
+      "[1,2,3,1,2,3]",
+      "2"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[1,2,3,1]",
+          "k": "3"
+        },
+        "expected": "true"
+      }
+    ],
+    "python_starter": "class Solution:\n    def containsNearbyDuplicate(self, nums: List[int], k: int) -> bool:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "containsNearbyDuplicate",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        },
+        {
+          "name": "k",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def containsNearbyDuplicate(self, nums: List[int], k: int) -> bool:\n        index_map = {}  # Dictionary to store the last index of each number\n        \n        for i, num in enumerate(nums):\n            if num in index_map:\n                # Check if the difference of indices is less than or equal to k\n                if i - index_map[num] <= k:\n                    return True  # Found a pair that satisfies the condition\n            # Update the last index of the current number\n            index_map[num] = i\n        \n        return False  # No such pair found",
+    "explanation": "The solution uses a dictionary to keep track of the last seen index of each number in the `nums` array. As we iterate through the array with an index `i`, we check if the current number `num` has been seen before by looking it up in the dictionary `index_map`. If it has been seen, we then check if the absolute difference between the current index `i` and the stored index of that number is less than or equal to `k`. If both conditions are met, we return `true`.\n\nIf the number has not been seen before, or if the conditions are not met, we update the dictionary with the current index of the number. This process continues until we either find a valid pair or finish iterating through the array.\n\nThe time complexity of this solution is O(n) because we make a single pass through the array, and each dictionary operation (insertion and lookup) is O(1) on average. The space complexity is O(n) in the worst case, where all elements are unique and we store each index in the dictionary."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: True\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:43"
+}

@@ -1,0 +1,67 @@
+{
+  "problem": {
+    "id": "44",
+    "frontend_id": "44",
+    "title": "Wildcard Matching",
+    "description": "Given an input string (s) and a pattern (p), implement wildcard pattern matching with support for '?' and '*' where:\n\n'?' Matches any single character.\n'*' Matches any sequence of characters (including the empty sequence).\n\nThe matching should cover the entire input string (not partial).\n \nExample 1:\n\nInput: s = \"aa\", p = \"a\"\nOutput: false\nExplanation: \"a\" does not match the entire string \"aa\".\n\nExample 2:\n\nInput: s = \"aa\", p = \"*\"\nOutput: true\nExplanation: '*' matches any sequence.\n\nExample 3:\n\nInput: s = \"cb\", p = \"?a\"\nOutput: false\nExplanation: '?' matches 'c', but the second letter is 'a', which does not match 'b'.\n\n \nConstraints:\n\n0 <= s.length, p.length <= 2000\ns contains only lowercase English letters.\np contains only lowercase English letters, '?' or '*'.\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "\"aa\"",
+      "\"a\"",
+      "\"aa\"",
+      "\"*\"",
+      "\"cb\"",
+      "\"?a\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "s": "\"aa\"",
+          "p": "\"a\""
+        },
+        "expected": "false"
+      },
+      {
+        "input": {
+          "s": "\"aa\"",
+          "p": "\"*\""
+        },
+        "expected": "true"
+      },
+      {
+        "input": {
+          "s": "\"cb\"",
+          "p": "\"?a\""
+        },
+        "expected": "false"
+      }
+    ],
+    "python_starter": "class Solution:\n    def isMatch(self, s: str, p: str) -> bool:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "isMatch",
+      "params": [
+        {
+          "name": "s",
+          "type": "string"
+        },
+        {
+          "name": "p",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def isMatch(self, s: str, p: str) -> bool:\n        m, n = len(s), len(p)\n        # Create a DP table with (m+1) x (n+1)\n        dp = [[False] * (n + 1) for _ in range(m + 1)]\n        \n        # Base case: empty pattern matches empty string\n        dp[0][0] = True\n        \n        # Fill the first row for patterns with '*'\n        for j in range(1, n + 1):\n            if p[j - 1] == '*':\n                dp[0][j] = dp[0][j - 1]\n        \n        # Fill the DP table\n        for i in range(1, m + 1):\n            for j in range(1, n + 1):\n                if p[j - 1] == '*':\n                    # '*' can match zero characters or one/more characters\n                    dp[i][j] = dp[i][j - 1] or dp[i - 1][j]\n                elif p[j - 1] == '?' or p[j - 1] == s[i - 1]:\n                    # Match current characters\n                    dp[i][j] = dp[i - 1][j - 1]\n        \n        return dp[m][n]",
+    "explanation": "The solution uses dynamic programming to determine if the input string `s` matches the pattern `p` that may contain wildcards `?` and `*`. \n\n1. **DP Table Initialization**: We create a 2D list `dp` where `dp[i][j]` indicates if the first `i` characters of `s` match the first `j` characters of `p`. The table is initialized with `False`, except for `dp[0][0]`, which is `True` because an empty pattern matches an empty string.\n\n2. **Filling the Table**: \n   - For each character in the pattern, if it is a `*`, we check if it can match zero characters (look at the left cell) or one/more characters (look at the cell above).\n   - If the character is a `?` or matches the corresponding character in `s`, we carry over the match status from the previous characters.\n\n3. **Final Result**: The value at `dp[m][n]` gives the final answer, indicating whether the entire string matches the entire pattern.\n\n**Time Complexity**: O(m * n), where m is the length of `s` and n is the length of `p`.  \n**Space Complexity**: O(m * n) for the DP table. \n\nThis approach efficiently handles the wildcard matching problem within the given constraints."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: False\nTest case 2:\n[PASS] Test passed: True\nTest case 3:\n[PASS] Test passed: False\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:29"
+}

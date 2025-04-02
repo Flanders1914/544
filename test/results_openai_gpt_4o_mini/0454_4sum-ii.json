@@ -1,0 +1,74 @@
+{
+  "problem": {
+    "id": "454",
+    "frontend_id": "454",
+    "title": "4Sum II",
+    "description": "Given four integer arrays nums1, nums2, nums3, and nums4 all of length n, return the number of tuples (i, j, k, l) such that:\n\n0 <= i, j, k, l < n\nnums1[i] + nums2[j] + nums3[k] + nums4[l] == 0\n\n \nExample 1:\n\nInput: nums1 = [1,2], nums2 = [-2,-1], nums3 = [-1,2], nums4 = [0,2]\nOutput: 2\nExplanation:\nThe two tuples are:\n1. (0, 0, 0, 1) -> nums1[0] + nums2[0] + nums3[0] + nums4[1] = 1 + (-2) + (-1) + 2 = 0\n2. (1, 1, 0, 0) -> nums1[1] + nums2[1] + nums3[0] + nums4[0] = 2 + (-1) + (-1) + 0 = 0\n\nExample 2:\n\nInput: nums1 = [0], nums2 = [0], nums3 = [0], nums4 = [0]\nOutput: 1\n\n \nConstraints:\n\nn == nums1.length\nn == nums2.length\nn == nums3.length\nn == nums4.length\n1 <= n <= 200\n-228 <= nums1[i], nums2[i], nums3[i], nums4[i] <= 228\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[1,2]",
+      "[-2,-1]",
+      "[-1,2]",
+      "[0,2]",
+      "[0]",
+      "[0]",
+      "[0]",
+      "[0]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums1": "[1,2]",
+          "nums2": "[-2,-1]",
+          "nums3": "[-1,2]",
+          "nums4": "[0,2]"
+        },
+        "expected": "2"
+      },
+      {
+        "input": {
+          "nums1": "[0]",
+          "nums2": "[0]",
+          "nums3": "[0]",
+          "nums4": "[0]"
+        },
+        "expected": "1"
+      }
+    ],
+    "python_starter": "class Solution:\n    def fourSumCount(self, nums1: List[int], nums2: List[int], nums3: List[int], nums4: List[int]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "fourSumCount",
+      "params": [
+        {
+          "name": "nums1",
+          "type": "integer[]"
+        },
+        {
+          "name": "nums2",
+          "type": "integer[]"
+        },
+        {
+          "name": "nums3",
+          "type": "integer[]"
+        },
+        {
+          "name": "nums4",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\nfrom collections import defaultdict\n\nclass Solution:\n    def fourSumCount(self, nums1: List[int], nums2: List[int], nums3: List[int], nums4: List[int]) -> int:\n        # Create a hash map to store the sums of nums1 and nums2\n        sum_count = defaultdict(int)\n        \n        # Calculate all possible sums of nums1 and nums2\n        for num1 in nums1:\n            for num2 in nums2:\n                sum_count[num1 + num2] += 1\n        \n        # Initialize the result counter\n        result = 0\n        \n        # Calculate all possible sums of nums3 and nums4 and check against the hash map\n        for num3 in nums3:\n            for num4 in nums4:\n                target = -(num3 + num4)  # We need this sum to be zero\n                if target in sum_count:\n                    result += sum_count[target]  # Add the count of this sum\n        \n        return result",
+    "explanation": "The solution uses a hash map to efficiently count the number of valid tuples that sum to zero. \n\n1. **Building the Hash Map**: We iterate through each element in `nums1` and `nums2`, calculating all possible sums and storing their counts in `sum_count`. This allows us to quickly look up how many pairs from `nums1` and `nums2` can form a specific sum.\n\n2. **Finding Valid Tuples**: Next, we iterate through each element in `nums3` and `nums4`. For each pair, we compute the target sum that would make the total zero (i.e., `-(num3 + num4)`). We then check if this target exists in our hash map. If it does, we add the count of that sum to our result, as it indicates how many pairs from `nums1` and `nums2` can combine with the current pair from `nums3` and `nums4` to achieve a total of zero.\n\n3. **Complexity Analysis**: The time complexity of this solution is O(n^2) due to the nested loops for creating the hash map and checking sums. The space complexity is also O(n^2) in the worst case, where all sums are unique and stored in the hash map.\n\nThis approach is efficient and works well within the problem's constraints, allowing us to handle the maximum input sizes comfortably."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 2\nTest case 2:\n[PASS] Test passed: 1\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:57"
+}

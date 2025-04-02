@@ -1,0 +1,40 @@
+{
+  "id": "371",
+  "frontend_id": "371",
+  "title": "Sum of Two Integers",
+  "description": "Given two integers a and b, return the sum of the two integers without using the operators + and -.\n \nExample 1:\nInput: a = 1, b = 2\nOutput: 3\nExample 2:\nInput: a = 2, b = 3\nOutput: 5\n\n \nConstraints:\n\n-1000 <= a, b <= 1000\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "1",
+    "2",
+    "2",
+    "3"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "a": "1",
+        "b": "2"
+      },
+      "expected": "3"
+    }
+  ],
+  "python_starter": "class Solution:\n    def getSum(self, a: int, b: int) -> int:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "getSum",
+    "params": [
+      {
+        "name": "a",
+        "type": "integer"
+      },
+      {
+        "name": "b",
+        "type": "integer"
+      }
+    ],
+    "return": {
+      "type": "integer"
+    }
+  }
+}

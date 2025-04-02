@@ -1,0 +1,54 @@
+{
+  "problem": {
+    "id": "493",
+    "frontend_id": "493",
+    "title": "Reverse Pairs",
+    "description": "Given an integer array nums, return the number of reverse pairs in the array.\nA reverse pair is a pair (i, j) where:\n\n0 <= i < j < nums.length and\nnums[i] > 2 * nums[j].\n\n \nExample 1:\n\nInput: nums = [1,3,2,3,1]\nOutput: 2\nExplanation: The reverse pairs are:\n(1, 4) --> nums[1] = 3, nums[4] = 1, 3 > 2 * 1\n(3, 4) --> nums[3] = 3, nums[4] = 1, 3 > 2 * 1\n\nExample 2:\n\nInput: nums = [2,4,3,5,1]\nOutput: 3\nExplanation: The reverse pairs are:\n(1, 4) --> nums[1] = 4, nums[4] = 1, 4 > 2 * 1\n(2, 4) --> nums[2] = 3, nums[4] = 1, 3 > 2 * 1\n(3, 4) --> nums[3] = 5, nums[4] = 1, 5 > 2 * 1\n\n \nConstraints:\n\n1 <= nums.length <= 5 * 104\n-231 <= nums[i] <= 231 - 1\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "[1,3,2,3,1]",
+      "[2,4,3,5,1]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[1,3,2,3,1]"
+        },
+        "expected": "2"
+      },
+      {
+        "input": {
+          "nums": "[2,4,3,5,1]"
+        },
+        "expected": "3"
+      }
+    ],
+    "python_starter": "class Solution:\n    def reversePairs(self, nums: List[int]) -> int:\n        ",
+    "hints": [
+      "Use the merge-sort technique.",
+      "Divide the array into two parts and sort them.",
+      "For each integer in the first part, count the number of integers that satisfy the condition from the second part. Use the pointer to help you in the counting process."
+    ],
+    "meta_data": {
+      "name": "reversePairs",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def reversePairs(self, nums: List[int]) -> int:\n        if not nums:\n            return 0\n        \n        # Helper function to perform merge sort and count reverse pairs\n        def merge_and_count(left: int, mid: int, right: int) -> int:\n            count = 0\n            j = mid + 1\n            \n            # Count reverse pairs\n            for i in range(left, mid + 1):\n                while j <= right and nums[i] > 2 * nums[j]:\n                    j += 1\n                count += (j - (mid + 1))\n            \n            # Merge step\n            temp = []\n            i, j = left, mid + 1\n            \n            while i <= mid and j <= right:\n                if nums[i] <= nums[j]:\n                    temp.append(nums[i])\n                    i += 1\n                else:\n                    temp.append(nums[j])\n                    j += 1\n            \n            while i <= mid:\n                temp.append(nums[i])\n                i += 1\n            \n            while j <= right:\n                temp.append(nums[j])\n                j += 1\n            \n            # Copy the sorted elements back into the original array\n            for i in range(len(temp)):\n                nums[left + i] = temp[i]\n            \n            return count\n        \n        def merge_sort_and_count(left: int, right: int) -> int:\n            if left >= right:\n                return 0\n            \n            mid = (left + right) // 2\n            count = merge_sort_and_count(left, mid) + merge_sort_and_count(mid + 1, right)\n            count += merge_and_count(left, mid, right)\n            return count\n        \n        return merge_sort_and_count(0, len(nums) - 1)",
+    "explanation": "The solution uses a modified merge sort algorithm to count the number of reverse pairs in the array. Here's a breakdown of how it works:\n\n1. **Merge Sort**: The `merge_sort_and_count` function recursively divides the array into halves until it reaches single elements. It then merges these halves back together while counting reverse pairs.\n\n2. **Counting Reverse Pairs**: In the `merge_and_count` function, for each element in the left half of the array, we check how many elements in the right half are less than half of that element. This is done using a two-pointer technique, which efficiently counts the valid pairs.\n\n3. **Merging**: After counting the reverse pairs, we merge the two halves back into a temporary array and then copy the sorted elements back into the original array.\n\nThe overall time complexity of this approach is O(n log n) due to the merge sort, and the space complexity is O(n) for the temporary array used during merging. This makes the solution efficient and suitable for the input constraints."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 2\nTest case 2:\n[PASS] Test passed: 3\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:01:20"
+}
