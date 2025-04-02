@@ -1,0 +1,58 @@
+{
+  "problem": {
+    "id": "440",
+    "frontend_id": "440",
+    "title": "K-th Smallest in Lexicographical Order",
+    "description": "Given two integers n and k, return the kth lexicographically smallest integer in the range [1, n].\n \nExample 1:\n\nInput: n = 13, k = 2\nOutput: 10\nExplanation: The lexicographical order is [1, 10, 11, 12, 13, 2, 3, 4, 5, 6, 7, 8, 9], so the second smallest number is 10.\n\nExample 2:\n\nInput: n = 1, k = 1\nOutput: 1\n\n \nConstraints:\n\n1 <= k <= n <= 109\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "13",
+      "2",
+      "1",
+      "1"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "n": "13",
+          "k": "2"
+        },
+        "expected": "10"
+      },
+      {
+        "input": {
+          "n": "1",
+          "k": "1"
+        },
+        "expected": "1"
+      }
+    ],
+    "python_starter": "class Solution:\n    def findKthNumber(self, n: int, k: int) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "findKthNumber",
+      "params": [
+        {
+          "name": "n",
+          "type": "integer"
+        },
+        {
+          "name": "k",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def findKthNumber(self, n: int, k: int) -> int:\n        current = 1  # Start with the smallest lexicographical number\n        k -= 1  # We start counting from the first number, so decrement k\n        \n        while k > 0:\n            count = 0\n            first = current\n            last = current + 1\n            \n            # Count how many numbers are in the range [first, last) that are <= n\n            while first <= n:\n                count += min(n + 1, last) - first  # Count the numbers in the range\n                first *= 10  # Move to the next level in the tree\n                last *= 10   # Move to the next level in the tree\n            \n            if count <= k:\n                # If there are not enough numbers, move to the next prefix\n                current += 1\n                k -= count  # Decrease k by the count of numbers we just counted\n            else:\n                # If there are enough numbers, go deeper into the tree\n                current *= 10  # Go to the next level\n            \n        return current",
+    "explanation": "The solution uses a tree-like structure to navigate through the lexicographical order of numbers. The main steps are as follows:\n\n1. **Initialization**: Start with the smallest number (1) and decrement k by 1 since we are counting from the first number.\n2. **Counting Loop**: While k is greater than 0, we count how many numbers can be formed with the current prefix:\n   - Use a while loop to count numbers starting from `first` to `last` (where `last` is the next prefix).\n   - For each prefix, we multiply `first` and `last` by 10 to go deeper into the tree.\n3. **Decision Making**:\n   - If the count of numbers is less than or equal to k, it means we need to move to the next prefix (increment current).\n   - If the count is greater than k, we go deeper into the tree (multiply current by 10).\n4. **Return Result**: Once k reaches 0, the current number is the k-th smallest in lexicographical order.\n\n**Time Complexity**: O(log n), since we are effectively traversing a tree where each level reduces the range significantly.\n\n**Space Complexity**: O(1), as we are using a constant amount of space for variables."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:56"
+}

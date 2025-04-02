@@ -1,0 +1,50 @@
+{
+  "problem": {
+    "id": "45",
+    "frontend_id": "45",
+    "title": "Jump Game II",
+    "description": "You are given a 0-indexed array of integers nums of length n. You are initially positioned at nums[0].\nEach element nums[i] represents the maximum length of a forward jump from index i. In other words, if you are at nums[i], you can jump to any nums[i + j] where:\n\n0 <= j <= nums[i] and\ni + j < n\n\nReturn the minimum number of jumps to reach nums[n - 1]. The test cases are generated such that you can reach nums[n - 1].\n \nExample 1:\n\nInput: nums = [2,3,1,1,4]\nOutput: 2\nExplanation: The minimum number of jumps to reach the last index is 2. Jump 1 step from index 0 to 1, then 3 steps to the last index.\n\nExample 2:\n\nInput: nums = [2,3,0,1,4]\nOutput: 2\n\n \nConstraints:\n\n1 <= nums.length <= 104\n0 <= nums[i] <= 1000\nIt's guaranteed that you can reach nums[n - 1].\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[2,3,1,1,4]",
+      "[2,3,0,1,4]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[2,3,1,1,4]"
+        },
+        "expected": "2"
+      },
+      {
+        "input": {
+          "nums": "[2,3,0,1,4]"
+        },
+        "expected": "2"
+      }
+    ],
+    "python_starter": "class Solution:\n    def jump(self, nums: List[int]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "jump",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def jump(self, nums: List[int]) -> int:\n        jumps = 0  # Number of jumps made\n        current_end = 0  # The farthest point that can be reached with the current number of jumps\n        farthest = 0  # The farthest point that can be reached with the next jump\n        \n        for i in range(len(nums) - 1):  # We don't need to jump from the last index\n            farthest = max(farthest, i + nums[i])  # Update the farthest point we can reach\n            \n            # If we have reached the end of the range for the current jump\n            if i == current_end:\n                jumps += 1  # We need to make a jump\n                current_end = farthest  # Update the end for the next jump\n                \n                # If we can reach or exceed the last index, we can stop\n                if current_end >= len(nums) - 1:\n                    break\n        \n        return jumps",
+    "explanation": "The solution uses a greedy approach to find the minimum number of jumps needed to reach the last index of the array. The key steps in the algorithm are as follows:\n\n1. **Initialization**: We start with `jumps` set to 0, `current_end` set to 0, and `farthest` set to 0. The `jumps` variable counts how many jumps we have made, while `current_end` keeps track of the maximum index we can reach with the current number of jumps.\n\n2. **Iterate through the array**: We loop through the array up to the second last index (since we don't need to jump from the last index). For each index `i`, we calculate the farthest index we can reach from that position using `farthest = max(farthest, i + nums[i])`.\n\n3. **Check if we need to jump**: When we reach the `current_end`, it indicates that we need to make a jump to continue. We increment the `jumps` counter and update `current_end` to `farthest`.\n\n4. **Early exit**: If at any point `current_end` reaches or exceeds the last index, we can break out of the loop early as we have found the minimum jumps required.\n\nThe time complexity of this solution is O(n) because we traverse the list once, and the space complexity is O(1) since we only use a constant amount of extra space.\n\nOverall, this approach efficiently calculates the minimum number of jumps needed to reach the end of the array while ensuring optimal performance."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 2\nTest case 2:\n[PASS] Test passed: 2\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:29"
+}

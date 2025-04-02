@@ -1,0 +1,68 @@
+{
+  "problem": {
+    "id": "117",
+    "frontend_id": "117",
+    "title": "Populating Next Right Pointers in Each Node II",
+    "description": "Given a binary tree\n\nstruct Node {\n  int val;\n  Node *left;\n  Node *right;\n  Node *next;\n}\n\nPopulate each next pointer to point to its next right node. If there is no next right node, the next pointer should be set to NULL.\nInitially, all next pointers are set to NULL.\n \nExample 1:\n\n\nInput: root = [1,2,3,4,5,null,7]\nOutput: [1,#,2,3,#,4,5,7,#]\nExplanation: Given the above binary tree (Figure A), your function should populate each next pointer to point to its next right node, just like in Figure B. The serialized output is in level order as connected by the next pointers, with '#' signifying the end of each level.\n\nExample 2:\n\nInput: root = []\nOutput: []\n\n \nConstraints:\n\nThe number of nodes in the tree is in the range [0, 6000].\n-100 <= Node.val <= 100\n\n \nFollow-up:\n\nYou may only use constant extra space.\nThe recursive approach is fine. You may assume implicit stack space does not count as extra space for this problem.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[1,2,3,4,5,null,7]",
+      "[]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "root": "[1,2,3,4,5,null,7]"
+        },
+        "expected": "[1,#,2,3,#,4,5,7,#]"
+      },
+      {
+        "input": {
+          "root": "[]"
+        },
+        "expected": "[]"
+      }
+    ],
+    "python_starter": "\"\"\"\n# Definition for a Node.\nclass Node:\n    def __init__(self, val: int = 0, left: 'Node' = None, right: 'Node' = None, next: 'Node' = None):\n        self.val = val\n        self.left = left\n        self.right = right\n        self.next = next\n\"\"\"\n\nclass Solution:\n    def connect(self, root: 'Node') -> 'Node':\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "connect",
+      "params": [
+        {
+          "name": "root",
+          "type": "TreeNode"
+        }
+      ],
+      "return": {
+        "type": "TreeNode"
+      },
+      "languages": [
+        "cpp",
+        "java",
+        "python",
+        "csharp",
+        "javascript",
+        "python3",
+        "golang",
+        "swift",
+        "kotlin",
+        "ruby",
+        "c",
+        "scala",
+        "php",
+        "typescript"
+      ],
+      "manual": true,
+      "typescriptCustomType": "class _Node {\n    val: number\n    left: _Node | null\n    right: _Node | null\n    next: _Node | null\n\n    constructor(val?: number, left?: _Node, right?: _Node, next?: _Node) {\n        this.val = (val===undefined ? 0 : val)\n        this.left = (left===undefined ? null : left)\n        this.right = (right===undefined ? null : right)\n        this.next = (next===undefined ? null : next)\n    }\n}\n"
+    }
+  },
+  "solution": {
+    "code": "# Definition for a Node.\nclass Node:\n    def __init__(self, val: int = 0, left: 'Node' = None, right: 'Node' = None, next: 'Node' = None):\n        self.val = val\n        self.left = left\n        self.right = right\n        self.next = next\n\nclass Solution:\n    def connect(self, root: 'Node') -> 'Node':\n        if not root:\n            return root\n        \n        # Start with the root node\n        current = root\n        \n        while current:\n            # Initialize a dummy node to help connect the next level\n            dummy = Node(0)\n            tail = dummy\n            \n            # Traverse the current level\n            while current:\n                # Connect the left child if it exists\n                if current.left:\n                    tail.next = current.left\n                    tail = tail.next\n                \n                # Connect the right child if it exists\n                if current.right:\n                    tail.next = current.right\n                    tail = tail.next\n                \n                # Move to the next node in the current level\n                current = current.next\n            \n            # Move to the next level\n            current = dummy.next\n        \n        return root",
+    "explanation": "The provided solution implements a level-order traversal of the binary tree while populating the `next` pointers. \n\n1. **Initialization**: We start with the root node. If the root is `None`, we return immediately.\n2. **Outer Loop**: We use a `while` loop to traverse each level of the tree. The `current` pointer keeps track of the nodes at the current level.\n3. **Dummy Node**: A dummy node is used to facilitate the connection of nodes at the next level. The `tail` pointer is used to keep track of the last connected node in the next level.\n4. **Inner Loop**: For each node in the current level, we check if it has a left or right child. If it does, we connect it to the `tail` and move the `tail` pointer to the newly connected child.\n5. **Move to Next Level**: After processing all nodes at the current level, we move the `current` pointer to the first node of the next level using the `dummy` node.\n\n**Time Complexity**: O(N), where N is the number of nodes in the tree. Each node is processed exactly once.\n\n**Space Complexity**: O(1) for the extra space used, as we only use a few pointers and the existing `next` pointers for traversal.\n\nThis solution efficiently populates the next right pointers in the binary tree while adhering to the constraints provided."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmp0btdbfum.py\", line 78\n    expected_0 = [1,#,2,3,#,4,5,7,#]\n                 ^\nSyntaxError: '[' was never closed\n"
+  },
+  "timestamp": "2025-04-01 18:00:36"
+}

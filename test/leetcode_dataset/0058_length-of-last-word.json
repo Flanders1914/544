@@ -1,0 +1,46 @@
+{
+  "id": "58",
+  "frontend_id": "58",
+  "title": "Length of Last Word",
+  "description": "Given a string s consisting of words and spaces, return the length of the last word in the string.\nA word is a maximal substring consisting of non-space characters only.\n \nExample 1:\n\nInput: s = \"Hello World\"\nOutput: 5\nExplanation: The last word is \"World\" with length 5.\n\nExample 2:\n\nInput: s = \"   fly me   to   the moon  \"\nOutput: 4\nExplanation: The last word is \"moon\" with length 4.\n\nExample 3:\n\nInput: s = \"luffy is still joyboy\"\nOutput: 6\nExplanation: The last word is \"joyboy\" with length 6.\n\n \nConstraints:\n\n1 <= s.length <= 104\ns consists of only English letters and spaces ' '.\nThere will be at least one word in s.\n\n",
+  "difficulty": "Easy",
+  "examples": [
+    "\"Hello World\"",
+    "\"   fly me   to   the moon  \"",
+    "\"luffy is still joyboy\""
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "s": "\"Hello World\""
+      },
+      "expected": "5"
+    },
+    {
+      "input": {
+        "s": "\"   fly me   to   the moon  \""
+      },
+      "expected": "4"
+    },
+    {
+      "input": {
+        "s": "\"luffy is still joyboy\""
+      },
+      "expected": "6"
+    }
+  ],
+  "python_starter": "class Solution:\n    def lengthOfLastWord(self, s: str) -> int:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "lengthOfLastWord",
+    "params": [
+      {
+        "name": "s",
+        "type": "string"
+      }
+    ],
+    "return": {
+      "type": "integer"
+    }
+  }
+}

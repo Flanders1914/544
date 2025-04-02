@@ -1,0 +1,53 @@
+{
+  "problem": {
+    "id": "292",
+    "frontend_id": "292",
+    "title": "Nim Game",
+    "description": "You are playing the following Nim Game with your friend:\n\nInitially, there is a heap of stones on the table.\nYou and your friend will alternate taking turns, and you go first.\nOn each turn, the person whose turn it is will remove 1 to 3 stones from the heap.\nThe one who removes the last stone is the winner.\n\nGiven n, the number of stones in the heap, return true if you can win the game assuming both you and your friend play optimally, otherwise return false.\n \nExample 1:\n\nInput: n = 4\nOutput: false\nExplanation: These are the possible outcomes:\n1. You remove 1 stone. Your friend removes 3 stones, including the last stone. Your friend wins.\n2. You remove 2 stones. Your friend removes 2 stones, including the last stone. Your friend wins.\n3. You remove 3 stones. Your friend removes the last stone. Your friend wins.\nIn all outcomes, your friend wins.\n\nExample 2:\n\nInput: n = 1\nOutput: true\n\nExample 3:\n\nInput: n = 2\nOutput: true\n\n \nConstraints:\n\n1 <= n <= 231 - 1\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "4",
+      "1",
+      "2"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "n": "4"
+        },
+        "expected": "false"
+      },
+      {
+        "input": {
+          "n": "1"
+        },
+        "expected": "true"
+      }
+    ],
+    "python_starter": "class Solution:\n    def canWinNim(self, n: int) -> bool:\n        ",
+    "hints": [
+      "If there are 5 stones in the heap, could you figure out a way to remove the stones such that you will always be the winner?"
+    ],
+    "meta_data": {
+      "name": "canWinNim",
+      "params": [
+        {
+          "name": "n",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def canWinNim(self, n: int) -> bool:\n        # If n is a multiple of 4, you cannot win\n        return n % 4 != 0",
+    "explanation": "The solution leverages the mathematical property of the game. The key insight is that the losing positions occur at multiples of 4. If `n` is a multiple of 4, no matter how many stones you take (1, 2, or 3), your opponent can always respond in a way that leaves you with another multiple of 4. Thus, you will eventually lose if both players play optimally.\n\nThe time complexity of this solution is O(1) since it only involves a single modulus operation. The space complexity is also O(1) as we are using a constant amount of space for the computation.\n\nIn summary, the function checks if `n` is a multiple of 4 and returns `False` if it is (indicating a loss), and `True` otherwise (indicating a win)."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: False\nTest case 2:\n[PASS] Test passed: True\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:46"
+}

@@ -1,0 +1,44 @@
+{
+  "problem": {
+    "id": "111",
+    "frontend_id": "111",
+    "title": "Minimum Depth of Binary Tree",
+    "description": "Given a binary tree, find its minimum depth.\nThe minimum depth is the number of nodes along the shortest path from the root node down to the nearest leaf node.\nNote: A leaf is a node with no children.\n \nExample 1:\n\n\nInput: root = [3,9,20,null,null,15,7]\nOutput: 2\n\nExample 2:\n\nInput: root = [2,null,3,null,4,null,5,null,6]\nOutput: 5\n\n \nConstraints:\n\nThe number of nodes in the tree is in the range [0, 105].\n-1000 <= Node.val <= 1000\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "[3,9,20,null,null,15,7]",
+      "[2,null,3,null,4,null,5,null,6]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "root": "[3,9,20,null,null,15,7]"
+        },
+        "expected": "2"
+      }
+    ],
+    "python_starter": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def minDepth(self, root: Optional[TreeNode]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "minDepth",
+      "params": [
+        {
+          "name": "root",
+          "type": "TreeNode"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nfrom collections import deque\nfrom typing import Optional\n\nclass Solution:\n    def minDepth(self, root: Optional[TreeNode]) -> int:\n        # If the tree is empty, return 0\n        if not root:\n            return 0\n        \n        # Initialize a queue for BFS\n        queue = deque([(root, 1)])  # (node, depth)\n        \n        while queue:\n            node, depth = queue.popleft()\n            \n            # Check if it's a leaf node\n            if not node.left and not node.right:\n                return depth\n            \n            # Add children to the queue with incremented depth\n            if node.left:\n                queue.append((node.left, depth + 1))\n            if node.right:\n                queue.append((node.right, depth + 1))",
+    "explanation": "The provided solution uses a breadth-first search (BFS) approach to find the minimum depth of a binary tree. \n\n1. **Initialization**: We start by checking if the root is null. If it is, we return 0 since there are no nodes in the tree. We then initialize a queue using `deque` from the `collections` module, which will hold tuples of nodes and their corresponding depths.\n\n2. **BFS Traversal**: We enter a while loop that continues until the queue is empty. In each iteration, we pop the front node from the queue. We check if this node is a leaf node (both left and right children are null). If it is, we return the current depth, as this is the minimum depth we are looking for.\n\n3. **Adding Children**: If the node is not a leaf, we check if it has left and right children. If it does, we add them to the queue with their depth incremented by 1.\n\n4. **Time Complexity**: The time complexity of this solution is O(N), where N is the number of nodes in the tree. In the worst case, we may need to visit all nodes.\n\n5. **Space Complexity**: The space complexity is O(W), where W is the maximum width of the tree. In the worst case, the queue could hold all nodes at the deepest level.\n\nThis solution efficiently finds the minimum depth of the binary tree using BFS, ensuring that we return the correct result in optimal time."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:35"
+}

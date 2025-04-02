@@ -1,0 +1,56 @@
+{
+  "id": "10",
+  "frontend_id": "10",
+  "title": "Regular Expression Matching",
+  "description": "Given an input string s and a pattern p, implement regular expression matching with support for '.' and '*' where:\n\n'.' Matches any single character.​​​​\n'*' Matches zero or more of the preceding element.\n\nThe matching should cover the entire input string (not partial).\n \nExample 1:\n\nInput: s = \"aa\", p = \"a\"\nOutput: false\nExplanation: \"a\" does not match the entire string \"aa\".\n\nExample 2:\n\nInput: s = \"aa\", p = \"a*\"\nOutput: true\nExplanation: '*' means zero or more of the preceding element, 'a'. Therefore, by repeating 'a' once, it becomes \"aa\".\n\nExample 3:\n\nInput: s = \"ab\", p = \".*\"\nOutput: true\nExplanation: \".*\" means \"zero or more (*) of any character (.)\".\n\n \nConstraints:\n\n1 <= s.length <= 20\n1 <= p.length <= 20\ns contains only lowercase English letters.\np contains only lowercase English letters, '.', and '*'.\nIt is guaranteed for each appearance of the character '*', there will be a previous valid character to match.\n\n",
+  "difficulty": "Hard",
+  "examples": [
+    "\"aa\"",
+    "\"a\"",
+    "\"aa\"",
+    "\"a*\"",
+    "\"ab\"",
+    "\".*\""
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "s": "\"aa\"",
+        "p": "\"a\""
+      },
+      "expected": "false"
+    },
+    {
+      "input": {
+        "s": "\"aa\"",
+        "p": "\"a*\""
+      },
+      "expected": "true"
+    },
+    {
+      "input": {
+        "s": "\"ab\"",
+        "p": "\".*\""
+      },
+      "expected": "true"
+    }
+  ],
+  "python_starter": "class Solution:\n    def isMatch(self, s: str, p: str) -> bool:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "isMatch",
+    "params": [
+      {
+        "name": "s",
+        "type": "string"
+      },
+      {
+        "name": "p",
+        "type": "string"
+      }
+    ],
+    "return": {
+      "type": "boolean"
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "id": "617",
+  "frontend_id": "617",
+  "title": "Merge Two Binary Trees",
+  "description": "You are given two binary trees root1 and root2.\nImagine that when you put one of them to cover the other, some nodes of the two trees are overlapped while the others are not. You need to merge the two trees into a new binary tree. The merge rule is that if two nodes overlap, then sum node values up as the new value of the merged node. Otherwise, the NOT null node will be used as the node of the new tree.\nReturn the merged tree.\nNote: The merging process must start from the root nodes of both trees.\n \nExample 1:\n\n\nInput: root1 = [1,3,2,5], root2 = [2,1,3,null,4,null,7]\nOutput: [3,4,5,5,4,null,7]\n\nExample 2:\n\nInput: root1 = [1], root2 = [1,2]\nOutput: [2,2]\n\n \nConstraints:\n\nThe number of nodes in both trees is in the range [0, 2000].\n-104 <= Node.val <= 104\n\n",
+  "difficulty": "Easy",
+  "examples": [
+    "[1,3,2,5]",
+    "[2,1,3,null,4,null,7]",
+    "[1]",
+    "[1,2]"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "root1": "[1,3,2,5]",
+        "root2": "[2,1,3,null,4,null,7]"
+      },
+      "expected": "[3,4,5,5,4,null,7]"
+    }
+  ],
+  "python_starter": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def mergeTrees(self, root1: Optional[TreeNode], root2: Optional[TreeNode]) -> Optional[TreeNode]:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "mergeTrees",
+    "params": [
+      {
+        "name": "root1",
+        "type": "TreeNode",
+        "dealloc": false
+      },
+      {
+        "name": "root2",
+        "type": "TreeNode",
+        "dealloc": false
+      }
+    ],
+    "return": {
+      "type": "TreeNode"
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "id": "483",
+  "frontend_id": "483",
+  "title": "Smallest Good Base",
+  "description": "Given an integer n represented as a string, return the smallest good base of n.\nWe call k >= 2 a good base of n, if all digits of n base k are 1's.\n \nExample 1:\n\nInput: n = \"13\"\nOutput: \"3\"\nExplanation: 13 base 3 is 111.\n\nExample 2:\n\nInput: n = \"4681\"\nOutput: \"8\"\nExplanation: 4681 base 8 is 11111.\n\nExample 3:\n\nInput: n = \"1000000000000000000\"\nOutput: \"999999999999999999\"\nExplanation: 1000000000000000000 base 999999999999999999 is 11.\n\n \nConstraints:\n\nn is an integer in the range [3, 1018].\nn does not contain any leading zeros.\n\n",
+  "difficulty": "Hard",
+  "examples": [
+    "\"13\"",
+    "\"4681\"",
+    "\"1000000000000000000\""
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "n": "\"13\""
+      },
+      "expected": "3"
+    },
+    {
+      "input": {
+        "n": "\"4681\""
+      },
+      "expected": "8"
+    },
+    {
+      "input": {
+        "n": "\"1000000000000000000\""
+      },
+      "expected": "999999999999999999"
+    }
+  ],
+  "python_starter": "class Solution:\n    def smallestGoodBase(self, n: str) -> str:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "smallestGoodBase",
+    "params": [
+      {
+        "name": "n",
+        "type": "string"
+      }
+    ],
+    "return": {
+      "type": "string"
+    }
+  }
+}

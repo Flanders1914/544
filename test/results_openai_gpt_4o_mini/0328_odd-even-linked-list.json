@@ -1,0 +1,46 @@
+{
+  "problem": {
+    "id": "328",
+    "frontend_id": "328",
+    "title": "Odd Even Linked List",
+    "description": "Given the head of a singly linked list, group all the nodes with odd indices together followed by the nodes with even indices, and return the reordered list.\nThe first node is considered odd, and the second node is even, and so on.\nNote that the relative order inside both the even and odd groups should remain as it was in the input.\nYou must solve the problem in O(1) extra space complexity and O(n) time complexity.\n \nExample 1:\n\n\nInput: head = [1,2,3,4,5]\nOutput: [1,3,5,2,4]\n\nExample 2:\n\n\nInput: head = [2,1,3,5,6,4,7]\nOutput: [2,3,6,7,1,5,4]\n\n \nConstraints:\n\nThe number of nodes in the linked list is in the range [0, 104].\n-106 <= Node.val <= 106\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[1,2,3,4,5]",
+      "[2,1,3,5,6,4,7]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "head": "[1,2,3,4,5]"
+        },
+        "expected": "[1,3,5,2,4]"
+      }
+    ],
+    "python_starter": "# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution:\n    def oddEvenList(self, head: Optional[ListNode]) -> Optional[ListNode]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "oddEvenList",
+      "params": [
+        {
+          "name": "head",
+          "type": "ListNode",
+          "dealloc": false
+        }
+      ],
+      "return": {
+        "type": "ListNode",
+        "dealloc": true
+      }
+    }
+  },
+  "solution": {
+    "code": "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\n\nclass Solution:\n    def oddEvenList(self, head: Optional[ListNode]) -> Optional[ListNode]:\n        if not head or not head.next:\n            return head\n        \n        # Initialize pointers for odd and even lists\n        odd = head\n        even = head.next\n        even_head = even  # Keep the head of the even list\n        \n        # Rearranging the nodes\n        while even and even.next:\n            odd.next = even.next  # Link odd nodes\n            odd = odd.next        # Move to the next odd node\n            even.next = odd.next  # Link even nodes\n            even = even.next      # Move to the next even node\n        \n        odd.next = even_head  # Connect the end of odd list to the head of even list\n        return head",
+    "explanation": "The solution involves a single traversal of the linked list, which allows us to rearrange the nodes in O(n) time complexity. We maintain two pointers, `odd` and `even`, to keep track of the last nodes in the odd and even indexed lists, respectively. \n\n1. We start by checking if the list is empty or has only one node. If so, we return the head as is.\n2. We initialize `odd` to the head and `even` to the second node. We also keep a reference to the head of the even list (`even_head`).\n3. We enter a loop that continues as long as there are nodes in both the odd and even lists. Inside the loop:\n   - We link the current odd node to the next odd node (which is `even.next`).\n   - We then move the `odd` pointer to this new odd node.\n   - Similarly, we link the current even node to the next even node (which is `odd.next`).\n   - We move the `even` pointer to this new even node.\n4. After the loop, we connect the last odd node to the head of the even list.\n5. Finally, we return the head of the modified list.\n\nThe space complexity is O(1) since we are not using any additional data structures that grow with the input size. The time complexity is O(n) because we traverse the list once."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:48"
+}

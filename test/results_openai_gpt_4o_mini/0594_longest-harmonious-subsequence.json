@@ -1,0 +1,57 @@
+{
+  "problem": {
+    "id": "594",
+    "frontend_id": "594",
+    "title": "Longest Harmonious Subsequence",
+    "description": "We define a harmonious array as an array where the difference between its maximum value and its minimum value is exactly 1.\nGiven an integer array nums, return the length of its longest harmonious subsequence among all its possible subsequences.\n \nExample 1:\n\nInput: nums = [1,3,2,2,5,2,3,7]\nOutput: 5\nExplanation:\nThe longest harmonious subsequence is [3,2,2,2,3].\n\nExample 2:\n\nInput: nums = [1,2,3,4]\nOutput: 2\nExplanation:\nThe longest harmonious subsequences are [1,2], [2,3], and [3,4], all of which have a length of 2.\n\nExample 3:\n\nInput: nums = [1,1,1,1]\nOutput: 0\nExplanation:\nNo harmonic subsequence exists.\n\n \nConstraints:\n\n1 <= nums.length <= 2 * 104\n-109 <= nums[i] <= 109\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "[1,3,2,2,5,2,3,7]",
+      "[1,2,3,4]",
+      "[1,1,1,1]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[1,3,2,2,5,2,3,7]"
+        },
+        "expected": "5"
+      },
+      {
+        "input": {
+          "nums": "[1,2,3,4]"
+        },
+        "expected": "2"
+      },
+      {
+        "input": {
+          "nums": "[1,1,1,1]"
+        },
+        "expected": "0"
+      }
+    ],
+    "python_starter": "class Solution:\n    def findLHS(self, nums: List[int]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "findLHS",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from collections import Counter\nfrom typing import List\n\nclass Solution:\n    def findLHS(self, nums: List[int]) -> int:\n        # Count the occurrences of each number in nums\n        count = Counter(nums)\n        max_length = 0\n        \n        # Iterate through the unique numbers in the count\n        for num in count:\n            # Check if the next consecutive number exists\n            if num + 1 in count:\n                # Calculate the length of the harmonious subsequence\n                current_length = count[num] + count[num + 1]\n                # Update max_length if current_length is greater\n                max_length = max(max_length, current_length)\n        \n        return max_length",
+    "explanation": "The solution uses a `Counter` from the `collections` module to count the occurrences of each number in the input list `nums`. This allows us to efficiently check how many times each number appears.\n\n1. **Counting Occurrences**: We create a frequency dictionary where the keys are the numbers from the input list and the values are their respective counts.\n\n2. **Finding Harmonious Subsequences**: We iterate through each unique number in the frequency dictionary. For each number, we check if the next consecutive number (i.e., `num + 1`) exists in the dictionary. If it does, we calculate the length of the harmonious subsequence formed by these two numbers, which is the sum of their counts.\n\n3. **Tracking Maximum Length**: We maintain a variable `max_length` to keep track of the longest harmonious subsequence found during the iteration.\n\n4. **Return Result**: Finally, we return the maximum length found.\n\n**Time Complexity**: The time complexity of this solution is O(n), where n is the number of elements in the input list `nums`. This is because we traverse the list once to count the occurrences and then iterate through the unique numbers, which is at most n.\n\n**Space Complexity**: The space complexity is O(k), where k is the number of unique elements in `nums`, due to the storage of counts in the dictionary.\n\nOverall, this approach is efficient and works well within the given constraints."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 5\nTest case 2:\n[PASS] Test passed: 2\nTest case 3:\n[PASS] Test passed: 0\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:01:27"
+}

@@ -1,0 +1,56 @@
+{
+  "id": "532",
+  "frontend_id": "532",
+  "title": "K-diff Pairs in an Array",
+  "description": "Given an array of integers nums and an integer k, return the number of unique k-diff pairs in the array.\nA k-diff pair is an integer pair (nums[i], nums[j]), where the following are true:\n\n0 <= i, j < nums.length\ni != j\n|nums[i] - nums[j]| == k\n\nNotice that |val| denotes the absolute value of val.\n \nExample 1:\n\nInput: nums = [3,1,4,1,5], k = 2\nOutput: 2\nExplanation: There are two 2-diff pairs in the array, (1, 3) and (3, 5).\nAlthough we have two 1s in the input, we should only return the number of unique pairs.\n\nExample 2:\n\nInput: nums = [1,2,3,4,5], k = 1\nOutput: 4\nExplanation: There are four 1-diff pairs in the array, (1, 2), (2, 3), (3, 4) and (4, 5).\n\nExample 3:\n\nInput: nums = [1,3,1,5,4], k = 0\nOutput: 1\nExplanation: There is one 0-diff pair in the array, (1, 1).\n\n \nConstraints:\n\n1 <= nums.length <= 104\n-107 <= nums[i] <= 107\n0 <= k <= 107\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "[3,1,4,1,5]",
+    "2",
+    "[1,2,3,4,5]",
+    "1",
+    "[1,3,1,5,4]",
+    "0"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "nums": "[3,1,4,1,5]",
+        "k": "2"
+      },
+      "expected": "2"
+    },
+    {
+      "input": {
+        "nums": "[1,2,3,4,5]",
+        "k": "1"
+      },
+      "expected": "4"
+    },
+    {
+      "input": {
+        "nums": "[1,3,1,5,4]",
+        "k": "0"
+      },
+      "expected": "1"
+    }
+  ],
+  "python_starter": "class Solution:\n    def findPairs(self, nums: List[int], k: int) -> int:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "findPairs",
+    "params": [
+      {
+        "name": "nums",
+        "type": "integer[]"
+      },
+      {
+        "name": "k",
+        "type": "integer"
+      }
+    ],
+    "return": {
+      "type": "integer"
+    }
+  }
+}

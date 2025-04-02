@@ -1,0 +1,47 @@
+{
+  "id": "377",
+  "frontend_id": "377",
+  "title": "Combination Sum IV",
+  "description": "Given an array of distinct integers nums and a target integer target, return the number of possible combinations that add up to target.\nThe test cases are generated so that the answer can fit in a 32-bit integer.\n \nExample 1:\n\nInput: nums = [1,2,3], target = 4\nOutput: 7\nExplanation:\nThe possible combination ways are:\n(1, 1, 1, 1)\n(1, 1, 2)\n(1, 2, 1)\n(1, 3)\n(2, 1, 1)\n(2, 2)\n(3, 1)\nNote that different sequences are counted as different combinations.\n\nExample 2:\n\nInput: nums = [9], target = 3\nOutput: 0\n\n \nConstraints:\n\n1 <= nums.length <= 200\n1 <= nums[i] <= 1000\nAll the elements of nums are unique.\n1 <= target <= 1000\n\n \nFollow up: What if negative numbers are allowed in the given array? How does it change the problem? What limitation we need to add to the question to allow negative numbers?\n",
+  "difficulty": "Medium",
+  "examples": [
+    "[1,2,3]",
+    "4",
+    "[9]",
+    "3"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "nums": "[1,2,3]",
+        "target": "4"
+      },
+      "expected": "7"
+    },
+    {
+      "input": {
+        "nums": "[9]",
+        "target": "3"
+      },
+      "expected": "0"
+    }
+  ],
+  "python_starter": "class Solution:\n    def combinationSum4(self, nums: List[int], target: int) -> int:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "combinationSum4",
+    "params": [
+      {
+        "name": "nums",
+        "type": "integer[]"
+      },
+      {
+        "name": "target",
+        "type": "integer"
+      }
+    ],
+    "return": {
+      "type": "integer"
+    }
+  }
+}

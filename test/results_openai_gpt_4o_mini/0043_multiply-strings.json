@@ -1,0 +1,51 @@
+{
+  "problem": {
+    "id": "43",
+    "frontend_id": "43",
+    "title": "Multiply Strings",
+    "description": "Given two non-negative integers num1 and num2 represented as strings, return the product of num1 and num2, also represented as a string.\nNote: You must not use any built-in BigInteger library or convert the inputs to integer directly.\n \nExample 1:\nInput: num1 = \"2\", num2 = \"3\"\nOutput: \"6\"\nExample 2:\nInput: num1 = \"123\", num2 = \"456\"\nOutput: \"56088\"\n\n \nConstraints:\n\n1 <= num1.length, num2.length <= 200\nnum1 and num2 consist of digits only.\nBoth num1 and num2 do not contain any leading zero, except the number 0 itself.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "\"2\"",
+      "\"3\"",
+      "\"123\"",
+      "\"456\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "num1": "\"2\"",
+          "num2": "\"3\""
+        },
+        "expected": "6"
+      }
+    ],
+    "python_starter": "class Solution:\n    def multiply(self, num1: str, num2: str) -> str:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "multiply",
+      "params": [
+        {
+          "name": "num1",
+          "type": "string"
+        },
+        {
+          "name": "num2",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "string"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def multiply(self, num1: str, num2: str) -> str:\n        # Edge case for multiplication with zero\n        if num1 == \"0\" or num2 == \"0\":\n            return \"0\"\n        \n        # Initialize the result array with zeros\n        result = [0] * (len(num1) + len(num2))\n        \n        # Reverse iterate through num1 and num2\n        for i in range(len(num1) - 1, -1, -1):\n            for j in range(len(num2) - 1, -1, -1):\n                # Multiply the digits\n                mul = (ord(num1[i]) - ord('0')) * (ord(num2[j]) - ord('0'))\n                # Position in the result array\n                p1 = i + j\n                p2 = i + j + 1\n                # Add to the result array\n                total = mul + result[p2]\n                \n                # Set the current position and carry\n                result[p2] = total % 10\n                result[p1] += total // 10\n        \n        # Convert result array to string, skipping leading zeros\n        result_str = ''.join(map(str, result)).lstrip('0')\n        \n        return result_str",
+    "explanation": "The solution implements a manual multiplication algorithm similar to how we multiply numbers on paper. \n\n1. **Initialization**: We create a result list of size `len(num1) + len(num2)` initialized to zero. This is because the maximum possible length of the product of two numbers is the sum of their lengths.\n\n2. **Nested Loops for Multiplication**: We use two nested loops to iterate through each digit of `num1` and `num2` in reverse order. For each pair of digits, we calculate their product and determine where to place the result in the `result` array.\n\n3. **Handling Carries**: After calculating the product for each digit pair, we add it to the appropriate position in the result array. If the sum exceeds 10, we carry over the excess to the next position.\n\n4. **Constructing the Final Result**: After populating the result array, we convert it to a string. We use `lstrip('0')` to remove any leading zeros, ensuring that the final output is correctly formatted.\n\n**Time Complexity**: The time complexity of this solution is O(m * n), where m and n are the lengths of `num1` and `num2`, respectively. This is because we are performing a multiplication operation for each digit of both numbers.\n\n**Space Complexity**: The space complexity is O(m + n) for the result array used to store the intermediate results.\n\nOverall, this solution efficiently handles the multiplication of large numbers represented as strings without converting them to integers directly."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:29"
+}

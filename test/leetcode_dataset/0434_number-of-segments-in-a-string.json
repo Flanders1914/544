@@ -1,0 +1,39 @@
+{
+  "id": "434",
+  "frontend_id": "434",
+  "title": "Number of Segments in a String",
+  "description": "Given a string s, return the number of segments in the string.\nA segment is defined to be a contiguous sequence of non-space characters.\n \nExample 1:\n\nInput: s = \"Hello, my name is John\"\nOutput: 5\nExplanation: The five segments are [\"Hello,\", \"my\", \"name\", \"is\", \"John\"]\n\nExample 2:\n\nInput: s = \"Hello\"\nOutput: 1\n\n \nConstraints:\n\n0 <= s.length <= 300\ns consists of lowercase and uppercase English letters, digits, or one of the following characters \"!@#$%^&*()_+-=',.:\".\nThe only space character in s is ' '.\n\n",
+  "difficulty": "Easy",
+  "examples": [
+    "\"Hello, my name is John\"",
+    "\"Hello\""
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "s": "\"Hello, my name is John\""
+      },
+      "expected": "5"
+    },
+    {
+      "input": {
+        "s": "\"Hello\""
+      },
+      "expected": "1"
+    }
+  ],
+  "python_starter": "class Solution:\n    def countSegments(self, s: str) -> int:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "countSegments",
+    "params": [
+      {
+        "name": "s",
+        "type": "string"
+      }
+    ],
+    "return": {
+      "type": "integer"
+    }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "id": "22",
+  "frontend_id": "22",
+  "title": "Generate Parentheses",
+  "description": "Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.\n \nExample 1:\nInput: n = 3\nOutput: [\"((()))\",\"(()())\",\"(())()\",\"()(())\",\"()()()\"]\nExample 2:\nInput: n = 1\nOutput: [\"()\"]\n\n \nConstraints:\n\n1 <= n <= 8\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "3",
+    "1"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "n": "3"
+      },
+      "expected": "[((())),(()()),(())(),()(()),()()()]"
+    }
+  ],
+  "python_starter": "class Solution:\n    def generateParenthesis(self, n: int) -> List[str]:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "generateParenthesis",
+    "params": [
+      {
+        "name": "n",
+        "type": "integer"
+      }
+    ],
+    "return": {
+      "type": "list<string>"
+    }
+  }
+}

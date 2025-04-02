@@ -1,0 +1,44 @@
+{
+  "problem": {
+    "id": "96",
+    "frontend_id": "96",
+    "title": "Unique Binary Search Trees",
+    "description": "Given an integer n, return the number of structurally unique BST's (binary search trees) which has exactly n nodes of unique values from 1 to n.\n \nExample 1:\n\n\nInput: n = 3\nOutput: 5\n\nExample 2:\n\nInput: n = 1\nOutput: 1\n\n \nConstraints:\n\n1 <= n <= 19\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "3",
+      "1"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "n": "3"
+        },
+        "expected": "5"
+      }
+    ],
+    "python_starter": "class Solution:\n    def numTrees(self, n: int) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "numTrees",
+      "params": [
+        {
+          "name": "n",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def numTrees(self, n: int) -> int:\n        # Create a dp array to store the number of unique BSTs for each count of nodes\n        dp = [0] * (n + 1)\n        \n        # Base cases\n        dp[0] = 1  # There is one unique BST for 0 nodes (empty tree)\n        dp[1] = 1  # There is one unique BST for 1 node\n        \n        # Fill the dp array using the recursive relationship\n        for nodes in range(2, n + 1):\n            for root in range(1, nodes + 1):\n                left_trees = dp[root - 1]  # Number of unique BSTs in the left subtree\n                right_trees = dp[nodes - root]  # Number of unique BSTs in the right subtree\n                dp[nodes] += left_trees * right_trees  # Total unique BSTs with 'nodes' nodes\n        \n        return dp[n]",
+    "explanation": "The solution uses dynamic programming to efficiently compute the number of unique binary search trees (BSTs) that can be formed with `n` nodes. The approach is based on the recursive relationship of Catalan numbers, where the number of unique BSTs for `n` nodes is derived from the number of unique BSTs that can be formed with smaller subtrees.\n\n1. **Initialization**: We create a list `dp` of size `n + 1` initialized to zero. We set `dp[0]` and `dp[1]` to 1, representing the base cases.\n\n2. **Dynamic Programming Loop**: We iterate through the number of nodes from 2 to `n`. For each count of nodes, we consider each possible root node. The number of unique BSTs is calculated by multiplying the number of unique BSTs that can be formed from the left and right subtrees.\n\n3. **Final Result**: After filling the `dp` array, the result for `n` nodes is found in `dp[n]`.\n\n**Time Complexity**: The time complexity of this solution is O(n^2) because for each node count from 2 to `n`, we iterate through all possible root nodes.\n\n**Space Complexity**: The space complexity is O(n) due to the storage of the `dp` array.\n\nThis efficient approach allows us to compute the number of unique BSTs for values of `n` up to 19, as specified in the problem constraints."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 5\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:33"
+}

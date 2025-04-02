@@ -1,0 +1,70 @@
+{
+  "problem": {
+    "id": "232",
+    "frontend_id": "232",
+    "title": "Implement Queue using Stacks",
+    "description": "Implement a first in first out (FIFO) queue using only two stacks. The implemented queue should support all the functions of a normal queue (push, peek, pop, and empty).\nImplement the MyQueue class:\n\nvoid push(int x) Pushes element x to the back of the queue.\nint pop() Removes the element from the front of the queue and returns it.\nint peek() Returns the element at the front of the queue.\nboolean empty() Returns true if the queue is empty, false otherwise.\n\nNotes:\n\nYou must use only standard operations of a stack, which means only push to top, peek/pop from top, size, and is empty operations are valid.\nDepending on your language, the stack may not be supported natively. You may simulate a stack using a list or deque (double-ended queue) as long as you use only a stack's standard operations.\n\n \nExample 1:\n\nInput\n[\"MyQueue\", \"push\", \"push\", \"peek\", \"pop\", \"empty\"]\n[[], [1], [2], [], [], []]\nOutput\n[null, null, null, 1, 1, false]\n\nExplanation\nMyQueue myQueue = new MyQueue();\nmyQueue.push(1); // queue is: [1]\nmyQueue.push(2); // queue is: [1, 2] (leftmost is front of the queue)\nmyQueue.peek(); // return 1\nmyQueue.pop(); // return 1, queue is [2]\nmyQueue.empty(); // return false\n\n \nConstraints:\n\n1 <= x <= 9\nAt most 100 calls will be made to push, pop, peek, and empty.\nAll the calls to pop and peek are valid.\n\n \nFollow-up: Can you implement the queue such that each operation is amortized O(1) time complexity? In other words, performing n operations will take overall O(n) time even if one of those operations may take longer.\n",
+    "difficulty": "Easy",
+    "examples": [
+      "[\"MyQueue\",\"push\",\"push\",\"peek\",\"pop\",\"empty\"]",
+      "[[],[1],[2],[],[],[]]"
+    ],
+    "structured_test_cases": [],
+    "python_starter": "class MyQueue:\n\n    def __init__(self):\n        \n\n    def push(self, x: int) -> None:\n        \n\n    def pop(self) -> int:\n        \n\n    def peek(self) -> int:\n        \n\n    def empty(self) -> bool:\n        \n\n\n# Your MyQueue object will be instantiated and called as such:\n# obj = MyQueue()\n# obj.push(x)\n# param_2 = obj.pop()\n# param_3 = obj.peek()\n# param_4 = obj.empty()",
+    "hints": [],
+    "meta_data": {
+      "classname": "MyQueue",
+      "constructor": {
+        "params": []
+      },
+      "methods": [
+        {
+          "params": [
+            {
+              "type": "integer",
+              "name": "x"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "name": "push"
+        },
+        {
+          "params": [],
+          "return": {
+            "type": "integer"
+          },
+          "name": "pop"
+        },
+        {
+          "params": [],
+          "return": {
+            "type": "integer"
+          },
+          "name": "peek"
+        },
+        {
+          "params": [],
+          "return": {
+            "type": "boolean"
+          },
+          "name": "empty"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      },
+      "systemdesign": true
+    }
+  },
+  "solution": {
+    "code": "class MyQueue:\n\n    def __init__(self):\n        # Initialize two stacks\n        self.stack_in = []  # Stack for incoming elements\n        self.stack_out = []  # Stack for outgoing elements\n\n    def push(self, x: int) -> None:\n        # Push element onto the input stack\n        self.stack_in.append(x)\n\n    def pop(self) -> int:\n        # Ensure the output stack has the current front element\n        self.peek()  # This will transfer elements if stack_out is empty\n        return self.stack_out.pop()  # Pop from the output stack\n\n    def peek(self) -> int:\n        # Transfer elements from stack_in to stack_out if stack_out is empty\n        if not self.stack_out:\n            while self.stack_in:\n                self.stack_out.append(self.stack_in.pop())\n        return self.stack_out[-1]  # Return the top element of the output stack\n\n    def empty(self) -> bool:\n        # The queue is empty if both stacks are empty\n        return not self.stack_in and not self.stack_out",
+    "explanation": "The `MyQueue` class implements a queue using two stacks, `stack_in` and `stack_out`. \n\n1. **Initialization**: The constructor initializes two empty lists to represent the stacks.\n\n2. **Push Operation**: The `push` method appends the new element to `stack_in`. This operation is O(1).\n\n3. **Pop Operation**: The `pop` method first calls `peek` to ensure that `stack_out` has the elements in the correct order. If `stack_out` is empty, it transfers all elements from `stack_in` to `stack_out`, reversing their order. Then, it pops the top element from `stack_out`, which represents the front of the queue. The amortized time complexity for this operation is O(1).\n\n4. **Peek Operation**: The `peek` method checks if `stack_out` is empty. If it is, it transfers elements from `stack_in` to `stack_out`. It then returns the top element of `stack_out`, which is the front of the queue. This operation also has an amortized time complexity of O(1).\n\n5. **Empty Check**: The `empty` method checks if both stacks are empty, returning `True` if they are, and `False` otherwise. This operation is O(1).\n\nOverall, the solution efficiently simulates a queue using two stacks while maintaining amortized O(1) time complexity for all operations. The space complexity is O(n), where n is the number of elements in the queue, as we store all elements in the two stacks."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\nTraceback (most recent call last):\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmp52klqpxq.py\", line 61, in <module>\n    expected_0 = safe_eval('[\"MyQueue\",\"push\",\"push\",\"peek\",\"pop\",\"empty\"]')\n                 ^^^^^^^^^\nNameError: name 'safe_eval' is not defined\n"
+  },
+  "timestamp": "2025-04-01 18:00:44"
+}

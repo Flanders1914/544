@@ -1,0 +1,59 @@
+{
+  "id": "165",
+  "frontend_id": "165",
+  "title": "Compare Version Numbers",
+  "description": "Given two version strings, version1 and version2, compare them. A version string consists of revisions separated by dots '.'. The value of the revision is its integer conversion ignoring leading zeros.\nTo compare version strings, compare their revision values in left-to-right order. If one of the version strings has fewer revisions, treat the missing revision values as 0.\nReturn the following:\n\nIf version1 < version2, return -1.\nIf version1 > version2, return 1.\nOtherwise, return 0.\n\n \nExample 1:\n\nInput: version1 = \"1.2\", version2 = \"1.10\"\nOutput: -1\nExplanation:\nversion1's second revision is \"2\" and version2's second revision is \"10\": 2 < 10, so version1 < version2.\n\nExample 2:\n\nInput: version1 = \"1.01\", version2 = \"1.001\"\nOutput: 0\nExplanation:\nIgnoring leading zeroes, both \"01\" and \"001\" represent the same integer \"1\".\n\nExample 3:\n\nInput: version1 = \"1.0\", version2 = \"1.0.0.0\"\nOutput: 0\nExplanation:\nversion1 has less revisions, which means every missing revision are treated as \"0\".\n\n \nConstraints:\n\n1 <= version1.length, version2.length <= 500\nversion1 and version2 only contain digits and '.'.\nversion1 and version2 are valid version numbers.\nAll the given revisions in version1 and version2 can be stored in a 32-bit integer.\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "\"1.2\"",
+    "\"1.10\"",
+    "\"1.01\"",
+    "\"1.001\"",
+    "\"1.0\"",
+    "\"1.0.0.0\""
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "version1": "\"1.2\"",
+        "version2": "\"1.10\""
+      },
+      "expected": "-1"
+    },
+    {
+      "input": {
+        "version1": "\"1.01\"",
+        "version2": "\"1.001\""
+      },
+      "expected": "0"
+    },
+    {
+      "input": {
+        "version1": "\"1.0\"",
+        "version2": "\"1.0.0.0\""
+      },
+      "expected": "0"
+    }
+  ],
+  "python_starter": "class Solution:\n    def compareVersion(self, version1: str, version2: str) -> int:\n        ",
+  "hints": [
+    "You can use two pointers for each version string to traverse them together while comparing the corresponding segments.",
+    "Utilize the substring method to extract each version segment delimited by '.'. Ensure you're extracting the segments correctly by adjusting the start and end indices accordingly."
+  ],
+  "meta_data": {
+    "name": "compareVersion",
+    "params": [
+      {
+        "name": "version1",
+        "type": "string"
+      },
+      {
+        "name": "version2",
+        "type": "string"
+      }
+    ],
+    "return": {
+      "type": "integer"
+    }
+  }
+}

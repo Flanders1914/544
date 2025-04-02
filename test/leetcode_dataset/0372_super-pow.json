@@ -1,0 +1,42 @@
+{
+  "id": "372",
+  "frontend_id": "372",
+  "title": "Super Pow",
+  "description": "Your task is to calculate ab mod 1337 where a is a positive integer and b is an extremely large positive integer given in the form of an array.\n \nExample 1:\n\nInput: a = 2, b = [3]\nOutput: 8\n\nExample 2:\n\nInput: a = 2, b = [1,0]\nOutput: 1024\n\nExample 3:\n\nInput: a = 1, b = [4,3,3,8,5,2]\nOutput: 1\n\n \nConstraints:\n\n1 <= a <= 231 - 1\n1 <= b.length <= 2000\n0 <= b[i] <= 9\nb does not contain leading zeros.\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "2",
+    "[3]",
+    "2",
+    "[1,0]",
+    "1",
+    "[4,3,3,8,5,2]"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "a": "2",
+        "b": "[3]"
+      },
+      "expected": "8"
+    }
+  ],
+  "python_starter": "class Solution:\n    def superPow(self, a: int, b: List[int]) -> int:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "superPow",
+    "params": [
+      {
+        "name": "a",
+        "type": "integer"
+      },
+      {
+        "name": "b",
+        "type": "integer[]"
+      }
+    ],
+    "return": {
+      "type": "integer"
+    }
+  }
+}

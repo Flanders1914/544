@@ -1,0 +1,46 @@
+{
+  "problem": {
+    "id": "316",
+    "frontend_id": "316",
+    "title": "Remove Duplicate Letters",
+    "description": "Given a string s, remove duplicate letters so that every letter appears once and only once. You must make sure your result is the smallest in lexicographical order among all possible results.\n \nExample 1:\n\nInput: s = \"bcabc\"\nOutput: \"abc\"\n\nExample 2:\n\nInput: s = \"cbacdcbc\"\nOutput: \"acdb\"\n\n \nConstraints:\n\n1 <= s.length <= 104\ns consists of lowercase English letters.\n\n \nNote: This question is the same as 1081: https://leetcode.com/problems/smallest-subsequence-of-distinct-characters/\n",
+    "difficulty": "Medium",
+    "examples": [
+      "\"bcabc\"",
+      "\"cbacdcbc\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "s": "\"bcabc\""
+        },
+        "expected": "abc"
+      }
+    ],
+    "python_starter": "class Solution:\n    def removeDuplicateLetters(self, s: str) -> str:\n        ",
+    "hints": [
+      "Greedily try to add one missing character. How to check if adding some character will not cause problems ? Use bit-masks to check whether you will be able to complete the sub-sequence if you add the character at some index i."
+    ],
+    "meta_data": {
+      "name": "removeDuplicateLetters",
+      "params": [
+        {
+          "name": "s",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "string"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def removeDuplicateLetters(self, s: str) -> str:\n        # Count the occurrences of each character\n        char_count = {}\n        for char in s:\n            char_count[char] = char_count.get(char, 0) + 1\n        \n        # Stack to maintain the result\n        stack = []\n        # Set to keep track of what is in the stack\n        in_stack = set()\n        \n        for char in s:\n            # Decrease the count of the current character\n            char_count[char] -= 1\n            \n            # If the character is already in the stack, skip it\n            if char in in_stack:\n                continue\n            \n            # Maintain the stack in lexicographical order\n            while stack and char < stack[-1] and char_count[stack[-1]] > 0:\n                in_stack.remove(stack.pop())\n            \n            # Add the current character to the stack and mark it as in the stack\n            stack.append(char)\n            in_stack.add(char)\n        \n        # Join the stack to form the result string\n        return ''.join(stack)",
+    "explanation": "The provided solution effectively removes duplicate letters from the string while ensuring that the result is the smallest possible in lexicographical order. \n\n1. **Character Counting**: We first create a dictionary to count how many times each character appears in the string. This allows us to know when we can safely remove characters from our stack.\n\n2. **Using a Stack**: We maintain a stack to build our result. As we iterate through each character in the string:\n   - We decrease the count of the current character since we are processing it.\n   - If the character is already in the stack, we skip it to avoid duplicates.\n   - If the current character is smaller than the character at the top of the stack and the top character will appear later (i.e., its count is greater than zero), we pop the stack. This ensures that we always keep the smallest character at the top of the stack.\n\n3. **Final Assembly**: After processing all characters, we join the characters in the stack to form the final result string.\n\n**Time Complexity**: O(n), where n is the length of the string, since we traverse the string a constant number of times.\n\n**Space Complexity**: O(1) for the stack, as it can hold at most 26 characters (the lowercase English letters).\n\nThis approach is efficient and meets the problem's constraints effectively."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:48"
+}

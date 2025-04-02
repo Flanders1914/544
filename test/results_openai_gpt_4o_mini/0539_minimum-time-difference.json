@@ -1,0 +1,44 @@
+{
+  "problem": {
+    "id": "539",
+    "frontend_id": "539",
+    "title": "Minimum Time Difference",
+    "description": "Given a list of 24-hour clock time points in \"HH:MM\" format, return the minimum minutes difference between any two time-points in the list.\n \nExample 1:\nInput: timePoints = [\"23:59\",\"00:00\"]\nOutput: 1\nExample 2:\nInput: timePoints = [\"00:00\",\"23:59\",\"00:00\"]\nOutput: 0\n\n \nConstraints:\n\n2 <= timePoints.length <= 2 * 104\ntimePoints[i] is in the format \"HH:MM\".\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[\"23:59\",\"00:00\"]",
+      "[\"00:00\",\"23:59\",\"00:00\"]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "timePoints": "[\"23:59\",\"00:00\"]"
+        },
+        "expected": "1"
+      }
+    ],
+    "python_starter": "class Solution:\n    def findMinDifference(self, timePoints: List[str]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "findMinDifference",
+      "params": [
+        {
+          "name": "timePoints",
+          "type": "list<string>"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def findMinDifference(self, timePoints: List[str]) -> int:\n        # Convert time points to minutes\n        minutes = []\n        for time in timePoints:\n            h, m = map(int, time.split(':'))\n            total_minutes = h * 60 + m\n            minutes.append(total_minutes)\n        \n        # Sort the minutes\n        minutes.sort()\n        \n        # Initialize the minimum difference to a large number\n        min_diff = float('inf')\n        \n        # Calculate the differences between consecutive time points\n        for i in range(1, len(minutes)):\n            diff = minutes[i] - minutes[i - 1]\n            min_diff = min(min_diff, diff)\n        \n        # Check the difference between the last and first time point (wrap around)\n        wrap_around_diff = (minutes[0] + 1440) - minutes[-1]\n        min_diff = min(min_diff, wrap_around_diff)\n        \n        return min_diff",
+    "explanation": "The solution begins by converting each time point from the \"HH:MM\" format into total minutes since midnight. This is done using a simple split and arithmetic operation. \n\nNext, we sort the list of total minutes. Sorting is crucial because it allows us to easily compute the differences between consecutive time points, which is where the minimum difference is most likely to occur.\n\nWe then iterate through the sorted list and calculate the differences between each pair of consecutive time points. We keep track of the minimum difference found during this iteration.\n\nFinally, we also check the difference between the last time point and the first time point, accounting for the wrap-around at midnight. This is done by adding 1440 (the total number of minutes in a day) to the first time point and subtracting the last time point.\n\nThe overall time complexity of this solution is O(n log n) due to the sorting step, while the space complexity is O(n) for storing the converted time points in minutes."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 1\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:01:23"
+}

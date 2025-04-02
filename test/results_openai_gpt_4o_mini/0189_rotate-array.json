@@ -1,0 +1,66 @@
+{
+  "problem": {
+    "id": "189",
+    "frontend_id": "189",
+    "title": "Rotate Array",
+    "description": "Given an integer array nums, rotate the array to the right by k steps, where k is non-negative.\n \nExample 1:\n\nInput: nums = [1,2,3,4,5,6,7], k = 3\nOutput: [5,6,7,1,2,3,4]\nExplanation:\nrotate 1 steps to the right: [7,1,2,3,4,5,6]\nrotate 2 steps to the right: [6,7,1,2,3,4,5]\nrotate 3 steps to the right: [5,6,7,1,2,3,4]\n\nExample 2:\n\nInput: nums = [-1,-100,3,99], k = 2\nOutput: [3,99,-1,-100]\nExplanation: \nrotate 1 steps to the right: [99,-1,-100,3]\nrotate 2 steps to the right: [3,99,-1,-100]\n\n \nConstraints:\n\n1 <= nums.length <= 105\n-231 <= nums[i] <= 231 - 1\n0 <= k <= 105\n\n \nFollow up:\n\nTry to come up with as many solutions as you can. There are at least three different ways to solve this problem.\nCould you do it in-place with O(1) extra space?\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[1,2,3,4,5,6,7]",
+      "3",
+      "[-1,-100,3,99]",
+      "2"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[1,2,3,4,5,6,7]",
+          "k": "3"
+        },
+        "expected": "[5,6,7,1,2,3,4]"
+      },
+      {
+        "input": {
+          "nums": "[-1,-100,3,99]",
+          "k": "2"
+        },
+        "expected": "[3,99,-1,-100]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def rotate(self, nums: List[int], k: int) -> None:\n        \"\"\"\n        Do not return anything, modify nums in-place instead.\n        \"\"\"\n        ",
+    "hints": [
+      "The easiest solution would use additional memory and that is perfectly fine.",
+      "The actual trick comes when trying to solve this problem without using any additional memory. This means you need to use the original array somehow to move the elements around. Now, we can place each element in its original location and shift all the elements around it to adjust as that would be too costly and most likely will time out on larger input arrays.",
+      "One line of thought is based on reversing the array (or parts of it) to obtain the desired result. Think about how reversal might potentially help us out by using an example.",
+      "The other line of thought is a tad bit complicated but essentially it builds on the idea of placing each element in its original position while keeping track of the element originally in that position. Basically, at every step, we place an element in its rightful position and keep track of the element already there or the one being overwritten in an additional variable. We can't do this in one linear pass and the idea here is based on <b>cyclic-dependencies</b> between elements."
+    ],
+    "meta_data": {
+      "name": "rotate",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        },
+        {
+          "name": "k",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "void"
+      },
+      "output": {
+        "paramindex": 0
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def rotate(self, nums: List[int], k: int) -> None:\n        \"\"\"\n        Do not return anything, modify nums in-place instead.\n        \"\"\"\n        n = len(nums)\n        k = k % n  # Normalize k to avoid unnecessary rotations\n        \n        # Helper function to reverse a portion of the array\n        def reverse(start: int, end: int) -> None:\n            while start < end:\n                nums[start], nums[end] = nums[end], nums[start]\n                start += 1\n                end -= 1\n        \n        # Step 1: Reverse the entire array\n        reverse(0, n - 1)\n        # Step 2: Reverse the first k elements\n        reverse(0, k - 1)\n        # Step 3: Reverse the remaining n-k elements\n        reverse(k, n - 1)",
+    "explanation": "The solution involves reversing segments of the array to achieve the desired rotation. Here's a breakdown of the process:\n\n1. **Normalization of `k`**: We first compute `k % n` to handle cases where `k` is greater than the length of the array. This ensures we only perform necessary rotations.\n  \n2. **Reversing the entire array**: By reversing the entire array, the last `k` elements are moved to the front but in reverse order.\n\n3. **Reversing the first `k` elements**: This step corrects the order of the last `k` elements, placing them in their final positions.\n\n4. **Reversing the remaining elements**: Finally, we reverse the first `n-k` elements to restore their original order.\n\nThe time complexity of this approach is O(n) because we traverse the array a constant number of times (three reversals). The space complexity is O(1) since we are modifying the array in place without using any additional data structures.\n\nOverall, this method is efficient and meets the problem's constraints effectively."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:41"
+}

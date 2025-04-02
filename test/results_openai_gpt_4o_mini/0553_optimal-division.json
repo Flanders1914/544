@@ -1,0 +1,50 @@
+{
+  "problem": {
+    "id": "553",
+    "frontend_id": "553",
+    "title": "Optimal Division",
+    "description": "You are given an integer array nums. The adjacent integers in nums will perform the float division.\n\nFor example, for nums = [2,3,4], we will evaluate the expression \"2/3/4\".\n\nHowever, you can add any number of parenthesis at any position to change the priority of operations. You want to add these parentheses such the value of the expression after the evaluation is maximum.\nReturn the corresponding expression that has the maximum value in string format.\nNote: your expression should not contain redundant parenthesis.\n \nExample 1:\n\nInput: nums = [1000,100,10,2]\nOutput: \"1000/(100/10/2)\"\nExplanation: 1000/(100/10/2) = 1000/((100/10)/2) = 200\nHowever, the bold parenthesis in \"1000/((100/10)/2)\" are redundant since they do not influence the operation priority.\nSo you should return \"1000/(100/10/2)\".\nOther cases:\n1000/(100/10)/2 = 50\n1000/(100/(10/2)) = 50\n1000/100/10/2 = 0.5\n1000/100/(10/2) = 2\n\nExample 2:\n\nInput: nums = [2,3,4]\nOutput: \"2/(3/4)\"\nExplanation: (2/(3/4)) = 8/3 = 2.667\nIt can be shown that after trying all possibilities, we cannot get an expression with evaluation greater than 2.667\n\n \nConstraints:\n\n1 <= nums.length <= 10\n2 <= nums[i] <= 1000\nThere is only one optimal division for the given input.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[1000,100,10,2]",
+      "[2,3,4]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[1000,100,10,2]"
+        },
+        "expected": "1000/(100/10/2)"
+      },
+      {
+        "input": {
+          "nums": "[2,3,4]"
+        },
+        "expected": "2/(3/4)"
+      }
+    ],
+    "python_starter": "class Solution:\n    def optimalDivision(self, nums: List[int]) -> str:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "optimalDivision",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "string"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def optimalDivision(self, nums: List[int]) -> str:\n        n = len(nums)\n        if n == 1:\n            return str(nums[0])\n        elif n == 2:\n            return f\"{nums[0]}/{nums[1]}\"\n        else:\n            # For more than two numbers, we use the optimal structure\n            return f\"{nums[0]}/({'/'.join(map(str, nums[1:]))})\"",
+    "explanation": "The solution works by first checking the length of the input list `nums`. Depending on the number of elements, it constructs the optimal division expression:\n1. If there is only one number, it simply returns that number as a string.\n2. If there are two numbers, it returns the expression in the form \"a/b\".\n3. For three or more numbers, it constructs the expression as \"a/(b/c/d/...)\", where `a` is the first number and the rest are joined with '/' inside parentheses.\n\nThis method ensures that we are maximizing the division result by minimizing the divisor through grouping. \n\n### Time Complexity\nThe time complexity of this solution is O(n), where n is the number of elements in the input list `nums`. This is because we are primarily iterating through the list to construct the string.\n\n### Space Complexity\nThe space complexity is also O(n) due to the string construction, which requires space proportional to the number of elements in `nums`.\n\nOverall, this solution is efficient and straightforward, leveraging the properties of division to achieve the desired result."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 1000/(100/10/2)\nTest case 2:\n[PASS] Test passed: 2/(3/4)\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:01:24"
+}

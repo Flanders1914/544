@@ -1,0 +1,70 @@
+{
+  "problem": {
+    "id": "225",
+    "frontend_id": "225",
+    "title": "Implement Stack using Queues",
+    "description": "Implement a last-in-first-out (LIFO) stack using only two queues. The implemented stack should support all the functions of a normal stack (push, top, pop, and empty).\nImplement the MyStack class:\n\nvoid push(int x) Pushes element x to the top of the stack.\nint pop() Removes the element on the top of the stack and returns it.\nint top() Returns the element on the top of the stack.\nboolean empty() Returns true if the stack is empty, false otherwise.\n\nNotes:\n\nYou must use only standard operations of a queue, which means that only push to back, peek/pop from front, size and is empty operations are valid.\nDepending on your language, the queue may not be supported natively. You may simulate a queue using a list or deque (double-ended queue) as long as you use only a queue's standard operations.\n\n \nExample 1:\n\nInput\n[\"MyStack\", \"push\", \"push\", \"top\", \"pop\", \"empty\"]\n[[], [1], [2], [], [], []]\nOutput\n[null, null, null, 2, 2, false]\n\nExplanation\nMyStack myStack = new MyStack();\nmyStack.push(1);\nmyStack.push(2);\nmyStack.top(); // return 2\nmyStack.pop(); // return 2\nmyStack.empty(); // return False\n\n \nConstraints:\n\n1 <= x <= 9\nAt most 100 calls will be made to push, pop, top, and empty.\nAll the calls to pop and top are valid.\n\n \nFollow-up: Can you implement the stack using only one queue?\n",
+    "difficulty": "Easy",
+    "examples": [
+      "[\"MyStack\",\"push\",\"push\",\"top\",\"pop\",\"empty\"]",
+      "[[],[1],[2],[],[],[]]"
+    ],
+    "structured_test_cases": [],
+    "python_starter": "class MyStack:\n\n    def __init__(self):\n        \n\n    def push(self, x: int) -> None:\n        \n\n    def pop(self) -> int:\n        \n\n    def top(self) -> int:\n        \n\n    def empty(self) -> bool:\n        \n\n\n# Your MyStack object will be instantiated and called as such:\n# obj = MyStack()\n# obj.push(x)\n# param_2 = obj.pop()\n# param_3 = obj.top()\n# param_4 = obj.empty()",
+    "hints": [],
+    "meta_data": {
+      "classname": "MyStack",
+      "constructor": {
+        "params": []
+      },
+      "methods": [
+        {
+          "params": [
+            {
+              "type": "integer",
+              "name": "x"
+            }
+          ],
+          "name": "push",
+          "return": {
+            "type": "void"
+          }
+        },
+        {
+          "params": [],
+          "return": {
+            "type": "integer"
+          },
+          "name": "pop"
+        },
+        {
+          "params": [],
+          "name": "top",
+          "return": {
+            "type": "integer"
+          }
+        },
+        {
+          "params": [],
+          "name": "empty",
+          "return": {
+            "type": "boolean"
+          }
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      },
+      "systemdesign": true
+    }
+  },
+  "solution": {
+    "code": "from collections import deque\n\nclass MyStack:\n\n    def __init__(self):\n        # Initialize two queues\n        self.queue1 = deque()\n        self.queue2 = deque()\n\n    def push(self, x: int) -> None:\n        # Push element onto queue2\n        self.queue2.append(x)\n        # Transfer all elements from queue1 to queue2\n        while self.queue1:\n            self.queue2.append(self.queue1.popleft())\n        # Swap the names of the queues\n        self.queue1, self.queue2 = self.queue2, self.queue1\n\n    def pop(self) -> int:\n        # Pop the front element from queue1\n        return self.queue1.popleft()\n\n    def top(self) -> int:\n        # Get the front element from queue1\n        return self.queue1[0]\n\n    def empty(self) -> bool:\n        # Check if queue1 is empty\n        return not self.queue1",
+    "explanation": "In this solution, we have implemented a stack using two queues. The `MyStack` class contains two queues, `queue1` and `queue2`, which are used to manage the elements in a way that simulates stack behavior.\n\n1. **Push Operation**: When we push an element, we add it to `queue2`. We then transfer all elements from `queue1` to `queue2`, ensuring that the new element is at the front of `queue1` after the swap. This operation is O(n) because we may need to move all elements from one queue to another.\n\n2. **Pop Operation**: The pop operation simply removes and returns the front element of `queue1`, which is the last element added to the stack. This operation is O(1).\n\n3. **Top Operation**: The top operation retrieves the front element of `queue1` without removing it, which is also O(1).\n\n4. **Empty Operation**: The empty operation checks if `queue1` is empty, which is O(1).\n\nOverall, the time complexity for `push` is O(n), while `pop`, `top`, and `empty` operations are O(1). The space complexity is O(n) due to the storage of elements in the queues.\n\nThis implementation effectively simulates stack behavior using queues while adhering to the constraints provided in the problem statement."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\nTraceback (most recent call last):\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmpwpfa082m.py\", line 64, in <module>\n    expected_0 = safe_eval('[\"MyStack\",\"push\",\"push\",\"top\",\"pop\",\"empty\"]')\n                 ^^^^^^^^^\nNameError: name 'safe_eval' is not defined\n"
+  },
+  "timestamp": "2025-04-01 18:00:43"
+}

@@ -1,0 +1,63 @@
+{
+  "id": "454",
+  "frontend_id": "454",
+  "title": "4Sum II",
+  "description": "Given four integer arrays nums1, nums2, nums3, and nums4 all of length n, return the number of tuples (i, j, k, l) such that:\n\n0 <= i, j, k, l < n\nnums1[i] + nums2[j] + nums3[k] + nums4[l] == 0\n\n \nExample 1:\n\nInput: nums1 = [1,2], nums2 = [-2,-1], nums3 = [-1,2], nums4 = [0,2]\nOutput: 2\nExplanation:\nThe two tuples are:\n1. (0, 0, 0, 1) -> nums1[0] + nums2[0] + nums3[0] + nums4[1] = 1 + (-2) + (-1) + 2 = 0\n2. (1, 1, 0, 0) -> nums1[1] + nums2[1] + nums3[0] + nums4[0] = 2 + (-1) + (-1) + 0 = 0\n\nExample 2:\n\nInput: nums1 = [0], nums2 = [0], nums3 = [0], nums4 = [0]\nOutput: 1\n\n \nConstraints:\n\nn == nums1.length\nn == nums2.length\nn == nums3.length\nn == nums4.length\n1 <= n <= 200\n-228 <= nums1[i], nums2[i], nums3[i], nums4[i] <= 228\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "[1,2]",
+    "[-2,-1]",
+    "[-1,2]",
+    "[0,2]",
+    "[0]",
+    "[0]",
+    "[0]",
+    "[0]"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "nums1": "[1,2]",
+        "nums2": "[-2,-1]",
+        "nums3": "[-1,2]",
+        "nums4": "[0,2]"
+      },
+      "expected": "2"
+    },
+    {
+      "input": {
+        "nums1": "[0]",
+        "nums2": "[0]",
+        "nums3": "[0]",
+        "nums4": "[0]"
+      },
+      "expected": "1"
+    }
+  ],
+  "python_starter": "class Solution:\n    def fourSumCount(self, nums1: List[int], nums2: List[int], nums3: List[int], nums4: List[int]) -> int:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "fourSumCount",
+    "params": [
+      {
+        "name": "nums1",
+        "type": "integer[]"
+      },
+      {
+        "name": "nums2",
+        "type": "integer[]"
+      },
+      {
+        "name": "nums3",
+        "type": "integer[]"
+      },
+      {
+        "name": "nums4",
+        "type": "integer[]"
+      }
+    ],
+    "return": {
+      "type": "integer"
+    }
+  }
+}

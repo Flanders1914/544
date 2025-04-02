@@ -1,0 +1,58 @@
+{
+  "problem": {
+    "id": "424",
+    "frontend_id": "424",
+    "title": "Longest Repeating Character Replacement",
+    "description": "You are given a string s and an integer k. You can choose any character of the string and change it to any other uppercase English character. You can perform this operation at most k times.\nReturn the length of the longest substring containing the same letter you can get after performing the above operations.\n \nExample 1:\n\nInput: s = \"ABAB\", k = 2\nOutput: 4\nExplanation: Replace the two 'A's with two 'B's or vice versa.\n\nExample 2:\n\nInput: s = \"AABABBA\", k = 1\nOutput: 4\nExplanation: Replace the one 'A' in the middle with 'B' and form \"AABBBBA\".\nThe substring \"BBBB\" has the longest repeating letters, which is 4.\nThere may exists other ways to achieve this answer too.\n \nConstraints:\n\n1 <= s.length <= 105\ns consists of only uppercase English letters.\n0 <= k <= s.length\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "\"ABAB\"",
+      "2",
+      "\"AABABBA\"",
+      "1"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "s": "\"ABAB\"",
+          "k": "2"
+        },
+        "expected": "4"
+      },
+      {
+        "input": {
+          "s": "\"AABABBA\"",
+          "k": "1"
+        },
+        "expected": "4"
+      }
+    ],
+    "python_starter": "class Solution:\n    def characterReplacement(self, s: str, k: int) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "characterReplacement",
+      "params": [
+        {
+          "name": "s",
+          "type": "string"
+        },
+        {
+          "name": "k",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def characterReplacement(self, s: str, k: int) -> int:\n        left = 0\n        max_count = 0\n        count = [0] * 26  # To count occurrences of each character (A-Z)\n\n        for right in range(len(s)):\n            # Increment the count of the current character\n            count[ord(s[right]) - ord('A')] += 1\n            # Update the max_count of the most frequent character in the current window\n            max_count = max(max_count, count[ord(s[right]) - ord('A')])\n\n            # If the number of characters to replace exceeds k, shrink the window\n            if (right - left + 1) - max_count > k:\n                count[ord(s[left]) - ord('A')] -= 1\n                left += 1\n\n        # The length of the longest valid substring is the size of the window\n        return len(s) - left",
+    "explanation": "The solution uses a sliding window technique to efficiently find the longest substring that can be formed by replacing at most `k` characters. \n\n1. **Initialization**: We start with two pointers, `left` and `right`, both set to the beginning of the string. We also maintain an array `count` to keep track of the frequency of each character in the current window and a variable `max_count` to store the count of the most frequently occurring character.\n\n2. **Expanding the Window**: As we iterate through the string with the `right` pointer, we update the count of the current character and check if it is the most frequent character in the window.\n\n3. **Checking Replacement Condition**: If the number of characters that need to be replaced (calculated as the size of the window minus `max_count`) exceeds `k`, we increment the `left` pointer to shrink the window from the left until the condition is satisfied.\n\n4. **Result Calculation**: The length of the longest valid substring is determined by the size of the window, which is `right - left + 1`.\n\n**Time Complexity**: O(n), where n is the length of the string `s`. Each character is processed at most twice (once by `right` and once by `left`).\n\n**Space Complexity**: O(1), since the `count` array has a fixed size of 26 (for each uppercase English letter).\n\nThis approach ensures that we efficiently find the solution while adhering to the constraints provided."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:55"
+}

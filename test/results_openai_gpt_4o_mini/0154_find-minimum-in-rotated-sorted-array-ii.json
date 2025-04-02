@@ -1,0 +1,44 @@
+{
+  "problem": {
+    "id": "154",
+    "frontend_id": "154",
+    "title": "Find Minimum in Rotated Sorted Array II",
+    "description": "Suppose an array of length n sorted in ascending order is rotated between 1 and n times. For example, the array nums = [0,1,4,4,5,6,7] might become:\n\n[4,5,6,7,0,1,4] if it was rotated 4 times.\n[0,1,4,4,5,6,7] if it was rotated 7 times.\n\nNotice that rotating an array [a[0], a[1], a[2], ..., a[n-1]] 1 time results in the array [a[n-1], a[0], a[1], a[2], ..., a[n-2]].\nGiven the sorted rotated array nums that may contain duplicates, return the minimum element of this array.\nYou must decrease the overall operation steps as much as possible.\n \nExample 1:\nInput: nums = [1,3,5]\nOutput: 1\nExample 2:\nInput: nums = [2,2,2,0,1]\nOutput: 0\n\n \nConstraints:\n\nn == nums.length\n1 <= n <= 5000\n-5000 <= nums[i] <= 5000\nnums is sorted and rotated between 1 and n times.\n\n \nFollow up: This problem is similar to Find Minimum in Rotated Sorted Array, but nums may contain duplicates. Would this affect the runtime complexity? How and why?\n \n",
+    "difficulty": "Hard",
+    "examples": [
+      "[1,3,5]",
+      "[2,2,2,0,1]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[1,3,5]"
+        },
+        "expected": "1"
+      }
+    ],
+    "python_starter": "class Solution:\n    def findMin(self, nums: List[int]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "findMin",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def findMin(self, nums: List[int]) -> int:\n        left, right = 0, len(nums) - 1\n        \n        while left < right:\n            mid = left + (right - left) // 2\n            \n            # If the middle element is greater than the rightmost element,\n            # the minimum must be in the right half.\n            if nums[mid] > nums[right]:\n                left = mid + 1\n            # If the middle element is less than the rightmost element,\n            # the minimum is in the left half including mid.\n            elif nums[mid] < nums[right]:\n                right = mid\n            # If the middle element is equal to the rightmost element,\n            # we cannot determine the sorted side, so we reduce the search space.\n            else:\n                right -= 1\n        \n        return nums[left]",
+    "explanation": "The solution uses a binary search approach to efficiently find the minimum element in a rotated sorted array that may contain duplicates. The algorithm maintains two pointers, `left` and `right`, which represent the current search space. \n\n1. **Initialization**: We start with `left` at the beginning of the array and `right` at the end.\n2. **Binary Search Loop**: We continue the loop until `left` is less than `right`.\n   - We calculate the middle index `mid`.\n   - We compare `nums[mid]` with `nums[right]`:\n     - If `nums[mid] > nums[right]`, it means the minimum is in the right half, so we move `left` to `mid + 1`.\n     - If `nums[mid] < nums[right]`, it means the minimum is in the left half (including `mid`), so we move `right` to `mid`.\n     - If `nums[mid] == nums[right]`, we cannot determine which side is sorted, so we decrement `right` by 1 to reduce the search space.\n3. **Return the Result**: When the loop ends, `left` will point to the minimum element.\n\n**Time Complexity**: The average time complexity is O(log n), but in the worst case (when all elements are duplicates), it can degrade to O(n).\n\n**Space Complexity**: The space complexity is O(1) since we are using a constant amount of extra space.\n\nThis approach efficiently handles the presence of duplicates while ensuring we find the minimum element in the rotated sorted array."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 1\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:39"
+}

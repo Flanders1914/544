@@ -1,0 +1,50 @@
+{
+  "problem": {
+    "id": "337",
+    "frontend_id": "337",
+    "title": "House Robber III",
+    "description": "The thief has found himself a new place for his thievery again. There is only one entrance to this area, called root.\nBesides the root, each house has one and only one parent house. After a tour, the smart thief realized that all houses in this place form a binary tree. It will automatically contact the police if two directly-linked houses were broken into on the same night.\nGiven the root of the binary tree, return the maximum amount of money the thief can rob without alerting the police.\n \nExample 1:\n\n\nInput: root = [3,2,3,null,3,null,1]\nOutput: 7\nExplanation: Maximum amount of money the thief can rob = 3 + 3 + 1 = 7.\n\nExample 2:\n\n\nInput: root = [3,4,5,1,3,null,1]\nOutput: 9\nExplanation: Maximum amount of money the thief can rob = 4 + 5 = 9.\n\n \nConstraints:\n\nThe number of nodes in the tree is in the range [1, 104].\n0 <= Node.val <= 104\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[3,2,3,null,3,null,1]",
+      "[3,4,5,1,3,null,1]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "root": "[3,2,3,null,3,null,1]"
+        },
+        "expected": "7"
+      },
+      {
+        "input": {
+          "root": "[3,4,5,1,3,null,1]"
+        },
+        "expected": "9"
+      }
+    ],
+    "python_starter": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def rob(self, root: Optional[TreeNode]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "rob",
+      "params": [
+        {
+          "name": "root",
+          "type": "TreeNode"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nclass Solution:\n    def rob(self, root: Optional[TreeNode]) -> int:\n        def dfs(node):\n            if not node:\n                return (0, 0)  # (money if robbed, money if not robbed)\n            \n            left = dfs(node.left)\n            right = dfs(node.right)\n            \n            # If we rob this node, we cannot rob its children\n            money_if_robbed = node.val + left[1] + right[1]\n            # If we do not rob this node, we take the max of robbing or not robbing its children\n            money_if_not_robbed = max(left) + max(right)\n            \n            return (money_if_robbed, money_if_not_robbed)\n        \n        return max(dfs(root))",
+    "explanation": "The solution uses a recursive depth-first search (DFS) approach to traverse the binary tree. For each node, we calculate two values:\n- `money_if_robbed`: The total money we can rob if we decide to rob the current node. This is calculated as the value of the current node plus the maximum money we can rob from its children if we do not rob them (i.e., we take the second value from the results of the left and right children).\n- `money_if_not_robbed`: The total money we can rob if we do not rob the current node. This is calculated as the sum of the maximum money we can rob from both children, considering we can choose to rob either of them.\n\nThe base case for the recursion is when the node is `None`, in which case we return `(0, 0)` indicating no money can be robbed.\n\nFinally, we return the maximum of the two values obtained from the root node, which gives us the maximum amount of money the thief can rob without alerting the police.\n\nThe time complexity of this solution is O(n), where n is the number of nodes in the tree, as we visit each node exactly once. The space complexity is O(h), where h is the height of the tree, due to the recursion stack. In the worst case (a skewed tree), this could be O(n), but in a balanced tree, it would be O(log n)."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:49"
+}

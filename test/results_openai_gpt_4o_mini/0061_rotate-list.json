@@ -1,0 +1,53 @@
+{
+  "problem": {
+    "id": "61",
+    "frontend_id": "61",
+    "title": "Rotate List",
+    "description": "Given the head of a linked list, rotate the list to the right by k places.\n \nExample 1:\n\n\nInput: head = [1,2,3,4,5], k = 2\nOutput: [4,5,1,2,3]\n\nExample 2:\n\n\nInput: head = [0,1,2], k = 4\nOutput: [2,0,1]\n\n \nConstraints:\n\nThe number of nodes in the list is in the range [0, 500].\n-100 <= Node.val <= 100\n0 <= k <= 2 * 109\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[1,2,3,4,5]",
+      "2",
+      "[0,1,2]",
+      "4"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "head": "[1,2,3,4,5]",
+          "k": "2"
+        },
+        "expected": "[4,5,1,2,3]"
+      }
+    ],
+    "python_starter": "# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution:\n    def rotateRight(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "rotateRight",
+      "params": [
+        {
+          "name": "head",
+          "type": "ListNode",
+          "dealloc": false
+        },
+        {
+          "name": "k",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "ListNode",
+        "dealloc": true
+      }
+    }
+  },
+  "solution": {
+    "code": "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\n\nclass Solution:\n    def rotateRight(self, head: Optional[ListNode], k: int) -> Optional[ListNode]:\n        if not head or not head.next or k == 0:\n            return head\n        \n        # Step 1: Calculate the length of the linked list\n        length = 1\n        current = head\n        while current.next:\n            current = current.next\n            length += 1\n        \n        # Step 2: Find the effective rotations needed\n        k = k % length\n        if k == 0:\n            return head\n        \n        # Step 3: Find the new tail and new head\n        new_tail = head\n        for _ in range(length - k - 1):\n            new_tail = new_tail.next\n        \n        new_head = new_tail.next\n        \n        # Step 4: Rotate the list\n        new_tail.next = None\n        current.next = head\n        \n        return new_head",
+    "explanation": "The solution begins by checking if the linked list is empty or has only one node, in which case no rotation is needed, and we return the head immediately. \n\nNext, we calculate the length of the linked list by traversing it. This is done in a single pass, which gives us a time complexity of O(n). \n\nAfter obtaining the length, we compute the effective number of rotations needed by taking `k % length`. If this value is zero, we again return the head since the list remains unchanged.\n\nTo find the new head of the rotated list, we traverse the list to the `(length - k - 1)`-th node, which will become the new tail. The node immediately following this new tail will be the new head of the rotated list.\n\nFinally, we adjust the pointers: we set the next of the new tail to `None` to terminate the new list and connect the old tail to the old head to complete the rotation.\n\nThe overall time complexity of the solution is O(n) due to the traversal of the list, and the space complexity is O(1) since we are not using any additional data structures that grow with input size."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:30"
+}

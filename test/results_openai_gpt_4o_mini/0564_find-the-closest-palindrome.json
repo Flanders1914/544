@@ -1,0 +1,49 @@
+{
+  "problem": {
+    "id": "564",
+    "frontend_id": "564",
+    "title": "Find the Closest Palindrome",
+    "description": "Given a string n representing an integer, return the closest integer (not including itself), which is a palindrome. If there is a tie, return the smaller one.\nThe closest is defined as the absolute difference minimized between two integers.\n \nExample 1:\n\nInput: n = \"123\"\nOutput: \"121\"\n\nExample 2:\n\nInput: n = \"1\"\nOutput: \"0\"\nExplanation: 0 and 2 are the closest palindromes but we return the smallest which is 0.\n\n \nConstraints:\n\n1 <= n.length <= 18\nn consists of only digits.\nn does not have leading zeros.\nn is representing an integer in the range [1, 1018 - 1].\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "\"123\"",
+      "\"1\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "n": "\"123\""
+        },
+        "expected": "121"
+      }
+    ],
+    "python_starter": "class Solution:\n    def nearestPalindromic(self, n: str) -> str:\n        ",
+    "hints": [
+      "Will brute force work for this problem? Think of something else.",
+      "Take some examples like 1234, 999,1000, etc and check their closest palindromes. How many different cases are possible?",
+      "Do we have to consider only left half or right half of the string or both?",
+      "Try to find the closest palindrome of these numbers- 12932, 99800, 12120. Did you observe something?"
+    ],
+    "meta_data": {
+      "name": "nearestPalindromic",
+      "params": [
+        {
+          "name": "n",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "string"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def nearestPalindromic(self, n: str) -> str:\n        length = len(n)\n        candidates = set()\n        \n        # Edge cases\n        candidates.add(str(10**length + 1))  # e.g., 1000 -> 1001\n        candidates.add(str(10**(length - 1) - 1))  # e.g., 1000 -> 999\n        \n        # Generate candidates based on the first half\n        prefix = int(n[:(length + 1) // 2])  # First half (and middle if odd)\n        \n        for i in [-1, 0, 1]:\n            new_prefix = str(prefix + i)\n            if length % 2 == 0:\n                candidates.add(new_prefix + new_prefix[::-1])  # Even length\n            else:\n                candidates.add(new_prefix + new_prefix[-2::-1])  # Odd length\n        \n        # Remove the original number from candidates\n        candidates.discard(n)\n        \n        # Find the closest palindrome\n        closest = None\n        min_diff = float('inf')\n        \n        for candidate in candidates:\n            diff = abs(int(candidate) - int(n))\n            if diff < min_diff or (diff == min_diff and int(candidate) < int(closest)):\n                min_diff = diff\n                closest = candidate\n        \n        return closest",
+    "explanation": "The solution begins by defining a set of candidate palindromes based on the input string `n`. We handle edge cases by adding `10^length + 1` and `10^(length - 1) - 1` to the candidates, which correspond to the smallest and largest palindromes around the given number.\n\nNext, we derive potential palindromes by manipulating the first half of the number. For each of the three variations (decrementing, keeping the same, and incrementing the first half), we create a palindrome by mirroring the first half appropriately.\n\nAfter generating all candidates, we discard the original number `n` from the set to ensure we do not return it as a result. \n\nFinally, we iterate through the candidates to find the one with the smallest absolute difference from `n`. If there is a tie in the difference, we select the smaller palindrome.\n\nThe time complexity of this solution is O(1) since the number of candidates generated is constant (at most 5), and the space complexity is also O(1) for the same reason. This makes the solution efficient even for the upper limit of the input constraints."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:01:24"
+}

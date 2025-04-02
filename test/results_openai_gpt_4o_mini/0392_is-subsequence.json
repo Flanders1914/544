@@ -1,0 +1,51 @@
+{
+  "problem": {
+    "id": "392",
+    "frontend_id": "392",
+    "title": "Is Subsequence",
+    "description": "Given two strings s and t, return true if s is a subsequence of t, or false otherwise.\nA subsequence of a string is a new string that is formed from the original string by deleting some (can be none) of the characters without disturbing the relative positions of the remaining characters. (i.e., \"ace\" is a subsequence of \"abcde\" while \"aec\" is not).\n \nExample 1:\nInput: s = \"abc\", t = \"ahbgdc\"\nOutput: true\nExample 2:\nInput: s = \"axc\", t = \"ahbgdc\"\nOutput: false\n\n \nConstraints:\n\n0 <= s.length <= 100\n0 <= t.length <= 104\ns and t consist only of lowercase English letters.\n\n \nFollow up: Suppose there are lots of incoming s, say s1, s2, ..., sk where k >= 109, and you want to check one by one to see if t has its subsequence. In this scenario, how would you change your code?",
+    "difficulty": "Easy",
+    "examples": [
+      "\"abc\"",
+      "\"ahbgdc\"",
+      "\"axc\"",
+      "\"ahbgdc\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "s": "\"abc\"",
+          "t": "\"ahbgdc\""
+        },
+        "expected": "true"
+      }
+    ],
+    "python_starter": "class Solution:\n    def isSubsequence(self, s: str, t: str) -> bool:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "isSubsequence",
+      "params": [
+        {
+          "name": "s",
+          "type": "string"
+        },
+        {
+          "name": "t",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def isSubsequence(self, s: str, t: str) -> bool:\n        # Initialize two pointers for s and t\n        s_pointer, t_pointer = 0, 0\n        \n        # Get the lengths of both strings\n        s_length, t_length = len(s), len(t)\n        \n        # Iterate through t until we reach the end of either string\n        while s_pointer < s_length and t_pointer < t_length:\n            # If characters match, move the pointer for s\n            if s[s_pointer] == t[t_pointer]:\n                s_pointer += 1\n            # Always move the pointer for t\n            t_pointer += 1\n        \n        # If we have matched all characters of s, return True\n        return s_pointer == s_length",
+    "explanation": "The solution uses a two-pointer technique to check if `s` is a subsequence of `t`. We initialize two pointers, `s_pointer` for string `s` and `t_pointer` for string `t`. We iterate through `t` using `t_pointer`, and whenever we find a character in `t` that matches the current character in `s` (pointed by `s_pointer`), we increment `s_pointer`. Regardless of whether there is a match, we always increment `t_pointer` to continue checking the next character in `t`.\n\nThe loop continues until we either match all characters of `s` (i.e., `s_pointer` reaches the length of `s`) or exhaust `t` (i.e., `t_pointer` reaches the length of `t`). If `s_pointer` equals the length of `s` at the end of the loop, it means all characters of `s` were found in `t` in the correct order, and we return `True`. Otherwise, we return `False`.\n\nThe time complexity of this solution is O(n), where n is the length of `t`, since we traverse `t` at most once. The space complexity is O(1) because we are using a constant amount of space for the pointers.\n\nFor the follow-up question regarding multiple incoming strings `s1, s2, ..., sk`, we could preprocess `t` to create a mapping of characters to their indices, allowing for faster lookups. This would involve using a dictionary to store the positions of each character in `t`, enabling us to quickly check if each character in `s` can be found in `t` in the correct order."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: True\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:52"
+}

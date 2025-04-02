@@ -1,0 +1,44 @@
+{
+  "problem": {
+    "id": "557",
+    "frontend_id": "557",
+    "title": "Reverse Words in a String III",
+    "description": "Given a string s, reverse the order of characters in each word within a sentence while still preserving whitespace and initial word order.\n \nExample 1:\n\nInput: s = \"Let's take LeetCode contest\"\nOutput: \"s'teL ekat edoCteeL tsetnoc\"\n\nExample 2:\n\nInput: s = \"Mr Ding\"\nOutput: \"rM gniD\"\n\n \nConstraints:\n\n1 <= s.length <= 5 * 104\ns contains printable ASCII characters.\ns does not contain any leading or trailing spaces.\nThere is at least one word in s.\nAll the words in s are separated by a single space.\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "\"Let's take LeetCode contest\"",
+      "\"Mr Ding\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "s": "\"Let's take LeetCode contest\""
+        },
+        "expected": "s'teL ekat edoCteeL tsetnoc"
+      }
+    ],
+    "python_starter": "class Solution:\n    def reverseWords(self, s: str) -> str:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "reverseWords",
+      "params": [
+        {
+          "name": "s",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "string"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def reverseWords(self, s: str) -> str:\n        # Split the string into words\n        words = s.split()\n        # Reverse each word and store in a new list\n        reversed_words = [word[::-1] for word in words]\n        # Join the reversed words with a space and return the result\n        return ' '.join(reversed_words)",
+    "explanation": "The solution works by first splitting the input string `s` into a list of words using the `split()` method. This method automatically handles the spaces and gives us a clean list of words. \n\nNext, we use a list comprehension to reverse each word in the list. The slicing operation `word[::-1]` effectively reverses the string. \n\nFinally, we join the reversed words back into a single string with spaces in between using `' '.join(reversed_words)`. This ensures that the original order of the words is preserved while the characters in each word are reversed.\n\n### Time Complexity\nThe time complexity of this solution is O(n), where n is the length of the input string. This is because we traverse the string to split it into words and then again to reverse each word.\n\n### Space Complexity\nThe space complexity is also O(n) due to the storage of the list of words and the final output string.\n\nOverall, this solution is efficient and meets the problem's constraints effectively."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:01:24"
+}

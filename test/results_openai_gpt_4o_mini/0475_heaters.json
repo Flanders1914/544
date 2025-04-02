@@ -1,0 +1,67 @@
+{
+  "problem": {
+    "id": "475",
+    "frontend_id": "475",
+    "title": "Heaters",
+    "description": "Winter is coming! During the contest, your first job is to design a standard heater with a fixed warm radius to warm all the houses.\nEvery house can be warmed, as long as the house is within the heater's warm radius range. \nGiven the positions of houses and heaters on a horizontal line, return the minimum radius standard of heaters so that those heaters could cover all houses.\nNotice that all the heaters follow your radius standard, and the warm radius will the same.\n \nExample 1:\n\nInput: houses = [1,2,3], heaters = [2]\nOutput: 1\nExplanation: The only heater was placed in the position 2, and if we use the radius 1 standard, then all the houses can be warmed.\n\nExample 2:\n\nInput: houses = [1,2,3,4], heaters = [1,4]\nOutput: 1\nExplanation: The two heaters were placed at positions 1 and 4. We need to use a radius 1 standard, then all the houses can be warmed.\n\nExample 3:\n\nInput: houses = [1,5], heaters = [2]\nOutput: 3\n\n \nConstraints:\n\n1 <= houses.length, heaters.length <= 3 * 104\n1 <= houses[i], heaters[i] <= 109\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[1,2,3]",
+      "[2]",
+      "[1,2,3,4]",
+      "[1,4]",
+      "[1,5]",
+      "[2]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "houses": "[1,2,3]",
+          "heaters": "[2]"
+        },
+        "expected": "1"
+      },
+      {
+        "input": {
+          "houses": "[1,2,3,4]",
+          "heaters": "[1,4]"
+        },
+        "expected": "1"
+      },
+      {
+        "input": {
+          "houses": "[1,5]",
+          "heaters": "[2]"
+        },
+        "expected": "3"
+      }
+    ],
+    "python_starter": "class Solution:\n    def findRadius(self, houses: List[int], heaters: List[int]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "findRadius",
+      "params": [
+        {
+          "name": "houses",
+          "type": "integer[]"
+        },
+        {
+          "name": "heaters",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\nimport bisect\n\nclass Solution:\n    def findRadius(self, houses: List[int], heaters: List[int]) -> int:\n        # Sort the heaters to enable binary search\n        heaters.sort()\n        \n        # Initialize the maximum radius needed\n        max_radius = 0\n        \n        # Iterate through each house\n        for house in houses:\n            # Use binary search to find the closest heater\n            pos = bisect.bisect_left(heaters, house)\n            \n            # Calculate the distance to the nearest heater\n            left_distance = float('inf') if pos == 0 else house - heaters[pos - 1]\n            right_distance = float('inf') if pos == len(heaters) else heaters[pos] - house\n            \n            # The minimum distance to a heater for this house\n            min_distance = min(left_distance, right_distance)\n            \n            # Update the maximum radius needed\n            max_radius = max(max_radius, min_distance)\n        \n        return max_radius",
+    "explanation": "The solution begins by sorting the list of heaters, which allows us to efficiently find the nearest heater for each house using binary search. The `bisect_left` function from the `bisect` module is used to find the position where the house would fit in the sorted list of heaters.\n\nFor each house, we calculate the distance to the nearest heater on the left (if it exists) and the nearest heater on the right (if it exists). The minimum of these two distances gives us the radius required for that particular house. We keep track of the maximum radius required across all houses, as this will be our final answer.\n\nThe time complexity of the solution is O(n log m) due to the sorting of heaters (O(m log m)) and the binary search for each house (O(n log m)). The space complexity is O(1) if we disregard the input storage, as we are only using a few extra variables for calculations.\n\nOverall, this approach efficiently determines the minimum radius needed for the heaters to cover all houses."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 1\nTest case 2:\n[PASS] Test passed: 1\nTest case 3:\n[PASS] Test passed: 3\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:58"
+}

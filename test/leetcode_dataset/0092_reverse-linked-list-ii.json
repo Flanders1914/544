@@ -1,0 +1,49 @@
+{
+  "id": "92",
+  "frontend_id": "92",
+  "title": "Reverse Linked List II",
+  "description": "Given the head of a singly linked list and two integers left and right where left <= right, reverse the nodes of the list from position left to position right, and return the reversed list.\n \nExample 1:\n\n\nInput: head = [1,2,3,4,5], left = 2, right = 4\nOutput: [1,4,3,2,5]\n\nExample 2:\n\nInput: head = [5], left = 1, right = 1\nOutput: [5]\n\n \nConstraints:\n\nThe number of nodes in the list is n.\n1 <= n <= 500\n-500 <= Node.val <= 500\n1 <= left <= right <= n\n\n \nFollow up: Could you do it in one pass?",
+  "difficulty": "Medium",
+  "examples": [
+    "[1,2,3,4,5]",
+    "2",
+    "4",
+    "[5]",
+    "1",
+    "1"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "head": "[1,2,3,4,5]",
+        "left": "2",
+        "right": "4"
+      },
+      "expected": "[1,4,3,2,5]"
+    }
+  ],
+  "python_starter": "# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution:\n    def reverseBetween(self, head: Optional[ListNode], left: int, right: int) -> Optional[ListNode]:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "reverseBetween",
+    "params": [
+      {
+        "name": "head",
+        "type": "ListNode",
+        "dealloc": false
+      },
+      {
+        "name": "left",
+        "type": "integer"
+      },
+      {
+        "name": "right",
+        "type": "integer"
+      }
+    ],
+    "return": {
+      "type": "ListNode",
+      "dealloc": true
+    }
+  }
+}

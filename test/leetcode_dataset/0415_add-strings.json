@@ -1,0 +1,42 @@
+{
+  "id": "415",
+  "frontend_id": "415",
+  "title": "Add Strings",
+  "description": "Given two non-negative integers, num1 and num2 represented as string, return the sum of num1 and num2 as a string.\nYou must solve the problem without using any built-in library for handling large integers (such as BigInteger). You must also not convert the inputs to integers directly.\n \nExample 1:\n\nInput: num1 = \"11\", num2 = \"123\"\nOutput: \"134\"\n\nExample 2:\n\nInput: num1 = \"456\", num2 = \"77\"\nOutput: \"533\"\n\nExample 3:\n\nInput: num1 = \"0\", num2 = \"0\"\nOutput: \"0\"\n\n \nConstraints:\n\n1 <= num1.length, num2.length <= 104\nnum1 and num2 consist of only digits.\nnum1 and num2 don't have any leading zeros except for the zero itself.\n\n",
+  "difficulty": "Easy",
+  "examples": [
+    "\"11\"",
+    "\"123\"",
+    "\"456\"",
+    "\"77\"",
+    "\"0\"",
+    "\"0\""
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "num1": "\"11\"",
+        "num2": "\"123\""
+      },
+      "expected": "134"
+    }
+  ],
+  "python_starter": "class Solution:\n    def addStrings(self, num1: str, num2: str) -> str:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "addStrings",
+    "params": [
+      {
+        "name": "num1",
+        "type": "string"
+      },
+      {
+        "name": "num2",
+        "type": "string"
+      }
+    ],
+    "return": {
+      "type": "string"
+    }
+  }
+}

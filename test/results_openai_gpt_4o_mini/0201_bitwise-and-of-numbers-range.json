@@ -1,0 +1,53 @@
+{
+  "problem": {
+    "id": "201",
+    "frontend_id": "201",
+    "title": "Bitwise AND of Numbers Range",
+    "description": "Given two integers left and right that represent the range [left, right], return the bitwise AND of all numbers in this range, inclusive.\n \nExample 1:\n\nInput: left = 5, right = 7\nOutput: 4\n\nExample 2:\n\nInput: left = 0, right = 0\nOutput: 0\n\nExample 3:\n\nInput: left = 1, right = 2147483647\nOutput: 0\n\n \nConstraints:\n\n0 <= left <= right <= 231 - 1\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "5",
+      "7",
+      "0",
+      "0",
+      "1",
+      "2147483647"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "left": "5",
+          "right": "7"
+        },
+        "expected": "4"
+      }
+    ],
+    "python_starter": "class Solution:\n    def rangeBitwiseAnd(self, left: int, right: int) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "rangeBitwiseAnd",
+      "params": [
+        {
+          "name": "left",
+          "type": "integer"
+        },
+        {
+          "name": "right",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def rangeBitwiseAnd(self, left: int, right: int) -> int:\n        shift = 0\n        # Find the common prefix\n        while left < right:\n            left >>= 1\n            right >>= 1\n            shift += 1\n        # Shift back to the left to get the result\n        return left << shift",
+    "explanation": "The solution works by finding the common prefix of the binary representations of the numbers in the range [left, right]. The while loop continues to right shift both left and right until they are equal, which means we have found the common prefix. The variable `shift` keeps track of how many times we have shifted.\n\nOnce left and right are equal, we left shift the result back by the number of shifts we performed. This effectively reconstructs the number with the common prefix followed by zeros for the bits that differ in the range.\n\nThe time complexity of this solution is O(log(max(left, right))) because we are shifting the numbers until they become equal, which takes logarithmic time relative to the size of the numbers. The space complexity is O(1) since we are using a constant amount of space for the variables.\n\nOverall, this approach is efficient and works well within the given constraints."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 4\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:41"
+}

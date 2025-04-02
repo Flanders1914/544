@@ -1,0 +1,50 @@
+{
+  "problem": {
+    "id": "516",
+    "frontend_id": "516",
+    "title": "Longest Palindromic Subsequence",
+    "description": "Given a string s, find the longest palindromic subsequence's length in s.\nA subsequence is a sequence that can be derived from another sequence by deleting some or no elements without changing the order of the remaining elements.\n \nExample 1:\n\nInput: s = \"bbbab\"\nOutput: 4\nExplanation: One possible longest palindromic subsequence is \"bbbb\".\n\nExample 2:\n\nInput: s = \"cbbd\"\nOutput: 2\nExplanation: One possible longest palindromic subsequence is \"bb\".\n\n \nConstraints:\n\n1 <= s.length <= 1000\ns consists only of lowercase English letters.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "\"bbbab\"",
+      "\"cbbd\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "s": "\"bbbab\""
+        },
+        "expected": "4"
+      },
+      {
+        "input": {
+          "s": "\"cbbd\""
+        },
+        "expected": "2"
+      }
+    ],
+    "python_starter": "class Solution:\n    def longestPalindromeSubseq(self, s: str) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "longestPalindromeSubseq",
+      "params": [
+        {
+          "name": "s",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def longestPalindromeSubseq(self, s: str) -> int:\n        n = len(s)\n        # Create a 2D DP array initialized to 0\n        dp = [[0] * n for _ in range(n)]\n        \n        # Every single character is a palindrome of length 1\n        for i in range(n):\n            dp[i][i] = 1\n        \n        # Fill the DP table\n        for length in range(2, n + 1):  # length of the substring\n            for i in range(n - length + 1):\n                j = i + length - 1  # end index of the substring\n                if s[i] == s[j]:\n                    dp[i][j] = dp[i + 1][j - 1] + 2\n                else:\n                    dp[i][j] = max(dp[i + 1][j], dp[i][j - 1])\n        \n        # The result is in the top right corner of the DP table\n        return dp[0][n - 1]",
+    "explanation": "The solution uses dynamic programming to efficiently compute the length of the longest palindromic subsequence in the string `s`. We initialize a 2D list `dp` where `dp[i][j]` holds the length of the longest palindromic subsequence in the substring `s[i:j+1]`.\n\n1. **Initialization**: Each character is a palindrome of length 1, so we set `dp[i][i] = 1` for all `i`.\n2. **Filling the DP Table**: We iterate over all possible substring lengths from 2 to `n`. For each substring defined by its start index `i` and end index `j`, we check if the characters at these indices are the same:\n   - If they are the same, we add 2 to the value of the longest palindromic subsequence found in the substring `s[i+1:j-1]`.\n   - If they are different, we take the maximum of the lengths found by excluding either the start or the end character.\n3. **Final Result**: The length of the longest palindromic subsequence for the entire string is found in `dp[0][n-1]`.\n\nThe time complexity is O(n^2) due to the nested loops, and the space complexity is also O(n^2) for the DP table. This approach is efficient given the constraints of the problem."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:01:21"
+}

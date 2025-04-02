@@ -1,0 +1,47 @@
+{
+  "problem": {
+    "id": "206",
+    "frontend_id": "206",
+    "title": "Reverse Linked List",
+    "description": "Given the head of a singly linked list, reverse the list, and return the reversed list.\n \nExample 1:\n\n\nInput: head = [1,2,3,4,5]\nOutput: [5,4,3,2,1]\n\nExample 2:\n\n\nInput: head = [1,2]\nOutput: [2,1]\n\nExample 3:\n\nInput: head = []\nOutput: []\n\n \nConstraints:\n\nThe number of nodes in the list is the range [0, 5000].\n-5000 <= Node.val <= 5000\n\n \nFollow up: A linked list can be reversed either iteratively or recursively. Could you implement both?\n",
+    "difficulty": "Easy",
+    "examples": [
+      "[1,2,3,4,5]",
+      "[1,2]",
+      "[]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "head": "[1,2,3,4,5]"
+        },
+        "expected": "[5,4,3,2,1]"
+      }
+    ],
+    "python_starter": "# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution:\n    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "reverseList",
+      "params": [
+        {
+          "name": "head",
+          "type": "ListNode",
+          "dealloc": false
+        }
+      ],
+      "return": {
+        "type": "ListNode",
+        "dealloc": true
+      }
+    }
+  },
+  "solution": {
+    "code": "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\n\nclass Solution:\n    # Iterative approach to reverse the linked list\n    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:\n        prev = None\n        current = head\n        \n        while current:\n            next_node = current.next  # Store the next node\n            current.next = prev       # Reverse the link\n            prev = current            # Move prev and current one step forward\n            current = next_node\n            \n        return prev  # New head of the reversed list\n\n    # Recursive approach to reverse the linked list\n    def reverseListRecursive(self, head: Optional[ListNode]) -> Optional[ListNode]:\n        # Base case: if head is empty or only one node\n        if not head or not head.next:\n            return head\n        \n        # Reverse the rest of the list\n        new_head = self.reverseListRecursive(head.next)\n        \n        # Reverse the current node's link\n        head.next.next = head\n        head.next = None  # Set the next of the current node to None\n        \n        return new_head  # Return the new head of the reversed list",
+    "explanation": "The provided solution includes both iterative and recursive methods to reverse a singly linked list.\n\n1. **Iterative Method**:\n   - We initialize `prev` to `None` and `current` to the head of the list.\n   - We loop through the list until `current` is `None`. In each iteration:\n     - We store the next node (`next_node`).\n     - We reverse the link by setting `current.next` to `prev`.\n     - We then move `prev` to `current` and `current` to `next_node`.\n   - Once the loop ends, `prev` will point to the new head of the reversed list, which we return.\n\n   **Time Complexity**: O(n), where n is the number of nodes in the list, since we traverse the list once.\n   **Space Complexity**: O(1), as we are using a constant amount of space.\n\n2. **Recursive Method**:\n   - The base case checks if the list is empty or has only one node, in which case we return the head.\n   - We recursively call the function on the next node until we reach the end of the list.\n   - After the recursive call, we reverse the link by setting `head.next.next` to `head` and `head.next` to `None`.\n   - Finally, we return the new head of the reversed list.\n\n   **Time Complexity**: O(n), as we still visit each node once.\n   **Space Complexity**: O(n), due to the recursion stack.\n\nBoth methods effectively reverse the linked list, and the choice between them can depend on the specific constraints and requirements of the problem."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:42"
+}

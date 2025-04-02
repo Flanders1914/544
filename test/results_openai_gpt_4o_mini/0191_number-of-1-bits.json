@@ -1,0 +1,58 @@
+{
+  "problem": {
+    "id": "191",
+    "frontend_id": "191",
+    "title": "Number of 1 Bits",
+    "description": "Given a positive integer n, write a function that returns the number of set bits in its binary representation (also known as the Hamming weight).\n \nExample 1:\n\nInput: n = 11\nOutput: 3\nExplanation:\nThe input binary string 1011 has a total of three set bits.\n\nExample 2:\n\nInput: n = 128\nOutput: 1\nExplanation:\nThe input binary string 10000000 has a total of one set bit.\n\nExample 3:\n\nInput: n = 2147483645\nOutput: 30\nExplanation:\nThe input binary string 1111111111111111111111111111101 has a total of thirty set bits.\n\n \nConstraints:\n\n1 <= n <= 231 - 1\n\n \nFollow up: If this function is called many times, how would you optimize it?",
+    "difficulty": "Easy",
+    "examples": [
+      "11",
+      "128",
+      "2147483645"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "n": "11"
+        },
+        "expected": "3"
+      },
+      {
+        "input": {
+          "n": "128"
+        },
+        "expected": "1"
+      },
+      {
+        "input": {
+          "n": "2147483645"
+        },
+        "expected": "30"
+      }
+    ],
+    "python_starter": "class Solution:\n    def hammingWeight(self, n: int) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "hammingWeight",
+      "params": [
+        {
+          "name": "n",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      },
+      "manual": false
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def hammingWeight(self, n: int) -> int:\n        count = 0\n        while n:\n            count += n & 1  # Increment count if the least significant bit is 1\n            n >>= 1         # Right shift n to check the next bit\n        return count",
+    "explanation": "The provided solution uses a while loop to iterate through each bit of the integer `n`. The expression `n & 1` checks if the least significant bit is set (i.e., if it is 1). If it is, we increment our `count`. We then right-shift `n` by one bit using `n >>= 1`, effectively discarding the least significant bit we just checked. This process continues until `n` becomes zero.\n\n### Time Complexity\nThe time complexity of this solution is O(log n), where n is the input number. This is because the number of bits in `n` is proportional to log(n) in base 2.\n\n### Space Complexity\nThe space complexity is O(1) since we are using a constant amount of space for the `count` variable and not utilizing any additional data structures.\n\nThis solution is efficient and works well within the given constraints (1 <= n <= 2^31 - 1)."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 3\nTest case 2:\n[PASS] Test passed: 1\nTest case 3:\n[PASS] Test passed: 30\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:41"
+}

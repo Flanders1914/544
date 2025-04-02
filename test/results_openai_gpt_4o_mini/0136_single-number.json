@@ -1,0 +1,47 @@
+{
+  "problem": {
+    "id": "136",
+    "frontend_id": "136",
+    "title": "Single Number",
+    "description": "Given a non-empty array of integers nums, every element appears twice except for one. Find that single one.\nYou must implement a solution with a linear runtime complexity and use only constant extra space.\n \nExample 1:\n\nInput: nums = [2,2,1]\nOutput: 1\n\nExample 2:\n\nInput: nums = [4,1,2,1,2]\nOutput: 4\n\nExample 3:\n\nInput: nums = [1]\nOutput: 1\n\n \nConstraints:\n\n1 <= nums.length <= 3 * 104\n-3 * 104 <= nums[i] <= 3 * 104\nEach element in the array appears twice except for one element which appears only once.\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "[2,2,1]",
+      "[4,1,2,1,2]",
+      "[1]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[2,2,1]"
+        },
+        "expected": "1"
+      }
+    ],
+    "python_starter": "class Solution:\n    def singleNumber(self, nums: List[int]) -> int:\n        ",
+    "hints": [
+      "Think about the XOR (^) operator's property."
+    ],
+    "meta_data": {
+      "name": "singleNumber",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def singleNumber(self, nums: List[int]) -> int:\n        # Initialize result to 0\n        result = 0\n        \n        # XOR all numbers in the array\n        for num in nums:\n            result ^= num\n        \n        # The result will be the single number\n        return result",
+    "explanation": "The provided solution uses the XOR operation to find the single number in the array. Here's a step-by-step breakdown of how it works:\n\n1. **Initialization**: We start by initializing a variable `result` to 0. This will hold the cumulative XOR of all numbers in the array.\n\n2. **Iterate through the array**: We loop through each number in the input list `nums`. For each number, we perform the XOR operation with `result`.\n\n3. **XOR operation**: As we XOR each number:\n   - If a number appears twice, it will cancel itself out (e.g., `num ^ num = 0`).\n   - The number that appears only once will remain in the `result` after all XOR operations are completed.\n\n4. **Return the result**: After processing all numbers, `result` will contain the single number that does not have a duplicate.\n\n**Time Complexity**: O(n), where n is the number of elements in the input list. We make a single pass through the list.\n\n**Space Complexity**: O(1), as we are using a constant amount of space regardless of the input size.\n\nThis approach is efficient and meets the problem's constraints perfectly."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 1\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:37"
+}

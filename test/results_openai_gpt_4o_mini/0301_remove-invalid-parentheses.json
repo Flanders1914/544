@@ -1,0 +1,50 @@
+{
+  "problem": {
+    "id": "301",
+    "frontend_id": "301",
+    "title": "Remove Invalid Parentheses",
+    "description": "Given a string s that contains parentheses and letters, remove the minimum number of invalid parentheses to make the input string valid.\nReturn a list of unique strings that are valid with the minimum number of removals. You may return the answer in any order.\n \nExample 1:\n\nInput: s = \"()())()\"\nOutput: [\"(())()\",\"()()()\"]\n\nExample 2:\n\nInput: s = \"(a)())()\"\nOutput: [\"(a())()\",\"(a)()()\"]\n\nExample 3:\n\nInput: s = \")(\"\nOutput: [\"\"]\n\n \nConstraints:\n\n1 <= s.length <= 25\ns consists of lowercase English letters and parentheses '(' and ')'.\nThere will be at most 20 parentheses in s.\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "\"()())()\"",
+      "\"(a)())()\"",
+      "\")(\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "s": "\"()())()\""
+        },
+        "expected": "[(())(),()()()]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def removeInvalidParentheses(self, s: str) -> List[str]:\n        ",
+    "hints": [
+      "Since we do not know which brackets can be removed, we try all the options! We can use recursion.",
+      "In the recursion, for each bracket, we can either use it or remove it.",
+      "Recursion will generate all the valid parentheses strings but we want the ones with the least number of parentheses deleted.",
+      "We can count the number of invalid brackets to be deleted and only generate the valid strings in the recusrion."
+    ],
+    "meta_data": {
+      "name": "removeInvalidParentheses",
+      "params": [
+        {
+          "name": "s",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "list<string>"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\nfrom collections import deque\n\nclass Solution:\n    def removeInvalidParentheses(self, s: str) -> List[str]:\n        def is_valid(string: str) -> bool:\n            count = 0\n            for char in string:\n                if char == '(':\n                    count += 1\n                elif char == ')':\n                    count -= 1\n                if count < 0:  # More closing than opening\n                    return False\n            return count == 0  # Must be balanced at the end\n\n        result = []\n        queue = deque([s])\n        visited = set([s])\n        found = False\n\n        while queue:\n            current = queue.popleft()\n            if is_valid(current):\n                result.append(current)\n                found = True  # Found at least one valid string\n            if found:\n                continue  # No need to generate more strings if we found valid ones\n\n            for i in range(len(current)):\n                if current[i] in '()':  # Only try to remove parentheses\n                    next_string = current[:i] + current[i+1:]\n                    if next_string not in visited:\n                        visited.add(next_string)\n                        queue.append(next_string)\n\n        return result",
+    "explanation": "The solution uses a breadth-first search (BFS) strategy to explore all possible strings formed by removing parentheses from the input string. The key steps are:\n\n1. **Validation Function**: The `is_valid` function checks if a string has balanced parentheses by maintaining a count of open and close parentheses. If at any point the count goes negative, it indicates an invalid configuration.\n\n2. **BFS Implementation**: We initialize a queue with the original string and a set to track visited strings. We process each string in the queue:\n   - If the string is valid, we add it to the result list and set a flag indicating that we found valid strings.\n   - If we have found valid strings, we stop further exploration at that level to ensure we only return strings with the minimum number of removals.\n   - For each character in the current string, if it is a parenthesis, we generate a new string by removing that character and add it to the queue if it hasn't been visited.\n\n3. **Complexity Analysis**:\n   - **Time Complexity**: The worst-case scenario involves generating all possible strings by removing parentheses, which can be exponential in nature. However, since the maximum length of the string is 25 and there are at most 20 parentheses, the BFS will be manageable within these constraints.\n   - **Space Complexity**: The space complexity is primarily due to the queue and the visited set, which can also grow exponentially in the worst case, but is limited by the number of unique strings generated.\n\nOverall, this approach efficiently finds all unique valid strings with the minimum number of invalid parentheses removed."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\nC:\\Users\\PC\\AppData\\Local\\Temp\\tmplk1vspnb.py:75: SyntaxWarning: 'tuple' object is not callable; perhaps you missed a comma?\n  expected_0 = [(())(),()()()]\nC:\\Users\\PC\\AppData\\Local\\Temp\\tmplk1vspnb.py:75: SyntaxWarning: 'tuple' object is not callable; perhaps you missed a comma?\n  expected_0 = [(())(),()()()]\n"
+  },
+  "timestamp": "2025-04-01 18:00:47"
+}

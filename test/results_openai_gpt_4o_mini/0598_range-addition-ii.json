@@ -1,0 +1,69 @@
+{
+  "problem": {
+    "id": "598",
+    "frontend_id": "598",
+    "title": "Range Addition II",
+    "description": "You are given an m x n matrix M initialized with all 0's and an array of operations ops, where ops[i] = [ai, bi] means M[x][y] should be incremented by one for all 0 <= x < ai and 0 <= y < bi.\nCount and return the number of maximum integers in the matrix after performing all the operations.\n \nExample 1:\n\n\nInput: m = 3, n = 3, ops = [[2,2],[3,3]]\nOutput: 4\nExplanation: The maximum integer in M is 2, and there are four of it in M. So return 4.\n\nExample 2:\n\nInput: m = 3, n = 3, ops = [[2,2],[3,3],[3,3],[3,3],[2,2],[3,3],[3,3],[3,3],[2,2],[3,3],[3,3],[3,3]]\nOutput: 4\n\nExample 3:\n\nInput: m = 3, n = 3, ops = []\nOutput: 9\n\n \nConstraints:\n\n1 <= m, n <= 4 * 104\n0 <= ops.length <= 104\nops[i].length == 2\n1 <= ai <= m\n1 <= bi <= n\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "3",
+      "3",
+      "[[2,2],[3,3]]",
+      "3",
+      "3",
+      "[[2,2],[3,3],[3,3],[3,3],[2,2],[3,3],[3,3],[3,3],[2,2],[3,3],[3,3],[3,3]]",
+      "3",
+      "3",
+      "[]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "m": "3",
+          "n": "3",
+          "ops": "[[2,2]"
+        },
+        "expected": "4"
+      },
+      {
+        "input": {
+          "m": "3",
+          "n": "3",
+          "ops": "[[2,2]"
+        },
+        "expected": "4"
+      }
+    ],
+    "python_starter": "class Solution:\n    def maxCount(self, m: int, n: int, ops: List[List[int]]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "maxCount",
+      "params": [
+        {
+          "name": "m",
+          "type": "integer"
+        },
+        {
+          "name": "n",
+          "type": "integer"
+        },
+        {
+          "name": "ops",
+          "type": "integer[][]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def maxCount(self, m: int, n: int, ops: List[List[int]]) -> int:\n        if not ops:\n            return m * n  # If no operations, all cells are 0\n        \n        # Initialize min_ai and min_bi to maximum possible values\n        min_ai = m\n        min_bi = n\n        \n        # Find the minimum ai and bi from the operations\n        for op in ops:\n            min_ai = min(min_ai, op[0])\n            min_bi = min(min_bi, op[1])\n        \n        # The maximum value in the matrix is the number of operations affecting the min rectangle\n        return min_ai * min_bi",
+    "explanation": "The solution begins by checking if there are any operations provided. If the `ops` list is empty, it returns the total number of cells in the matrix, which is `m * n`, since all cells remain 0.\n\nIf there are operations, we initialize `min_ai` and `min_bi` to the dimensions of the matrix (`m` and `n`, respectively). We then iterate through each operation in the `ops` list to find the minimum values of `ai` and `bi`. This gives us the dimensions of the rectangle in the matrix that will have the maximum value after all operations are applied.\n\nFinally, the count of the maximum integers in the matrix is simply the product of `min_ai` and `min_bi`, which represents the area of the rectangle that has been incremented the most.\n\nThe time complexity of this solution is O(k), where k is the number of operations, since we only need to iterate through the `ops` list once. The space complexity is O(1) as we are using a constant amount of extra space."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmphfu6r539.py\", line 56\n    input_0_2 = [[2,2]\n                 ^^^^^\nSyntaxError: invalid syntax. Perhaps you forgot a comma?\n"
+  },
+  "timestamp": "2025-04-01 18:01:27"
+}

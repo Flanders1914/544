@@ -1,0 +1,50 @@
+{
+  "problem": {
+    "id": "486",
+    "frontend_id": "486",
+    "title": "Predict the Winner",
+    "description": "You are given an integer array nums. Two players are playing a game with this array: player 1 and player 2.\nPlayer 1 and player 2 take turns, with player 1 starting first. Both players start the game with a score of 0. At each turn, the player takes one of the numbers from either end of the array (i.e., nums[0] or nums[nums.length - 1]) which reduces the size of the array by 1. The player adds the chosen number to their score. The game ends when there are no more elements in the array.\nReturn true if Player 1 can win the game. If the scores of both players are equal, then player 1 is still the winner, and you should also return true. You may assume that both players are playing optimally.\n \nExample 1:\n\nInput: nums = [1,5,2]\nOutput: false\nExplanation: Initially, player 1 can choose between 1 and 2. \nIf he chooses 2 (or 1), then player 2 can choose from 1 (or 2) and 5. If player 2 chooses 5, then player 1 will be left with 1 (or 2). \nSo, final score of player 1 is 1 + 2 = 3, and player 2 is 5. \nHence, player 1 will never be the winner and you need to return false.\n\nExample 2:\n\nInput: nums = [1,5,233,7]\nOutput: true\nExplanation: Player 1 first chooses 1. Then player 2 has to choose between 5 and 7. No matter which number player 2 choose, player 1 can choose 233.\nFinally, player 1 has more score (234) than player 2 (12), so you need to return True representing player1 can win.\n\n \nConstraints:\n\n1 <= nums.length <= 20\n0 <= nums[i] <= 107\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[1,5,2]",
+      "[1,5,233,7]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[1,5,2]"
+        },
+        "expected": "false"
+      },
+      {
+        "input": {
+          "nums": "[1,5,233,7]"
+        },
+        "expected": "true"
+      }
+    ],
+    "python_starter": "class Solution:\n    def predictTheWinner(self, nums: List[int]) -> bool:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "predictTheWinner",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def predictTheWinner(self, nums: List[int]) -> bool:\n        n = len(nums)\n        # Create a DP table initialized to 0\n        dp = [[0] * n for _ in range(n)]\n        \n        # Base case: when there's only one number to pick\n        for i in range(n):\n            dp[i][i] = nums[i]\n        \n        # Fill the DP table\n        for length in range(2, n + 1):  # length of the subarray\n            for i in range(n - length + 1):\n                j = i + length - 1\n                # Player 1's optimal choice\n                dp[i][j] = max(nums[i] - dp[i + 1][j], nums[j] - dp[i][j - 1])\n        \n        # If the score difference is non-negative, Player 1 can win\n        return dp[0][n - 1] >= 0",
+    "explanation": "The solution uses dynamic programming to determine if Player 1 can win the game. We create a 2D list `dp` where `dp[i][j]` stores the maximum score difference Player 1 can achieve over Player 2 when considering the subarray from index `i` to `j`.\n\n1. **Base Case**: When `i == j`, Player 1 can only pick that single number, so `dp[i][i] = nums[i]`.\n\n2. **Filling the DP Table**: We iterate over all possible lengths of subarrays from 2 to `n`. For each subarray defined by indices `i` and `j`, we calculate the maximum score difference based on the two choices Player 1 has:\n   - Picking the left end (`nums[i]`), which gives a score of `nums[i]` minus the optimal score Player 2 can achieve from the remaining subarray.\n   - Picking the right end (`nums[j]`), which gives a score of `nums[j]` minus the optimal score Player 2 can achieve from the remaining subarray.\n\n3. **Final Decision**: After filling the DP table, we check the value of `dp[0][n-1]`. If it is non-negative, it means Player 1 can win or tie, so we return `True`. Otherwise, we return `False`.\n\n**Time Complexity**: O(n^2) due to the nested loops filling the DP table.\n\n**Space Complexity**: O(n^2) for the DP table."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: False\nTest case 2:\n[PASS] Test passed: True\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:59"
+}

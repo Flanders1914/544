@@ -1,0 +1,46 @@
+{
+  "id": "172",
+  "frontend_id": "172",
+  "title": "Factorial Trailing Zeroes",
+  "description": "Given an integer n, return the number of trailing zeroes in n!.\nNote that n! = n * (n - 1) * (n - 2) * ... * 3 * 2 * 1.\n \nExample 1:\n\nInput: n = 3\nOutput: 0\nExplanation: 3! = 6, no trailing zero.\n\nExample 2:\n\nInput: n = 5\nOutput: 1\nExplanation: 5! = 120, one trailing zero.\n\nExample 3:\n\nInput: n = 0\nOutput: 0\n\n \nConstraints:\n\n0 <= n <= 104\n\n \nFollow up: Could you write a solution that works in logarithmic time complexity?\n",
+  "difficulty": "Medium",
+  "examples": [
+    "3",
+    "5",
+    "0"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "n": "3"
+      },
+      "expected": "0"
+    },
+    {
+      "input": {
+        "n": "5"
+      },
+      "expected": "1"
+    },
+    {
+      "input": {
+        "n": "0"
+      },
+      "expected": "0"
+    }
+  ],
+  "python_starter": "class Solution:\n    def trailingZeroes(self, n: int) -> int:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "trailingZeroes",
+    "params": [
+      {
+        "name": "n",
+        "type": "integer"
+      }
+    ],
+    "return": {
+      "type": "integer"
+    }
+  }
+}

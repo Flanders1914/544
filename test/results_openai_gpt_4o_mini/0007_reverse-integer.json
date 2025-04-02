@@ -1,0 +1,45 @@
+{
+  "problem": {
+    "id": "7",
+    "frontend_id": "7",
+    "title": "Reverse Integer",
+    "description": "Given a signed 32-bit integer x, return x with its digits reversed. If reversing x causes the value to go outside the signed 32-bit integer range [-231, 231 - 1], then return 0.\nAssume the environment does not allow you to store 64-bit integers (signed or unsigned).\n \nExample 1:\n\nInput: x = 123\nOutput: 321\n\nExample 2:\n\nInput: x = -123\nOutput: -321\n\nExample 3:\n\nInput: x = 120\nOutput: 21\n\n \nConstraints:\n\n-231 <= x <= 231 - 1\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "123",
+      "-123",
+      "120"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "x": "123"
+        },
+        "expected": "321"
+      }
+    ],
+    "python_starter": "class Solution:\n    def reverse(self, x: int) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "reverse",
+      "params": [
+        {
+          "name": "x",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def reverse(self, x: int) -> int:\n        # Define the 32-bit signed integer range\n        INT_MIN, INT_MAX = -2**31, 2**31 - 1\n        \n        # Determine the sign of x\n        sign = -1 if x < 0 else 1\n        x_abs = abs(x)\n        \n        # Reverse the digits of the absolute value\n        reversed_x = int(str(x_abs)[::-1])\n        \n        # Apply the sign to the reversed integer\n        reversed_x *= sign\n        \n        # Check for overflow and return the result\n        if reversed_x < INT_MIN or reversed_x > INT_MAX:\n            return 0\n        return reversed_x",
+    "explanation": "The solution begins by defining the minimum and maximum values for a signed 32-bit integer. We then check the sign of the input integer `x`. If `x` is negative, we store the sign and work with its absolute value to simplify the reversal process.\n\nNext, we convert the absolute value of `x` to a string, reverse that string using slicing (`[::-1]`), and convert it back to an integer. We then reapply the original sign to the reversed integer.\n\nBefore returning the result, we check if the reversed integer falls within the valid range of a signed 32-bit integer. If it does not, we return 0 as specified in the problem statement.\n\nThe time complexity of this solution is O(n), where n is the number of digits in the integer, due to the string conversion and reversal. The space complexity is O(1) since we are using a constant amount of space for variables, regardless of the input size."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 321\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:25"
+}

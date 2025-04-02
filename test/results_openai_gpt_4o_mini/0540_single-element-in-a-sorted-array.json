@@ -1,0 +1,45 @@
+{
+  "problem": {
+    "id": "540",
+    "frontend_id": "540",
+    "title": "Single Element in a Sorted Array",
+    "description": "You are given a sorted array consisting of only integers where every element appears exactly twice, except for one element which appears exactly once.\nReturn the single element that appears only once.\nYour solution must run in O(log n) time and O(1) space.\n \nExample 1:\nInput: nums = [1,1,2,3,3,4,4,8,8]\nOutput: 2\nExample 2:\nInput: nums = [3,3,7,7,10,11,11]\nOutput: 10\n\n \nConstraints:\n\n1 <= nums.length <= 105\n0 <= nums[i] <= 105\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[1,1,2,3,3,4,4,8,8]",
+      "[3,3,7,7,10,11,11]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[1,1,2,3,3,4,4,8,8]"
+        },
+        "expected": "2"
+      }
+    ],
+    "python_starter": "class Solution:\n    def singleNonDuplicate(self, nums: List[int]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "singleNonDuplicate",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      },
+      "manual": false
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def singleNonDuplicate(self, nums: List[int]) -> int:\n        left, right = 0, len(nums) - 1\n        \n        while left < right:\n            mid = left + (right - left) // 2\n            \n            # Ensure mid is even\n            if mid % 2 == 1:\n                mid -= 1\n            \n            # Check if the pair is valid\n            if nums[mid] == nums[mid + 1]:\n                left = mid + 2  # Move to the right half\n            else:\n                right = mid  # Move to the left half\n        \n        return nums[left]  # The single element is at the left pointer",
+    "explanation": "The solution uses a binary search algorithm to efficiently find the single element in a sorted array. The key steps are as follows:\n\n1. **Initialization**: We start with two pointers, `left` and `right`, which represent the bounds of our search space.\n\n2. **Binary Search Loop**: We continue the search while `left` is less than `right`. We calculate the mid-point and adjust it to ensure it is even.\n\n3. **Pair Checking**: Depending on whether the mid-point's value matches the next or previous value, we adjust our search bounds:\n   - If `nums[mid]` equals `nums[mid + 1]`, it indicates that the single element must be to the right, so we move `left` to `mid + 2`.\n   - If they are not equal, it indicates that the single element is either at `mid` or to the left, so we move `right` to `mid`.\n\n4. **Termination**: The loop continues until `left` equals `right`, at which point `left` points to the single element.\n\n**Time Complexity**: O(log n) due to the binary search approach.\n\n**Space Complexity**: O(1) since we are using a constant amount of space for the pointers.\n\nThis efficient approach ensures that we can handle the upper limits of the input constraints effectively."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 2\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:01:23"
+}

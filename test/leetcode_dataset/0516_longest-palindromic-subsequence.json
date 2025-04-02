@@ -1,0 +1,39 @@
+{
+  "id": "516",
+  "frontend_id": "516",
+  "title": "Longest Palindromic Subsequence",
+  "description": "Given a string s, find the longest palindromic subsequence's length in s.\nA subsequence is a sequence that can be derived from another sequence by deleting some or no elements without changing the order of the remaining elements.\n \nExample 1:\n\nInput: s = \"bbbab\"\nOutput: 4\nExplanation: One possible longest palindromic subsequence is \"bbbb\".\n\nExample 2:\n\nInput: s = \"cbbd\"\nOutput: 2\nExplanation: One possible longest palindromic subsequence is \"bb\".\n\n \nConstraints:\n\n1 <= s.length <= 1000\ns consists only of lowercase English letters.\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "\"bbbab\"",
+    "\"cbbd\""
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "s": "\"bbbab\""
+      },
+      "expected": "4"
+    },
+    {
+      "input": {
+        "s": "\"cbbd\""
+      },
+      "expected": "2"
+    }
+  ],
+  "python_starter": "class Solution:\n    def longestPalindromeSubseq(self, s: str) -> int:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "longestPalindromeSubseq",
+    "params": [
+      {
+        "name": "s",
+        "type": "string"
+      }
+    ],
+    "return": {
+      "type": "integer"
+    }
+  }
+}

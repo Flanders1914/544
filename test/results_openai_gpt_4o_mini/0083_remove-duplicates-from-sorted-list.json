@@ -1,0 +1,46 @@
+{
+  "problem": {
+    "id": "83",
+    "frontend_id": "83",
+    "title": "Remove Duplicates from Sorted List",
+    "description": "Given the head of a sorted linked list, delete all duplicates such that each element appears only once. Return the linked list sorted as well.\n \nExample 1:\n\n\nInput: head = [1,1,2]\nOutput: [1,2]\n\nExample 2:\n\n\nInput: head = [1,1,2,3,3]\nOutput: [1,2,3]\n\n \nConstraints:\n\nThe number of nodes in the list is in the range [0, 300].\n-100 <= Node.val <= 100\nThe list is guaranteed to be sorted in ascending order.\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "[1,1,2]",
+      "[1,1,2,3,3]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "head": "[1,1,2]"
+        },
+        "expected": "[1,2]"
+      }
+    ],
+    "python_starter": "# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution:\n    def deleteDuplicates(self, head: Optional[ListNode]) -> Optional[ListNode]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "deleteDuplicates",
+      "params": [
+        {
+          "name": "head",
+          "type": "ListNode",
+          "dealloc": false
+        }
+      ],
+      "return": {
+        "type": "ListNode",
+        "dealloc": true
+      }
+    }
+  },
+  "solution": {
+    "code": "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\n\nclass Solution:\n    def deleteDuplicates(self, head: Optional[ListNode]) -> Optional[ListNode]:\n        # Initialize the current node to the head of the list\n        current = head\n        \n        # Traverse the list until we reach the end\n        while current and current.next:\n            # If the current node's value is the same as the next node's value\n            if current.val == current.next.val:\n                # Skip the next node by linking to the node after next\n                current.next = current.next.next\n            else:\n                # Move to the next node\n                current = current.next\n        \n        # Return the modified list\n        return head",
+    "explanation": "The provided solution defines a method `deleteDuplicates` that takes the head of a sorted linked list as input and returns the head of the modified list with duplicates removed. \n\n1. **Initialization**: We start by setting a pointer `current` to the head of the list.\n2. **Traversal**: We enter a while loop that continues as long as `current` and `current.next` are not `None`. This ensures we do not go out of bounds.\n3. **Duplicate Check**: Inside the loop, we check if the value of the current node is equal to the value of the next node. If they are equal, it indicates a duplicate, and we adjust the `next` pointer of the current node to skip the duplicate node.\n4. **Move Forward**: If the values are not equal, we simply move the `current` pointer to the next node.\n5. **Return**: Finally, we return the head of the modified list.\n\n**Time Complexity**: O(n), where n is the number of nodes in the linked list, since we traverse the list once.\n\n**Space Complexity**: O(1), as we are modifying the list in place without using any extra space.\n\nThis solution efficiently removes duplicates while maintaining the order of the linked list."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:32"
+}

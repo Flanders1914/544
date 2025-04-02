@@ -1,0 +1,50 @@
+{
+  "problem": {
+    "id": "551",
+    "frontend_id": "551",
+    "title": "Student Attendance Record I",
+    "description": "You are given a string s representing an attendance record for a student where each character signifies whether the student was absent, late, or present on that day. The record only contains the following three characters:\n\n'A': Absent.\n'L': Late.\n'P': Present.\n\nThe student is eligible for an attendance award if they meet both of the following criteria:\n\nThe student was absent ('A') for strictly fewer than 2 days total.\nThe student was never late ('L') for 3 or more consecutive days.\n\nReturn true if the student is eligible for an attendance award, or false otherwise.\n \nExample 1:\n\nInput: s = \"PPALLP\"\nOutput: true\nExplanation: The student has fewer than 2 absences and was never late 3 or more consecutive days.\n\nExample 2:\n\nInput: s = \"PPALLL\"\nOutput: false\nExplanation: The student was late 3 consecutive days in the last 3 days, so is not eligible for the award.\n\n \nConstraints:\n\n1 <= s.length <= 1000\ns[i] is either 'A', 'L', or 'P'.\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "\"PPALLP\"",
+      "\"PPALLL\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "s": "\"PPALLP\""
+        },
+        "expected": "true"
+      },
+      {
+        "input": {
+          "s": "\"PPALLL\""
+        },
+        "expected": "false"
+      }
+    ],
+    "python_starter": "class Solution:\n    def checkRecord(self, s: str) -> bool:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "checkRecord",
+      "params": [
+        {
+          "name": "s",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def checkRecord(self, s: str) -> bool:\n        absences = 0  # Count of 'A'\n        late_count = 0  # Count of consecutive 'L'\n        \n        for i in range(len(s)):\n            if s[i] == 'A':\n                absences += 1\n                if absences >= 2:  # Check for absences\n                    return False\n            \n            if s[i] == 'L':\n                late_count += 1  # Increment late count\n                if late_count >= 3:  # Check for consecutive 'L's\n                    return False\n            else:\n                late_count = 0  # Reset late count if not 'L'\n        \n        return True  # Eligible for award if both conditions are satisfied",
+    "explanation": "The solution iterates through the attendance record string `s` while maintaining two counters: one for the number of absences (`absences`) and another for the count of consecutive late days (`late_count`). \n\n1. For each character in the string:\n   - If the character is 'A', we increment the `absences` counter. If this counter reaches 2, we return `False` immediately since the student is not eligible for the award.\n   - If the character is 'L', we increment the `late_count`. If this count reaches 3, we also return `False` since the student has been late for 3 consecutive days.\n   - If the character is 'P', we reset the `late_count` to 0 because the streak of late days is broken.\n\n2. If we finish iterating through the string without violating either condition, we return `True`, indicating the student is eligible for the award.\n\nThe time complexity of this solution is O(n), where n is the length of the string, as we only make a single pass through the input. The space complexity is O(1) since we are using a constant amount of space for the counters."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: True\nTest case 2:\n[PASS] Test passed: False\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:01:23"
+}

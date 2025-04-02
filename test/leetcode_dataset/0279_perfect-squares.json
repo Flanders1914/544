@@ -1,0 +1,39 @@
+{
+  "id": "279",
+  "frontend_id": "279",
+  "title": "Perfect Squares",
+  "description": "Given an integer n, return the least number of perfect square numbers that sum to n.\nA perfect square is an integer that is the square of an integer; in other words, it is the product of some integer with itself. For example, 1, 4, 9, and 16 are perfect squares while 3 and 11 are not.\n \nExample 1:\n\nInput: n = 12\nOutput: 3\nExplanation: 12 = 4 + 4 + 4.\n\nExample 2:\n\nInput: n = 13\nOutput: 2\nExplanation: 13 = 4 + 9.\n\n \nConstraints:\n\n1 <= n <= 104\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "12",
+    "13"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "n": "12"
+      },
+      "expected": "3"
+    },
+    {
+      "input": {
+        "n": "13"
+      },
+      "expected": "2"
+    }
+  ],
+  "python_starter": "class Solution:\n    def numSquares(self, n: int) -> int:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "numSquares",
+    "params": [
+      {
+        "name": "n",
+        "type": "integer"
+      }
+    ],
+    "return": {
+      "type": "integer"
+    }
+  }
+}

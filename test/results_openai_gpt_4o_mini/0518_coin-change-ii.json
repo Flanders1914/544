@@ -1,0 +1,67 @@
+{
+  "problem": {
+    "id": "518",
+    "frontend_id": "518",
+    "title": "Coin Change II",
+    "description": "You are given an integer array coins representing coins of different denominations and an integer amount representing a total amount of money.\nReturn the number of combinations that make up that amount. If that amount of money cannot be made up by any combination of the coins, return 0.\nYou may assume that you have an infinite number of each kind of coin.\nThe answer is guaranteed to fit into a signed 32-bit integer.\n \nExample 1:\n\nInput: amount = 5, coins = [1,2,5]\nOutput: 4\nExplanation: there are four ways to make up the amount:\n5=5\n5=2+2+1\n5=2+1+1+1\n5=1+1+1+1+1\n\nExample 2:\n\nInput: amount = 3, coins = [2]\nOutput: 0\nExplanation: the amount of 3 cannot be made up just with coins of 2.\n\nExample 3:\n\nInput: amount = 10, coins = [10]\nOutput: 1\n\n \nConstraints:\n\n1 <= coins.length <= 300\n1 <= coins[i] <= 5000\nAll the values of coins are unique.\n0 <= amount <= 5000\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "5",
+      "[1,2,5]",
+      "3",
+      "[2]",
+      "10",
+      "[10]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "amount": "5",
+          "coins": "[1,2,5]"
+        },
+        "expected": "4"
+      },
+      {
+        "input": {
+          "amount": "3",
+          "coins": "[2]"
+        },
+        "expected": "0"
+      },
+      {
+        "input": {
+          "amount": "10",
+          "coins": "[10]"
+        },
+        "expected": "1"
+      }
+    ],
+    "python_starter": "class Solution:\n    def change(self, amount: int, coins: List[int]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "change",
+      "params": [
+        {
+          "name": "amount",
+          "type": "integer"
+        },
+        {
+          "name": "coins",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def change(self, amount: int, coins: List[int]) -> int:\n        # Initialize a dp array with size amount + 1\n        dp = [0] * (amount + 1)\n        # There is one way to make amount 0: use no coins\n        dp[0] = 1\n        \n        # Iterate over each coin\n        for coin in coins:\n            # Update the dp array for all amounts from coin to amount\n            for j in range(coin, amount + 1):\n                dp[j] += dp[j - coin]\n        \n        # The answer is the number of ways to make the target amount\n        return dp[amount]",
+    "explanation": "The solution uses a dynamic programming approach to count the number of combinations that can form a given amount using an infinite supply of coins of specified denominations. \n\n1. **Initialization**: We create a list `dp` of size `amount + 1` initialized to zero, except for `dp[0]`, which is set to 1. This represents the base case where there is one way to make the amount 0 (by using no coins).\n\n2. **Filling the DP Array**: For each coin, we iterate through all possible amounts from the coin's value up to the target amount. For each amount `j`, we update `dp[j]` by adding `dp[j - coin]`. This means that if we include the current coin, the number of ways to make `j` increases by the number of ways to make `j - coin`.\n\n3. **Final Output**: After processing all coins, `dp[amount]` contains the total number of combinations to make the target amount.\n\n**Time Complexity**: O(n * amount), where n is the number of coins. This is because we iterate through each coin and for each coin, we iterate through the amounts from the coin's value to the target amount.\n\n**Space Complexity**: O(amount), as we only need a single array of size `amount + 1` to store the number of combinations for each amount.\n\nThis efficient approach ensures that we can handle the upper limits of the problem constraints effectively."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 4\nTest case 2:\n[PASS] Test passed: 0\nTest case 3:\n[PASS] Test passed: 1\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:01:21"
+}

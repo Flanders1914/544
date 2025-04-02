@@ -1,0 +1,56 @@
+{
+  "problem": {
+    "id": "445",
+    "frontend_id": "445",
+    "title": "Add Two Numbers II",
+    "description": "You are given two non-empty linked lists representing two non-negative integers. The most significant digit comes first and each of their nodes contains a single digit. Add the two numbers and return the sum as a linked list.\nYou may assume the two numbers do not contain any leading zero, except the number 0 itself.\n \nExample 1:\n\n\nInput: l1 = [7,2,4,3], l2 = [5,6,4]\nOutput: [7,8,0,7]\n\nExample 2:\n\nInput: l1 = [2,4,3], l2 = [5,6,4]\nOutput: [8,0,7]\n\nExample 3:\n\nInput: l1 = [0], l2 = [0]\nOutput: [0]\n\n \nConstraints:\n\nThe number of nodes in each linked list is in the range [1, 100].\n0 <= Node.val <= 9\nIt is guaranteed that the list represents a number that does not have leading zeros.\n\n \nFollow up: Could you solve it without reversing the input lists?\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[7,2,4,3]",
+      "[5,6,4]",
+      "[2,4,3]",
+      "[5,6,4]",
+      "[0]",
+      "[0]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "l1": "[7,2,4,3]",
+          "l2": "[5,6,4]"
+        },
+        "expected": "[7,8,0,7]"
+      }
+    ],
+    "python_starter": "# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution:\n    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "addTwoNumbers",
+      "params": [
+        {
+          "name": "l1",
+          "type": "ListNode",
+          "dealloc": false
+        },
+        {
+          "name": "l2",
+          "type": "ListNode",
+          "dealloc": false
+        }
+      ],
+      "return": {
+        "type": "ListNode",
+        "dealloc": true
+      }
+    }
+  },
+  "solution": {
+    "code": "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\n\nclass Solution:\n    def addTwoNumbers(self, l1: ListNode, l2: ListNode) -> ListNode:\n        stack1 = []\n        stack2 = []\n        \n        # Push all values from l1 to stack1\n        while l1:\n            stack1.append(l1.val)\n            l1 = l1.next\n        \n        # Push all values from l2 to stack2\n        while l2:\n            stack2.append(l2.val)\n            l2 = l2.next\n        \n        carry = 0\n        result_head = None\n        \n        # While there are digits to process in either stack\n        while stack1 or stack2 or carry:\n            sum_value = carry\n            \n            if stack1:\n                sum_value += stack1.pop()\n            if stack2:\n                sum_value += stack2.pop()\n            \n            carry = sum_value // 10\n            new_node = ListNode(sum_value % 10)\n            new_node.next = result_head\n            result_head = new_node\n        \n        return result_head",
+    "explanation": "The solution uses two stacks to store the digits of the two numbers represented by the linked lists. The steps are as follows:\n\n1. **Stack Creation**: We traverse each linked list (`l1` and `l2`) and push their values onto `stack1` and `stack2`, respectively. This allows us to access the digits in reverse order.\n\n2. **Addition Process**: We initialize a `carry` variable to handle sums greater than 9. We then enter a loop that continues until both stacks are empty and there is no carry left. In each iteration:\n   - We initialize `sum_value` with the current carry.\n   - If there are still digits in `stack1`, we pop the top digit and add it to `sum_value`.\n   - Similarly, if there are digits in `stack2`, we pop the top digit and add it to `sum_value`.\n   - We calculate the new carry and create a new node for the current digit of the result, linking it to the head of the result list.\n\n3. **Result Construction**: The result linked list is built in reverse order, so we return `result_head` which points to the head of the constructed linked list.\n\n**Time Complexity**: O(n + m), where n and m are the lengths of the two linked lists. We traverse each list once to fill the stacks and then process each digit.\n\n**Space Complexity**: O(n + m) for the two stacks used to store the digits.\n\nThis approach efficiently handles the addition without reversing the input lists and constructs the result in the correct order."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:56"
+}

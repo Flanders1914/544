@@ -1,0 +1,50 @@
+{
+  "problem": {
+    "id": "368",
+    "frontend_id": "368",
+    "title": "Largest Divisible Subset",
+    "description": "Given a set of distinct positive integers nums, return the largest subset answer such that every pair (answer[i], answer[j]) of elements in this subset satisfies:\n\nanswer[i] % answer[j] == 0, or\nanswer[j] % answer[i] == 0\n\nIf there are multiple solutions, return any of them.\n \nExample 1:\n\nInput: nums = [1,2,3]\nOutput: [1,2]\nExplanation: [1,3] is also accepted.\n\nExample 2:\n\nInput: nums = [1,2,4,8]\nOutput: [1,2,4,8]\n\n \nConstraints:\n\n1 <= nums.length <= 1000\n1 <= nums[i] <= 2 * 109\nAll the integers in nums are unique.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[1,2,3]",
+      "[1,2,4,8]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[1,2,3]"
+        },
+        "expected": "[1,2]"
+      },
+      {
+        "input": {
+          "nums": "[1,2,4,8]"
+        },
+        "expected": "[1,2,4,8]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def largestDivisibleSubset(self, nums: List[int]) -> List[int]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "largestDivisibleSubset",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "list<integer>"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def largestDivisibleSubset(self, nums: List[int]) -> List[int]:\n        if not nums:\n            return []\n        \n        # Sort the numbers\n        nums.sort()\n        n = len(nums)\n        \n        # Initialize dp and prev arrays\n        dp = [1] * n\n        prev = [-1] * n\n        \n        max_size = 0\n        max_index = 0\n        \n        # Fill the dp array\n        for i in range(n):\n            for j in range(i):\n                if nums[i] % nums[j] == 0:\n                    if dp[i] < dp[j] + 1:\n                        dp[i] = dp[j] + 1\n                        prev[i] = j\n            \n            # Update max_size and max_index\n            if dp[i] > max_size:\n                max_size = dp[i]\n                max_index = i\n        \n        # Reconstruct the largest divisible subset\n        largest_subset = []\n        while max_index != -1:\n            largest_subset.append(nums[max_index])\n            max_index = prev[max_index]\n        \n        return largest_subset[::-1]  # Reverse to get the correct order",
+    "explanation": "The solution uses dynamic programming to efficiently find the largest divisible subset of the given list of distinct positive integers. \n\n1. **Sorting**: The input list is sorted to facilitate the divisibility checks. This ensures that for any two indices `i` and `j` where `i > j`, if `nums[i] % nums[j] == 0`, then `nums[i]` can be added to the subset ending with `nums[j]`.\n\n2. **Dynamic Programming Arrays**: The `dp` array keeps track of the size of the largest divisible subset that ends at each index, while the `prev` array helps in reconstructing the subset later.\n\n3. **Filling the DP Array**: For each number, we check all previous numbers to see if they can form a divisible relationship. If they can, we update the `dp` value and the `prev` index accordingly.\n\n4. **Finding the Maximum**: After processing all numbers, we find the maximum size of the subset and its corresponding index.\n\n5. **Reconstruction**: We backtrack using the `prev` array to construct the actual subset, which is then reversed to maintain the correct order.\n\nThe overall time complexity of the solution is O(n^2), where n is the number of elements in the input list, due to the nested loops. The space complexity is O(n) for the `dp` and `prev` arrays. This approach is efficient given the constraints and effectively finds the largest divisible subset."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: [1, 2]\nTest case 2:\n[PASS] Test passed: [1, 2, 4, 8]\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:51"
+}

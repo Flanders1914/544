@@ -1,0 +1,50 @@
+{
+  "problem": {
+    "id": "129",
+    "frontend_id": "129",
+    "title": "Sum Root to Leaf Numbers",
+    "description": "You are given the root of a binary tree containing digits from 0 to 9 only.\nEach root-to-leaf path in the tree represents a number.\n\nFor example, the root-to-leaf path 1 -> 2 -> 3 represents the number 123.\n\nReturn the total sum of all root-to-leaf numbers. Test cases are generated so that the answer will fit in a 32-bit integer.\nA leaf node is a node with no children.\n \nExample 1:\n\n\nInput: root = [1,2,3]\nOutput: 25\nExplanation:\nThe root-to-leaf path 1->2 represents the number 12.\nThe root-to-leaf path 1->3 represents the number 13.\nTherefore, sum = 12 + 13 = 25.\n\nExample 2:\n\n\nInput: root = [4,9,0,5,1]\nOutput: 1026\nExplanation:\nThe root-to-leaf path 4->9->5 represents the number 495.\nThe root-to-leaf path 4->9->1 represents the number 491.\nThe root-to-leaf path 4->0 represents the number 40.\nTherefore, sum = 495 + 491 + 40 = 1026.\n\n \nConstraints:\n\nThe number of nodes in the tree is in the range [1, 1000].\n0 <= Node.val <= 9\nThe depth of the tree will not exceed 10.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[1,2,3]",
+      "[4,9,0,5,1]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "root": "[1,2,3]"
+        },
+        "expected": "25"
+      },
+      {
+        "input": {
+          "root": "[4,9,0,5,1]"
+        },
+        "expected": "1026"
+      }
+    ],
+    "python_starter": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def sumNumbers(self, root: Optional[TreeNode]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "sumNumbers",
+      "params": [
+        {
+          "name": "root",
+          "type": "TreeNode"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nclass Solution:\n    def sumNumbers(self, root: Optional[TreeNode]) -> int:\n        def dfs(node, current_number):\n            if not node:\n                return 0\n            \n            # Update the current number\n            current_number = current_number * 10 + node.val\n            \n            # If it's a leaf node, return the current number\n            if not node.left and not node.right:\n                return current_number\n            \n            # Recur for left and right children\n            left_sum = dfs(node.left, current_number)\n            right_sum = dfs(node.right, current_number)\n            \n            # Return the total sum from both subtrees\n            return left_sum + right_sum\n        \n        # Start DFS from the root with initial number 0\n        return dfs(root, 0)",
+    "explanation": "The provided solution uses a recursive depth-first search (DFS) to traverse the binary tree. The `dfs` function takes two parameters: the current node and the number formed by the path from the root to that node.\n\n1. **Base Case**: If the current node is `None`, we return 0 since there is no number to add.\n2. **Current Number Calculation**: For each node, we update the `current_number` by multiplying it by 10 (to shift the digits left) and adding the node's value.\n3. **Leaf Node Check**: If the current node is a leaf (both left and right children are `None`), we return the `current_number` as it represents a complete number formed from the root to this leaf.\n4. **Recursive Calls**: We recursively call `dfs` for the left and right children, accumulating their results.\n5. **Return Value**: The function returns the sum of the numbers from both subtrees.\n\n**Time Complexity**: The time complexity of this solution is O(N), where N is the number of nodes in the tree. We visit each node exactly once.\n\n**Space Complexity**: The space complexity is O(H), where H is the height of the tree. This is due to the recursion stack. In the worst case (a skewed tree), H can be N, but in a balanced tree, it would be log(N).\n\nOverall, this solution efficiently computes the sum of all root-to-leaf numbers in the binary tree."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:37"
+}

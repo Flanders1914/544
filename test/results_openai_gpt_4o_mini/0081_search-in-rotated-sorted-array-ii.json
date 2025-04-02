@@ -1,0 +1,51 @@
+{
+  "problem": {
+    "id": "81",
+    "frontend_id": "81",
+    "title": "Search in Rotated Sorted Array II",
+    "description": "There is an integer array nums sorted in non-decreasing order (not necessarily with distinct values).\nBefore being passed to your function, nums is rotated at an unknown pivot index k (0 <= k < nums.length) such that the resulting array is [nums[k], nums[k+1], ..., nums[n-1], nums[0], nums[1], ..., nums[k-1]] (0-indexed). For example, [0,1,2,4,4,4,5,6,6,7] might be rotated at pivot index 5 and become [4,5,6,6,7,0,1,2,4,4].\nGiven the array nums after the rotation and an integer target, return true if target is in nums, or false if it is not in nums.\nYou must decrease the overall operation steps as much as possible.\n \nExample 1:\nInput: nums = [2,5,6,0,0,1,2], target = 0\nOutput: true\nExample 2:\nInput: nums = [2,5,6,0,0,1,2], target = 3\nOutput: false\n\n \nConstraints:\n\n1 <= nums.length <= 5000\n-104 <= nums[i] <= 104\nnums is guaranteed to be rotated at some pivot.\n-104 <= target <= 104\n\n \nFollow up: This problem is similar to Search in Rotated Sorted Array, but nums may contain duplicates. Would this affect the runtime complexity? How and why?\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[2,5,6,0,0,1,2]",
+      "0",
+      "[2,5,6,0,0,1,2]",
+      "3"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[2,5,6,0,0,1,2]",
+          "target": "0"
+        },
+        "expected": "true"
+      }
+    ],
+    "python_starter": "class Solution:\n    def search(self, nums: List[int], target: int) -> bool:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "search",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        },
+        {
+          "name": "target",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def search(self, nums: List[int], target: int) -> bool:\n        left, right = 0, len(nums) - 1\n        \n        while left <= right:\n            mid = (left + right) // 2\n            \n            # Check if we found the target\n            if nums[mid] == target:\n                return True\n            \n            # Handle duplicates\n            if nums[left] == nums[mid] == nums[right]:\n                left += 1\n                right -= 1\n            # Left half is sorted\n            elif nums[left] <= nums[mid]:\n                if nums[left] <= target < nums[mid]:\n                    right = mid - 1\n                else:\n                    left = mid + 1\n            # Right half is sorted\n            else:\n                if nums[mid] < target <= nums[right]:\n                    left = mid + 1\n                else:\n                    right = mid - 1\n        \n        return False",
+    "explanation": "The solution employs a modified binary search algorithm to efficiently search for the target in a rotated sorted array that may contain duplicates. \n\n1. **Initialization**: We start by initializing two pointers, `left` and `right`, to the beginning and end of the array, respectively.\n\n2. **Binary Search Loop**: We enter a loop that continues as long as `left` is less than or equal to `right`. Inside the loop, we calculate the middle index `mid`.\n\n3. **Target Check**: If the value at `mid` equals the target, we return `True`.\n\n4. **Duplicate Handling**: If the values at `left`, `mid`, and `right` are equal, we cannot determine which side is sorted, so we increment `left` and decrement `right` to skip duplicates.\n\n5. **Sorted Half Identification**: We check if the left half is sorted. If it is, we determine if the target lies within this range. If it does, we adjust the `right` pointer; otherwise, we adjust the `left` pointer. The same logic applies to the right half.\n\n6. **Termination**: If the loop exits without finding the target, we return `False`.\n\n**Time Complexity**: The worst-case time complexity is O(n) due to the potential need to skip duplicates, which can lead to examining each element in the array.\n\n**Space Complexity**: The space complexity is O(1) since we are using a constant amount of extra space for the pointers.\n\nOverall, this solution effectively handles the problem constraints and efficiently searches for the target in the rotated sorted array."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: True\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:32"
+}

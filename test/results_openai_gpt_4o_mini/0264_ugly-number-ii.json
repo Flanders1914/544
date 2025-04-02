@@ -1,0 +1,55 @@
+{
+  "problem": {
+    "id": "264",
+    "frontend_id": "264",
+    "title": "Ugly Number II",
+    "description": "An ugly number is a positive integer whose prime factors are limited to 2, 3, and 5.\nGiven an integer n, return the nth ugly number.\n \nExample 1:\n\nInput: n = 10\nOutput: 12\nExplanation: [1, 2, 3, 4, 5, 6, 8, 9, 10, 12] is the sequence of the first 10 ugly numbers.\n\nExample 2:\n\nInput: n = 1\nOutput: 1\nExplanation: 1 has no prime factors, therefore all of its prime factors are limited to 2, 3, and 5.\n\n \nConstraints:\n\n1 <= n <= 1690\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "10",
+      "1"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "n": "10"
+        },
+        "expected": "12"
+      },
+      {
+        "input": {
+          "n": "1"
+        },
+        "expected": "1"
+      }
+    ],
+    "python_starter": "class Solution:\n    def nthUglyNumber(self, n: int) -> int:\n        ",
+    "hints": [
+      "The naive approach is to call <code>isUgly</code> for every number until you reach the n<sup>th</sup> one. Most numbers are <i>not</i> ugly. Try to focus your effort on generating only the ugly ones.",
+      "An ugly number must be multiplied by either 2, 3, or 5 from a smaller ugly number.",
+      "The key is how to maintain the order of the ugly numbers. Try a similar approach of merging from three sorted lists: L<sub>1</sub>, L<sub>2</sub>, and L<sub>3</sub>.",
+      "Assume you have U<sub>k</sub>, the k<sup>th</sup> ugly number. Then U<sub>k+1</sub> must be Min(L<sub>1</sub> * 2, L<sub>2</sub> * 3, L<sub>3</sub> * 5)."
+    ],
+    "meta_data": {
+      "name": "nthUglyNumber",
+      "params": [
+        {
+          "name": "n",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def nthUglyNumber(self, n: int) -> int:\n        # Initialize the list of ugly numbers\n        ugly_numbers = [0] * n\n        ugly_numbers[0] = 1  # The first ugly number is 1\n        \n        # Initialize pointers for 2, 3, and 5\n        i2 = i3 = i5 = 0\n        \n        # Next multiples of 2, 3, and 5\n        next2, next3, next5 = 2, 3, 5\n        \n        for i in range(1, n):\n            # The next ugly number is the minimum of the next multiples\n            next_ugly = min(next2, next3, next5)\n            ugly_numbers[i] = next_ugly\n            \n            # Increment the pointers based on which multiple was used\n            if next_ugly == next2:\n                i2 += 1\n                next2 = ugly_numbers[i2] * 2\n            if next_ugly == next3:\n                i3 += 1\n                next3 = ugly_numbers[i3] * 3\n            if next_ugly == next5:\n                i5 += 1\n                next5 = ugly_numbers[i5] * 5\n        \n        return ugly_numbers[-1]  # Return the nth ugly number",
+    "explanation": "The solution uses a dynamic programming approach to generate ugly numbers in a systematic way. We maintain an array `ugly_numbers` to store the first `n` ugly numbers. The algorithm initializes three pointers (`i2`, `i3`, `i5`) to track the indices of the last used ugly numbers for multiplication by 2, 3, and 5, respectively.\n\n1. **Initialization**: The first ugly number is set to 1. The next potential ugly numbers are initialized to 2, 3, and 5.\n2. **Loop**: For each index from 1 to n-1, we find the minimum of the next potential ugly numbers. This minimum is the next ugly number.\n3. **Pointer Update**: If the next ugly number matches one of the next potential ugly numbers, we increment the corresponding pointer and update the next potential ugly number by multiplying the newly found ugly number by 2, 3, or 5.\n4. **Return**: Finally, we return the last element in the `ugly_numbers` array, which is the nth ugly number.\n\n**Time Complexity**: O(n) - We iterate through the loop `n-1` times to generate the ugly numbers.\n\n**Space Complexity**: O(n) - We use an array of size `n` to store the ugly numbers.\n\nThis approach is efficient and works well within the given constraints (1 <= n <= 1690)."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 12\nTest case 2:\n[PASS] Test passed: 1\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:45"
+}

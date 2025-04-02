@@ -1,0 +1,65 @@
+{
+  "problem": {
+    "id": "466",
+    "frontend_id": "466",
+    "title": "Count The Repetitions",
+    "description": "We define str = [s, n] as the string str which consists of the string s concatenated n times.\n\nFor example, str == [\"abc\", 3] ==\"abcabcabc\".\n\nWe define that string s1 can be obtained from string s2 if we can remove some characters from s2 such that it becomes s1.\n\nFor example, s1 = \"abc\" can be obtained from s2 = \"abdbec\" based on our definition by removing the bolded underlined characters.\n\nYou are given two strings s1 and s2 and two integers n1 and n2. You have the two strings str1 = [s1, n1] and str2 = [s2, n2].\nReturn the maximum integer m such that str = [str2, m] can be obtained from str1.\n \nExample 1:\nInput: s1 = \"acb\", n1 = 4, s2 = \"ab\", n2 = 2\nOutput: 2\nExample 2:\nInput: s1 = \"acb\", n1 = 1, s2 = \"acb\", n2 = 1\nOutput: 1\n\n \nConstraints:\n\n1 <= s1.length, s2.length <= 100\ns1 and s2 consist of lowercase English letters.\n1 <= n1, n2 <= 106\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "\"acb\"",
+      "4",
+      "\"ab\"",
+      "2",
+      "\"acb\"",
+      "1",
+      "\"acb\"",
+      "1"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "s1": "\"acb\"",
+          "n1": "4",
+          "s2": "\"ab\"",
+          "n2": "2"
+        },
+        "expected": "2"
+      }
+    ],
+    "python_starter": "class Solution:\n    def getMaxRepetitions(self, s1: str, n1: int, s2: str, n2: int) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "getMaxRepetitions",
+      "params": [
+        {
+          "name": "s1",
+          "type": "string"
+        },
+        {
+          "name": "n1",
+          "type": "integer"
+        },
+        {
+          "name": "s2",
+          "type": "string"
+        },
+        {
+          "name": "n2",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def getMaxRepetitions(self, s1: str, n1: int, s2: str, n2: int) -> int:\n        # Initialize pointers and counters\n        count_s2 = 0  # Count of how many times we can form s2\n        index_s1 = 0  # Pointer for s1\n        index_s2 = 0  # Pointer for s2\n        \n        # Total length of s1 and s2\n        len_s1 = len(s1)\n        len_s2 = len(s2)\n        \n        # We will repeat s1 n1 times\n        for _ in range(n1):\n            for char in s1:\n                if char == s2[index_s2]:\n                    index_s2 += 1\n                    # If we have matched all characters in s2\n                    if index_s2 == len_s2:\n                        count_s2 += 1\n                        index_s2 = 0  # Reset index for s2\n            \n        return count_s2 // n2  # Return the maximum number of complete s2 strings we can form",
+    "explanation": "The solution uses a nested loop to iterate through the characters of `s1` and `s2`. The outer loop runs `n1` times, simulating the repetition of `s1`. The inner loop goes through each character of `s1`, checking if it matches the current character of `s2`. If a match is found, we move the pointer for `s2` forward. When we reach the end of `s2`, we increment our count of how many times we have fully matched `s2` and reset the pointer for `s2`.\n\nThe time complexity of this solution is O(n1 * len(s1) + count_s2 * len(s2)), where `count_s2` is the number of times `s2` can be formed from `s1`. In the worst case, this can be O(n1 * len(s1)), but since we are not constructing the strings, this is efficient given the constraints.\n\nThe space complexity is O(1) since we are using a constant amount of space for the indices and counters.\n\nOverall, this approach efficiently counts the maximum repetitions of `s2` that can be formed from `s1` without constructing large strings, making it suitable for the given constraints."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 2\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:58"
+}

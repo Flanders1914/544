@@ -1,0 +1,45 @@
+{
+  "problem": {
+    "id": "93",
+    "frontend_id": "93",
+    "title": "Restore IP Addresses",
+    "description": "A valid IP address consists of exactly four integers separated by single dots. Each integer is between 0 and 255 (inclusive) and cannot have leading zeros.\n\nFor example, \"0.1.2.201\" and \"192.168.1.1\" are valid IP addresses, but \"0.011.255.245\", \"192.168.1.312\" and \"192.168@1.1\" are invalid IP addresses.\n\nGiven a string s containing only digits, return all possible valid IP addresses that can be formed by inserting dots into s. You are not allowed to reorder or remove any digits in s. You may return the valid IP addresses in any order.\n \nExample 1:\n\nInput: s = \"25525511135\"\nOutput: [\"255.255.11.135\",\"255.255.111.35\"]\n\nExample 2:\n\nInput: s = \"0000\"\nOutput: [\"0.0.0.0\"]\n\nExample 3:\n\nInput: s = \"101023\"\nOutput: [\"1.0.10.23\",\"1.0.102.3\",\"10.1.0.23\",\"10.10.2.3\",\"101.0.2.3\"]\n\n \nConstraints:\n\n1 <= s.length <= 20\ns consists of digits only.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "\"25525511135\"",
+      "\"0000\"",
+      "\"101023\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "s": "\"25525511135\""
+        },
+        "expected": "[255.255.11.135,255.255.111.35]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def restoreIpAddresses(self, s: str) -> List[str]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "restoreIpAddresses",
+      "params": [
+        {
+          "name": "s",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "list<string>"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def restoreIpAddresses(self, s: str) -> List[str]:\n        def is_valid(segment: str) -> bool:\n            # Check if the segment is valid: between 0 and 255 and no leading zeros\n            if len(segment) > 1 and segment[0] == '0':\n                return False\n            return 0 <= int(segment) <= 255\n        \n        def backtrack(start: int, path: List[str]):\n            # If we have 4 segments and we've used all characters, we have a valid IP\n            if len(path) == 4:\n                if start == len(s):\n                    result.append('.'.join(path))\n                return\n            \n            # Try to take 1 to 3 digits for the next segment\n            for length in range(1, 4):\n                if start + length <= len(s):\n                    segment = s[start:start + length]\n                    if is_valid(segment):\n                        path.append(segment)  # Choose\n                        backtrack(start + length, path)  # Explore\n                        path.pop()  # Un-choose\n        \n        result = []\n        backtrack(0, [])\n        return result",
+    "explanation": "The solution uses a backtracking approach to generate all possible valid IP addresses from the input string. The `is_valid` function checks if a segment is a valid IP address segment by ensuring it is between 0 and 255 and does not have leading zeros (except for the segment \"0\"). \n\nThe `backtrack` function is the core of the solution. It takes the current starting index and the path (list of segments) as arguments. If we have formed four segments and used all characters in the string, we join the segments with dots and add the result to the list. \n\nWe iterate over possible segment lengths (1 to 3) and check if the segment formed is valid. If valid, we add it to the path and recursively call `backtrack` to continue forming the next segment. After exploring that path, we remove the last segment (backtrack) to try other possibilities.\n\nThe time complexity of this solution is O(1) in terms of the number of valid IP addresses generated since the maximum number of valid IP addresses is limited by the constraints of the problem. The space complexity is O(1) for the result storage, but the recursion stack can go up to O(4) due to the maximum depth of segments.\n\nOverall, this approach efficiently explores all valid combinations while adhering to the constraints of valid IP addresses."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmpomawu5q8.py\", line 67\n    expected_0 = [255.255.11.135,255.255.111.35]\n                  ^^^^^^^^^^\nSyntaxError: invalid syntax. Perhaps you forgot a comma?\n"
+  },
+  "timestamp": "2025-04-01 18:00:33"
+}

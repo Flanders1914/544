@@ -1,0 +1,66 @@
+{
+  "problem": {
+    "id": "327",
+    "frontend_id": "327",
+    "title": "Count of Range Sum",
+    "description": "Given an integer array nums and two integers lower and upper, return the number of range sums that lie in [lower, upper] inclusive.\nRange sum S(i, j) is defined as the sum of the elements in nums between indices i and j inclusive, where i <= j.\n \nExample 1:\n\nInput: nums = [-2,5,-1], lower = -2, upper = 2\nOutput: 3\nExplanation: The three ranges are: [0,0], [2,2], and [0,2] and their respective sums are: -2, -1, 2.\n\nExample 2:\n\nInput: nums = [0], lower = 0, upper = 0\nOutput: 1\n\n \nConstraints:\n\n1 <= nums.length <= 105\n-231 <= nums[i] <= 231 - 1\n-105 <= lower <= upper <= 105\nThe answer is guaranteed to fit in a 32-bit integer.\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "[-2,5,-1]",
+      "-2",
+      "2",
+      "[0]",
+      "0",
+      "0"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[-2,5,-1]",
+          "lower": "-2",
+          "upper": "2"
+        },
+        "expected": "3"
+      },
+      {
+        "input": {
+          "nums": "[0]",
+          "lower": "0",
+          "upper": "0"
+        },
+        "expected": "1"
+      }
+    ],
+    "python_starter": "class Solution:\n    def countRangeSum(self, nums: List[int], lower: int, upper: int) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "countRangeSum",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        },
+        {
+          "name": "lower",
+          "type": "integer"
+        },
+        {
+          "name": "upper",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def countRangeSum(self, nums: List[int], lower: int, upper: int) -> int:\n        # Helper function to perform merge sort and count range sums\n        def merge_and_count(prefix_sums, left, mid, right):\n            # Count the number of valid range sums\n            count = 0\n            j = k = mid + 1\n            \n            # Count how many prefix sums are within the range\n            for i in range(left, mid + 1):\n                while j <= right and prefix_sums[j] - prefix_sums[i] < lower:\n                    j += 1\n                while k <= right and prefix_sums[k] - prefix_sums[i] <= upper:\n                    k += 1\n                count += k - j\n            \n            # Merge step\n            # Sort the prefix sums\n            temp = []\n            left_index, right_index = left, mid + 1\n            while left_index <= mid and right_index <= right:\n                if prefix_sums[left_index] <= prefix_sums[right_index]:\n                    temp.append(prefix_sums[left_index])\n                    left_index += 1\n                else:\n                    temp.append(prefix_sums[right_index])\n                    right_index += 1\n            while left_index <= mid:\n                temp.append(prefix_sums[left_index])\n                left_index += 1\n            while right_index <= right:\n                temp.append(prefix_sums[right_index])\n                right_index += 1\n            \n            for i in range(len(temp)):\n                prefix_sums[left + i] = temp[i]\n            \n            return count\n        \n        # Main function to count range sums\n        n = len(nums)\n        prefix_sums = [0] * (n + 1)\n        \n        for i in range(n):\n            prefix_sums[i + 1] = prefix_sums[i] + nums[i]\n        \n        def sort_and_count(left, right):\n            if left >= right:\n                return 0\n            mid = (left + right) // 2\n            count = sort_and_count(left, mid) + sort_and_count(mid + 1, right)\n            count += merge_and_count(prefix_sums, left, mid, right)\n            return count\n        \n        return sort_and_count(0, n)",
+    "explanation": "The solution uses a modified merge sort algorithm to count the number of range sums that fall within the specified bounds. Here's a breakdown of the approach:\n\n1. **Prefix Sum Calculation**: We create an array `prefix_sums` where each element at index `i` represents the sum of the elements from the start of the `nums` array up to index `i-1`. This allows us to compute any range sum `S(i, j)` as `prefix_sums[j + 1] - prefix_sums[i]`.\n\n2. **Counting Valid Ranges**: For each prefix sum, we count how many previous prefix sums fall within the range defined by the current prefix sum adjusted by `lower` and `upper`. This is done using two pointers (`j` and `k`) that traverse the sorted prefix sums.\n\n3. **Merge Sort**: The `sort_and_count` function recursively sorts the prefix sums while counting valid ranges using the `merge_and_count` function. This ensures that we maintain the sorted order of prefix sums, which is crucial for efficiently counting the valid ranges.\n\n4. **Time Complexity**: The overall time complexity of the solution is O(n log n) due to the merge sort process, which is efficient given the constraints (up to 100,000 elements).\n\n5. **Space Complexity**: The space complexity is O(n) for storing the prefix sums."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 3\nTest case 2:\n[PASS] Test passed: 1\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:48"
+}

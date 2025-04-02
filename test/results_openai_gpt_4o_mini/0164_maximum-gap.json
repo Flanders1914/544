@@ -1,0 +1,50 @@
+{
+  "problem": {
+    "id": "164",
+    "frontend_id": "164",
+    "title": "Maximum Gap",
+    "description": "Given an integer array nums, return the maximum difference between two successive elements in its sorted form. If the array contains less than two elements, return 0.\nYou must write an algorithm that runs in linear time and uses linear extra space.\n \nExample 1:\n\nInput: nums = [3,6,9,1]\nOutput: 3\nExplanation: The sorted form of the array is [1,3,6,9], either (3,6) or (6,9) has the maximum difference 3.\n\nExample 2:\n\nInput: nums = [10]\nOutput: 0\nExplanation: The array contains less than 2 elements, therefore return 0.\n\n \nConstraints:\n\n1 <= nums.length <= 105\n0 <= nums[i] <= 109\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[3,6,9,1]",
+      "[10]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[3,6,9,1]"
+        },
+        "expected": "3"
+      },
+      {
+        "input": {
+          "nums": "[10]"
+        },
+        "expected": "0"
+      }
+    ],
+    "python_starter": "class Solution:\n    def maximumGap(self, nums: List[int]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "maximumGap",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def maximumGap(self, nums: List[int]) -> int:\n        if len(nums) < 2:\n            return 0\n        \n        # Find the minimum and maximum values in the array\n        min_num, max_num = min(nums), max(nums)\n        \n        # Calculate the bucket size and the number of buckets\n        bucket_size = max(1, (max_num - min_num) // (len(nums) - 1))\n        bucket_count = (max_num - min_num) // bucket_size + 1\n        \n        # Initialize buckets\n        buckets = [[float('inf'), float('-inf')] for _ in range(bucket_count)]\n        \n        # Fill the buckets\n        for num in nums:\n            idx = (num - min_num) // bucket_size\n            buckets[idx][0] = min(buckets[idx][0], num)  # Update min in bucket\n            buckets[idx][1] = max(buckets[idx][1], num)  # Update max in bucket\n        \n        # Calculate the maximum gap\n        max_gap = 0\n        previous_max = min_num\n        \n        for bucket in buckets:\n            if bucket[0] == float('inf'):  # Skip empty buckets\n                continue\n            # The gap is the difference between the current bucket's min and the previous bucket's max\n            max_gap = max(max_gap, bucket[0] - previous_max)\n            previous_max = bucket[1]  # Update previous max to current bucket's max\n        \n        return max_gap",
+    "explanation": "The solution uses a bucket sort approach to efficiently find the maximum gap between successive elements in a sorted array. Here's a breakdown of the steps:\n\n1. **Input Handling**: If the input array has fewer than two elements, we immediately return 0 since no gaps can be formed.\n\n2. **Finding Min and Max**: We determine the minimum and maximum values in the array to establish the range for our buckets.\n\n3. **Bucket Initialization**: We create a list of buckets, each initialized to hold the minimum and maximum values as infinity and negative infinity, respectively.\n\n4. **Filling Buckets**: For each number in the input array, we calculate which bucket it belongs to and update the minimum and maximum values for that bucket.\n\n5. **Calculating Maximum Gap**: We iterate through the buckets, skipping any that are empty. For each non-empty bucket, we calculate the gap between the maximum of the previous bucket and the minimum of the current bucket, updating the maximum gap found.\n\n6. **Time Complexity**: The algorithm runs in O(n) time since we make a constant number of passes through the data (finding min/max, filling buckets, and calculating gaps).\n\n7. **Space Complexity**: The space complexity is O(n) due to the storage of the buckets.\n\nThis method is efficient and meets the problem's constraints, providing a robust solution to the maximum gap problem."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 3\nTest case 2:\n[PASS] Test passed: 0\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:39"
+}

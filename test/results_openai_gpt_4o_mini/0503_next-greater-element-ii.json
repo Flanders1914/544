@@ -1,0 +1,50 @@
+{
+  "problem": {
+    "id": "503",
+    "frontend_id": "503",
+    "title": "Next Greater Element II",
+    "description": "Given a circular integer array nums (i.e., the next element of nums[nums.length - 1] is nums[0]), return the next greater number for every element in nums.\nThe next greater number of a number x is the first greater number to its traversing-order next in the array, which means you could search circularly to find its next greater number. If it doesn't exist, return -1 for this number.\n \nExample 1:\n\nInput: nums = [1,2,1]\nOutput: [2,-1,2]\nExplanation: The first 1's next greater number is 2; \nThe number 2 can't find next greater number. \nThe second 1's next greater number needs to search circularly, which is also 2.\n\nExample 2:\n\nInput: nums = [1,2,3,4,3]\nOutput: [2,3,4,-1,4]\n\n \nConstraints:\n\n1 <= nums.length <= 104\n-109 <= nums[i] <= 109\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[1,2,1]",
+      "[1,2,3,4,3]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[1,2,1]"
+        },
+        "expected": "[2,-1,2]"
+      },
+      {
+        "input": {
+          "nums": "[1,2,3,4,3]"
+        },
+        "expected": "[2,3,4,-1,4]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def nextGreaterElements(self, nums: List[int]) -> List[int]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "nextGreaterElements",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer[]"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def nextGreaterElements(self, nums: List[int]) -> List[int]:\n        n = len(nums)\n        result = [-1] * n  # Initialize the result array with -1\n        stack = []  # Stack to keep track of indices\n        \n        # Iterate through the array twice\n        for i in range(2 * n):\n            while stack and nums[stack[-1]] < nums[i % n]:\n                index = stack.pop()\n                result[index] = nums[i % n]\n            if i < n:  # Only push indices for the first pass\n                stack.append(i)\n        \n        return result",
+    "explanation": "The solution uses a stack to efficiently find the next greater element for each number in the circular array. \n\n1. We initialize a result list with -1, assuming that if no greater element is found, the result will remain -1.\n2. We loop through the array twice (from 0 to 2 * n) to handle the circular nature of the array. The modulo operation (`i % n`) allows us to wrap around to the beginning of the array.\n3. For each element, we check if it is greater than the element at the index stored at the top of the stack. If it is, we pop the index from the stack and update the result for that index with the current element.\n4. We only push indices onto the stack during the first pass (i < n) to avoid unnecessary entries in the stack during the second pass.\n5. Finally, we return the result list.\n\nThe time complexity of this solution is O(n) because each element is processed at most twice (once when pushed onto the stack and once when popped). The space complexity is O(n) due to the stack and the result array. \n\nThis approach is efficient and works well within the given constraints."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: [2, -1, 2]\nTest case 2:\n[PASS] Test passed: [2, 3, 4, -1, 4]\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:01:20"
+}

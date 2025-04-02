@@ -1,0 +1,40 @@
+{
+  "id": "260",
+  "frontend_id": "260",
+  "title": "Single Number III",
+  "description": "Given an integer array nums, in which exactly two elements appear only once and all the other elements appear exactly twice. Find the two elements that appear only once. You can return the answer in any order.\nYou must write an algorithm that runs in linear runtime complexity and uses only constant extra space.\n \nExample 1:\n\nInput: nums = [1,2,1,3,2,5]\nOutput: [3,5]\nExplanation:  [5, 3] is also a valid answer.\n\nExample 2:\n\nInput: nums = [-1,0]\nOutput: [-1,0]\n\nExample 3:\n\nInput: nums = [0,1]\nOutput: [1,0]\n\n \nConstraints:\n\n2 <= nums.length <= 3 * 104\n-231 <= nums[i] <= 231 - 1\nEach integer in nums will appear twice, only two integers will appear once.\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "[1,2,1,3,2,5]",
+    "[-1,0]",
+    "[0,1]"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "nums": "[1,2,1,3,2,5]"
+      },
+      "expected": "[3,5]"
+    },
+    {
+      "input": {
+        "nums": "[-1,0]"
+      },
+      "expected": "[-1,0]"
+    }
+  ],
+  "python_starter": "class Solution:\n    def singleNumber(self, nums: List[int]) -> List[int]:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "singleNumber",
+    "params": [
+      {
+        "name": "nums",
+        "type": "integer[]"
+      }
+    ],
+    "return": {
+      "type": "integer[]"
+    }
+  }
+}

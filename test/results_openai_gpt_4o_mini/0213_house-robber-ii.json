@@ -1,0 +1,60 @@
+{
+  "problem": {
+    "id": "213",
+    "frontend_id": "213",
+    "title": "House Robber II",
+    "description": "You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed. All houses at this place are arranged in a circle. That means the first house is the neighbor of the last one. Meanwhile, adjacent houses have a security system connected, and it will automatically contact the police if two adjacent houses were broken into on the same night.\nGiven an integer array nums representing the amount of money of each house, return the maximum amount of money you can rob tonight without alerting the police.\n \nExample 1:\n\nInput: nums = [2,3,2]\nOutput: 3\nExplanation: You cannot rob house 1 (money = 2) and then rob house 3 (money = 2), because they are adjacent houses.\n\nExample 2:\n\nInput: nums = [1,2,3,1]\nOutput: 4\nExplanation: Rob house 1 (money = 1) and then rob house 3 (money = 3).\nTotal amount you can rob = 1 + 3 = 4.\n\nExample 3:\n\nInput: nums = [1,2,3]\nOutput: 3\n\n \nConstraints:\n\n1 <= nums.length <= 100\n0 <= nums[i] <= 1000\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[2,3,2]",
+      "[1,2,3,1]",
+      "[1,2,3]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[2,3,2]"
+        },
+        "expected": "3"
+      },
+      {
+        "input": {
+          "nums": "[1,2,3,1]"
+        },
+        "expected": "4"
+      },
+      {
+        "input": {
+          "nums": "[1,2,3]"
+        },
+        "expected": "3"
+      }
+    ],
+    "python_starter": "class Solution:\n    def rob(self, nums: List[int]) -> int:\n        ",
+    "hints": [
+      "Since House[1] and House[n] are adjacent, they cannot be robbed together. Therefore, the problem becomes to rob either House[1]-House[n-1] or House[2]-House[n], depending on which choice offers more money. Now the problem has degenerated to the <a href =\"https://leetcode.com/problems/house-robber/description/\">House Robber</a>, which is already been solved."
+    ],
+    "meta_data": {
+      "name": "rob",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      },
+      "manual": false
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def rob(self, nums: List[int]) -> int:\n        if not nums:\n            return 0\n        n = len(nums)\n        if n == 1:\n            return nums[0]\n        \n        # Helper function to calculate max money for a linear street of houses\n        def rob_linear(houses: List[int]) -> int:\n            prev1, prev2 = 0, 0\n            for money in houses:\n                temp = prev1\n                prev1 = max(prev1, prev2 + money)\n                prev2 = temp\n            return prev1\n        \n        # Case 1: Rob from house 0 to house n-2\n        case1 = rob_linear(nums[:-1])\n        # Case 2: Rob from house 1 to house n-1\n        case2 = rob_linear(nums[1:])\n        \n        return max(case1, case2)",
+    "explanation": "The solution uses a dynamic programming approach to solve the problem efficiently. We define a helper function `rob_linear` that computes the maximum amount of money that can be robbed from a linear arrangement of houses. \n\n1. **Base Cases**:\n   - If there are no houses, the maximum money is 0.\n   - If there is only one house, the maximum money is the amount in that house.\n\n2. **Dynamic Programming Logic**:\n   - We maintain two variables, `prev1` and `prev2`, to keep track of the maximum money that can be robbed up to the previous house and the house before that, respectively.\n   - For each house, we decide whether to rob it or skip it, updating our variables accordingly.\n\n3. **Two Cases**:\n   - We calculate the maximum money for two scenarios: robbing from the first house to the second-to-last house and robbing from the second house to the last house.\n   - Finally, we return the maximum of the two cases.\n\n**Time Complexity**: O(n), where n is the number of houses, since we iterate through the list of houses a constant number of times.\n\n**Space Complexity**: O(1), as we are using only a fixed amount of space for the variables `prev1` and `prev2`."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 3\nTest case 2:\n[PASS] Test passed: 4\nTest case 3:\n[PASS] Test passed: 3\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:42"
+}

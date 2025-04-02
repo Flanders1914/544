@@ -1,0 +1,51 @@
+{
+  "problem": {
+    "id": "447",
+    "frontend_id": "447",
+    "title": "Number of Boomerangs",
+    "description": "You are given n points in the plane that are all distinct, where points[i] = [xi, yi]. A boomerang is a tuple of points (i, j, k) such that the distance between i and j equals the distance between i and k (the order of the tuple matters).\nReturn the number of boomerangs.\n \nExample 1:\n\nInput: points = [[0,0],[1,0],[2,0]]\nOutput: 2\nExplanation: The two boomerangs are [[1,0],[0,0],[2,0]] and [[1,0],[2,0],[0,0]].\n\nExample 2:\n\nInput: points = [[1,1],[2,2],[3,3]]\nOutput: 2\n\nExample 3:\n\nInput: points = [[1,1]]\nOutput: 0\n\n \nConstraints:\n\nn == points.length\n1 <= n <= 500\npoints[i].length == 2\n-104 <= xi, yi <= 104\nAll the points are unique.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[[0,0],[1,0],[2,0]]",
+      "[[1,1],[2,2],[3,3]]",
+      "[[1,1]]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "points": "[[0,0]"
+        },
+        "expected": "2"
+      },
+      {
+        "input": {
+          "points": "[[1,1]"
+        },
+        "expected": "2"
+      }
+    ],
+    "python_starter": "class Solution:\n    def numberOfBoomerangs(self, points: List[List[int]]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "numberOfBoomerangs",
+      "params": [
+        {
+          "name": "points",
+          "type": "integer[][]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from collections import defaultdict\nfrom typing import List\n\nclass Solution:\n    def numberOfBoomerangs(self, points: List[List[int]]) -> int:\n        count_boomerangs = 0\n        \n        for i in points:\n            distance_count = defaultdict(int)\n            for j in points:\n                if i != j:\n                    # Calculate squared distance to avoid floating point issues\n                    dist = (i[0] - j[0]) ** 2 + (i[1] - j[1]) ** 2\n                    distance_count[dist] += 1\n            \n            # For each distance, calculate the number of boomerangs\n            for count in distance_count.values():\n                count_boomerangs += count * (count - 1)  # Permutations of pairs (j, k)\n        \n        return count_boomerangs",
+    "explanation": "The solution iterates through each point in the list as an anchor point. For each anchor point, it calculates the squared distance to every other point and counts how many times each distance occurs using a dictionary. \n\n1. **Distance Calculation**: The squared distance is calculated to avoid the computational cost and potential inaccuracies of square roots. The formula used is `(x1 - x2)^2 + (y1 - y2)^2`.\n\n2. **Counting Distances**: For each anchor point, we maintain a count of how many points are at each unique distance. This is done using a `defaultdict` from the `collections` module.\n\n3. **Calculating Boomerangs**: For each unique distance, if there are `count` points at that distance, the number of ways to select two points (j and k) from these `count` points is `count * (count - 1)`. This accounts for the order of selection, which is crucial for counting boomerangs.\n\n4. **Complexity Analysis**: The time complexity of this solution is O(n^2) because for each of the n points, we are iterating through the n points again to calculate distances. The space complexity is O(n) in the worst case for the distance count dictionary.\n\nOverall, this approach efficiently counts the number of boomerangs in the given set of points."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmp3zu8l0o4.py\", line 56\n    input_0_0 = [[0,0]\n                 ^^^^^\nSyntaxError: invalid syntax. Perhaps you forgot a comma?\n"
+  },
+  "timestamp": "2025-04-01 18:00:56"
+}

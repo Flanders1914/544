@@ -1,0 +1,44 @@
+{
+  "problem": {
+    "id": "169",
+    "frontend_id": "169",
+    "title": "Majority Element",
+    "description": "Given an array nums of size n, return the majority element.\nThe majority element is the element that appears more than ⌊n / 2⌋ times. You may assume that the majority element always exists in the array.\n \nExample 1:\nInput: nums = [3,2,3]\nOutput: 3\nExample 2:\nInput: nums = [2,2,1,1,1,2,2]\nOutput: 2\n\n \nConstraints:\n\nn == nums.length\n1 <= n <= 5 * 104\n-109 <= nums[i] <= 109\n\n \nFollow-up: Could you solve the problem in linear time and in O(1) space?",
+    "difficulty": "Easy",
+    "examples": [
+      "[3,2,3]",
+      "[2,2,1,1,1,2,2]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[3,2,3]"
+        },
+        "expected": "3"
+      }
+    ],
+    "python_starter": "class Solution:\n    def majorityElement(self, nums: List[int]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "majorityElement",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def majorityElement(self, nums: List[int]) -> int:\n        # Initialize the candidate and count\n        candidate = None\n        count = 0\n        \n        # Iterate through the array\n        for num in nums:\n            if count == 0:\n                # Select a new candidate\n                candidate = num\n            # Update the count\n            count += (1 if num == candidate else -1)\n        \n        return candidate  # The candidate is the majority element",
+    "explanation": "The Boyer-Moore Voting Algorithm operates in O(n) time complexity, where n is the number of elements in the input array. This is because we make a single pass through the array to determine the majority element. The space complexity is O(1) since we only use a fixed amount of extra space for the candidate and count variables, regardless of the input size.\n\nThe algorithm works as follows:\n1. We initialize a `candidate` variable to keep track of the potential majority element and a `count` variable to track how many times we've seen this candidate.\n2. As we iterate through the array, if the `count` is zero, we set the current number as the new candidate.\n3. We then increment the count if the current number matches the candidate, or decrement it if it does not.\n4. By the end of the loop, the candidate will be the majority element, as it is guaranteed to appear more than n/2 times.\n\nThis method is efficient and meets the problem's requirements for linear time and constant space."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 3\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:40"
+}

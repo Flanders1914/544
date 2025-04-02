@@ -1,0 +1,61 @@
+{
+  "problem": {
+    "id": "41",
+    "frontend_id": "41",
+    "title": "First Missing Positive",
+    "description": "Given an unsorted integer array nums. Return the smallest positive integer that is not present in nums.\nYou must implement an algorithm that runs in O(n) time and uses O(1) auxiliary space.\n \nExample 1:\n\nInput: nums = [1,2,0]\nOutput: 3\nExplanation: The numbers in the range [1,2] are all in the array.\n\nExample 2:\n\nInput: nums = [3,4,-1,1]\nOutput: 2\nExplanation: 1 is in the array but 2 is missing.\n\nExample 3:\n\nInput: nums = [7,8,9,11,12]\nOutput: 1\nExplanation: The smallest positive integer 1 is missing.\n\n \nConstraints:\n\n1 <= nums.length <= 105\n-231 <= nums[i] <= 231 - 1\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "[1,2,0]",
+      "[3,4,-1,1]",
+      "[7,8,9,11,12]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[1,2,0]"
+        },
+        "expected": "3"
+      },
+      {
+        "input": {
+          "nums": "[3,4,-1,1]"
+        },
+        "expected": "2"
+      },
+      {
+        "input": {
+          "nums": "[7,8,9,11,12]"
+        },
+        "expected": "1"
+      }
+    ],
+    "python_starter": "class Solution:\n    def firstMissingPositive(self, nums: List[int]) -> int:\n        ",
+    "hints": [
+      "Think about how you would solve the problem in non-constant space.  Can you apply that logic to the existing space?",
+      "We don't care about duplicates or non-positive integers",
+      "Remember that O(2n) = O(n)"
+    ],
+    "meta_data": {
+      "name": "firstMissingPositive",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def firstMissingPositive(self, nums: List[int]) -> int:\n        n = len(nums)\n        \n        # Step 1: Place each number in its right place\n        for i in range(n):\n            while 1 <= nums[i] <= n and nums[nums[i] - 1] != nums[i]:\n                # Swap nums[i] with nums[nums[i] - 1]\n                nums[nums[i] - 1], nums[i] = nums[i], nums[nums[i] - 1]\n        \n        # Step 2: Find the first missing positive\n        for i in range(n):\n            if nums[i] != i + 1:\n                return i + 1\n        \n        return n + 1  # If all numbers from 1 to n are present",
+    "explanation": "The solution works by first rearranging the elements of the array so that each number is placed at its corresponding index. This is done using a while loop that continues to swap elements until the current number is either out of the valid range or already in the correct position. \n\nAfter the rearrangement, we perform a second pass through the array to check for the first index where the value does not match the expected value (index + 1). If we find such an index, it means that the corresponding positive integer (index + 1) is missing. If all indices are correct, it implies that all integers from 1 to n are present, and thus the smallest missing positive integer is n + 1.\n\nThe time complexity of this solution is O(n) because we make a constant number of passes through the array, and the space complexity is O(1) since we are not using any additional data structures that grow with the input size."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 3\nTest case 2:\n[PASS] Test passed: 2\nTest case 3:\n[PASS] Test passed: 1\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:29"
+}

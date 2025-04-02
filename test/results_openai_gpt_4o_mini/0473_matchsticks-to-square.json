@@ -1,0 +1,56 @@
+{
+  "problem": {
+    "id": "473",
+    "frontend_id": "473",
+    "title": "Matchsticks to Square",
+    "description": "You are given an integer array matchsticks where matchsticks[i] is the length of the ith matchstick. You want to use all the matchsticks to make one square. You should not break any stick, but you can link them up, and each matchstick must be used exactly one time.\nReturn true if you can make this square and false otherwise.\n \nExample 1:\n\n\nInput: matchsticks = [1,1,2,2,2]\nOutput: true\nExplanation: You can form a square with length 2, one side of the square came two sticks with length 1.\n\nExample 2:\n\nInput: matchsticks = [3,3,3,3,4]\nOutput: false\nExplanation: You cannot find a way to form a square with all the matchsticks.\n\n \nConstraints:\n\n1 <= matchsticks.length <= 15\n1 <= matchsticks[i] <= 108\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[1,1,2,2,2]",
+      "[3,3,3,3,4]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "matchsticks": "[1,1,2,2,2]"
+        },
+        "expected": "true"
+      },
+      {
+        "input": {
+          "matchsticks": "[3,3,3,3,4]"
+        },
+        "expected": "false"
+      }
+    ],
+    "python_starter": "class Solution:\n    def makesquare(self, matchsticks: List[int]) -> bool:\n        ",
+    "hints": [
+      "Treat the matchsticks as an array. Can we split the array into 4 equal parts?",
+      "Every matchstick can belong to either of the 4 sides. We don't know which one. Maybe try out all options!",
+      "For every matchstick, we have to try out each of the 4 options i.e. which side it can belong to. We can make use of recursion for this.",
+      "We don't really need to keep track of which matchsticks belong to a particular side during recursion. We just need to keep track of the <b>length</b> of each of the 4 sides.",
+      "When all matchsticks have been used we simply need to see the length of all 4 sides. If they're equal, we have a square on our hands!"
+    ],
+    "meta_data": {
+      "name": "makesquare",
+      "params": [
+        {
+          "name": "matchsticks",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def makesquare(self, matchsticks: List[int]) -> bool:\n        total_length = sum(matchsticks)\n        \n        # If total length is not divisible by 4, we cannot form a square\n        if total_length % 4 != 0:\n            return False\n        \n        target_side_length = total_length // 4\n        matchsticks.sort(reverse=True)  # Sort matchsticks in descending order\n        \n        # Initialize sides of the square\n        sides = [0] * 4\n        \n        def backtrack(index):\n            # If we have used all matchsticks, check if all sides are equal to target length\n            if index == len(matchsticks):\n                return all(side == target_side_length for side in sides)\n            \n            # Try to place the current matchstick in each side\n            for i in range(4):\n                if sides[i] + matchsticks[index] <= target_side_length:\n                    sides[i] += matchsticks[index]  # Place matchstick\n                    if backtrack(index + 1):  # Recur to place next matchstick\n                        return True\n                    sides[i] -= matchsticks[index]  # Backtrack\n            \n            return False\n        \n        return backtrack(0)",
+    "explanation": "The solution uses a backtracking approach to determine if the matchsticks can form a square. Here's a breakdown of the solution:\n\n1. **Total Length Calculation**: We first calculate the total length of all matchsticks. If this length is not divisible by 4, we return false immediately.\n\n2. **Target Side Length**: We compute the target length for each side of the square, which is one-fourth of the total length.\n\n3. **Sorting**: The matchsticks are sorted in descending order to optimize the backtracking process. This helps in trying to fill the sides with larger matchsticks first, which can lead to quicker failures or successes.\n\n4. **Backtracking Function**: The `backtrack` function attempts to place each matchstick into one of the four sides. If adding a matchstick exceeds the target length for that side, it backtracks and tries the next side.\n\n5. **Base Case**: If all matchsticks are used and all sides are equal to the target length, we return true.\n\n**Time Complexity**: The time complexity is O(4^n) in the worst case, where n is the number of matchsticks, due to the backtracking nature of the solution. However, the sorting step takes O(n log n).\n\n**Space Complexity**: The space complexity is O(1) for the sides array, and O(n) for the recursion stack in the worst case.\n\nThis solution efficiently checks if the matchsticks can form a square while adhering to the constraints provided."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: True\nTest case 2:\n[PASS] Test passed: False\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:58"
+}

@@ -1,0 +1,39 @@
+{
+  "id": "20",
+  "frontend_id": "20",
+  "title": "Valid Parentheses",
+  "description": "Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid.\nAn input string is valid if:\n\nOpen brackets must be closed by the same type of brackets.\nOpen brackets must be closed in the correct order.\nEvery close bracket has a corresponding open bracket of the same type.\n\n \nExample 1:\n\nInput: s = \"()\"\nOutput: true\n\nExample 2:\n\nInput: s = \"()[]{}\"\nOutput: true\n\nExample 3:\n\nInput: s = \"(]\"\nOutput: false\n\nExample 4:\n\nInput: s = \"([])\"\nOutput: true\n\n \nConstraints:\n\n1 <= s.length <= 104\ns consists of parentheses only '()[]{}'.\n\n",
+  "difficulty": "Easy",
+  "examples": [
+    "\"()\"",
+    "\"()[]{}\"",
+    "\"(]\"",
+    "\"([])\""
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "s": "\"()\""
+      },
+      "expected": "true"
+    }
+  ],
+  "python_starter": "class Solution:\n    def isValid(self, s: str) -> bool:\n        ",
+  "hints": [
+    "Use a stack of characters.",
+    "When you encounter an opening bracket, push it to the top of the stack.",
+    "When you encounter a closing bracket, check if the top of the stack was the opening for it. If yes, pop it from the stack. Otherwise, return false."
+  ],
+  "meta_data": {
+    "name": "isValid",
+    "params": [
+      {
+        "name": "s",
+        "type": "string"
+      }
+    ],
+    "return": {
+      "type": "boolean"
+    }
+  }
+}

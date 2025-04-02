@@ -1,0 +1,57 @@
+{
+  "problem": {
+    "id": "456",
+    "frontend_id": "456",
+    "title": "132 Pattern",
+    "description": "Given an array of n integers nums, a 132 pattern is a subsequence of three integers nums[i], nums[j] and nums[k] such that i < j < k and nums[i] < nums[k] < nums[j].\nReturn true if there is a 132 pattern in nums, otherwise, return false.\n \nExample 1:\n\nInput: nums = [1,2,3,4]\nOutput: false\nExplanation: There is no 132 pattern in the sequence.\n\nExample 2:\n\nInput: nums = [3,1,4,2]\nOutput: true\nExplanation: There is a 132 pattern in the sequence: [1, 4, 2].\n\nExample 3:\n\nInput: nums = [-1,3,2,0]\nOutput: true\nExplanation: There are three 132 patterns in the sequence: [-1, 3, 2], [-1, 3, 0] and [-1, 2, 0].\n\n \nConstraints:\n\nn == nums.length\n1 <= n <= 2 * 105\n-109 <= nums[i] <= 109\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[1,2,3,4]",
+      "[3,1,4,2]",
+      "[-1,3,2,0]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[1,2,3,4]"
+        },
+        "expected": "false"
+      },
+      {
+        "input": {
+          "nums": "[3,1,4,2]"
+        },
+        "expected": "true"
+      },
+      {
+        "input": {
+          "nums": "[-1,3,2,0]"
+        },
+        "expected": "true"
+      }
+    ],
+    "python_starter": "class Solution:\n    def find132pattern(self, nums: List[int]) -> bool:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "find132pattern",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def find132pattern(self, nums: List[int]) -> bool:\n        if len(nums) < 3:\n            return False\n        \n        stack = []\n        third = float('-inf')  # This will represent the '3' in the 132 pattern\n        \n        # Traverse the list from the end to the beginning\n        for i in range(len(nums) - 1, -1, -1):\n            if nums[i] < third:\n                return True  # Found a valid 132 pattern\n            while stack and nums[i] > stack[-1]:\n                third = stack.pop()  # Update '3' to the last '2' found\n            stack.append(nums[i])  # Push current number onto the stack\n        \n        return False  # No 132 pattern found",
+    "explanation": "The solution uses a stack to efficiently find a 132 pattern in the input list. The algorithm works as follows:\n\n1. We initialize an empty stack and a variable `third` set to negative infinity. This variable will hold the value of '3' in the 132 pattern.\n2. We iterate through the list from the last element to the first. For each element `nums[i]`, we check if it is less than `third`. If it is, we have found a valid 132 pattern (nums[i] as '1', `third` as '3', and the last popped value from the stack as '2').\n3. If `nums[i]` is not less than `third`, we pop elements from the stack while they are less than or equal to `nums[i]`, updating `third` to the last popped value. This ensures that `third` always holds the largest possible value for '3' that can form a valid pattern with the current '1'.\n4. Finally, we push `nums[i]` onto the stack for future comparisons.\n\nThe time complexity of this solution is O(n) because each element is processed at most twice (once pushed and once popped from the stack). The space complexity is O(n) in the worst case, where all elements are pushed onto the stack.\n\nOverall, this approach is efficient and works well within the problem's constraints."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: False\nTest case 2:\n[PASS] Test passed: True\nTest case 3:\n[PASS] Test passed: True\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:57"
+}

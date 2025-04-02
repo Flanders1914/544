@@ -1,0 +1,47 @@
+{
+  "id": "191",
+  "frontend_id": "191",
+  "title": "Number of 1 Bits",
+  "description": "Given a positive integer n, write a function that returns the number of set bits in its binary representation (also known as the Hamming weight).\n \nExample 1:\n\nInput: n = 11\nOutput: 3\nExplanation:\nThe input binary string 1011 has a total of three set bits.\n\nExample 2:\n\nInput: n = 128\nOutput: 1\nExplanation:\nThe input binary string 10000000 has a total of one set bit.\n\nExample 3:\n\nInput: n = 2147483645\nOutput: 30\nExplanation:\nThe input binary string 1111111111111111111111111111101 has a total of thirty set bits.\n\n \nConstraints:\n\n1 <= n <= 231 - 1\n\n \nFollow up: If this function is called many times, how would you optimize it?",
+  "difficulty": "Easy",
+  "examples": [
+    "11",
+    "128",
+    "2147483645"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "n": "11"
+      },
+      "expected": "3"
+    },
+    {
+      "input": {
+        "n": "128"
+      },
+      "expected": "1"
+    },
+    {
+      "input": {
+        "n": "2147483645"
+      },
+      "expected": "30"
+    }
+  ],
+  "python_starter": "class Solution:\n    def hammingWeight(self, n: int) -> int:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "hammingWeight",
+    "params": [
+      {
+        "name": "n",
+        "type": "integer"
+      }
+    ],
+    "return": {
+      "type": "integer"
+    },
+    "manual": false
+  }
+}

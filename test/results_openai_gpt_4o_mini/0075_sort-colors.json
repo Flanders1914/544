@@ -1,0 +1,52 @@
+{
+  "problem": {
+    "id": "75",
+    "frontend_id": "75",
+    "title": "Sort Colors",
+    "description": "Given an array nums with n objects colored red, white, or blue, sort them in-place so that objects of the same color are adjacent, with the colors in the order red, white, and blue.\nWe will use the integers 0, 1, and 2 to represent the color red, white, and blue, respectively.\nYou must solve this problem without using the library's sort function.\n \nExample 1:\n\nInput: nums = [2,0,2,1,1,0]\nOutput: [0,0,1,1,2,2]\n\nExample 2:\n\nInput: nums = [2,0,1]\nOutput: [0,1,2]\n\n \nConstraints:\n\nn == nums.length\n1 <= n <= 300\nnums[i] is either 0, 1, or 2.\n\n \nFollow up: Could you come up with a one-pass algorithm using only constant extra space?\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[2,0,2,1,1,0]",
+      "[2,0,1]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[2,0,2,1,1,0]"
+        },
+        "expected": "[0,0,1,1,2,2]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def sortColors(self, nums: List[int]) -> None:\n        \"\"\"\n        Do not return anything, modify nums in-place instead.\n        \"\"\"\n        ",
+    "hints": [
+      "A rather straight forward solution is a two-pass algorithm using counting sort.",
+      "Iterate the array counting number of 0's, 1's, and 2's.",
+      "Overwrite array with the total number of 0's, then 1's and followed by 2's."
+    ],
+    "meta_data": {
+      "name": "sortColors",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "void"
+      },
+      "output": {
+        "paramindex": 0
+      },
+      "manual": false
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def sortColors(self, nums: List[int]) -> None:\n        \"\"\"\n        Do not return anything, modify nums in-place instead.\n        \"\"\"\n        low, mid, high = 0, 0, len(nums) - 1\n        \n        while mid <= high:\n            if nums[mid] == 0:\n                nums[low], nums[mid] = nums[mid], nums[low]  # Swap 0 to the front\n                low += 1\n                mid += 1\n            elif nums[mid] == 1:\n                mid += 1  # 1 is in the correct place\n            else:  # nums[mid] == 2\n                nums[mid], nums[high] = nums[high], nums[mid]  # Swap 2 to the back\n                high -= 1",
+    "explanation": "The provided solution implements the Dutch National Flag algorithm to sort the colors in the array. The algorithm operates in O(n) time complexity, where n is the number of elements in the input array, because each element is processed at most twice (once when moving `mid` and potentially once when swapping with `high`). \n\nThe space complexity is O(1) since we are using a constant amount of extra space for the pointers (`low`, `mid`, and `high`), regardless of the input size.\n\nThe algorithm effectively partitions the array into three sections:\n- The section of 0s (red) at the beginning,\n- The section of 1s (white) in the middle,\n- The section of 2s (blue) at the end.\n\nThis ensures that all elements of the same color are adjacent and in the correct order. The solution modifies the input array in place, as required by the problem statement."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:31"
+}

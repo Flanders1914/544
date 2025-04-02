@@ -1,0 +1,44 @@
+{
+  "problem": {
+    "id": "423",
+    "frontend_id": "423",
+    "title": "Reconstruct Original Digits from English",
+    "description": "Given a string s containing an out-of-order English representation of digits 0-9, return the digits in ascending order.\n \nExample 1:\nInput: s = \"owoztneoer\"\nOutput: \"012\"\nExample 2:\nInput: s = \"fviefuro\"\nOutput: \"45\"\n\n \nConstraints:\n\n1 <= s.length <= 105\ns[i] is one of the characters [\"e\",\"g\",\"f\",\"i\",\"h\",\"o\",\"n\",\"s\",\"r\",\"u\",\"t\",\"w\",\"v\",\"x\",\"z\"].\ns is guaranteed to be valid.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "\"owoztneoer\"",
+      "\"fviefuro\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "s": "\"owoztneoer\""
+        },
+        "expected": "012"
+      }
+    ],
+    "python_starter": "class Solution:\n    def originalDigits(self, s: str) -> str:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "originalDigits",
+      "params": [
+        {
+          "name": "s",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "string"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def originalDigits(self, s: str) -> str:\n        # Count the occurrences of each character in the string\n        count = {}\n        for char in s:\n            count[char] = count.get(char, 0) + 1\n        \n        # Initialize a list to hold the count of each digit\n        digit_count = [0] * 10\n        \n        # Determine the count of each digit based on unique characters\n        digit_count[0] = count.get('z', 0)  # 0\n        digit_count[2] = count.get('w', 0)  # 2\n        digit_count[4] = count.get('u', 0)  # 4\n        digit_count[6] = count.get('x', 0)  # 6\n        digit_count[8] = count.get('g', 0)  # 8\n        \n        # For digits that are not uniquely identifiable, we calculate based on previous counts\n        digit_count[1] = count.get('o', 0) - digit_count[0] - digit_count[2] - digit_count[4]  # 1\n        digit_count[3] = count.get('h', 0) - digit_count[8]  # 3\n        digit_count[5] = count.get('f', 0) - digit_count[4]  # 5\n        digit_count[7] = count.get('s', 0) - digit_count[6]  # 7\n        digit_count[9] = count.get('i', 0) - digit_count[5] - digit_count[6] - digit_count[8]  # 9\n        \n        # Construct the result string\n        result = []\n        for digit in range(10):\n            result.append(str(digit) * digit_count[digit])\n        \n        return ''.join(result)",
+    "explanation": "The solution begins by counting the occurrences of each character in the input string using a dictionary. This allows us to efficiently determine how many times each digit can be formed based on the unique characters associated with them.\n\nWe initialize a list `digit_count` to keep track of how many of each digit (0-9) we can form. We first count the digits that can be uniquely identified by their characters (0, 2, 4, 6, 8) and then calculate the counts for the remaining digits (1, 3, 5, 7, 9) based on the counts of previously identified digits.\n\nFinally, we construct the result string by appending each digit the number of times it was counted, and we return the digits in ascending order.\n\nThe time complexity of this solution is O(n), where n is the length of the input string, as we traverse the string to count characters and then construct the result. The space complexity is O(1) since the size of the `digit_count` list is constant (10 elements)."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmptm7_kwlh.py\", line 68\n    expected_0 = 012\n                 ^\nSyntaxError: leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers\n"
+  },
+  "timestamp": "2025-04-01 18:00:55"
+}

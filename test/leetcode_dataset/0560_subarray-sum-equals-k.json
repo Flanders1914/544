@@ -1,0 +1,45 @@
+{
+  "id": "560",
+  "frontend_id": "560",
+  "title": "Subarray Sum Equals K",
+  "description": "Given an array of integers nums and an integer k, return the total number of subarrays whose sum equals to k.\nA subarray is a contiguous non-empty sequence of elements within an array.\n \nExample 1:\nInput: nums = [1,1,1], k = 2\nOutput: 2\nExample 2:\nInput: nums = [1,2,3], k = 3\nOutput: 2\n\n \nConstraints:\n\n1 <= nums.length <= 2 * 104\n-1000 <= nums[i] <= 1000\n-107 <= k <= 107\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "[1,1,1]",
+    "2",
+    "[1,2,3]",
+    "3"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "nums": "[1,1,1]",
+        "k": "2"
+      },
+      "expected": "2"
+    }
+  ],
+  "python_starter": "class Solution:\n    def subarraySum(self, nums: List[int], k: int) -> int:\n        ",
+  "hints": [
+    "Will Brute force work here? Try to optimize it.",
+    "Can we optimize it by using some extra space?",
+    "What about storing sum frequencies in a hash table? Will it be useful?",
+    "sum(i,j)=sum(0,j)-sum(0,i), where sum(i,j) represents the sum of all the elements from index i to j-1.\r\n\r\nCan we use this property to optimize it."
+  ],
+  "meta_data": {
+    "name": "subarraySum",
+    "params": [
+      {
+        "name": "nums",
+        "type": "integer[]"
+      },
+      {
+        "name": "k",
+        "type": "integer"
+      }
+    ],
+    "return": {
+      "type": "integer"
+    }
+  }
+}

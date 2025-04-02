@@ -1,0 +1,42 @@
+{
+  "id": "79",
+  "frontend_id": "79",
+  "title": "Word Search",
+  "description": "Given an m x n grid of characters board and a string word, return true if word exists in the grid.\nThe word can be constructed from letters of sequentially adjacent cells, where adjacent cells are horizontally or vertically neighboring. The same letter cell may not be used more than once.\n \nExample 1:\n\n\nInput: board = [[\"A\",\"B\",\"C\",\"E\"],[\"S\",\"F\",\"C\",\"S\"],[\"A\",\"D\",\"E\",\"E\"]], word = \"ABCCED\"\nOutput: true\n\nExample 2:\n\n\nInput: board = [[\"A\",\"B\",\"C\",\"E\"],[\"S\",\"F\",\"C\",\"S\"],[\"A\",\"D\",\"E\",\"E\"]], word = \"SEE\"\nOutput: true\n\nExample 3:\n\n\nInput: board = [[\"A\",\"B\",\"C\",\"E\"],[\"S\",\"F\",\"C\",\"S\"],[\"A\",\"D\",\"E\",\"E\"]], word = \"ABCB\"\nOutput: false\n\n \nConstraints:\n\nm == board.length\nn = board[i].length\n1 <= m, n <= 6\n1 <= word.length <= 15\nboard and word consists of only lowercase and uppercase English letters.\n\n \nFollow up: Could you use search pruning to make your solution faster with a larger board?\n",
+  "difficulty": "Medium",
+  "examples": [
+    "[[\"A\",\"B\",\"C\",\"E\"],[\"S\",\"F\",\"C\",\"S\"],[\"A\",\"D\",\"E\",\"E\"]]",
+    "\"ABCCED\"",
+    "[[\"A\",\"B\",\"C\",\"E\"],[\"S\",\"F\",\"C\",\"S\"],[\"A\",\"D\",\"E\",\"E\"]]",
+    "\"SEE\"",
+    "[[\"A\",\"B\",\"C\",\"E\"],[\"S\",\"F\",\"C\",\"S\"],[\"A\",\"D\",\"E\",\"E\"]]",
+    "\"ABCB\""
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "board": "[[\"A\",\"B\",\"C\",\"E\"]",
+        "word": "\"ABCCED\""
+      },
+      "expected": "true"
+    }
+  ],
+  "python_starter": "class Solution:\n    def exist(self, board: List[List[str]], word: str) -> bool:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "exist",
+    "params": [
+      {
+        "name": "board",
+        "type": "character[][]"
+      },
+      {
+        "name": "word",
+        "type": "string"
+      }
+    ],
+    "return": {
+      "type": "boolean"
+    }
+  }
+}

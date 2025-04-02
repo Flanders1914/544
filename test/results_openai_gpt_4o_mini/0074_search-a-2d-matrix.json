@@ -1,0 +1,51 @@
+{
+  "problem": {
+    "id": "74",
+    "frontend_id": "74",
+    "title": "Search a 2D Matrix",
+    "description": "You are given an m x n integer matrix matrix with the following two properties:\n\nEach row is sorted in non-decreasing order.\nThe first integer of each row is greater than the last integer of the previous row.\n\nGiven an integer target, return true if target is in matrix or false otherwise.\nYou must write a solution in O(log(m * n)) time complexity.\n \nExample 1:\n\n\nInput: matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 3\nOutput: true\n\nExample 2:\n\n\nInput: matrix = [[1,3,5,7],[10,11,16,20],[23,30,34,60]], target = 13\nOutput: false\n\n \nConstraints:\n\nm == matrix.length\nn == matrix[i].length\n1 <= m, n <= 100\n-104 <= matrix[i][j], target <= 104\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[[1,3,5,7],[10,11,16,20],[23,30,34,60]]",
+      "3",
+      "[[1,3,5,7],[10,11,16,20],[23,30,34,60]]",
+      "13"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "matrix": "[[1,3,5,7]",
+          "target": "3"
+        },
+        "expected": "true"
+      }
+    ],
+    "python_starter": "class Solution:\n    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "searchMatrix",
+      "params": [
+        {
+          "name": "matrix",
+          "type": "integer[][]"
+        },
+        {
+          "name": "target",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:\n        if not matrix or not matrix[0]:\n            return False\n        \n        m, n = len(matrix), len(matrix[0])\n        left, right = 0, m * n - 1\n        \n        while left <= right:\n            mid = left + (right - left) // 2\n            mid_value = matrix[mid // n][mid % n]\n            \n            if mid_value == target:\n                return True\n            elif mid_value < target:\n                left = mid + 1\n            else:\n                right = mid - 1\n        \n        return False",
+    "explanation": "The solution uses binary search to efficiently find the target in the 2D matrix. Here's a breakdown of the implementation:\n\n1. **Input Validation**: We first check if the matrix is empty or if the first row is empty. If so, we return `False` immediately.\n2. **Initialization**: We determine the number of rows (`m`) and columns (`n`) in the matrix. We also initialize two pointers, `left` and `right`, which represent the current search range in the flattened version of the matrix.\n3. **Binary Search Loop**: We enter a loop that continues as long as `left` is less than or equal to `right`. Inside the loop:\n   - We calculate the middle index `mid` and derive the corresponding 2D indices using integer division and modulus.\n   - We compare the value at the calculated position (`mid_value`) with the target:\n     - If it matches, we return `True`.\n     - If `mid_value` is less than the target, we move the `left` pointer to `mid + 1` to search the right half.\n     - If `mid_value` is greater than the target, we move the `right` pointer to `mid - 1` to search the left half.\n4. **Completion**: If the loop exits without finding the target, we return `False`.\n\n**Time Complexity**: O(log(m * n)), where `m` is the number of rows and `n` is the number of columns, due to the binary search.\n\n**Space Complexity**: O(1), as we are using a constant amount of space for the pointers and variables."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmp2n5kc2pp.py\", line 58\n    input_0_0 = [[1,3,5,7]\n                ^\nSyntaxError: '[' was never closed\n"
+  },
+  "timestamp": "2025-04-01 18:00:31"
+}

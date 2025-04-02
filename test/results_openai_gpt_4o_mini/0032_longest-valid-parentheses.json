@@ -1,0 +1,57 @@
+{
+  "problem": {
+    "id": "32",
+    "frontend_id": "32",
+    "title": "Longest Valid Parentheses",
+    "description": "Given a string containing just the characters '(' and ')', return the length of the longest valid (well-formed) parentheses substring.\n \nExample 1:\n\nInput: s = \"(()\"\nOutput: 2\nExplanation: The longest valid parentheses substring is \"()\".\n\nExample 2:\n\nInput: s = \")()())\"\nOutput: 4\nExplanation: The longest valid parentheses substring is \"()()\".\n\nExample 3:\n\nInput: s = \"\"\nOutput: 0\n\n \nConstraints:\n\n0 <= s.length <= 3 * 104\ns[i] is '(', or ')'.\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "\"(()\"",
+      "\")()())\"",
+      "\"\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "s": "\"(()\""
+        },
+        "expected": "2"
+      },
+      {
+        "input": {
+          "s": "\")()())\""
+        },
+        "expected": "4"
+      },
+      {
+        "input": {
+          "s": "\"\""
+        },
+        "expected": "0"
+      }
+    ],
+    "python_starter": "class Solution:\n    def longestValidParentheses(self, s: str) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "longestValidParentheses",
+      "params": [
+        {
+          "name": "s",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def longestValidParentheses(self, s: str) -> int:\n        # Stack to keep track of indices of '(' and unmatched ')'\n        stack = []\n        # Initialize the base index for valid parentheses\n        base = -1\n        max_length = 0\n        \n        for i, char in enumerate(s):\n            if char == '(':\n                # Push the index of '(' onto the stack\n                stack.append(i)\n            else:\n                # If we encounter a ')'\n                if stack:\n                    # Pop the last '(' index\n                    stack.pop()\n                    if stack:\n                        # Calculate the length of the valid substring\n                        max_length = max(max_length, i - stack[-1])\n                    else:\n                        # If stack is empty, set base to current index\n                        max_length = max(max_length, i - base)\n                else:\n                    # If no matching '(', set base to current index\n                    base = i\n        \n        return max_length",
+    "explanation": "The solution uses a stack to keep track of the indices of the opening parentheses '(' and unmatched closing parentheses ')'. The algorithm iterates through the string, and for each character:\n\n1. If it encounters '(', it pushes its index onto the stack.\n2. If it encounters ')', it checks if there is a matching '('. If the stack is not empty, it pops the top index (which corresponds to the last unmatched '('). \n   - If the stack is still not empty after popping, it calculates the length of the valid substring using the current index and the index at the top of the stack.\n   - If the stack is empty after popping, it means we have a valid substring from the last unmatched ')' to the current index, so we calculate the length using the base index.\n3. If there is no matching '(', it updates the base index to the current index.\n\nThe maximum length of valid parentheses found during the iteration is returned.\n\nThe time complexity of this solution is O(n) because we traverse the string once, and the space complexity is O(n) in the worst case due to the stack storing indices."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:28"
+}

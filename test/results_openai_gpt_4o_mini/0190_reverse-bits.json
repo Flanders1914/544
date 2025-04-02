@@ -1,0 +1,51 @@
+{
+  "problem": {
+    "id": "190",
+    "frontend_id": "190",
+    "title": "Reverse Bits",
+    "description": "Reverse bits of a given 32 bits unsigned integer.\nNote:\n\nNote that in some languages, such as Java, there is no unsigned integer type. In this case, both input and output will be given as a signed integer type. They should not affect your implementation, as the integer's internal binary representation is the same, whether it is signed or unsigned.\nIn Java, the compiler represents the signed integers using 2's complement notation. Therefore, in Example 2 above, the input represents the signed integer -3 and the output represents the signed integer -1073741825.\n\n \nExample 1:\n\nInput: n = 00000010100101000001111010011100\nOutput:    964176192 (00111001011110000010100101000000)\nExplanation: The input binary string 00000010100101000001111010011100 represents the unsigned integer 43261596, so return 964176192 which its binary representation is 00111001011110000010100101000000.\n\nExample 2:\n\nInput: n = 11111111111111111111111111111101\nOutput:   3221225471 (10111111111111111111111111111111)\nExplanation: The input binary string 11111111111111111111111111111101 represents the unsigned integer 4294967293, so return 3221225471 which its binary representation is 10111111111111111111111111111111.\n\n \nConstraints:\n\nThe input must be a binary string of length 32\n\n \nFollow up: If this function is called many times, how would you optimize it?\n",
+    "difficulty": "Easy",
+    "examples": [
+      "00000010100101000001111010011100",
+      "11111111111111111111111111111101"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "n": "00000010100101000001111010011100"
+        },
+        "expected": "964176192 (00111001011110000010100101000000)"
+      },
+      {
+        "input": {
+          "n": "11111111111111111111111111111101"
+        },
+        "expected": "3221225471 (10111111111111111111111111111111)"
+      }
+    ],
+    "python_starter": "class Solution:\n    def reverseBits(self, n: int) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "reverseBits",
+      "params": [
+        {
+          "name": "n",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      },
+      "manual": true
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def reverseBits(self, n: int) -> int:\n        result = 0  # Initialize result to 0\n        for i in range(32):  # Loop through each bit position\n            result <<= 1  # Shift result to the left to make room for the next bit\n            result |= (n & 1)  # Add the least significant bit of n to result\n            n >>= 1  # Shift n to the right to process the next bit\n        return result  # Return the reversed bits",
+    "explanation": "The solution uses a simple loop to reverse the bits of a 32-bit unsigned integer. The key steps are:\n\n1. **Initialization**: We start with a `result` variable set to 0, which will hold the final reversed integer.\n2. **Bit Manipulation**:\n   - We loop 32 times (once for each bit in the integer).\n   - In each iteration, we shift `result` to the left by one position to make space for the next bit.\n   - We then check the least significant bit of `n` using `n & 1`. If this bit is 1, we set the least significant bit of `result` using `result |= (n & 1)`.\n   - Finally, we shift `n` to the right by one position to process the next bit in the next iteration.\n3. **Return the Result**: After the loop completes, `result` contains the bits of `n` in reverse order, which we return.\n\n### Complexity Analysis:\n- **Time Complexity**: O(1) because we always perform a fixed number of operations (32).\n- **Space Complexity**: O(1) since we are using a constant amount of space for the `result` variable.\n\nThis method is efficient and straightforward, making it suitable for scenarios where the function may be called multiple times, as it operates in constant time."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmpw3_o5mnx.py\", line 44\n    input_0_0 = 00000010100101000001111010011100\n                ^^^^^^\nSyntaxError: leading zeros in decimal integer literals are not permitted; use an 0o prefix for octal integers\n"
+  },
+  "timestamp": "2025-04-01 18:00:41"
+}

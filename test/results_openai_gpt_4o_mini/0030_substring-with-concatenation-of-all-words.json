@@ -1,0 +1,67 @@
+{
+  "problem": {
+    "id": "30",
+    "frontend_id": "30",
+    "title": "Substring with Concatenation of All Words",
+    "description": "You are given a string s and an array of strings words. All the strings of words are of the same length.\nA concatenated string is a string that exactly contains all the strings of any permutation of words concatenated.\n\nFor example, if words = [\"ab\",\"cd\",\"ef\"], then \"abcdef\", \"abefcd\", \"cdabef\", \"cdefab\", \"efabcd\", and \"efcdab\" are all concatenated strings. \"acdbef\" is not a concatenated string because it is not the concatenation of any permutation of words.\n\nReturn an array of the starting indices of all the concatenated substrings in s. You can return the answer in any order.\n \nExample 1:\n\nInput: s = \"barfoothefoobarman\", words = [\"foo\",\"bar\"]\nOutput: [0,9]\nExplanation:\nThe substring starting at 0 is \"barfoo\". It is the concatenation of [\"bar\",\"foo\"] which is a permutation of words.\nThe substring starting at 9 is \"foobar\". It is the concatenation of [\"foo\",\"bar\"] which is a permutation of words.\n\nExample 2:\n\nInput: s = \"wordgoodgoodgoodbestword\", words = [\"word\",\"good\",\"best\",\"word\"]\nOutput: []\nExplanation:\nThere is no concatenated substring.\n\nExample 3:\n\nInput: s = \"barfoofoobarthefoobarman\", words = [\"bar\",\"foo\",\"the\"]\nOutput: [6,9,12]\nExplanation:\nThe substring starting at 6 is \"foobarthe\". It is the concatenation of [\"foo\",\"bar\",\"the\"].\nThe substring starting at 9 is \"barthefoo\". It is the concatenation of [\"bar\",\"the\",\"foo\"].\nThe substring starting at 12 is \"thefoobar\". It is the concatenation of [\"the\",\"foo\",\"bar\"].\n\n \nConstraints:\n\n1 <= s.length <= 104\n1 <= words.length <= 5000\n1 <= words[i].length <= 30\ns and words[i] consist of lowercase English letters.\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "\"barfoothefoobarman\"",
+      "[\"foo\",\"bar\"]",
+      "\"wordgoodgoodgoodbestword\"",
+      "[\"word\",\"good\",\"best\",\"word\"]",
+      "\"barfoofoobarthefoobarman\"",
+      "[\"bar\",\"foo\",\"the\"]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "s": "\"barfoothefoobarman\"",
+          "words": "[\"foo\",\"bar\"]"
+        },
+        "expected": "[0,9]"
+      },
+      {
+        "input": {
+          "s": "\"wordgoodgoodgoodbestword\"",
+          "words": "[\"word\",\"good\",\"best\",\"word\"]"
+        },
+        "expected": "[]"
+      },
+      {
+        "input": {
+          "s": "\"barfoofoobarthefoobarman\"",
+          "words": "[\"bar\",\"foo\",\"the\"]"
+        },
+        "expected": "[6,9,12]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def findSubstring(self, s: str, words: List[str]) -> List[int]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "findSubstring",
+      "params": [
+        {
+          "name": "s",
+          "type": "string"
+        },
+        {
+          "name": "words",
+          "type": "string[]"
+        }
+      ],
+      "return": {
+        "type": "list<integer>"
+      }
+    }
+  },
+  "solution": {
+    "code": "from collections import defaultdict\nfrom typing import List\n\nclass Solution:\n    def findSubstring(self, s: str, words: List[str]) -> List[int]:\n        if not s or not words:\n            return []\n        \n        word_length = len(words[0])\n        word_count = len(words)\n        total_length = word_length * word_count\n        word_map = defaultdict(int)\n        \n        # Count the occurrences of each word in the words list\n        for word in words:\n            word_map[word] += 1\n        \n        result_indices = []\n        \n        # Iterate over the string s\n        for i in range(len(s) - total_length + 1):\n            seen_words = defaultdict(int)\n            for j in range(word_count):\n                # Get the current word from the substring\n                start_index = i + j * word_length\n                current_word = s[start_index:start_index + word_length]\n                \n                # If the word is not in the word_map, break\n                if current_word not in word_map:\n                    break\n                \n                # Count the occurrences of the current word\n                seen_words[current_word] += 1\n                \n                # If the count exceeds the expected count, break\n                if seen_words[current_word] > word_map[current_word]:\n                    break\n                \n                # If we have seen all words correctly\n                if j + 1 == word_count:\n                    result_indices.append(i)\n        \n        return result_indices",
+    "explanation": "The solution uses a sliding window approach to efficiently find all starting indices of substrings in `s` that are concatenations of the words in the `words` list. \n\n1. **Time Complexity**: The time complexity of this solution is O(N * M), where N is the length of the string `s` and M is the number of words multiplied by the length of each word. This is because we iterate through the string and for each starting index, we check a fixed number of words.\n\n2. **Space Complexity**: The space complexity is O(W), where W is the number of unique words in the `words` list, due to the storage of the word count in a hash map.\n\nThis approach is efficient and works well within the problem's constraints, allowing us to find all valid starting indices without generating permutations or checking every possible substring exhaustively."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:28"
+}

@@ -1,0 +1,66 @@
+{
+  "problem": {
+    "id": "127",
+    "frontend_id": "127",
+    "title": "Word Ladder",
+    "description": "A transformation sequence from word beginWord to word endWord using a dictionary wordList is a sequence of words beginWord -> s1 -> s2 -> ... -> sk such that:\n\nEvery adjacent pair of words differs by a single letter.\nEvery si for 1 <= i <= k is in wordList. Note that beginWord does not need to be in wordList.\nsk == endWord\n\nGiven two words, beginWord and endWord, and a dictionary wordList, return the number of words in the shortest transformation sequence from beginWord to endWord, or 0 if no such sequence exists.\n \nExample 1:\n\nInput: beginWord = \"hit\", endWord = \"cog\", wordList = [\"hot\",\"dot\",\"dog\",\"lot\",\"log\",\"cog\"]\nOutput: 5\nExplanation: One shortest transformation sequence is \"hit\" -> \"hot\" -> \"dot\" -> \"dog\" -> cog\", which is 5 words long.\n\nExample 2:\n\nInput: beginWord = \"hit\", endWord = \"cog\", wordList = [\"hot\",\"dot\",\"dog\",\"lot\",\"log\"]\nOutput: 0\nExplanation: The endWord \"cog\" is not in wordList, therefore there is no valid transformation sequence.\n\n \nConstraints:\n\n1 <= beginWord.length <= 10\nendWord.length == beginWord.length\n1 <= wordList.length <= 5000\nwordList[i].length == beginWord.length\nbeginWord, endWord, and wordList[i] consist of lowercase English letters.\nbeginWord != endWord\nAll the words in wordList are unique.\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "\"hit\"",
+      "\"cog\"",
+      "[\"hot\",\"dot\",\"dog\",\"lot\",\"log\",\"cog\"]",
+      "\"hit\"",
+      "\"cog\"",
+      "[\"hot\",\"dot\",\"dog\",\"lot\",\"log\"]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "beginWord": "\"hit\"",
+          "endWord": "\"cog\"",
+          "wordList": "[\"hot\",\"dot\",\"dog\",\"lot\",\"log\",\"cog\"]"
+        },
+        "expected": "5"
+      },
+      {
+        "input": {
+          "beginWord": "\"hit\"",
+          "endWord": "\"cog\"",
+          "wordList": "[\"hot\",\"dot\",\"dog\",\"lot\",\"log\"]"
+        },
+        "expected": "0"
+      }
+    ],
+    "python_starter": "class Solution:\n    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "ladderLength",
+      "params": [
+        {
+          "name": "beginWord",
+          "type": "string"
+        },
+        {
+          "name": "endWord",
+          "type": "string"
+        },
+        {
+          "name": "wordList",
+          "type": "list<string>"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from collections import deque\nfrom typing import List\n\nclass Solution:\n    def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:\n        # Convert wordList to a set for O(1) lookups\n        wordSet = set(wordList)\n        \n        # If endWord is not in the wordList, return 0\n        if endWord not in wordSet:\n            return 0\n        \n        # Initialize the queue for BFS\n        queue = deque([(beginWord, 1)])  # (current_word, current_length)\n        visited = set([beginWord])  # Set to keep track of visited words\n        \n        while queue:\n            current_word, current_length = queue.popleft()\n            \n            # Try changing each letter in the current word\n            for i in range(len(current_word)):\n                for c in 'abcdefghijklmnopqrstuvwxyz':\n                    # Create a new word by changing one letter\n                    new_word = current_word[:i] + c + current_word[i+1:]\n                    \n                    # If the new word is the endWord, return the length\n                    if new_word == endWord:\n                        return current_length + 1\n                    \n                    # If the new word is in the wordSet and not visited\n                    if new_word in wordSet and new_word not in visited:\n                        visited.add(new_word)  # Mark as visited\n                        queue.append((new_word, current_length + 1))  # Add to queue\n        \n        # If we exhaust the queue without finding endWord, return 0\n        return 0",
+    "explanation": "The solution uses a breadth-first search (BFS) strategy to explore all possible transformations from the `beginWord` to the `endWord`. The BFS ensures that we find the shortest path in terms of the number of transformations.\n\n1. **Time Complexity**: The time complexity is O(N * M * 26), where N is the number of words in the `wordList`, and M is the length of each word. For each word, we generate up to 26 new words (one for each letter of the alphabet) and check if they are in the `wordList`.\n2. **Space Complexity**: The space complexity is O(N) for storing the `wordSet` and the queue used for BFS.\n\nOverall, this approach efficiently finds the shortest transformation sequence or determines that no such sequence exists."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:37"
+}

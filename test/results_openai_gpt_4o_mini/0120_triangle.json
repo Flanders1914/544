@@ -1,0 +1,50 @@
+{
+  "problem": {
+    "id": "120",
+    "frontend_id": "120",
+    "title": "Triangle",
+    "description": "Given a triangle array, return the minimum path sum from top to bottom.\nFor each step, you may move to an adjacent number of the row below. More formally, if you are on index i on the current row, you may move to either index i or index i + 1 on the next row.\n \nExample 1:\n\nInput: triangle = [[2],[3,4],[6,5,7],[4,1,8,3]]\nOutput: 11\nExplanation: The triangle looks like:\n   2\n  3 4\n 6 5 7\n4 1 8 3\nThe minimum path sum from top to bottom is 2 + 3 + 5 + 1 = 11 (underlined above).\n\nExample 2:\n\nInput: triangle = [[-10]]\nOutput: -10\n\n \nConstraints:\n\n1 <= triangle.length <= 200\ntriangle[0].length == 1\ntriangle[i].length == triangle[i - 1].length + 1\n-104 <= triangle[i][j] <= 104\n\n \nFollow up: Could you do this using only O(n) extra space, where n is the total number of rows in the triangle?",
+    "difficulty": "Medium",
+    "examples": [
+      "[[2],[3,4],[6,5,7],[4,1,8,3]]",
+      "[[-10]]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "triangle": "[[2]"
+        },
+        "expected": "11"
+      },
+      {
+        "input": {
+          "triangle": "[[-10]"
+        },
+        "expected": "-10"
+      }
+    ],
+    "python_starter": "class Solution:\n    def minimumTotal(self, triangle: List[List[int]]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "minimumTotal",
+      "params": [
+        {
+          "name": "triangle",
+          "type": "list<list<integer>>"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def minimumTotal(self, triangle: List[List[int]]) -> int:\n        # Start from the second to last row and move upwards\n        for row in range(len(triangle) - 2, -1, -1):\n            for col in range(len(triangle[row])):\n                # Update the current element to be the sum of itself and the minimum of the two adjacent elements below\n                triangle[row][col] += min(triangle[row + 1][col], triangle[row + 1][col + 1])\n        \n        # The top element now contains the minimum path sum\n        return triangle[0][0]",
+    "explanation": "The solution uses a bottom-up dynamic programming approach to calculate the minimum path sum in the triangle. We iterate from the second-to-last row to the top, updating each element to reflect the minimum path sum from that element to the bottom of the triangle.\n\n1. **Initialization**: We start from the second-to-last row of the triangle and work our way up to the top.\n2. **Updating Values**: For each element in the current row, we add the minimum of the two adjacent elements from the row below. This effectively combines the current element with the best possible path sum from that point downwards.\n3. **Final Result**: After processing all rows, the top element of the triangle contains the minimum path sum from top to bottom.\n\n**Time Complexity**: The time complexity of this solution is O(n^2), where n is the number of rows in the triangle, since we visit each element once.\n\n**Space Complexity**: The space complexity is O(1) if we consider the input triangle as the only space used, as we are modifying it in place. If we consider the input size, it is O(n) due to the input triangle structure.\n\nThis efficient approach ensures that we meet the problem's constraints while providing the correct minimum path sum."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmpc1yevd01.py\", line 46\n    input_0_0 = [[2]\n                 ^^^\nSyntaxError: invalid syntax. Perhaps you forgot a comma?\n"
+  },
+  "timestamp": "2025-04-01 18:00:36"
+}

@@ -1,0 +1,68 @@
+{
+  "problem": {
+    "id": "450",
+    "frontend_id": "450",
+    "title": "Delete Node in a BST",
+    "description": "Given a root node reference of a BST and a key, delete the node with the given key in the BST. Return the root node reference (possibly updated) of the BST.\nBasically, the deletion can be divided into two stages:\n\nSearch for a node to remove.\nIf the node is found, delete the node.\n\n \nExample 1:\n\n\nInput: root = [5,3,6,2,4,null,7], key = 3\nOutput: [5,4,6,2,null,null,7]\nExplanation: Given key to delete is 3. So we find the node with value 3 and delete it.\nOne valid answer is [5,4,6,2,null,null,7], shown in the above BST.\nPlease notice that another valid answer is [5,2,6,null,4,null,7] and it's also accepted.\n\n\nExample 2:\n\nInput: root = [5,3,6,2,4,null,7], key = 0\nOutput: [5,3,6,2,4,null,7]\nExplanation: The tree does not contain a node with value = 0.\n\nExample 3:\n\nInput: root = [], key = 0\nOutput: []\n\n \nConstraints:\n\nThe number of nodes in the tree is in the range [0, 104].\n-105 <= Node.val <= 105\nEach node has a unique value.\nroot is a valid binary search tree.\n-105 <= key <= 105\n\n \nFollow up: Could you solve it with time complexity O(height of tree)?\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[5,3,6,2,4,null,7]",
+      "3",
+      "[5,3,6,2,4,null,7]",
+      "0",
+      "[]",
+      "0"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "root": "[5,3,6,2,4,null,7]",
+          "key": "3"
+        },
+        "expected": "[5,4,6,2,null,null,7]"
+      },
+      {
+        "input": {
+          "root": "[5,3,6,2,4,null,7]",
+          "key": "0"
+        },
+        "expected": "[5,3,6,2,4,null,7]"
+      },
+      {
+        "input": {
+          "root": "[]",
+          "key": "0"
+        },
+        "expected": "[]"
+      }
+    ],
+    "python_starter": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def deleteNode(self, root: Optional[TreeNode], key: int) -> Optional[TreeNode]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "deleteNode",
+      "params": [
+        {
+          "name": "root",
+          "type": "TreeNode",
+          "dealloc": false
+        },
+        {
+          "name": "key",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "TreeNode"
+      }
+    }
+  },
+  "solution": {
+    "code": "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nclass Solution:\n    def deleteNode(self, root: Optional[TreeNode], key: int) -> Optional[TreeNode]:\n        # Base case: if the root is None, return None\n        if not root:\n            return None\n        \n        # If the key to be deleted is smaller than the root's key,\n        # then it lies in the left subtree\n        if key < root.val:\n            root.left = self.deleteNode(root.left, key)\n        \n        # If the key to be deleted is greater than the root's key,\n        # then it lies in the right subtree\n        elif key > root.val:\n            root.right = self.deleteNode(root.right, key)\n        \n        # If key is the same as root's key, then this is the node to be deleted\n        else:\n            # Node with only one child or no child\n            if not root.left:\n                return root.right\n            elif not root.right:\n                return root.left\n            \n            # Node with two children: Get the inorder successor (smallest in the right subtree)\n            min_larger_node = self.getMin(root.right)\n            root.val = min_larger_node.val  # Copy the inorder successor's value to this node\n            root.right = self.deleteNode(root.right, min_larger_node.val)  # Delete the inorder successor\n        \n        return root\n    \n    def getMin(self, node: TreeNode) -> TreeNode:\n        # Find the node with the minimum value in the tree\n        while node.left:\n            node = node.left\n        return node",
+    "explanation": "The provided solution implements the deletion of a node in a Binary Search Tree (BST) using a recursive approach. \n\n1. **Base Case**: If the current node (`root`) is `None`, we return `None`, indicating that the tree is empty or we've reached a leaf node.\n\n2. **Searching for the Node**: We compare the `key` with the current node's value:\n   - If the `key` is less than the current node's value, we recursively search in the left subtree.\n   - If the `key` is greater, we search in the right subtree.\n   - If the `key` matches the current node's value, we proceed to delete this node.\n\n3. **Deletion Cases**:\n   - If the node has no children (leaf node), we simply return `None`.\n   - If the node has one child, we return the non-null child, effectively bypassing the node.\n   - If the node has two children, we find the in-order successor (the smallest node in the right subtree), replace the value of the node to be deleted with the successor's value, and then recursively delete the successor.\n\n4. **Helper Function**: The `getMin` function is used to find the minimum value node in a subtree, which is essential for the case where the node to be deleted has two children.\n\n**Time Complexity**: The time complexity of this solution is O(h), where h is the height of the tree. In the worst case (unbalanced tree), this could be O(n), but for balanced trees, it would be O(log n).\n\n**Space Complexity**: The space complexity is O(h) due to the recursion stack, where h is the height of the tree.\n\nOverall, this solution efficiently handles the deletion of nodes in a BST while maintaining the properties of the tree."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:57"
+}

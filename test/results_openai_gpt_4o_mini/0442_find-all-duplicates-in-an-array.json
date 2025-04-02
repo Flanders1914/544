@@ -1,0 +1,45 @@
+{
+  "problem": {
+    "id": "442",
+    "frontend_id": "442",
+    "title": "Find All Duplicates in an Array",
+    "description": "Given an integer array nums of length n where all the integers of nums are in the range [1, n] and each integer appears at most twice, return an array of all the integers that appears twice.\nYou must write an algorithm that runs in O(n) time and uses only constant auxiliary space, excluding the space needed to store the output\n \nExample 1:\nInput: nums = [4,3,2,7,8,2,3,1]\nOutput: [2,3]\nExample 2:\nInput: nums = [1,1,2]\nOutput: [1]\nExample 3:\nInput: nums = [1]\nOutput: []\n\n \nConstraints:\n\nn == nums.length\n1 <= n <= 105\n1 <= nums[i] <= n\nEach element in nums appears once or twice.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[4,3,2,7,8,2,3,1]",
+      "[1,1,2]",
+      "[1]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[4,3,2,7,8,2,3,1]"
+        },
+        "expected": "[2,3]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def findDuplicates(self, nums: List[int]) -> List[int]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "findDuplicates",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "list<integer>"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def findDuplicates(self, nums: List[int]) -> List[int]:\n        duplicates = []\n        \n        for num in nums:\n            index = abs(num) - 1  # Get the index corresponding to the number\n            \n            # If the value at that index is negative, it means we've seen this number before\n            if nums[index] < 0:\n                duplicates.append(abs(num))  # Add the duplicate to the result\n            else:\n                nums[index] = -nums[index]  # Mark the number as seen by negating it\n        \n        return duplicates",
+    "explanation": "The solution iterates through the input list `nums` and uses the values in the list to mark indices. Here's a step-by-step breakdown of the approach:\n\n1. **Initialization**: We create an empty list `duplicates` to store the results.\n\n2. **Iteration**: For each number in `nums`, we calculate the index as `abs(num) - 1`. The `abs` function is used to handle cases where the number has already been negated.\n\n3. **Marking**: \n   - If the value at `nums[index]` is negative, it indicates that the number corresponding to this index has been encountered before, so we append `abs(num)` to the `duplicates` list.\n   - If it is positive, we negate the value at `nums[index]` to mark that we have seen this number.\n\n4. **Return**: Finally, we return the `duplicates` list containing all the numbers that appeared twice.\n\n**Time Complexity**: O(n) because we traverse the list once.\n\n**Space Complexity**: O(1) for auxiliary space, as we are modifying the input list in place and only using a list to store the results.\n\nThis solution efficiently finds all duplicates while adhering to the constraints of the problem."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: [2, 3]\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:56"
+}

@@ -1,0 +1,50 @@
+{
+  "problem": {
+    "id": "565",
+    "frontend_id": "565",
+    "title": "Array Nesting",
+    "description": "You are given an integer array nums of length n where nums is a permutation of the numbers in the range [0, n - 1].\nYou should build a set s[k] = {nums[k], nums[nums[k]], nums[nums[nums[k]]], ... } subjected to the following rule:\n\nThe first element in s[k] starts with the selection of the element nums[k] of index = k.\nThe next element in s[k] should be nums[nums[k]], and then nums[nums[nums[k]]], and so on.\nWe stop adding right before a duplicate element occurs in s[k].\n\nReturn the longest length of a set s[k].\n \nExample 1:\n\nInput: nums = [5,4,0,3,1,6,2]\nOutput: 4\nExplanation: \nnums[0] = 5, nums[1] = 4, nums[2] = 0, nums[3] = 3, nums[4] = 1, nums[5] = 6, nums[6] = 2.\nOne of the longest sets s[k]:\ns[0] = {nums[0], nums[5], nums[6], nums[2]} = {5, 6, 2, 0}\n\nExample 2:\n\nInput: nums = [0,1,2]\nOutput: 1\n\n \nConstraints:\n\n1 <= nums.length <= 105\n0 <= nums[i] < nums.length\nAll the values of nums are unique.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[5,4,0,3,1,6,2]",
+      "[0,1,2]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[5,4,0,3,1,6,2]"
+        },
+        "expected": "4"
+      },
+      {
+        "input": {
+          "nums": "[0,1,2]"
+        },
+        "expected": "1"
+      }
+    ],
+    "python_starter": "class Solution:\n    def arrayNesting(self, nums: List[int]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "arrayNesting",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def arrayNesting(self, nums: List[int]) -> int:\n        n = len(nums)\n        visited = [False] * n  # To keep track of visited indices\n        max_length = 0  # To store the maximum length of any set s[k]\n\n        for i in range(n):\n            if not visited[i]:  # If the index has not been visited\n                current_length = 0\n                current_index = i\n\n                # Explore the set starting from index i\n                while not visited[current_index]:\n                    visited[current_index] = True  # Mark the index as visited\n                    current_index = nums[current_index]  # Move to the next index\n                    current_length += 1  # Increase the length of the current set\n\n                # Update the maximum length found\n                max_length = max(max_length, current_length)\n\n        return max_length",
+    "explanation": "The solution begins by initializing a `visited` list to keep track of which indices have been processed. We also initialize `max_length` to store the maximum length of any set s[k] found during our traversal.\n\nWe iterate through each index of the `nums` array. If the index has not been visited, we start a new exploration from that index. We use a while loop to follow the chain of indices defined by the `nums` array, marking each index as visited and counting the length of the chain until we revisit an index.\n\nAfter completing the exploration for each starting index, we update `max_length` with the maximum value between the current maximum and the length of the chain we just explored.\n\nFinally, we return `max_length`, which represents the longest length of any set s[k].\n\nThe time complexity of this solution is O(n) because we visit each index at most once. The space complexity is O(n) due to the `visited` list used to track the indices."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 4\nTest case 2:\n[PASS] Test passed: 1\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:01:25"
+}

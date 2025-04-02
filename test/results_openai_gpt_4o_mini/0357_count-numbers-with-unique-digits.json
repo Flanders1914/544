@@ -1,0 +1,56 @@
+{
+  "problem": {
+    "id": "357",
+    "frontend_id": "357",
+    "title": "Count Numbers with Unique Digits",
+    "description": "Given an integer n, return the count of all numbers with unique digits, x, where 0 <= x < 10n.\n \nExample 1:\n\nInput: n = 2\nOutput: 91\nExplanation: The answer should be the total numbers in the range of 0 ≤ x < 100, excluding 11,22,33,44,55,66,77,88,99\n\nExample 2:\n\nInput: n = 0\nOutput: 1\n\n \nConstraints:\n\n0 <= n <= 8\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "2",
+      "0"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "n": "2"
+        },
+        "expected": "91"
+      },
+      {
+        "input": {
+          "n": "0"
+        },
+        "expected": "1"
+      }
+    ],
+    "python_starter": "class Solution:\n    def countNumbersWithUniqueDigits(self, n: int) -> int:\n        ",
+    "hints": [
+      "A direct way is to use the backtracking approach.",
+      "Backtracking should contains three states which are (the current number, number of steps to get that number and a bitmask which represent which number is marked as visited so far in the current number). Start with state (0,0,0) and count all valid number till we reach number of steps equals to 10<sup>n</sup>.",
+      "This problem can also be solved using a dynamic programming approach and some knowledge of combinatorics.",
+      "Let f(k) = count of numbers with unique digits with length equals k.",
+      "f(1) = 10, ..., f(k) = 9 * 9 * 8 * ... (9 - k + 2) [The first factor is 9 because a number cannot start with 0]."
+    ],
+    "meta_data": {
+      "name": "countNumbersWithUniqueDigits",
+      "params": [
+        {
+          "name": "n",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def countNumbersWithUniqueDigits(self, n: int) -> int:\n        if n == 0:\n            return 1  # Only the number 0\n        if n == 1:\n            return 10  # Numbers from 0 to 9\n        \n        count = 10  # Start with the count for n = 1\n        unique_digits = 9  # Choices for the first digit (1-9)\n        available_digits = 9  # Choices for the remaining digits (0-9 excluding the first digit)\n        \n        for i in range(2, n + 1):\n            count += unique_digits * available_digits\n            unique_digits -= 1  # Decrease the choices for the first digit\n            available_digits -= 1  # Decrease the choices for the remaining digits\n        \n        return count",
+    "explanation": "The solution begins by handling the base cases for \\(n = 0\\) and \\(n = 1\\). For \\(n \\geq 2\\), we initialize the count with 10 (for single-digit numbers) and then iteratively calculate the number of unique digit numbers for each digit length from 2 to \\(n\\).\n\nIn each iteration:\n- We multiply the number of choices for the first digit (which cannot be zero) by the number of choices for the subsequent digits, ensuring that we do not repeat any digits.\n- We decrement the available choices for the first digit and the remaining digits as we proceed to higher digit counts.\n\nThe time complexity of this solution is \\(O(n)\\) since we loop from 2 to \\(n\\), and the space complexity is \\(O(1)\\) as we only use a fixed amount of extra space for variables.\n\nThus, the solution efficiently counts the numbers with unique digits without generating them, making it suitable for the given constraints \\(0 \\leq n \\leq 8\\)."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 91\nTest case 2:\n[PASS] Test passed: 1\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:50"
+}

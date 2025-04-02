@@ -1,0 +1,67 @@
+{
+  "problem": {
+    "id": "599",
+    "frontend_id": "599",
+    "title": "Minimum Index Sum of Two Lists",
+    "description": "Given two arrays of strings list1 and list2, find the common strings with the least index sum.\nA common string is a string that appeared in both list1 and list2.\nA common string with the least index sum is a common string such that if it appeared at list1[i] and list2[j] then i + j should be the minimum value among all the other common strings.\nReturn all the common strings with the least index sum. Return the answer in any order.\n \nExample 1:\n\nInput: list1 = [\"Shogun\",\"Tapioca Express\",\"Burger King\",\"KFC\"], list2 = [\"Piatti\",\"The Grill at Torrey Pines\",\"Hungry Hunter Steakhouse\",\"Shogun\"]\nOutput: [\"Shogun\"]\nExplanation: The only common string is \"Shogun\".\n\nExample 2:\n\nInput: list1 = [\"Shogun\",\"Tapioca Express\",\"Burger King\",\"KFC\"], list2 = [\"KFC\",\"Shogun\",\"Burger King\"]\nOutput: [\"Shogun\"]\nExplanation: The common string with the least index sum is \"Shogun\" with index sum = (0 + 1) = 1.\n\nExample 3:\n\nInput: list1 = [\"happy\",\"sad\",\"good\"], list2 = [\"sad\",\"happy\",\"good\"]\nOutput: [\"sad\",\"happy\"]\nExplanation: There are three common strings:\n\"happy\" with index sum = (0 + 1) = 1.\n\"sad\" with index sum = (1 + 0) = 1.\n\"good\" with index sum = (2 + 2) = 4.\nThe strings with the least index sum are \"sad\" and \"happy\".\n\n \nConstraints:\n\n1 <= list1.length, list2.length <= 1000\n1 <= list1[i].length, list2[i].length <= 30\nlist1[i] and list2[i] consist of spaces ' ' and English letters.\nAll the strings of list1 are unique.\nAll the strings of list2 are unique.\nThere is at least a common string between list1 and list2.\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "[\"Shogun\",\"Tapioca Express\",\"Burger King\",\"KFC\"]",
+      "[\"Piatti\",\"The Grill at Torrey Pines\",\"Hungry Hunter Steakhouse\",\"Shogun\"]",
+      "[\"Shogun\",\"Tapioca Express\",\"Burger King\",\"KFC\"]",
+      "[\"KFC\",\"Shogun\",\"Burger King\"]",
+      "[\"happy\",\"sad\",\"good\"]",
+      "[\"sad\",\"happy\",\"good\"]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "list1": "[\"Shogun\",\"Tapioca Express\",\"Burger King\",\"KFC\"]",
+          "list2": "[\"Piatti\",\"The Grill at Torrey Pines\",\"Hungry Hunter Steakhouse\",\"Shogun\"]"
+        },
+        "expected": "[Shogun]"
+      },
+      {
+        "input": {
+          "list1": "[\"Shogun\",\"Tapioca Express\",\"Burger King\",\"KFC\"]",
+          "list2": "[\"KFC\",\"Shogun\",\"Burger King\"]"
+        },
+        "expected": "[Shogun]"
+      },
+      {
+        "input": {
+          "list1": "[\"happy\",\"sad\",\"good\"]",
+          "list2": "[\"sad\",\"happy\",\"good\"]"
+        },
+        "expected": "[sad,happy]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def findRestaurant(self, list1: List[str], list2: List[str]) -> List[str]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "findRestaurant",
+      "params": [
+        {
+          "name": "list1",
+          "type": "string[]"
+        },
+        {
+          "name": "list2",
+          "type": "string[]"
+        }
+      ],
+      "return": {
+        "type": "string[]"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\nfrom collections import defaultdict\n\nclass Solution:\n    def findRestaurant(self, list1: List[str], list2: List[str]) -> List[str]:\n        # Create a dictionary to store the indices of strings in list1\n        index_map = {restaurant: i for i, restaurant in enumerate(list1)}\n        min_sum = float('inf')  # Initialize minimum index sum to infinity\n        result = []  # List to store the result strings\n\n        # Iterate through list2 to find common strings\n        for j, restaurant in enumerate(list2):\n            if restaurant in index_map:  # Check if the restaurant is in list1\n                index_sum = index_map[restaurant] + j  # Calculate index sum\n                if index_sum < min_sum:  # Found a new minimum index sum\n                    min_sum = index_sum\n                    result = [restaurant]  # Start a new result list\n                elif index_sum == min_sum:  # Found another restaurant with the same index sum\n                    result.append(restaurant)\n\n        return result  # Return the list of common strings with the least index sum",
+    "explanation": "The solution begins by creating a dictionary (`index_map`) that maps each restaurant in `list1` to its index. This allows for O(1) average time complexity when checking for the presence of a restaurant from `list2` in `list1`.\n\nNext, we initialize `min_sum` to infinity to keep track of the smallest index sum found during our iterations. We also initialize an empty list `result` to store the common strings that have the least index sum.\n\nWe then iterate through `list2`, checking if each restaurant exists in `index_map`. If it does, we calculate the index sum by adding the index from `list1` (retrieved from `index_map`) and the current index from `list2`. \n\nIf this index sum is less than the current `min_sum`, we update `min_sum` and reset the `result` list to only include the current restaurant. If the index sum equals `min_sum`, we append the restaurant to the `result` list.\n\nFinally, we return the `result` list, which contains all common strings with the least index sum.\n\nThe time complexity of this solution is O(N + M), where N is the length of `list1` and M is the length of `list2`, due to the single pass through both lists. The space complexity is O(N) for storing the indices in the dictionary."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:01:27"
+}

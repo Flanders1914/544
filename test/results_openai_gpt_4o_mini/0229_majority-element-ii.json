@@ -1,0 +1,49 @@
+{
+  "problem": {
+    "id": "229",
+    "frontend_id": "229",
+    "title": "Majority Element II",
+    "description": "Given an integer array of size n, find all elements that appear more than ⌊ n/3 ⌋ times.\n \nExample 1:\n\nInput: nums = [3,2,3]\nOutput: [3]\n\nExample 2:\n\nInput: nums = [1]\nOutput: [1]\n\nExample 3:\n\nInput: nums = [1,2]\nOutput: [1,2]\n\n \nConstraints:\n\n1 <= nums.length <= 5 * 104\n-109 <= nums[i] <= 109\n\n \nFollow up: Could you solve the problem in linear time and in O(1) space?\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[3,2,3]",
+      "[1]",
+      "[1,2]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[3,2,3]"
+        },
+        "expected": "[3]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def majorityElement(self, nums: List[int]) -> List[int]:\n        ",
+    "hints": [
+      "Think about the possible number of elements that can appear more than ⌊ n/3 ⌋ times in the array.",
+      "It can be at most two. Why?",
+      "Consider using Boyer-Moore Voting Algorithm, which is efficient for finding elements that appear more than a certain threshold."
+    ],
+    "meta_data": {
+      "name": "majorityElement",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "list<integer>"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def majorityElement(self, nums: List[int]) -> List[int]:\n        # Step 1: Find potential candidates\n        candidate1, candidate2, count1, count2 = None, None, 0, 0\n        \n        for num in nums:\n            if candidate1 is not None and num == candidate1:\n                count1 += 1\n            elif candidate2 is not None and num == candidate2:\n                count2 += 1\n            elif count1 == 0:\n                candidate1, count1 = num, 1\n            elif count2 == 0:\n                candidate2, count2 = num, 1\n            else:\n                count1 -= 1\n                count2 -= 1\n        \n        # Step 2: Verify the candidates\n        result = []\n        count1, count2 = 0, 0\n        \n        for num in nums:\n            if num == candidate1:\n                count1 += 1\n            elif num == candidate2:\n                count2 += 1\n        \n        if count1 > len(nums) // 3:\n            result.append(candidate1)\n        if count2 > len(nums) // 3:\n            result.append(candidate2)\n        \n        return result",
+    "explanation": "The solution consists of two main steps:\n\n1. **Finding Candidates**: We iterate through the array and maintain two potential candidates (`candidate1` and `candidate2`) along with their respective counts (`count1` and `count2`). If we encounter a number that matches one of the candidates, we increment its count. If we encounter a new number and one of the counts is zero, we set that number as a new candidate. If both counts are non-zero and we encounter a different number, we decrement both counts. This ensures that we are effectively tracking the most likely candidates for the majority elements.\n\n2. **Verifying Candidates**: After identifying potential candidates, we perform a second pass through the array to count the actual occurrences of these candidates. We then check if their counts exceed n/3. If they do, we add them to the result list.\n\nThe time complexity of this solution is O(n) because we make two passes through the array, and the space complexity is O(1) since we only use a fixed number of variables regardless of the input size.\n\nOverall, this approach efficiently finds all elements that appear more than ⌊ n/3 ⌋ times in the input array."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: [3]\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:44"
+}

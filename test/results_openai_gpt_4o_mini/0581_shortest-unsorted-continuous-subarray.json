@@ -1,0 +1,51 @@
+{
+  "problem": {
+    "id": "581",
+    "frontend_id": "581",
+    "title": "Shortest Unsorted Continuous Subarray",
+    "description": "Given an integer array nums, you need to find one continuous subarray such that if you only sort this subarray in non-decreasing order, then the whole array will be sorted in non-decreasing order.\nReturn the shortest such subarray and output its length.\n \nExample 1:\n\nInput: nums = [2,6,4,8,10,9,15]\nOutput: 5\nExplanation: You need to sort [6, 4, 8, 10, 9] in ascending order to make the whole array sorted in ascending order.\n\nExample 2:\n\nInput: nums = [1,2,3,4]\nOutput: 0\n\nExample 3:\n\nInput: nums = [1]\nOutput: 0\n\n \nConstraints:\n\n1 <= nums.length <= 104\n-105 <= nums[i] <= 105\n\n \nFollow up: Can you solve it in O(n) time complexity?",
+    "difficulty": "Medium",
+    "examples": [
+      "[2,6,4,8,10,9,15]",
+      "[1,2,3,4]",
+      "[1]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[2,6,4,8,10,9,15]"
+        },
+        "expected": "5"
+      },
+      {
+        "input": {
+          "nums": "[1,2,3,4]"
+        },
+        "expected": "0"
+      }
+    ],
+    "python_starter": "class Solution:\n    def findUnsortedSubarray(self, nums: List[int]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "findUnsortedSubarray",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def findUnsortedSubarray(self, nums: List[int]) -> int:\n        n = len(nums)\n        if n <= 1:\n            return 0\n        \n        # Step 1: Find the left boundary\n        left = 0\n        while left < n - 1 and nums[left] <= nums[left + 1]:\n            left += 1\n        \n        # If the array is already sorted\n        if left == n - 1:\n            return 0\n        \n        # Step 2: Find the right boundary\n        right = n - 1\n        while right > 0 and nums[right] >= nums[right - 1]:\n            right -= 1\n        \n        # Step 3: Find the min and max in the unsorted subarray\n        subarray_min = min(nums[left:right + 1])\n        subarray_max = max(nums[left:right + 1])\n        \n        # Step 4: Expand the left boundary\n        while left > 0 and nums[left - 1] > subarray_min:\n            left -= 1\n        \n        # Step 5: Expand the right boundary\n        while right < n - 1 and nums[right + 1] < subarray_max:\n            right += 1\n        \n        # Step 6: Return the length of the unsorted subarray\n        return right - left + 1",
+    "explanation": "The solution uses a two-pointer technique to efficiently find the shortest unsorted continuous subarray. \n\n1. **Finding Boundaries**: We first determine the left and right boundaries of the unsorted subarray by iterating from both ends of the array. This takes O(n) time.\n\n2. **Finding Min and Max**: We then calculate the minimum and maximum values within the identified unsorted subarray. This is also done in O(n) time.\n\n3. **Expanding Boundaries**: We check if we need to expand the left and right boundaries based on the min and max values found. This ensures that we include any elements that are out of order but are outside the initially identified boundaries.\n\n4. **Final Calculation**: The length of the unsorted subarray is calculated as `right - left + 1`.\n\nThe overall time complexity of the solution is O(n), and the space complexity is O(1) since we are using a constant amount of extra space. This makes the solution efficient and suitable for the input constraints provided."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 5\nTest case 2:\n[PASS] Test passed: 0\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:01:25"
+}

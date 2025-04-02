@@ -1,0 +1,67 @@
+{
+  "problem": {
+    "id": "532",
+    "frontend_id": "532",
+    "title": "K-diff Pairs in an Array",
+    "description": "Given an array of integers nums and an integer k, return the number of unique k-diff pairs in the array.\nA k-diff pair is an integer pair (nums[i], nums[j]), where the following are true:\n\n0 <= i, j < nums.length\ni != j\n|nums[i] - nums[j]| == k\n\nNotice that |val| denotes the absolute value of val.\n \nExample 1:\n\nInput: nums = [3,1,4,1,5], k = 2\nOutput: 2\nExplanation: There are two 2-diff pairs in the array, (1, 3) and (3, 5).\nAlthough we have two 1s in the input, we should only return the number of unique pairs.\n\nExample 2:\n\nInput: nums = [1,2,3,4,5], k = 1\nOutput: 4\nExplanation: There are four 1-diff pairs in the array, (1, 2), (2, 3), (3, 4) and (4, 5).\n\nExample 3:\n\nInput: nums = [1,3,1,5,4], k = 0\nOutput: 1\nExplanation: There is one 0-diff pair in the array, (1, 1).\n\n \nConstraints:\n\n1 <= nums.length <= 104\n-107 <= nums[i] <= 107\n0 <= k <= 107\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[3,1,4,1,5]",
+      "2",
+      "[1,2,3,4,5]",
+      "1",
+      "[1,3,1,5,4]",
+      "0"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[3,1,4,1,5]",
+          "k": "2"
+        },
+        "expected": "2"
+      },
+      {
+        "input": {
+          "nums": "[1,2,3,4,5]",
+          "k": "1"
+        },
+        "expected": "4"
+      },
+      {
+        "input": {
+          "nums": "[1,3,1,5,4]",
+          "k": "0"
+        },
+        "expected": "1"
+      }
+    ],
+    "python_starter": "class Solution:\n    def findPairs(self, nums: List[int], k: int) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "findPairs",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        },
+        {
+          "name": "k",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\nfrom collections import Counter\n\nclass Solution:\n    def findPairs(self, nums: List[int], k: int) -> int:\n        if k < 0:\n            return 0  # k-diff pairs cannot have negative k\n        \n        # Count occurrences of each number\n        num_count = Counter(nums)\n        count = 0\n        \n        if k == 0:\n            # For k = 0, count how many numbers appear more than once\n            for num in num_count:\n                if num_count[num] > 1:\n                    count += 1\n        else:\n            # For k > 0, check for each number if num + k exists\n            for num in num_count:\n                if num + k in num_count:\n                    count += 1\n        \n        return count",
+    "explanation": "The solution uses a dictionary to count the occurrences of each number in the input list `nums`. The algorithm proceeds as follows:\n\n1. **Counting Occurrences**: We use `Counter` from the `collections` module to create a frequency map of the numbers in `nums`. This allows us to quickly check how many times each number appears.\n\n2. **Finding Unique Pairs**:\n   - If `k` is greater than 0, we iterate through each unique number in the frequency map and check if the number plus `k` exists in the map. If it does, we increment our count of unique pairs.\n   - If `k` is 0, we check how many numbers have a count greater than 1, as these can form pairs with themselves.\n\n3. **Time Complexity**: The time complexity of this solution is O(n), where n is the number of elements in `nums`, since we traverse the list to count occurrences and then check for pairs in a single pass through the unique numbers.\n\n4. **Space Complexity**: The space complexity is O(n) as well, due to the storage of the frequency map.\n\nThis efficient approach ensures that we can handle the upper limits of the input constraints effectively."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 2\nTest case 2:\n[PASS] Test passed: 4\nTest case 3:\n[PASS] Test passed: 1\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:01:22"
+}

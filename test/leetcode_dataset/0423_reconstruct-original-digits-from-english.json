@@ -1,0 +1,33 @@
+{
+  "id": "423",
+  "frontend_id": "423",
+  "title": "Reconstruct Original Digits from English",
+  "description": "Given a string s containing an out-of-order English representation of digits 0-9, return the digits in ascending order.\n \nExample 1:\nInput: s = \"owoztneoer\"\nOutput: \"012\"\nExample 2:\nInput: s = \"fviefuro\"\nOutput: \"45\"\n\n \nConstraints:\n\n1 <= s.length <= 105\ns[i] is one of the characters [\"e\",\"g\",\"f\",\"i\",\"h\",\"o\",\"n\",\"s\",\"r\",\"u\",\"t\",\"w\",\"v\",\"x\",\"z\"].\ns is guaranteed to be valid.\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "\"owoztneoer\"",
+    "\"fviefuro\""
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "s": "\"owoztneoer\""
+      },
+      "expected": "012"
+    }
+  ],
+  "python_starter": "class Solution:\n    def originalDigits(self, s: str) -> str:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "originalDigits",
+    "params": [
+      {
+        "name": "s",
+        "type": "string"
+      }
+    ],
+    "return": {
+      "type": "string"
+    }
+  }
+}

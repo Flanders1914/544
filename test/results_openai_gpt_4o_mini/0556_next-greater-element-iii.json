@@ -1,0 +1,44 @@
+{
+  "problem": {
+    "id": "556",
+    "frontend_id": "556",
+    "title": "Next Greater Element III",
+    "description": "Given a positive integer n, find the smallest integer which has exactly the same digits existing in the integer n and is greater in value than n. If no such positive integer exists, return -1.\nNote that the returned integer should fit in 32-bit integer, if there is a valid answer but it does not fit in 32-bit integer, return -1.\n \nExample 1:\nInput: n = 12\nOutput: 21\nExample 2:\nInput: n = 21\nOutput: -1\n\n \nConstraints:\n\n1 <= n <= 231 - 1\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "12",
+      "21"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "n": "12"
+        },
+        "expected": "21"
+      }
+    ],
+    "python_starter": "class Solution:\n    def nextGreaterElement(self, n: int) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "nextGreaterElement",
+      "params": [
+        {
+          "name": "n",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def nextGreaterElement(self, n: int) -> int:\n        # Convert the number to a list of digits\n        digits = list(str(n))\n        length = len(digits)\n        \n        # Step 1: Find the pivot\n        pivot = -1\n        for i in range(length - 2, -1, -1):\n            if digits[i] < digits[i + 1]:\n                pivot = i\n                break\n        \n        # If no pivot is found, return -1\n        if pivot == -1:\n            return -1\n        \n        # Step 2: Find the successor\n        for i in range(length - 1, pivot, -1):\n            if digits[i] > digits[pivot]:\n                # Step 3: Swap the pivot with the successor\n                digits[i], digits[pivot] = digits[pivot], digits[i]\n                break\n        \n        # Step 4: Reverse the suffix\n        digits = digits[:pivot + 1] + digits[pivot + 1:][::-1]\n        \n        # Convert back to integer\n        result = int(''.join(digits))\n        \n        # Step 5: Check for 32-bit integer range\n        if result > 2**31 - 1:\n            return -1\n        \n        return result",
+    "explanation": "The solution follows a systematic approach to find the next greater permutation of the digits of the given integer `n`. \n\n1. **Finding the Pivot**: We traverse the digits from right to left to find the first digit that is smaller than the digit next to it. This is done in O(d) time, where d is the number of digits in n.\n\n2. **Finding the Successor**: After identifying the pivot, we look for the smallest digit on the right side of the pivot that is larger than the pivot. This is also done in O(d) time.\n\n3. **Swapping and Reversing**: The swap operation and reversing the suffix are both O(d) operations.\n\n4. **Final Check**: The conversion back to an integer and the check for the 32-bit integer range is O(d) as well.\n\nOverall, the time complexity of the solution is O(d), where d is the number of digits in the integer n. The space complexity is O(d) due to the storage of the digits in a list.\n\nThe solution efficiently handles the constraints and ensures that the result fits within the 32-bit signed integer range. If no valid next greater element exists, it correctly returns -1."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 21\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:01:24"
+}

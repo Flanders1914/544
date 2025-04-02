@@ -1,0 +1,38 @@
+{
+  "id": "382",
+  "frontend_id": "382",
+  "title": "Linked List Random Node",
+  "description": "Given a singly linked list, return a random node's value from the linked list. Each node must have the same probability of being chosen.\nImplement the Solution class:\n\nSolution(ListNode head) Initializes the object with the head of the singly-linked list head.\nint getRandom() Chooses a node randomly from the list and returns its value. All the nodes of the list should be equally likely to be chosen.\n\n \nExample 1:\n\n\nInput\n[\"Solution\", \"getRandom\", \"getRandom\", \"getRandom\", \"getRandom\", \"getRandom\"]\n[[[1, 2, 3]], [], [], [], [], []]\nOutput\n[null, 1, 3, 2, 2, 3]\n\nExplanation\nSolution solution = new Solution([1, 2, 3]);\nsolution.getRandom(); // return 1\nsolution.getRandom(); // return 3\nsolution.getRandom(); // return 2\nsolution.getRandom(); // return 2\nsolution.getRandom(); // return 3\n// getRandom() should return either 1, 2, or 3 randomly. Each element should have equal probability of returning.\n\n \nConstraints:\n\nThe number of nodes in the linked list will be in the range [1, 104].\n-104 <= Node.val <= 104\nAt most 104 calls will be made to getRandom.\n\n \nFollow up:\n\nWhat if the linked list is extremely large and its length is unknown to you?\nCould you solve this efficiently without using extra space?\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "[\"Solution\",\"getRandom\",\"getRandom\",\"getRandom\",\"getRandom\",\"getRandom\"]",
+    "[[[1,2,3]],[],[],[],[],[]]"
+  ],
+  "structured_test_cases": [],
+  "python_starter": "# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, val=0, next=None):\n#         self.val = val\n#         self.next = next\nclass Solution:\n\n    def __init__(self, head: Optional[ListNode]):\n        \n\n    def getRandom(self) -> int:\n        \n\n\n# Your Solution object will be instantiated and called as such:\n# obj = Solution(head)\n# param_1 = obj.getRandom()",
+  "hints": [],
+  "meta_data": {
+    "classname": "Solution",
+    "constructor": {
+      "params": [
+        {
+          "type": "ListNode",
+          "name": "head"
+        }
+      ]
+    },
+    "methods": [
+      {
+        "params": [],
+        "name": "getRandom",
+        "return": {
+          "type": "integer"
+        }
+      }
+    ],
+    "return": {
+      "type": "boolean"
+    },
+    "systemdesign": true
+  }
+}

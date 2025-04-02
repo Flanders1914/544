@@ -1,0 +1,57 @@
+{
+  "problem": {
+    "id": "397",
+    "frontend_id": "397",
+    "title": "Integer Replacement",
+    "description": "Given a positive integer n, you can apply one of the following operations:\n\nIf n is even, replace n with n / 2.\nIf n is odd, replace n with either n + 1 or n - 1.\n\nReturn the minimum number of operations needed for n to become 1.\n \nExample 1:\n\nInput: n = 8\nOutput: 3\nExplanation: 8 -> 4 -> 2 -> 1\n\nExample 2:\n\nInput: n = 7\nOutput: 4\nExplanation: 7 -> 8 -> 4 -> 2 -> 1\nor 7 -> 6 -> 3 -> 2 -> 1\n\nExample 3:\n\nInput: n = 4\nOutput: 2\n\n \nConstraints:\n\n1 <= n <= 231 - 1\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "8",
+      "7",
+      "4"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "n": "8"
+        },
+        "expected": "3"
+      },
+      {
+        "input": {
+          "n": "7"
+        },
+        "expected": "4"
+      },
+      {
+        "input": {
+          "n": "4"
+        },
+        "expected": "2"
+      }
+    ],
+    "python_starter": "class Solution:\n    def integerReplacement(self, n: int) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "integerReplacement",
+      "params": [
+        {
+          "name": "n",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def integerReplacement(self, n: int) -> int:\n        from collections import deque\n        \n        # Initialize a queue for BFS\n        queue = deque([(n, 0)])  # (current number, steps)\n        visited = set()  # To keep track of visited numbers\n        \n        while queue:\n            current, steps = queue.popleft()\n            \n            # If we reach 1, return the number of steps\n            if current == 1:\n                return steps\n            \n            # If current is even, we can divide by 2\n            if current % 2 == 0:\n                next_num = current // 2\n                if next_num not in visited:\n                    visited.add(next_num)\n                    queue.append((next_num, steps + 1))\n            else:\n                # If current is odd, we can either increment or decrement\n                next_num1 = current + 1\n                next_num2 = current - 1\n                \n                if next_num1 not in visited:\n                    visited.add(next_num1)\n                    queue.append((next_num1, steps + 1))\n                \n                if next_num2 not in visited and next_num2 > 0:  # Ensure we don't go below 1\n                    visited.add(next_num2)\n                    queue.append((next_num2, steps + 1))",
+    "explanation": "The solution uses a breadth-first search (BFS) approach to explore all possible values of `n` until we reach 1. The BFS is implemented using a queue, where each element in the queue is a tuple containing the current number and the number of steps taken to reach that number.\n\n1. **Initialization**: We start by initializing a queue with the initial number `n` and a step count of 0. We also maintain a set `visited` to keep track of numbers we have already processed to avoid cycles and redundant calculations.\n\n2. **BFS Loop**: We enter a loop that continues until the queue is empty. In each iteration, we:\n   - Dequeue the front element to get the current number and the number of steps taken.\n   - If the current number is 1, we return the number of steps as the result.\n   - If the current number is even, we calculate the next number by dividing it by 2 and enqueue it if it hasn't been visited.\n   - If the current number is odd, we calculate two possible next numbers (current + 1 and current - 1) and enqueue them if they haven't been visited and are greater than 0.\n\n3. **Complexity Analysis**:\n   - **Time Complexity**: The time complexity is O(log n) in the average case due to the halving operation for even numbers, but can be higher in the worst case due to the branching factor when dealing with odd numbers.\n   - **Space Complexity**: The space complexity is O(n) in the worst case due to the storage of visited numbers and the queue.\n\nThis approach ensures that we efficiently find the minimum number of operations required to reduce `n` to 1."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 3\nTest case 2:\n[PASS] Test passed: 4\nTest case 3:\n[PASS] Test passed: 2\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:53"
+}

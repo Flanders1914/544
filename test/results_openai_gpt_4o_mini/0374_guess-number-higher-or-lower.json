@@ -1,0 +1,72 @@
+{
+  "problem": {
+    "id": "374",
+    "frontend_id": "374",
+    "title": "Guess Number Higher or Lower",
+    "description": "We are playing the Guess Game. The game is as follows:\nI pick a number from 1 to n. You have to guess which number I picked.\nEvery time you guess wrong, I will tell you whether the number I picked is higher or lower than your guess.\nYou call a pre-defined API int guess(int num), which returns three possible results:\n\n-1: Your guess is higher than the number I picked (i.e. num > pick).\n1: Your guess is lower than the number I picked (i.e. num < pick).\n0: your guess is equal to the number I picked (i.e. num == pick).\n\nReturn the number that I picked.\n \nExample 1:\n\nInput: n = 10, pick = 6\nOutput: 6\n\nExample 2:\n\nInput: n = 1, pick = 1\nOutput: 1\n\nExample 3:\n\nInput: n = 2, pick = 1\nOutput: 1\n\n \nConstraints:\n\n1 <= n <= 231 - 1\n1 <= pick <= n\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "10",
+      "6",
+      "1",
+      "1",
+      "2",
+      "1"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "n": "10",
+          "pick": "6"
+        },
+        "expected": "6"
+      }
+    ],
+    "python_starter": "# The guess API is already defined for you.\n# @param num, your guess\n# @return -1 if num is higher than the picked number\n#          1 if num is lower than the picked number\n#          otherwise return 0\n# def guess(num: int) -> int:\n\nclass Solution:\n    def guessNumber(self, n: int) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "guessNumber",
+      "params": [
+        {
+          "name": "n",
+          "type": "integer"
+        },
+        {
+          "name": "pick",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      },
+      "manual": true,
+      "languages": [
+        "cpp",
+        "java",
+        "python",
+        "c",
+        "csharp",
+        "javascript",
+        "ruby",
+        "swift",
+        "golang",
+        "python3",
+        "scala",
+        "kotlin",
+        "rust",
+        "php",
+        "typescript"
+      ],
+      "typescriptCustomType": "var guess = (num: number) => {\n    if (num == __pick__) return 0;\n    return (num > __pick__) ? -1 : 1;\n}"
+    }
+  },
+  "solution": {
+    "code": "# The guess API is already defined for you.\n# @param num, your guess\n# @return -1 if num is higher than the picked number\n#          1 if num is lower than the picked number\n#          otherwise return 0\n# def guess(num: int) -> int:\n\nclass Solution:\n    def guessNumber(self, n: int) -> int:\n        low, high = 1, n  # Initialize the search range\n        \n        while low <= high:\n            mid = (low + high) // 2  # Calculate the midpoint\n            result = guess(mid)  # Call the guess API\n            \n            if result == 0:\n                return mid  # Found the picked number\n            elif result == -1:\n                high = mid - 1  # The picked number is lower\n            else:\n                low = mid + 1  # The picked number is higher",
+    "explanation": "The solution uses a binary search algorithm to efficiently find the picked number. The `guessNumber` function initializes two pointers, `low` and `high`, which represent the current search range. The loop continues until the range is exhausted. \n\n1. **Midpoint Calculation**: The midpoint is calculated as `(low + high) // 2`. This is the number we will guess.\n2. **API Call**: The `guess(mid)` function is called to determine if our guess is correct, too high, or too low.\n3. **Adjusting the Range**: Based on the result:\n   - If the guess is correct (`result == 0`), we return `mid`.\n   - If the guess is too high (`result == -1`), we adjust `high` to `mid - 1`.\n   - If the guess is too low (`result == 1`), we adjust `low` to `mid + 1`.\n\nThis approach ensures that we efficiently narrow down the possible numbers, leading to a solution in logarithmic time. \n\n**Time Complexity**: O(log n) because we halve the search space with each guess.\n\n**Space Complexity**: O(1) since we are using a constant amount of space for the pointers and variables."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:51"
+}

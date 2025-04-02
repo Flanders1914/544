@@ -1,0 +1,62 @@
+{
+  "problem": {
+    "id": "775",
+    "frontend_id": "589",
+    "title": "N-ary Tree Preorder Traversal",
+    "description": "Given the root of an n-ary tree, return the preorder traversal of its nodes' values.\nNary-Tree input serialization is represented in their level order traversal. Each group of children is separated by the null value (See examples)\n \nExample 1:\n\n\nInput: root = [1,null,3,2,4,null,5,6]\nOutput: [1,3,5,6,2,4]\n\nExample 2:\n\n\nInput: root = [1,null,2,3,4,5,null,null,6,7,null,8,null,9,10,null,null,11,null,12,null,13,null,null,14]\nOutput: [1,2,3,6,7,11,14,4,8,12,5,9,13,10]\n\n \nConstraints:\n\nThe number of nodes in the tree is in the range [0, 104].\n0 <= Node.val <= 104\nThe height of the n-ary tree is less than or equal to 1000.\n\n \nFollow up: Recursive solution is trivial, could you do it iteratively?\n",
+    "difficulty": "Easy",
+    "examples": [
+      "[1,null,3,2,4,null,5,6]",
+      "[1,null,2,3,4,5,null,null,6,7,null,8,null,9,10,null,null,11,null,12,null,13,null,null,14]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "root": "[1,null,3,2,4,null,5,6]"
+        },
+        "expected": "[1,3,5,6,2,4]"
+      }
+    ],
+    "python_starter": "\"\"\"\n# Definition for a Node.\nclass Node:\n    def __init__(self, val: Optional[int] = None, children: Optional[List['Node']] = None):\n        self.val = val\n        self.children = children\n\"\"\"\n\nclass Solution:\n    def preorder(self, root: 'Node') -> List[int]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "preorder",
+      "params": [
+        {
+          "name": "root",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "list<integer>"
+      },
+      "languages": [
+        "cpp",
+        "java",
+        "python",
+        "csharp",
+        "javascript",
+        "python3",
+        "golang",
+        "ruby",
+        "c",
+        "kotlin",
+        "scala",
+        "php",
+        "swift",
+        "typescript"
+      ],
+      "manual": true,
+      "typescriptCustomType": "class _Node {\n    val: number\n    children: _Node[]\n\n    constructor(val?: number, children?: _Node[]) {\n        this.val = (val===undefined ? 0 : val)\n        this.children = (children===undefined ? [] : children)\n    }\n}\n"
+    }
+  },
+  "solution": {
+    "code": "# Definition for a Node.\nclass Node:\n    def __init__(self, val: Optional[int] = None, children: Optional[List['Node']] = None):\n        self.val = val\n        self.children = children if children is not None else []\n\nclass Solution:\n    def preorder(self, root: 'Node') -> List[int]:\n        # Initialize the result list and the stack\n        result = []\n        stack = []\n        \n        # Start with the root node\n        if root:\n            stack.append(root)\n        \n        # Iterate while there are nodes in the stack\n        while stack:\n            # Pop the top node from the stack\n            node = stack.pop()\n            # Add the node's value to the result\n            result.append(node.val)\n            # Push all children to the stack in reverse order\n            for child in reversed(node.children):\n                stack.append(child)\n        \n        return result",
+    "explanation": "The provided solution implements an iterative preorder traversal of an N-ary tree using a stack. \n\n1. **Initialization**: We start by checking if the root is not `None`. If it exists, we add it to the stack. We also initialize an empty list `result` to store the values in preorder.\n\n2. **Traversal**: We enter a loop that continues until the stack is empty. In each iteration:\n   - We pop the top node from the stack.\n   - We append the value of this node to the `result` list.\n   - We then iterate over the children of the node in reverse order and push them onto the stack. This ensures that the leftmost child is processed first in the next iterations.\n\n3. **Return**: Once the stack is empty, we return the `result` list, which contains the values in the order they were visited.\n\n**Time Complexity**: O(N), where N is the number of nodes in the tree. Each node is processed exactly once.\n\n**Space Complexity**: O(H), where H is the height of the tree. In the worst case (a skewed tree), the stack can grow to the height of the tree.\n\nThis solution efficiently handles the traversal iteratively, avoiding recursion depth issues while maintaining clarity and correctness."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:01:27"
+}

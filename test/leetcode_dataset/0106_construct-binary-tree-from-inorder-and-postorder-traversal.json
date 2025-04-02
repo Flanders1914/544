@@ -1,0 +1,41 @@
+{
+  "id": "106",
+  "frontend_id": "106",
+  "title": "Construct Binary Tree from Inorder and Postorder Traversal",
+  "description": "Given two integer arrays inorder and postorder where inorder is the inorder traversal of a binary tree and postorder is the postorder traversal of the same tree, construct and return the binary tree.\n \nExample 1:\n\n\nInput: inorder = [9,3,15,20,7], postorder = [9,15,7,20,3]\nOutput: [3,9,20,null,null,15,7]\n\nExample 2:\n\nInput: inorder = [-1], postorder = [-1]\nOutput: [-1]\n\n \nConstraints:\n\n1 <= inorder.length <= 3000\npostorder.length == inorder.length\n-3000 <= inorder[i], postorder[i] <= 3000\ninorder and postorder consist of unique values.\nEach value of postorder also appears in inorder.\ninorder is guaranteed to be the inorder traversal of the tree.\npostorder is guaranteed to be the postorder traversal of the tree.\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "[9,3,15,20,7]",
+    "[9,15,7,20,3]",
+    "[-1]",
+    "[-1]"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "inorder": "[9,3,15,20,7]",
+        "postorder": "[9,15,7,20,3]"
+      },
+      "expected": "[3,9,20,null,null,15,7]"
+    }
+  ],
+  "python_starter": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def buildTree(self, inorder: List[int], postorder: List[int]) -> Optional[TreeNode]:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "buildTree",
+    "params": [
+      {
+        "name": "inorder",
+        "type": "integer[]"
+      },
+      {
+        "name": "postorder",
+        "type": "integer[]"
+      }
+    ],
+    "return": {
+      "type": "TreeNode",
+      "dealloc": true
+    }
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "problem": {
+    "id": "1",
+    "frontend_id": "1",
+    "title": "Two Sum",
+    "description": "Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.\nYou may assume that each input would have exactly one solution, and you may not use the same element twice.\nYou can return the answer in any order.\n \nExample 1:\n\nInput: nums = [2,7,11,15], target = 9\nOutput: [0,1]\nExplanation: Because nums[0] + nums[1] == 9, we return [0, 1].\n\nExample 2:\n\nInput: nums = [3,2,4], target = 6\nOutput: [1,2]\n\nExample 3:\n\nInput: nums = [3,3], target = 6\nOutput: [0,1]\n\n \nConstraints:\n\n2 <= nums.length <= 104\n-109 <= nums[i] <= 109\n-109 <= target <= 109\nOnly one valid answer exists.\n\n \nFollow-up: Can you come up with an algorithm that is less than O(n2) time complexity?",
+    "difficulty": "Easy",
+    "examples": [
+      "[2,7,11,15]",
+      "9",
+      "[3,2,4]",
+      "6",
+      "[3,3]",
+      "6"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[2,7,11,15]",
+          "target": "9"
+        },
+        "expected": "[0,1]"
+      },
+      {
+        "input": {
+          "nums": "[3,2,4]",
+          "target": "6"
+        },
+        "expected": "[1,2]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def twoSum(self, nums: List[int], target: int) -> List[int]:\n        ",
+    "hints": [
+      "A really brute force way would be to search for all possible pairs of numbers but that would be too slow. Again, it's best to try out brute force solutions for just for completeness. It is from these brute force solutions that you can come up with optimizations.",
+      "So, if we fix one of the numbers, say <code>x</code>, we have to scan the entire array to find the next number <code>y</code> which is <code>value - x</code> where value is the input parameter. Can we change our array somehow so that this search becomes faster?",
+      "The second train of thought is, without changing the array, can we use additional space somehow? Like maybe a hash map to speed up the search?"
+    ],
+    "meta_data": {
+      "name": "twoSum",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        },
+        {
+          "name": "target",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer[]",
+        "size": 2
+      },
+      "manual": false
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def twoSum(self, nums: List[int], target: int) -> List[int]:\n        # Create a dictionary to store the numbers and their indices\n        num_to_index = {}\n        \n        # Iterate through the list of numbers\n        for index, num in enumerate(nums):\n            # Calculate the complement\n            complement = target - num\n            \n            # Check if the complement is already in the dictionary\n            if complement in num_to_index:\n                # If found, return the indices of the two numbers\n                return [num_to_index[complement], index]\n            \n            # Otherwise, add the number and its index to the dictionary\n            num_to_index[num] = index\n        \n        # If no solution is found, return an empty list (though the problem guarantees one solution)\n        return []",
+    "explanation": "The solution uses a single pass through the list of numbers, maintaining a hash map to store each number and its index. For each number, we calculate its complement with respect to the target. If the complement is found in the hash map, we return the indices of the current number and its complement. This method ensures that we only traverse the list once, leading to a time complexity of O(n). \n\nThe space complexity is also O(n) due to the storage of the hash map, which could potentially hold all n elements in the worst case. Given the constraints of the problem, this solution is efficient and meets the requirement of being better than O(n^2) time complexity. \n\nOverall, this approach is optimal for the Two Sum problem, leveraging the properties of hash maps for quick lookups."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: [0, 1]\nTest case 2:\n[PASS] Test passed: [1, 2]\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:25"
+}

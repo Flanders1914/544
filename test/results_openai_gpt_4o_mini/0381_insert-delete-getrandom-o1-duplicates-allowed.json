@@ -1,0 +1,68 @@
+{
+  "problem": {
+    "id": "381",
+    "frontend_id": "381",
+    "title": "Insert Delete GetRandom O(1) - Duplicates allowed",
+    "description": "RandomizedCollection is a data structure that contains a collection of numbers, possibly duplicates (i.e., a multiset). It should support inserting and removing specific elements and also reporting a random element.\nImplement the RandomizedCollection class:\n\nRandomizedCollection() Initializes the empty RandomizedCollection object.\nbool insert(int val) Inserts an item val into the multiset, even if the item is already present. Returns true if the item is not present, false otherwise.\nbool remove(int val) Removes an item val from the multiset if present. Returns true if the item is present, false otherwise. Note that if val has multiple occurrences in the multiset, we only remove one of them.\nint getRandom() Returns a random element from the current multiset of elements. The probability of each element being returned is linearly related to the number of the same values the multiset contains.\n\nYou must implement the functions of the class such that each function works on average O(1) time complexity.\nNote: The test cases are generated such that getRandom will only be called if there is at least one item in the RandomizedCollection.\n \nExample 1:\n\nInput\n[\"RandomizedCollection\", \"insert\", \"insert\", \"insert\", \"getRandom\", \"remove\", \"getRandom\"]\n[[], [1], [1], [2], [], [1], []]\nOutput\n[null, true, false, true, 2, true, 1]\n\nExplanation\nRandomizedCollection randomizedCollection = new RandomizedCollection();\nrandomizedCollection.insert(1);   // return true since the collection does not contain 1.\n                                  // Inserts 1 into the collection.\nrandomizedCollection.insert(1);   // return false since the collection contains 1.\n                                  // Inserts another 1 into the collection. Collection now contains [1,1].\nrandomizedCollection.insert(2);   // return true since the collection does not contain 2.\n                                  // Inserts 2 into the collection. Collection now contains [1,1,2].\nrandomizedCollection.getRandom(); // getRandom should:\n                                  // - return 1 with probability 2/3, or\n                                  // - return 2 with probability 1/3.\nrandomizedCollection.remove(1);   // return true since the collection contains 1.\n                                  // Removes 1 from the collection. Collection now contains [1,2].\nrandomizedCollection.getRandom(); // getRandom should return 1 or 2, both equally likely.\n\n \nConstraints:\n\n-231 <= val <= 231 - 1\nAt most 2 * 105 calls in total will be made to insert, remove, and getRandom.\nThere will be at least one element in the data structure when getRandom is called.\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "[\"RandomizedCollection\",\"insert\",\"insert\",\"insert\",\"getRandom\",\"remove\",\"getRandom\"]",
+      "[[],[1],[1],[2],[],[1],[]]"
+    ],
+    "structured_test_cases": [],
+    "python_starter": "class RandomizedCollection:\n\n    def __init__(self):\n        \n\n    def insert(self, val: int) -> bool:\n        \n\n    def remove(self, val: int) -> bool:\n        \n\n    def getRandom(self) -> int:\n        \n\n\n# Your RandomizedCollection object will be instantiated and called as such:\n# obj = RandomizedCollection()\n# param_1 = obj.insert(val)\n# param_2 = obj.remove(val)\n# param_3 = obj.getRandom()",
+    "hints": [],
+    "meta_data": {
+      "classname": "RandomizedCollection",
+      "constructor": {
+        "params": []
+      },
+      "methods": [
+        {
+          "params": [
+            {
+              "type": "integer",
+              "name": "val"
+            }
+          ],
+          "return": {
+            "type": "boolean"
+          },
+          "name": "insert"
+        },
+        {
+          "params": [
+            {
+              "type": "integer",
+              "name": "val"
+            }
+          ],
+          "return": {
+            "type": "boolean"
+          },
+          "name": "remove"
+        },
+        {
+          "params": [],
+          "return": {
+            "type": "integer"
+          },
+          "name": "getRandom"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      },
+      "systemdesign": true
+    }
+  },
+  "solution": {
+    "code": "import random\nfrom collections import defaultdict\n\nclass RandomizedCollection:\n\n    def __init__(self):\n        self.collection = []  # List to store the elements\n        self.index_map = defaultdict(set)  # Map to store indices of elements\n\n    def insert(self, val: int) -> bool:\n        # Insert the value into the collection\n        self.collection.append(val)\n        self.index_map[val].add(len(self.collection) - 1)  # Add the index of the new value\n        return len(self.index_map[val]) == 1  # Return true if it's the first occurrence\n\n    def remove(self, val: int) -> bool:\n        if val not in self.index_map or not self.index_map[val]:\n            return False  # Value not present\n        \n        # Get an index of the element to remove\n        remove_index = self.index_map[val].pop()  # Get an index to remove\n        last_element = self.collection[-1]  # Get the last element\n        \n        # Move the last element to the place of the element to remove\n        self.collection[remove_index] = last_element\n        if remove_index != len(self.collection) - 1:\n            self.index_map[last_element].remove(len(self.collection) - 1)\n            self.index_map[last_element].add(remove_index)\n        \n        # Remove the last element\n        self.collection.pop()\n        \n        # Clean up the index_map if no more indices for val\n        if not self.index_map[val]:\n            del self.index_map[val]\n        \n        return True\n\n    def getRandom(self) -> int:\n        return random.choice(self.collection)  # Return a random element from the collection",
+    "explanation": "The `RandomizedCollection` class is designed to handle insertions, deletions, and random access efficiently. \n\n1. **Insert**: \n   - The `insert` method appends the value to the list and updates the index map. If the value is new, it returns `true`; otherwise, it returns `false`. This operation is O(1) on average.\n\n2. **Remove**: \n   - The `remove` method checks if the value exists. If it does, it retrieves an index, swaps the element with the last element in the list, and removes the last element. This ensures that the list remains contiguous and allows for O(1) removal.\n\n3. **GetRandom**: \n   - The `getRandom` method uses `random.choice()` to select a random element from the list, which is O(1).\n\n**Time Complexity**:\n- All operations (`insert`, `remove`, `getRandom`) are O(1) on average.\n\n**Space Complexity**:\n- The space complexity is O(n), where n is the number of elements in the collection, due to the storage of elements in the list and their indices in the dictionary.\n\nThis implementation efficiently meets the problem's requirements while ensuring that all operations are performed in constant time on average."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\nTraceback (most recent call last):\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmpklrg7is1.py\", line 75, in <module>\n    expected_0 = safe_eval('[\"RandomizedCollection\",\"insert\",\"insert\",\"insert\",\"getRandom\",\"remove\",\"getRandom\"]')\n                 ^^^^^^^^^\nNameError: name 'safe_eval' is not defined\n"
+  },
+  "timestamp": "2025-04-01 18:00:51"
+}

@@ -1,0 +1,50 @@
+{
+  "problem": {
+    "id": "472",
+    "frontend_id": "472",
+    "title": "Concatenated Words",
+    "description": "Given an array of strings words (without duplicates), return all the concatenated words in the given list of words.\nA concatenated word is defined as a string that is comprised entirely of at least two shorter words (not necessarily distinct) in the given array.\n \nExample 1:\n\nInput: words = [\"cat\",\"cats\",\"catsdogcats\",\"dog\",\"dogcatsdog\",\"hippopotamuses\",\"rat\",\"ratcatdogcat\"]\nOutput: [\"catsdogcats\",\"dogcatsdog\",\"ratcatdogcat\"]\nExplanation: \"catsdogcats\" can be concatenated by \"cats\", \"dog\" and \"cats\"; \n\"dogcatsdog\" can be concatenated by \"dog\", \"cats\" and \"dog\"; \n\"ratcatdogcat\" can be concatenated by \"rat\", \"cat\", \"dog\" and \"cat\".\nExample 2:\n\nInput: words = [\"cat\",\"dog\",\"catdog\"]\nOutput: [\"catdog\"]\n\n \nConstraints:\n\n1 <= words.length <= 104\n1 <= words[i].length <= 30\nwords[i] consists of only lowercase English letters.\nAll the strings of words are unique.\n1 <= sum(words[i].length) <= 105\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "[\"cat\",\"cats\",\"catsdogcats\",\"dog\",\"dogcatsdog\",\"hippopotamuses\",\"rat\",\"ratcatdogcat\"]",
+      "[\"cat\",\"dog\",\"catdog\"]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "words": "[\"cat\",\"cats\",\"catsdogcats\",\"dog\",\"dogcatsdog\",\"hippopotamuses\",\"rat\",\"ratcatdogcat\"]"
+        },
+        "expected": "[catsdogcats,dogcatsdog,ratcatdogcat]"
+      },
+      {
+        "input": {
+          "words": "[\"cat\",\"dog\",\"catdog\"]"
+        },
+        "expected": "[catdog]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def findAllConcatenatedWordsInADict(self, words: List[str]) -> List[str]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "findAllConcatenatedWordsInADict",
+      "params": [
+        {
+          "name": "words",
+          "type": "string[]"
+        }
+      ],
+      "return": {
+        "type": "list<string>"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def findAllConcatenatedWordsInADict(self, words: List[str]) -> List[str]:\n        word_set = set(words)  # Store words in a set for O(1) lookups\n        memo = {}  # Memoization dictionary to store results of checked words\n        \n        def can_form(word: str) -> bool:\n            if word in memo:  # Return already computed result\n                return memo[word]\n            if word in word_set:  # A word can be formed if it exists in the set\n                memo[word] = True\n                return True\n            \n            # Check all possible splits of the word\n            for i in range(1, len(word)):\n                prefix = word[:i]\n                suffix = word[i:]\n                # If prefix is a word and suffix can be formed by other words\n                if prefix in word_set and can_form(suffix):\n                    memo[word] = True\n                    return True\n            \n            memo[word] = False  # Mark this word as not formable\n            return False\n        \n        concatenated_words = []\n        for word in words:\n            # Temporarily remove the word from the set to avoid using it in its own formation\n            word_set.remove(word)\n            if can_form(word):\n                concatenated_words.append(word)\n            word_set.add(word)  # Add the word back to the set\n        \n        return concatenated_words",
+    "explanation": "The solution uses a recursive function `can_form` to determine if a given word can be constructed from other words in the list. The function checks all possible splits of the word and uses memoization to store results for previously checked words, which optimizes the process by preventing redundant checks.\n\n1. **Time Complexity**: The worst-case time complexity is O(N * L^2), where N is the number of words and L is the maximum length of a word. This is because for each word, we may check all possible splits (up to L) and for each split, we may check if the prefix exists in the set and recursively check the suffix.\n  \n2. **Space Complexity**: The space complexity is O(N + L) due to the storage of the word set and the memoization dictionary.\n\nThis approach efficiently identifies all concatenated words in the list while adhering to the constraints provided."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:58"
+}

@@ -1,0 +1,62 @@
+{
+  "problem": {
+    "id": "480",
+    "frontend_id": "480",
+    "title": "Sliding Window Median",
+    "description": "The median is the middle value in an ordered integer list. If the size of the list is even, there is no middle value. So the median is the mean of the two middle values.\n\nFor examples, if arr = [2,3,4], the median is 3.\nFor examples, if arr = [1,2,3,4], the median is (2 + 3) / 2 = 2.5.\n\nYou are given an integer array nums and an integer k. There is a sliding window of size k which is moving from the very left of the array to the very right. You can only see the k numbers in the window. Each time the sliding window moves right by one position.\nReturn the median array for each window in the original array. Answers within 10-5 of the actual value will be accepted.\n \nExample 1:\n\nInput: nums = [1,3,-1,-3,5,3,6,7], k = 3\nOutput: [1.00000,-1.00000,-1.00000,3.00000,5.00000,6.00000]\nExplanation: \nWindow position                Median\n---------------                -----\n[1  3  -1] -3  5  3  6  7        1\n 1 [3  -1  -3] 5  3  6  7       -1\n 1  3 [-1  -3  5] 3  6  7       -1\n 1  3  -1 [-3  5  3] 6  7        3\n 1  3  -1  -3 [5  3  6] 7        5\n 1  3  -1  -3  5 [3  6  7]       6\n\nExample 2:\n\nInput: nums = [1,2,3,4,2,3,1,4,2], k = 3\nOutput: [2.00000,3.00000,3.00000,3.00000,2.00000,3.00000,2.00000]\n\n \nConstraints:\n\n1 <= k <= nums.length <= 105\n-231 <= nums[i] <= 231 - 1\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "[1,3,-1,-3,5,3,6,7]",
+      "3",
+      "[1,2,3,4,2,3,1,4,2]",
+      "3"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[1,3,-1,-3,5,3,6,7]",
+          "k": "3"
+        },
+        "expected": "[1.00000,-1.00000,-1.00000,3.00000,5.00000,6.00000]"
+      },
+      {
+        "input": {
+          "nums": "[1,2,3,4,2,3,1,4,2]",
+          "k": "3"
+        },
+        "expected": "[2.00000,3.00000,3.00000,3.00000,2.00000,3.00000,2.00000]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def medianSlidingWindow(self, nums: List[int], k: int) -> List[float]:\n        ",
+    "hints": [
+      "The simplest of solutions comes from the basic idea of finding the median given a set of numbers. We know that by definition, a median is the center element (or an average of the two center elements). Given an unsorted list of numbers, how do we find the median element? If you know the answer to this question, can we extend this idea to every sliding window that we come across in the array?",
+      "Is there a better way to do what we are doing in the above hint? Don't you think there is duplication of calculation being done there? Is there some sort of optimization that we can do to achieve the same result? This approach is merely a modification of the basic approach except that it simply reduces duplication of calculations once done.",
+      "The third line of thought is also based on this same idea but achieving the result in a different way. We obviously need the window to be sorted for us to be able to find the median. Is there a data-structure out there that we can use (in one or more quantities) to obtain the median element extremely fast, say O(1) time while having the ability to perform the other operations fairly efficiently as well?"
+    ],
+    "meta_data": {
+      "name": "medianSlidingWindow",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        },
+        {
+          "name": "k",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "double[]"
+      }
+    }
+  },
+  "solution": {
+    "code": "import heapq\nfrom typing import List\n\nclass Solution:\n    def medianSlidingWindow(self, nums: List[int], k: int) -> List[float]:\n        if not nums or k == 0:\n            return []\n\n        max_heap = []  # max-heap for the lower half\n        min_heap = []  # min-heap for the upper half\n        medians = []\n\n        def add_num(num):\n            # Add to max-heap (lower half)\n            heapq.heappush(max_heap, -num)\n            # Balance the heaps\n            if max_heap and min_heap and (-max_heap[0] > min_heap[0]):\n                heapq.heappush(min_heap, -heapq.heappop(max_heap))\n\n            # Ensure sizes are correct\n            if len(max_heap) > len(min_heap) + 1:\n                heapq.heappush(min_heap, -heapq.heappop(max_heap))\n            elif len(min_heap) > len(max_heap):\n                heapq.heappush(max_heap, -heapq.heappop(min_heap))\n\n        def remove_num(num):\n            if num <= -max_heap[0]:\n                max_heap.remove(-num)\n                heapq.heapify(max_heap)\n            else:\n                min_heap.remove(num)\n                heapq.heapify(min_heap)\n\n            # Balance the heaps after removal\n            if len(max_heap) > len(min_heap) + 1:\n                heapq.heappush(min_heap, -heapq.heappop(max_heap))\n            elif len(min_heap) > len(max_heap):\n                heapq.heappush(max_heap, -heapq.heappop(min_heap))\n\n        for i in range(len(nums)):\n            add_num(nums[i])\n            if i >= k - 1:\n                # Calculate the median\n                if len(max_heap) > len(min_heap):\n                    medians.append(float(-max_heap[0]))\n                else:\n                    medians.append((-max_heap[0] + min_heap[0]) / 2)\n                remove_num(nums[i - k + 1])\n\n        return medians",
+    "explanation": "The solution uses two heaps to maintain the current sliding window of size `k` and efficiently compute the median. The max-heap stores the lower half of the numbers, while the min-heap stores the upper half. \n\n1. **Adding a Number**: When a new number is added, it is pushed into the appropriate heap based on its value. If the maximum of the max-heap is greater than the minimum of the min-heap, we need to rebalance the heaps.\n\n2. **Removing a Number**: When the window slides, we remove the number that is no longer in the window. This is done by checking which heap contains the number and removing it, followed by rebalancing the heaps.\n\n3. **Calculating the Median**: The median is calculated"
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: [1.0, -1.0, -1.0, 3.0, 5.0, 6.0]\nTest case 2:\n[PASS] Test passed: [2.0, 3.0, 3.0, 3.0, 2.0, 3.0, 2.0]\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:59"
+}

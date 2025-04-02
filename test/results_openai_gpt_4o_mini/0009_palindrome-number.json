@@ -1,0 +1,59 @@
+{
+  "problem": {
+    "id": "9",
+    "frontend_id": "9",
+    "title": "Palindrome Number",
+    "description": "Given an integer x, return true if x is a palindrome, and false otherwise.\n \nExample 1:\n\nInput: x = 121\nOutput: true\nExplanation: 121 reads as 121 from left to right and from right to left.\n\nExample 2:\n\nInput: x = -121\nOutput: false\nExplanation: From left to right, it reads -121. From right to left, it becomes 121-. Therefore it is not a palindrome.\n\nExample 3:\n\nInput: x = 10\nOutput: false\nExplanation: Reads 01 from right to left. Therefore it is not a palindrome.\n\n \nConstraints:\n\n-231 <= x <= 231 - 1\n\n \nFollow up: Could you solve it without converting the integer to a string?",
+    "difficulty": "Easy",
+    "examples": [
+      "121",
+      "-121",
+      "10"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "x": "121"
+        },
+        "expected": "true"
+      },
+      {
+        "input": {
+          "x": "-121"
+        },
+        "expected": "false"
+      },
+      {
+        "input": {
+          "x": "10"
+        },
+        "expected": "false"
+      }
+    ],
+    "python_starter": "class Solution:\n    def isPalindrome(self, x: int) -> bool:\n        ",
+    "hints": [
+      "Beware of overflow when you reverse the integer."
+    ],
+    "meta_data": {
+      "name": "isPalindrome",
+      "params": [
+        {
+          "name": "x",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def isPalindrome(self, x: int) -> bool:\n        # Negative numbers and numbers ending with 0 (except 0 itself) are not palindromes\n        if x < 0 or (x % 10 == 0 and x != 0):\n            return False\n        \n        reversed_number = 0\n        while x > reversed_number:\n            # Get the last digit and add it to the reversed number\n            reversed_number = reversed_number * 10 + x % 10\n            x //= 10  # Remove the last digit from x\n        \n        # Check if the original number is equal to the reversed number\n        # or if it is equal to the reversed number without the last digit (for odd-length numbers)\n        return x == reversed_number or x == reversed_number // 10",
+    "explanation": "The solution uses a mathematical approach to reverse the integer without converting it to a string. \n\n1. **Initial Checks**: We first check if the number is negative or if it ends with a zero (and is not zero). If either condition is true, we return false immediately since such numbers cannot be palindromes.\n\n2. **Reversing the Number**: We initialize a variable `reversed_number` to store the reversed digits. We then enter a loop that continues until the original number `x` is greater than `reversed_number`. In each iteration, we:\n   - Extract the last digit of `x` using `x % 10`.\n   - Update `reversed_number` by multiplying it by 10 and adding the last digit.\n   - Remove the last digit from `x` using integer division by 10.\n\n3. **Final Comparison**: After the loop, we check if `x` is equal to `reversed_number` (for even-length palindromes) or if `x` is equal to `reversed_number // 10` (for odd-length palindromes, where the middle digit does not affect the palindrome property).\n\n**Time Complexity**: O(log10(n)), where n is the input number. This is because we are effectively reducing the number of digits in `x` by one in each iteration of the loop.\n\n**Space Complexity**: O(1), as we are using a constant amount of space regardless of the input size."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: True\nTest case 2:\n[PASS] Test passed: False\nTest case 3:\n[PASS] Test passed: False\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:26"
+}

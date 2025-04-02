@@ -1,0 +1,66 @@
+{
+  "problem": {
+    "id": "474",
+    "frontend_id": "474",
+    "title": "Ones and Zeroes",
+    "description": "You are given an array of binary strings strs and two integers m and n.\nReturn the size of the largest subset of strs such that there are at most m 0's and n 1's in the subset.\nA set x is a subset of a set y if all elements of x are also elements of y.\n \nExample 1:\n\nInput: strs = [\"10\",\"0001\",\"111001\",\"1\",\"0\"], m = 5, n = 3\nOutput: 4\nExplanation: The largest subset with at most 5 0's and 3 1's is {\"10\", \"0001\", \"1\", \"0\"}, so the answer is 4.\nOther valid but smaller subsets include {\"0001\", \"1\"} and {\"10\", \"1\", \"0\"}.\n{\"111001\"} is an invalid subset because it contains 4 1's, greater than the maximum of 3.\n\nExample 2:\n\nInput: strs = [\"10\",\"0\",\"1\"], m = 1, n = 1\nOutput: 2\nExplanation: The largest subset is {\"0\", \"1\"}, so the answer is 2.\n\n \nConstraints:\n\n1 <= strs.length <= 600\n1 <= strs[i].length <= 100\nstrs[i] consists only of digits '0' and '1'.\n1 <= m, n <= 100\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[\"10\",\"0001\",\"111001\",\"1\",\"0\"]",
+      "5",
+      "3",
+      "[\"10\",\"0\",\"1\"]",
+      "1",
+      "1"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "strs": "[\"10\",\"0001\",\"111001\",\"1\",\"0\"]",
+          "m": "5",
+          "n": "3"
+        },
+        "expected": "4"
+      },
+      {
+        "input": {
+          "strs": "[\"10\",\"0\",\"1\"]",
+          "m": "1",
+          "n": "1"
+        },
+        "expected": "2"
+      }
+    ],
+    "python_starter": "class Solution:\n    def findMaxForm(self, strs: List[str], m: int, n: int) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "findMaxForm",
+      "params": [
+        {
+          "name": "strs",
+          "type": "string[]"
+        },
+        {
+          "name": "m",
+          "type": "integer"
+        },
+        {
+          "name": "n",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def findMaxForm(self, strs: List[str], m: int, n: int) -> int:\n        # Initialize a DP array with dimensions (m+1) x (n+1)\n        dp = [[0] * (n + 1) for _ in range(m + 1)]\n        \n        # Iterate through each string in the input list\n        for s in strs:\n            # Count the number of 0's and 1's in the current string\n            zeros = s.count('0')\n            ones = s.count('1')\n            \n            # Update the DP array in reverse order\n            for i in range(m, zeros - 1, -1):\n                for j in range(n, ones - 1, -1):\n                    dp[i][j] = max(dp[i][j], dp[i - zeros][j - ones] + 1)\n        \n        # The answer is the maximum size of the subset we can form\n        return dp[m][n]",
+    "explanation": "The solution uses a dynamic programming approach to keep track of the maximum size of subsets that can be formed with given constraints on the number of 0's and 1's. \n\n1. **Initialization**: We create a 2D list `dp` where `dp[i][j]` represents the maximum number of strings that can be formed with `i` 0's and `j` 1's. The dimensions of this list are `(m + 1) x (n + 1)` to account for all possible counts from 0 to `m` and 0 to `n`.\n\n2. **Counting 0's and 1's**: For each string in the input list, we count how many 0's and 1's it contains.\n\n3. **Updating the DP Table**: We iterate through the DP table in reverse order (from `m` to `zeros` and from `n` to `ones`). This ensures that we do not overwrite values that we still need to use in the current iteration. For each valid combination of `i` and `j`, we update `dp[i][j]` to be the maximum of its current value or the value obtained by including the current string (which is `dp[i - zeros][j - ones] + 1`).\n\n4. **Final Result**: After processing all strings, the value at `dp[m][n]` will give us the size of the largest subset that can be formed with at most `m` 0's and `n` 1's.\n\n**Time Complexity**: The time complexity of this solution is O(L * m * n), where L is the number of strings in `strs`. This is because we iterate through each string and update the DP table.\n\n**Space Complexity**: The space complexity is O(m * n) due to the DP table used to store the results."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 4\nTest case 2:\n[PASS] Test passed: 2\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:58"
+}

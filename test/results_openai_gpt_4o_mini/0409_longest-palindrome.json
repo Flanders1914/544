@@ -1,0 +1,50 @@
+{
+  "problem": {
+    "id": "409",
+    "frontend_id": "409",
+    "title": "Longest Palindrome",
+    "description": "Given a string s which consists of lowercase or uppercase letters, return the length of the longest palindrome that can be built with those letters.\nLetters are case sensitive, for example, \"Aa\" is not considered a palindrome.\n \nExample 1:\n\nInput: s = \"abccccdd\"\nOutput: 7\nExplanation: One longest palindrome that can be built is \"dccaccd\", whose length is 7.\n\nExample 2:\n\nInput: s = \"a\"\nOutput: 1\nExplanation: The longest palindrome that can be built is \"a\", whose length is 1.\n\n \nConstraints:\n\n1 <= s.length <= 2000\ns consists of lowercase and/or uppercase English letters only.\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "\"abccccdd\"",
+      "\"a\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "s": "\"abccccdd\""
+        },
+        "expected": "7"
+      },
+      {
+        "input": {
+          "s": "\"a\""
+        },
+        "expected": "1"
+      }
+    ],
+    "python_starter": "class Solution:\n    def longestPalindrome(self, s: str) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "longestPalindrome",
+      "params": [
+        {
+          "name": "s",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def longestPalindrome(self, s: str) -> int:\n        # Dictionary to count the frequency of each character\n        char_count = {}\n        \n        # Count the frequency of each character in the string\n        for char in s:\n            if char in char_count:\n                char_count[char] += 1\n            else:\n                char_count[char] = 1\n        \n        length = 0\n        odd_found = False\n        \n        # Calculate the maximum length of the palindrome\n        for count in char_count.values():\n            if count % 2 == 0:\n                length += count  # Add even counts fully\n            else:\n                length += count - 1  # Add the largest even part\n                odd_found = True  # Mark that we found an odd count\n        \n        # If there was at least one odd count, we can add one more character in the center\n        if odd_found:\n            length += 1\n        \n        return length",
+    "explanation": "The solution involves counting the frequency of each character in the input string `s`. We use a dictionary to store these counts. The algorithm iterates through each character in the string, updating the count in the dictionary.\n\nAfter counting the characters, we calculate the maximum length of the palindrome:\n- For each character count:\n  - If the count is even, we can use all of it in the palindrome.\n  - If the count is odd, we can use `count - 1` (to make it even) and keep track of whether we have encountered any odd counts.\n  \nFinally, if we found any odd counts, we can add 1 to the total length to account for a single character that can be placed in the center of the palindrome.\n\nThe time complexity of this solution is O(n), where n is the length of the string, as we traverse the string to count characters and then iterate through the unique characters to calculate the palindrome length. The space complexity is O(1) in terms of character counts since there are a limited number of characters (52 for uppercase and lowercase English letters)."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:54"
+}

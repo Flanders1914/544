@@ -1,0 +1,56 @@
+{
+  "problem": {
+    "id": "560",
+    "frontend_id": "560",
+    "title": "Subarray Sum Equals K",
+    "description": "Given an array of integers nums and an integer k, return the total number of subarrays whose sum equals to k.\nA subarray is a contiguous non-empty sequence of elements within an array.\n \nExample 1:\nInput: nums = [1,1,1], k = 2\nOutput: 2\nExample 2:\nInput: nums = [1,2,3], k = 3\nOutput: 2\n\n \nConstraints:\n\n1 <= nums.length <= 2 * 104\n-1000 <= nums[i] <= 1000\n-107 <= k <= 107\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[1,1,1]",
+      "2",
+      "[1,2,3]",
+      "3"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[1,1,1]",
+          "k": "2"
+        },
+        "expected": "2"
+      }
+    ],
+    "python_starter": "class Solution:\n    def subarraySum(self, nums: List[int], k: int) -> int:\n        ",
+    "hints": [
+      "Will Brute force work here? Try to optimize it.",
+      "Can we optimize it by using some extra space?",
+      "What about storing sum frequencies in a hash table? Will it be useful?",
+      "sum(i,j)=sum(0,j)-sum(0,i), where sum(i,j) represents the sum of all the elements from index i to j-1.\r\n\r\nCan we use this property to optimize it."
+    ],
+    "meta_data": {
+      "name": "subarraySum",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        },
+        {
+          "name": "k",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\nfrom collections import defaultdict\n\nclass Solution:\n    def subarraySum(self, nums: List[int], k: int) -> int:\n        # Dictionary to store the cumulative sum frequencies\n        cumulative_sum_count = defaultdict(int)\n        cumulative_sum_count[0] = 1  # To handle the case where a subarray equals k from the start\n        \n        current_sum = 0\n        count = 0\n        \n        for num in nums:\n            current_sum += num  # Update the cumulative sum\n            \n            # Check if there is a cumulative sum that equals current_sum - k\n            if (current_sum - k) in cumulative_sum_count:\n                count += cumulative_sum_count[current_sum - k]  # Increment count by the frequency of (current_sum - k)\n            \n            # Update the frequency of the current cumulative sum\n            cumulative_sum_count[current_sum] += 1\n        \n        return count",
+    "explanation": "The solution uses a hashmap to efficiently count the number of subarrays that sum to `k`. The key steps are as follows:\n\n1. **Initialization**: We start by initializing a hashmap `cumulative_sum_count` to keep track of how many times each cumulative sum has been seen. We also initialize `current_sum` to `0` and `count` to `0`.\n\n2. **Iterating through the array**: For each number in the input array `nums`, we update the `current_sum` by adding the current number.\n\n3. **Checking for valid subarrays**: We check if the difference `(current_sum - k)` exists in our hashmap. If it does, it means there are subarrays that sum to `k` ending at the current index. We add the frequency of `(current_sum - k)` to our `count`.\n\n4. **Updating the hashmap**: After checking, we update the hashmap to include the current cumulative sum.\n\n5. **Return the result**: Finally, we return the total count of subarrays found.\n\n**Time Complexity**: O(n), where n is the length of the input array, since we traverse the array once.\n\n**Space Complexity**: O(n) in the worst case, where all cumulative sums are unique and stored in the hashmap.\n\nThis approach is efficient and handles the constraints provided in the problem statement effectively."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 2\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:01:24"
+}

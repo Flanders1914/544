@@ -1,0 +1,47 @@
+{
+  "problem": {
+    "id": "289",
+    "frontend_id": "289",
+    "title": "Game of Life",
+    "description": "According to Wikipedia's article: \"The Game of Life, also known simply as Life, is a cellular automaton devised by the British mathematician John Horton Conway in 1970.\"\nThe board is made up of an m x n grid of cells, where each cell has an initial state: live (represented by a 1) or dead (represented by a 0). Each cell interacts with its eight neighbors (horizontal, vertical, diagonal) using the following four rules (taken from the above Wikipedia article):\n\nAny live cell with fewer than two live neighbors dies as if caused by under-population.\nAny live cell with two or three live neighbors lives on to the next generation.\nAny live cell with more than three live neighbors dies, as if by over-population.\nAny dead cell with exactly three live neighbors becomes a live cell, as if by reproduction.\n\nThe next state of the board is determined by applying the above rules simultaneously to every cell in the current state of the m x n grid board. In this process, births and deaths occur simultaneously.\nGiven the current state of the board, update the board to reflect its next state.\nNote that you do not need to return anything.\n \nExample 1:\n\n\nInput: board = [[0,1,0],[0,0,1],[1,1,1],[0,0,0]]\nOutput: [[0,0,0],[1,0,1],[0,1,1],[0,1,0]]\n\nExample 2:\n\n\nInput: board = [[1,1],[1,0]]\nOutput: [[1,1],[1,1]]\n\n \nConstraints:\n\nm == board.length\nn == board[i].length\n1 <= m, n <= 25\nboard[i][j] is 0 or 1.\n\n \nFollow up:\n\nCould you solve it in-place? Remember that the board needs to be updated simultaneously: You cannot update some cells first and then use their updated values to update other cells.\nIn this question, we represent the board using a 2D array. In principle, the board is infinite, which would cause problems when the active area encroaches upon the border of the array (i.e., live cells reach the border). How would you address these problems?\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[[0,1,0],[0,0,1],[1,1,1],[0,0,0]]",
+      "[[1,1],[1,0]]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "board": "[[0,1,0]"
+        },
+        "expected": "[[0,0,0]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def gameOfLife(self, board: List[List[int]]) -> None:\n        \"\"\"\n        Do not return anything, modify board in-place instead.\n        \"\"\"\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "gameOfLife",
+      "params": [
+        {
+          "name": "board",
+          "type": "integer[][]"
+        }
+      ],
+      "return": {
+        "type": "void"
+      },
+      "output": {
+        "paramindex": 0
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def gameOfLife(self, board: List[List[int]]) -> None:\n        \"\"\"\n        Do not return anything, modify board in-place instead.\n        \"\"\"\n        if not board or not board[0]:\n            return\n        \n        rows, cols = len(board), len(board[0])\n        \n        # Directions for the 8 neighbors\n        directions = [(-1, -1), (-1, 0), (-1, 1), \n                      (0, -1),         (0, 1), \n                      (1, -1), (1, 0), (1, 1)]\n        \n        # First pass: calculate the next state\n        for r in range(rows):\n            for c in range(cols):\n                live_neighbors = 0\n                for dr, dc in directions:\n                    nr, nc = r + dr, c + dc\n                    if 0 <= nr < rows and 0 <= nc < cols and (board[nr][nc] == 1 or board[nr][nc] == 2):\n                        live_neighbors += 1\n                \n                # Apply the rules\n                if board[r][c] == 1 and (live_neighbors < 2 or live_neighbors > 3):\n                    board[r][c] = 2  # Live to dead\n                elif board[r][c] == 0 and live_neighbors == 3:\n                    board[r][c] = 3  # Dead to live\n        \n        # Second pass: update the board to the next state\n        for r in range(rows):\n            for c in range(cols):\n                if board[r][c] == 2:\n                    board[r][c] = 0  # Dead\n                elif board[r][c] == 3:\n                    board[r][c] = 1  # Live",
+    "explanation": "The solution uses a two-pass approach to update the board in-place. In the first pass, we iterate through each cell and count the number of live neighbors. Based on the count, we update the cell's state using a temporary encoding:\n- If a live cell has fewer than 2 or more than 3 live neighbors, it becomes dead (encoded as 2).\n- If a dead cell has exactly 3 live neighbors, it becomes live (encoded as 3).\n\nIn the second pass, we convert the temporary states back to the final states:\n- Cells encoded as 2 are set to 0 (dead).\n- Cells encoded as 3 are set to 1 (live).\n\nThis approach ensures that all updates are made simultaneously without affecting the neighbor counts during the iteration.\n\nThe time complexity of this solution is O(m * n), where m is the number of rows and n is the number of columns in the board, as we need to iterate through each cell twice. The space complexity is O(1) since we are modifying the board in-place without using any additional data structures."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmpr3sp6_5z.py\", line 75\n    input_0_0 = [[0,1,0]\n                 ^^^^^^^\nSyntaxError: invalid syntax. Perhaps you forgot a comma?\n"
+  },
+  "timestamp": "2025-04-01 18:00:46"
+}

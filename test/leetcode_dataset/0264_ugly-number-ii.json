@@ -1,0 +1,44 @@
+{
+  "id": "264",
+  "frontend_id": "264",
+  "title": "Ugly Number II",
+  "description": "An ugly number is a positive integer whose prime factors are limited to 2, 3, and 5.\nGiven an integer n, return the nth ugly number.\n \nExample 1:\n\nInput: n = 10\nOutput: 12\nExplanation: [1, 2, 3, 4, 5, 6, 8, 9, 10, 12] is the sequence of the first 10 ugly numbers.\n\nExample 2:\n\nInput: n = 1\nOutput: 1\nExplanation: 1 has no prime factors, therefore all of its prime factors are limited to 2, 3, and 5.\n\n \nConstraints:\n\n1 <= n <= 1690\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "10",
+    "1"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "n": "10"
+      },
+      "expected": "12"
+    },
+    {
+      "input": {
+        "n": "1"
+      },
+      "expected": "1"
+    }
+  ],
+  "python_starter": "class Solution:\n    def nthUglyNumber(self, n: int) -> int:\n        ",
+  "hints": [
+    "The naive approach is to call <code>isUgly</code> for every number until you reach the n<sup>th</sup> one. Most numbers are <i>not</i> ugly. Try to focus your effort on generating only the ugly ones.",
+    "An ugly number must be multiplied by either 2, 3, or 5 from a smaller ugly number.",
+    "The key is how to maintain the order of the ugly numbers. Try a similar approach of merging from three sorted lists: L<sub>1</sub>, L<sub>2</sub>, and L<sub>3</sub>.",
+    "Assume you have U<sub>k</sub>, the k<sup>th</sup> ugly number. Then U<sub>k+1</sub> must be Min(L<sub>1</sub> * 2, L<sub>2</sub> * 3, L<sub>3</sub> * 5)."
+  ],
+  "meta_data": {
+    "name": "nthUglyNumber",
+    "params": [
+      {
+        "name": "n",
+        "type": "integer"
+      }
+    ],
+    "return": {
+      "type": "integer"
+    }
+  }
+}

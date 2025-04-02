@@ -1,0 +1,39 @@
+{
+  "id": "587",
+  "frontend_id": "587",
+  "title": "Erect the Fence",
+  "description": "You are given an array trees where trees[i] = [xi, yi] represents the location of a tree in the garden.\nFence the entire garden using the minimum length of rope, as it is expensive. The garden is well-fenced only if all the trees are enclosed.\nReturn the coordinates of trees that are exactly located on the fence perimeter. You may return the answer in any order.\n \nExample 1:\n\n\nInput: trees = [[1,1],[2,2],[2,0],[2,4],[3,3],[4,2]]\nOutput: [[1,1],[2,0],[4,2],[3,3],[2,4]]\nExplanation: All the trees will be on the perimeter of the fence except the tree at [2, 2], which will be inside the fence.\n\nExample 2:\n\n\nInput: trees = [[1,2],[2,2],[4,2]]\nOutput: [[4,2],[2,2],[1,2]]\nExplanation: The fence forms a line that passes through all the trees.\n\n \nConstraints:\n\n1 <= trees.length <= 3000\ntrees[i].length == 2\n0 <= xi, yi <= 100\nAll the given positions are unique.\n\n",
+  "difficulty": "Hard",
+  "examples": [
+    "[[1,1],[2,2],[2,0],[2,4],[3,3],[4,2]]",
+    "[[1,2],[2,2],[4,2]]"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "trees": "[[1,1]"
+      },
+      "expected": "[[1,1]"
+    },
+    {
+      "input": {
+        "trees": "[[1,2]"
+      },
+      "expected": "[[4,2]"
+    }
+  ],
+  "python_starter": "class Solution:\n    def outerTrees(self, trees: List[List[int]]) -> List[List[int]]:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "outerTrees",
+    "params": [
+      {
+        "name": "trees",
+        "type": "integer[][]"
+      }
+    ],
+    "return": {
+      "type": "integer[][]"
+    }
+  }
+}

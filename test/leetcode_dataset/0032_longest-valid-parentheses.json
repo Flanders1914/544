@@ -1,0 +1,46 @@
+{
+  "id": "32",
+  "frontend_id": "32",
+  "title": "Longest Valid Parentheses",
+  "description": "Given a string containing just the characters '(' and ')', return the length of the longest valid (well-formed) parentheses substring.\n \nExample 1:\n\nInput: s = \"(()\"\nOutput: 2\nExplanation: The longest valid parentheses substring is \"()\".\n\nExample 2:\n\nInput: s = \")()())\"\nOutput: 4\nExplanation: The longest valid parentheses substring is \"()()\".\n\nExample 3:\n\nInput: s = \"\"\nOutput: 0\n\n \nConstraints:\n\n0 <= s.length <= 3 * 104\ns[i] is '(', or ')'.\n\n",
+  "difficulty": "Hard",
+  "examples": [
+    "\"(()\"",
+    "\")()())\"",
+    "\"\""
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "s": "\"(()\""
+      },
+      "expected": "2"
+    },
+    {
+      "input": {
+        "s": "\")()())\""
+      },
+      "expected": "4"
+    },
+    {
+      "input": {
+        "s": "\"\""
+      },
+      "expected": "0"
+    }
+  ],
+  "python_starter": "class Solution:\n    def longestValidParentheses(self, s: str) -> int:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "longestValidParentheses",
+    "params": [
+      {
+        "name": "s",
+        "type": "string"
+      }
+    ],
+    "return": {
+      "type": "integer"
+    }
+  }
+}

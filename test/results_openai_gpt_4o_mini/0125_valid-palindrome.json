@@ -1,0 +1,57 @@
+{
+  "problem": {
+    "id": "125",
+    "frontend_id": "125",
+    "title": "Valid Palindrome",
+    "description": "A phrase is a palindrome if, after converting all uppercase letters into lowercase letters and removing all non-alphanumeric characters, it reads the same forward and backward. Alphanumeric characters include letters and numbers.\nGiven a string s, return true if it is a palindrome, or false otherwise.\n \nExample 1:\n\nInput: s = \"A man, a plan, a canal: Panama\"\nOutput: true\nExplanation: \"amanaplanacanalpanama\" is a palindrome.\n\nExample 2:\n\nInput: s = \"race a car\"\nOutput: false\nExplanation: \"raceacar\" is not a palindrome.\n\nExample 3:\n\nInput: s = \" \"\nOutput: true\nExplanation: s is an empty string \"\" after removing non-alphanumeric characters.\nSince an empty string reads the same forward and backward, it is a palindrome.\n\n \nConstraints:\n\n1 <= s.length <= 2 * 105\ns consists only of printable ASCII characters.\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "\"A man, a plan, a canal: Panama\"",
+      "\"race a car\"",
+      "\" \""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "s": "\"A man, a plan, a canal: Panama\""
+        },
+        "expected": "true"
+      },
+      {
+        "input": {
+          "s": "\"race a car\""
+        },
+        "expected": "false"
+      },
+      {
+        "input": {
+          "s": "\" \""
+        },
+        "expected": "true"
+      }
+    ],
+    "python_starter": "class Solution:\n    def isPalindrome(self, s: str) -> bool:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "isPalindrome",
+      "params": [
+        {
+          "name": "s",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def isPalindrome(self, s: str) -> bool:\n        # Normalize the string: convert to lowercase and filter out non-alphanumeric characters\n        normalized_str = ''.join(char.lower() for char in s if char.isalnum())\n        \n        # Check if the normalized string is equal to its reverse\n        return normalized_str == normalized_str[::-1]",
+    "explanation": "The solution begins by normalizing the input string `s`. This is done using a generator expression that iterates over each character in the string, converts it to lowercase, and includes it in the new string only if it is alphanumeric (using the `isalnum()` method). The `join` method is then used to concatenate these characters into a single string, `normalized_str`.\n\nNext, we check if `normalized_str` is equal to its reverse (`normalized_str[::-1]`). If they are equal, it means the string is a palindrome, and we return `True`. Otherwise, we return `False`.\n\nThe time complexity of this solution is O(n), where n is the length of the input string, because we traverse the string twice: once for normalization and once for the palindrome check. The space complexity is also O(n) due to the storage of the normalized string.\n\nThis approach efficiently handles the constraints provided, ensuring that even the maximum input size is processed in a reasonable time frame."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: True\nTest case 2:\n[PASS] Test passed: False\nTest case 3:\n[PASS] Test passed: True\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:36"
+}

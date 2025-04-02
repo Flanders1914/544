@@ -1,0 +1,51 @@
+{
+  "problem": {
+    "id": "62",
+    "frontend_id": "62",
+    "title": "Unique Paths",
+    "description": "There is a robot on an m x n grid. The robot is initially located at the top-left corner (i.e., grid[0][0]). The robot tries to move to the bottom-right corner (i.e., grid[m - 1][n - 1]). The robot can only move either down or right at any point in time.\nGiven the two integers m and n, return the number of possible unique paths that the robot can take to reach the bottom-right corner.\nThe test cases are generated so that the answer will be less than or equal to 2 * 109.\n \nExample 1:\n\n\nInput: m = 3, n = 7\nOutput: 28\n\nExample 2:\n\nInput: m = 3, n = 2\nOutput: 3\nExplanation: From the top-left corner, there are a total of 3 ways to reach the bottom-right corner:\n1. Right -> Down -> Down\n2. Down -> Down -> Right\n3. Down -> Right -> Down\n\n \nConstraints:\n\n1 <= m, n <= 100\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "3",
+      "7",
+      "3",
+      "2"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "m": "3",
+          "n": "7"
+        },
+        "expected": "28"
+      }
+    ],
+    "python_starter": "class Solution:\n    def uniquePaths(self, m: int, n: int) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "uniquePaths",
+      "params": [
+        {
+          "name": "m",
+          "type": "integer"
+        },
+        {
+          "name": "n",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def uniquePaths(self, m: int, n: int) -> int:\n        # Calculate the number of unique paths using combinatorial approach\n        total_moves = m + n - 2  # Total moves needed\n        down_moves = m - 1  # Moves down (or right)\n        \n        # Calculate C(total_moves, down_moves)\n        numerator = 1\n        denominator = 1\n        \n        for i in range(1, down_moves + 1):\n            numerator *= total_moves\n            denominator *= i\n            total_moves -= 1\n        \n        return numerator // denominator  # Return the result as an integer",
+    "explanation": "The solution uses a combinatorial approach to calculate the number of unique paths in an m x n grid. The key steps are:\n\n1. **Understanding Moves**: The robot needs to make a total of (m-1) down moves and (n-1) right moves to reach the bottom-right corner. This results in a total of (m+n-2) moves.\n\n2. **Using Binomial Coefficient**: The number of unique paths can be calculated using the binomial coefficient formula \\( C(m+n-2, m-1) \\). This represents the number of ways to choose (m-1) down moves from (m+n-2) total moves.\n\n3. **Efficient Calculation**: Instead of calculating factorials directly, we compute the numerator and denominator iteratively to avoid overflow and improve efficiency. The loop runs for (m-1) iterations, multiplying the numerator by the decreasing total moves and the denominator by the increasing index.\n\n4. **Time Complexity**: The time complexity of this solution is O(min(m, n)), as we only iterate through the smaller of the two dimensions to compute the paths.\n\n5. **Space Complexity**: The space complexity is O(1) since we are using a constant amount of space for the variables.\n\nThis approach efficiently calculates the number of unique paths without the need for large factorial computations, making it suitable for the given constraints."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 28\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:30"
+}

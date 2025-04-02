@@ -1,0 +1,39 @@
+{
+  "id": "241",
+  "frontend_id": "241",
+  "title": "Different Ways to Add Parentheses",
+  "description": "Given a string expression of numbers and operators, return all possible results from computing all the different possible ways to group numbers and operators. You may return the answer in any order.\nThe test cases are generated such that the output values fit in a 32-bit integer and the number of different results does not exceed 104.\n \nExample 1:\n\nInput: expression = \"2-1-1\"\nOutput: [0,2]\nExplanation:\n((2-1)-1) = 0 \n(2-(1-1)) = 2\n\nExample 2:\n\nInput: expression = \"2*3-4*5\"\nOutput: [-34,-14,-10,-10,10]\nExplanation:\n(2*(3-(4*5))) = -34 \n((2*3)-(4*5)) = -14 \n((2*(3-4))*5) = -10 \n(2*((3-4)*5)) = -10 \n(((2*3)-4)*5) = 10\n\n \nConstraints:\n\n1 <= expression.length <= 20\nexpression consists of digits and the operator '+', '-', and '*'.\nAll the integer values in the input expression are in the range [0, 99].\nThe integer values in the input expression do not have a leading '-' or '+' denoting the sign.\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "\"2-1-1\"",
+    "\"2*3-4*5\""
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "expression": "\"2-1-1\""
+      },
+      "expected": "[0,2]"
+    },
+    {
+      "input": {
+        "expression": "\"2*3-4*5\""
+      },
+      "expected": "[-34,-14,-10,-10,10]"
+    }
+  ],
+  "python_starter": "class Solution:\n    def diffWaysToCompute(self, expression: str) -> List[int]:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "diffWaysToCompute",
+    "params": [
+      {
+        "name": "expression",
+        "type": "string"
+      }
+    ],
+    "return": {
+      "type": "list<integer>"
+    }
+  }
+}

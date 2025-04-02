@@ -1,0 +1,57 @@
+{
+  "problem": {
+    "id": "414",
+    "frontend_id": "414",
+    "title": "Third Maximum Number",
+    "description": "Given an integer array nums, return the third distinct maximum number in this array. If the third maximum does not exist, return the maximum number.\n \nExample 1:\n\nInput: nums = [3,2,1]\nOutput: 1\nExplanation:\nThe first distinct maximum is 3.\nThe second distinct maximum is 2.\nThe third distinct maximum is 1.\n\nExample 2:\n\nInput: nums = [1,2]\nOutput: 2\nExplanation:\nThe first distinct maximum is 2.\nThe second distinct maximum is 1.\nThe third distinct maximum does not exist, so the maximum (2) is returned instead.\n\nExample 3:\n\nInput: nums = [2,2,3,1]\nOutput: 1\nExplanation:\nThe first distinct maximum is 3.\nThe second distinct maximum is 2 (both 2's are counted together since they have the same value).\nThe third distinct maximum is 1.\n\n \nConstraints:\n\n1 <= nums.length <= 104\n-231 <= nums[i] <= 231 - 1\n\n \nFollow up: Can you find an O(n) solution?",
+    "difficulty": "Easy",
+    "examples": [
+      "[3,2,1]",
+      "[1,2]",
+      "[2,2,3,1]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[3,2,1]"
+        },
+        "expected": "1"
+      },
+      {
+        "input": {
+          "nums": "[1,2]"
+        },
+        "expected": "2"
+      },
+      {
+        "input": {
+          "nums": "[2,2,3,1]"
+        },
+        "expected": "1"
+      }
+    ],
+    "python_starter": "class Solution:\n    def thirdMax(self, nums: List[int]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "thirdMax",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def thirdMax(self, nums: List[int]) -> int:\n        # Use a set to store distinct numbers\n        distinct_nums = set(nums)\n        \n        # Convert the set to a sorted list in descending order\n        sorted_nums = sorted(distinct_nums, reverse=True)\n        \n        # Check the length of the sorted list\n        if len(sorted_nums) < 3:\n            # If there are less than 3 distinct numbers, return the maximum\n            return sorted_nums[0]\n        else:\n            # Return the third distinct maximum\n            return sorted_nums[2]",
+    "explanation": "The solution begins by converting the input list `nums` into a set called `distinct_nums`. This automatically filters out any duplicate values, ensuring that we only have unique numbers. We then sort this set in descending order to easily access the maximum values.\n\nNext, we check the length of the sorted list:\n- If it contains fewer than three elements, we return the first element, which is the maximum number.\n- If it contains three or more elements, we return the third element in the sorted list, which corresponds to the third distinct maximum.\n\nThe time complexity of this solution is O(n log n) due to the sorting step, where n is the number of distinct elements. However, since we are only iterating through the list once to create the set, the overall complexity can be considered O(n) for the distinct count. The space complexity is O(n) as well, due to the storage of distinct numbers in the set."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 1\nTest case 2:\n[PASS] Test passed: 2\nTest case 3:\n[PASS] Test passed: 1\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:54"
+}

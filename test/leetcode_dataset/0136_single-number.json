@@ -1,0 +1,36 @@
+{
+  "id": "136",
+  "frontend_id": "136",
+  "title": "Single Number",
+  "description": "Given a non-empty array of integers nums, every element appears twice except for one. Find that single one.\nYou must implement a solution with a linear runtime complexity and use only constant extra space.\n \nExample 1:\n\nInput: nums = [2,2,1]\nOutput: 1\n\nExample 2:\n\nInput: nums = [4,1,2,1,2]\nOutput: 4\n\nExample 3:\n\nInput: nums = [1]\nOutput: 1\n\n \nConstraints:\n\n1 <= nums.length <= 3 * 104\n-3 * 104 <= nums[i] <= 3 * 104\nEach element in the array appears twice except for one element which appears only once.\n\n",
+  "difficulty": "Easy",
+  "examples": [
+    "[2,2,1]",
+    "[4,1,2,1,2]",
+    "[1]"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "nums": "[2,2,1]"
+      },
+      "expected": "1"
+    }
+  ],
+  "python_starter": "class Solution:\n    def singleNumber(self, nums: List[int]) -> int:\n        ",
+  "hints": [
+    "Think about the XOR (^) operator's property."
+  ],
+  "meta_data": {
+    "name": "singleNumber",
+    "params": [
+      {
+        "name": "nums",
+        "type": "integer[]"
+      }
+    ],
+    "return": {
+      "type": "integer"
+    }
+  }
+}

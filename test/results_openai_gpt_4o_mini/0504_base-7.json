@@ -1,0 +1,44 @@
+{
+  "problem": {
+    "id": "504",
+    "frontend_id": "504",
+    "title": "Base 7",
+    "description": "Given an integer num, return a string of its base 7 representation.\n \nExample 1:\nInput: num = 100\nOutput: \"202\"\nExample 2:\nInput: num = -7\nOutput: \"-10\"\n\n \nConstraints:\n\n-107 <= num <= 107\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "100",
+      "-7"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "num": "100"
+        },
+        "expected": "202"
+      }
+    ],
+    "python_starter": "class Solution:\n    def convertToBase7(self, num: int) -> str:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "convertToBase7",
+      "params": [
+        {
+          "name": "num",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "string"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def convertToBase7(self, num: int) -> str:\n        # Handle the case for negative numbers\n        if num < 0:\n            return '-' + self.convertToBase7(-num)\n        \n        # Base case for zero\n        if num == 0:\n            return \"0\"\n        \n        base7 = []\n        while num > 0:\n            remainder = num % 7\n            base7.append(str(remainder))  # Collect the remainder as a string\n            num //= 7  # Update num to the quotient\n        \n        # The base 7 representation is the reverse of the collected remainders\n        return ''.join(reversed(base7))",
+    "explanation": "The solution works by repeatedly dividing the input number by 7 and collecting the remainders, which represent the digits in base 7. \n\n1. **Negative Numbers**: If the input number is negative, we convert its absolute value and prepend a '-' sign to the result.\n2. **Zero Case**: If the input number is zero, we directly return \"0\" as its base 7 representation.\n3. **Loop for Conversion**: We use a while loop to divide the number by 7 until it becomes zero. In each iteration, we calculate the remainder (which gives us the next least significant digit in base 7) and append it to a list. After the loop, we reverse the list of digits to form the correct base 7 representation.\n4. **Joining Digits**: Finally, we join the list of string digits into a single string to return the result.\n\n**Time Complexity**: The time complexity of this solution is O(log7(num)), where num is the input number. This is because we are dividing the number by 7 in each iteration, which reduces the size of the number logarithmically.\n\n**Space Complexity**: The space complexity is O(log7(num)) as well, due to the storage of the digits in the list before joining them into a string.\n\nOverall, this solution efficiently converts an integer to its base 7 representation while handling edge cases appropriately."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:01:20"
+}

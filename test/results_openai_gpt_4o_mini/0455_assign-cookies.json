@@ -1,0 +1,58 @@
+{
+  "problem": {
+    "id": "455",
+    "frontend_id": "455",
+    "title": "Assign Cookies",
+    "description": "Assume you are an awesome parent and want to give your children some cookies. But, you should give each child at most one cookie.\nEach child i has a greed factor g[i], which is the minimum size of a cookie that the child will be content with; and each cookie j has a size s[j]. If s[j] >= g[i], we can assign the cookie j to the child i, and the child i will be content. Your goal is to maximize the number of your content children and output the maximum number.\n \nExample 1:\n\nInput: g = [1,2,3], s = [1,1]\nOutput: 1\nExplanation: You have 3 children and 2 cookies. The greed factors of 3 children are 1, 2, 3. \nAnd even though you have 2 cookies, since their size is both 1, you could only make the child whose greed factor is 1 content.\nYou need to output 1.\n\nExample 2:\n\nInput: g = [1,2], s = [1,2,3]\nOutput: 2\nExplanation: You have 2 children and 3 cookies. The greed factors of 2 children are 1, 2. \nYou have 3 cookies and their sizes are big enough to gratify all of the children, \nYou need to output 2.\n\n \nConstraints:\n\n1 <= g.length <= 3 * 104\n0 <= s.length <= 3 * 104\n1 <= g[i], s[j] <= 231 - 1\n\n \nNote: This question is the same as  2410: Maximum Matching of Players With Trainers.\n",
+    "difficulty": "Easy",
+    "examples": [
+      "[1,2,3]",
+      "[1,1]",
+      "[1,2]",
+      "[1,2,3]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "g": "[1,2,3]",
+          "s": "[1,1]"
+        },
+        "expected": "1"
+      },
+      {
+        "input": {
+          "g": "[1,2]",
+          "s": "[1,2,3]"
+        },
+        "expected": "2"
+      }
+    ],
+    "python_starter": "class Solution:\n    def findContentChildren(self, g: List[int], s: List[int]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "findContentChildren",
+      "params": [
+        {
+          "name": "g",
+          "type": "integer[]"
+        },
+        {
+          "name": "s",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def findContentChildren(self, g: List[int], s: List[int]) -> int:\n        # Sort the greed factors and cookie sizes\n        g.sort()\n        s.sort()\n        \n        # Initialize pointers for children and cookies\n        child_i = 0\n        cookie_j = 0\n        \n        # Count of content children\n        content_children = 0\n        \n        # Iterate while there are children and cookies left\n        while child_i < len(g) and cookie_j < len(s):\n            # If the current cookie can satisfy the current child's greed\n            if s[cookie_j] >= g[child_i]:\n                content_children += 1  # This child is content\n                child_i += 1  # Move to the next child\n            # Move to the next cookie regardless\n            cookie_j += 1\n        \n        return content_children",
+    "explanation": "The solution uses a greedy approach to maximize the number of content children. By sorting both the greed factors and the cookie sizes, we can efficiently match cookies to children. \n\n1. **Sorting**: Sorting both lists takes O(n log n) time, where n is the length of the longer list (either `g` or `s`).\n2. **Two-pointer technique**: The while loop iterates through both lists, which takes O(n + m) time, where n is the number of children and m is the number of cookies.\n\nThus, the overall time complexity of the solution is O(n log n + m log m), which is dominated by the sorting step. The space complexity is O(1) since we are using a constant amount of extra space for the pointers and the count.\n\nThis approach ensures that we efficiently find the maximum number of content children by always trying to satisfy the least greedy child with the smallest available cookie that meets their needs."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 1\nTest case 2:\n[PASS] Test passed: 2\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:57"
+}

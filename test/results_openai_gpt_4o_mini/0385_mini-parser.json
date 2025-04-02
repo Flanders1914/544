@@ -1,0 +1,51 @@
+{
+  "problem": {
+    "id": "385",
+    "frontend_id": "385",
+    "title": "Mini Parser",
+    "description": "Given a string s represents the serialization of a nested list, implement a parser to deserialize it and return the deserialized NestedInteger.\nEach element is either an integer or a list whose elements may also be integers or other lists.\n \nExample 1:\n\nInput: s = \"324\"\nOutput: 324\nExplanation: You should return a NestedInteger object which contains a single integer 324.\n\nExample 2:\n\nInput: s = \"[123,[456,[789]]]\"\nOutput: [123,[456,[789]]]\nExplanation: Return a NestedInteger object containing a nested list with 2 elements:\n1. An integer containing value 123.\n2. A nested list containing two elements:\n    i.  An integer containing value 456.\n    ii. A nested list with one element:\n         a. An integer containing value 789\n\n \nConstraints:\n\n1 <= s.length <= 5 * 104\ns consists of digits, square brackets \"[]\", negative sign '-', and commas ','.\ns is the serialization of valid NestedInteger.\nAll the values in the input are in the range [-106, 106].\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "\"324\"",
+      "\"[123,[456,[789]]]\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "s": "\"324\""
+        },
+        "expected": "324"
+      },
+      {
+        "input": {
+          "s": "\"[123,[456,[789]]]\""
+        },
+        "expected": "[123,[456,[789]"
+      }
+    ],
+    "python_starter": "# \"\"\"\n# This is the interface that allows for creating nested lists.\n# You should not implement it, or speculate about its implementation\n# \"\"\"\n#class NestedInteger:\n#    def __init__(self, value=None):\n#        \"\"\"\n#        If value is not specified, initializes an empty list.\n#        Otherwise initializes a single integer equal to value.\n#        \"\"\"\n#\n#    def isInteger(self):\n#        \"\"\"\n#        @return True if this NestedInteger holds a single integer, rather than a nested list.\n#        :rtype bool\n#        \"\"\"\n#\n#    def add(self, elem):\n#        \"\"\"\n#        Set this NestedInteger to hold a nested list and adds a nested integer elem to it.\n#        :rtype void\n#        \"\"\"\n#\n#    def setInteger(self, value):\n#        \"\"\"\n#        Set this NestedInteger to hold a single integer equal to value.\n#        :rtype void\n#        \"\"\"\n#\n#    def getInteger(self):\n#        \"\"\"\n#        @return the single integer that this NestedInteger holds, if it holds a single integer\n#        Return None if this NestedInteger holds a nested list\n#        :rtype int\n#        \"\"\"\n#\n#    def getList(self):\n#        \"\"\"\n#        @return the nested list that this NestedInteger holds, if it holds a nested list\n#        Return None if this NestedInteger holds a single integer\n#        :rtype List[NestedInteger]\n#        \"\"\"\n\nclass Solution:\n    def deserialize(self, s: str) -> NestedInteger:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "deserialize",
+      "params": [
+        {
+          "name": "s",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "NestedInteger"
+      },
+      "manual": false
+    }
+  },
+  "solution": {
+    "code": "class NestedInteger:\n    def __init__(self, value=None):\n        if value is not None:\n            self.value = value\n            self.is_integer = True\n        else:\n            self.value = []\n            self.is_integer = False\n\n    def isInteger(self):\n        return self.is_integer\n\n    def add(self, elem):\n        if not self.is_integer:\n            self.value.append(elem)\n\n    def setInteger(self, value):\n        self.value = value\n        self.is_integer = True\n\n    def getInteger(self):\n        if self.is_integer:\n            return self.value\n        return None\n\n    def getList(self):\n        if not self.is_integer:\n            return self.value\n        return None\n\nclass Solution:\n    def deserialize(self, s: str) -> NestedInteger:\n        stack = []\n        current = NestedInteger()\n        num = ''\n        \n        for char in s:\n            if char.isdigit() or char == '-':\n                num += char  # Build the number\n            elif char == '[':\n                # Start a new NestedInteger\n                stack.append(current)\n                current = NestedInteger()\n            elif char == ']':\n                if num:\n                    current.setInteger(int(num))  # Set the last number\n                    num = ''\n                if stack:\n                    top = stack.pop()\n                    top.add(current)  # Add current NestedInteger to the top of the stack\n                    current = top  # Move back to the previous NestedInteger\n            elif char == ',':\n                if num:\n                    current.setInteger(int(num))  # Set the last number\n                    num = ''  # Reset number for next potential integer\n        \n        if num:  # If there's a number left at the end\n            current.setInteger(int(num))\n        \n        return current",
+    "explanation": "The provided solution implements a parser for deserializing a nested list from a string representation. The `deserialize` function processes the input string character by character, using a stack to manage the nested structure.\n\n1. **Initialization**: We start with an empty stack and a `current` `NestedInteger` object to build our result.\n\n2. **Character Processing**:\n   - **Digits and Negative Sign**: We build numbers by appending characters to the `num` string until we encounter a non-digit character.\n   - **Opening Bracket '['**: When we see '[', we push the current `NestedInteger` onto the stack and create a new one for the nested list.\n   - **Closing Bracket ']'**: On encountering ']', we check if there's a number to set, then pop the last `NestedInteger` from the stack and add the current one to it.\n   - **Comma ','**: This simply indicates the end of an element, allowing us to finalize any number being built.\n\n3. **Finalization**: After processing all characters, if there's a number left, we set it in the current `NestedInteger`. The final result is the `current` object, which represents the entire nested structure.\n\n**Time Complexity**: O(n), where n is the length of the input string, as we process each character once.\n\n**Space Complexity**: O(n) in the worst case for the stack, which can hold all `NestedInteger` objects in a deeply nested structure."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmpgmmburnn.py\", line 114\n    expected_1 = [123,[456,[789]\n                      ^\nSyntaxError: '[' was never closed\n"
+  },
+  "timestamp": "2025-04-01 18:00:52"
+}

@@ -1,0 +1,50 @@
+{
+  "problem": {
+    "id": "421",
+    "frontend_id": "421",
+    "title": "Maximum XOR of Two Numbers in an Array",
+    "description": "Given an integer array nums, return the maximum result of nums[i] XOR nums[j], where 0 <= i <= j < n.\n \nExample 1:\n\nInput: nums = [3,10,5,25,2,8]\nOutput: 28\nExplanation: The maximum result is 5 XOR 25 = 28.\n\nExample 2:\n\nInput: nums = [14,70,53,83,49,91,36,80,92,51,66,70]\nOutput: 127\n\n \nConstraints:\n\n1 <= nums.length <= 2 * 105\n0 <= nums[i] <= 231 - 1\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[3,10,5,25,2,8]",
+      "[14,70,53,83,49,91,36,80,92,51,66,70]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[3,10,5,25,2,8]"
+        },
+        "expected": "28"
+      },
+      {
+        "input": {
+          "nums": "[14,70,53,83,49,91,36,80,92,51,66,70]"
+        },
+        "expected": "127"
+      }
+    ],
+    "python_starter": "class Solution:\n    def findMaximumXOR(self, nums: List[int]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "findMaximumXOR",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass TrieNode:\n    def __init__(self):\n        self.children = {}\n        \nclass Trie:\n    def __init__(self):\n        self.root = TrieNode()\n        \n    def insert(self, num: int):\n        node = self.root\n        for i in range(31, -1, -1):  # Insert bits from 31 to 0\n            bit = (num >> i) & 1\n            if bit not in node.children:\n                node.children[bit] = TrieNode()\n            node = node.children[bit]\n    \n    def find_max_xor(self, num: int) -> int:\n        node = self.root\n        max_xor = 0\n        for i in range(31, -1, -1):\n            bit = (num >> i) & 1\n            # Try to take the opposite bit for maximum XOR\n            opposite_bit = 1 - bit\n            if opposite_bit in node.children:\n                max_xor |= (1 << i)  # Set the i-th bit of max_xor\n                node = node.children[opposite_bit]\n            else:\n                node = node.children[bit]\n        return max_xor\n\nclass Solution:\n    def findMaximumXOR(self, nums: List[int]) -> int:\n        trie = Trie()\n        max_xor = 0\n        \n        for num in nums:\n            trie.insert(num)\n        \n        for num in nums:\n            max_xor = max(max_xor, trie.find_max_xor(num))\n        \n        return max_xor",
+    "explanation": "The solution uses a Trie to store the binary representations of the numbers in the input array. Each number is represented as a 32-bit binary string, and we insert these bits into the Trie from the most significant bit (31) to the least significant bit (0).\n\n1. **Insertion**: For each number, we traverse the Trie and insert each bit. If a bit is not already present in the current node's children, we create a new TrieNode for that bit.\n\n2. **Finding Maximum XOR**: For each number, we traverse the Trie to find the number that maximizes the XOR. We do this by attempting to take the opposite bit at each level of the Trie. If the opposite bit exists, we take it (which contributes to maximizing the XOR), otherwise, we take the same bit.\n\n3. **Complexity**: The time complexity is O(N * L), where N is the number of elements in the array and L is the number of bits (32 in this case). The space complexity is O(N * L) as well, due to the storage of the Trie.\n\nThis method is efficient and works well within the given constraints, allowing us to find the maximum XOR of two numbers in the array effectively."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:55"
+}

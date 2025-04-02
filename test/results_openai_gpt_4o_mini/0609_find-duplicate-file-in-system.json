@@ -1,0 +1,44 @@
+{
+  "problem": {
+    "id": "609",
+    "frontend_id": "609",
+    "title": "Find Duplicate File in System",
+    "description": "Given a list paths of directory info, including the directory path, and all the files with contents in this directory, return all the duplicate files in the file system in terms of their paths. You may return the answer in any order.\nA group of duplicate files consists of at least two files that have the same content.\nA single directory info string in the input list has the following format:\n\n\"root/d1/d2/.../dm f1.txt(f1_content) f2.txt(f2_content) ... fn.txt(fn_content)\"\n\nIt means there are n files (f1.txt, f2.txt ... fn.txt) with content (f1_content, f2_content ... fn_content) respectively in the directory \"root/d1/d2/.../dm\". Note that n >= 1 and m >= 0. If m = 0, it means the directory is just the root directory.\nThe output is a list of groups of duplicate file paths. For each group, it contains all the file paths of the files that have the same content. A file path is a string that has the following format:\n\n\"directory_path/file_name.txt\"\n\n \nExample 1:\nInput: paths = [\"root/a 1.txt(abcd) 2.txt(efgh)\",\"root/c 3.txt(abcd)\",\"root/c/d 4.txt(efgh)\",\"root 4.txt(efgh)\"]\nOutput: [[\"root/a/2.txt\",\"root/c/d/4.txt\",\"root/4.txt\"],[\"root/a/1.txt\",\"root/c/3.txt\"]]\nExample 2:\nInput: paths = [\"root/a 1.txt(abcd) 2.txt(efgh)\",\"root/c 3.txt(abcd)\",\"root/c/d 4.txt(efgh)\"]\nOutput: [[\"root/a/2.txt\",\"root/c/d/4.txt\"],[\"root/a/1.txt\",\"root/c/3.txt\"]]\n\n \nConstraints:\n\n1 <= paths.length <= 2 * 104\n1 <= paths[i].length <= 3000\n1 <= sum(paths[i].length) <= 5 * 105\npaths[i] consist of English letters, digits, '/', '.', '(', ')', and ' '.\nYou may assume no files or directories share the same name in the same directory.\nYou may assume each given directory info represents a unique directory. A single blank space separates the directory path and file info.\n\n \nFollow up:\n\nImagine you are given a real file system, how will you search files? DFS or BFS?\nIf the file content is very large (GB level), how will you modify your solution?\nIf you can only read the file by 1kb each time, how will you modify your solution?\nWhat is the time complexity of your modified solution? What is the most time-consuming part and memory-consuming part of it? How to optimize?\nHow to make sure the duplicated files you find are not false positive?\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[\"root/a 1.txt(abcd) 2.txt(efgh)\",\"root/c 3.txt(abcd)\",\"root/c/d 4.txt(efgh)\",\"root 4.txt(efgh)\"]",
+      "[\"root/a 1.txt(abcd) 2.txt(efgh)\",\"root/c 3.txt(abcd)\",\"root/c/d 4.txt(efgh)\"]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "paths": "[\"root/a 1.txt(abcd) 2.txt(efgh)\",\"root/c 3.txt(abcd)\",\"root/c/d 4.txt(efgh)\",\"root 4.txt(efgh)\"]"
+        },
+        "expected": "[[root/a/2.txt,root/c/d/4.txt,root/4.txt]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def findDuplicate(self, paths: List[str]) -> List[List[str]]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "findDuplicate",
+      "params": [
+        {
+          "name": "paths",
+          "type": "string[]"
+        }
+      ],
+      "return": {
+        "type": "list<list<string>>"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\nfrom collections import defaultdict\n\nclass Solution:\n    def findDuplicate(self, paths: List[str]) -> List[List[str]]:\n        # Dictionary to hold content as key and list of file paths as value\n        content_map = defaultdict(list)\n        \n        # Iterate through each path in the input list\n        for path in paths:\n            # Split the path into directory and files\n            parts = path.split(' ')\n            directory = parts[0]\n            \n            # Iterate through each file in the directory\n            for file_info in parts[1:]:\n                # Split the file info to get filename and content\n                filename, content = file_info.split('(')\n                content = content[:-1]  # Remove the closing parenthesis\n                # Create the full file path\n                full_path = f\"{directory}/{filename}\"\n                # Append the full path to the list of paths for this content\n                content_map[content].append(full_path)\n        \n        # Prepare the result list for duplicate files\n        result = []\n        for paths in content_map.values():\n            if len(paths) > 1:  # Only consider duplicates\n                result.append(paths)\n        \n        return result",
+    "explanation": "The solution uses a dictionary (`content_map`) to map file contents to their respective file paths. The algorithm follows these steps:\n\n1. **Input Parsing**: Each string in the `paths` list is split into a directory and its files. The directory is stored separately, and each file is processed to extract its name and content.\n2. **Mapping Contents to Paths**: For each file, the content is used as a key in the dictionary, and the full path (constructed from the directory and filename) is appended to the list of paths for that content.\n3. **Finding Duplicates**: After processing all input strings, the dictionary is checked for keys (contents) that have more than one associated path. These are collected into the result list.\n4. **Output**: The result is returned as a list of lists, where each inner list contains paths of files that have the same content.\n\n### Time Complexity\n- The time complexity of this solution is O(N), where N is the total number of files across all directories. Each file is processed once, and dictionary operations (insertions and lookups) are average O(1).\n\n### Space Complexity\n- The space complexity is also O(N) in the worst case, as we may need to store all file paths in the dictionary if all files are unique.\n\nThis solution is efficient and handles the constraints provided in the problem statement effectively."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmprz5q0pg6.py\", line 69\n    expected_0 = [[root/a/2.txt,root/c/d/4.txt,root/4.txt]\n                           ^\nSyntaxError: invalid decimal literal\n"
+  },
+  "timestamp": "2025-04-01 18:01:28"
+}

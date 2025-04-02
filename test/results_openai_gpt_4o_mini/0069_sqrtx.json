@@ -1,0 +1,53 @@
+{
+  "problem": {
+    "id": "69",
+    "frontend_id": "69",
+    "title": "Sqrt(x)",
+    "description": "Given a non-negative integer x, return the square root of x rounded down to the nearest integer. The returned integer should be non-negative as well.\nYou must not use any built-in exponent function or operator.\n\nFor example, do not use pow(x, 0.5) in c++ or x ** 0.5 in python.\n\n \nExample 1:\n\nInput: x = 4\nOutput: 2\nExplanation: The square root of 4 is 2, so we return 2.\n\nExample 2:\n\nInput: x = 8\nOutput: 2\nExplanation: The square root of 8 is 2.82842..., and since we round it down to the nearest integer, 2 is returned.\n\n \nConstraints:\n\n0 <= x <= 231 - 1\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "4",
+      "8"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "x": "4"
+        },
+        "expected": "2"
+      },
+      {
+        "input": {
+          "x": "8"
+        },
+        "expected": "2"
+      }
+    ],
+    "python_starter": "class Solution:\n    def mySqrt(self, x: int) -> int:\n        ",
+    "hints": [
+      "Try exploring all integers. (Credits: @annujoshi)",
+      "Use the sorted property of integers to reduced the search space. (Credits: @annujoshi)"
+    ],
+    "meta_data": {
+      "name": "mySqrt",
+      "params": [
+        {
+          "name": "x",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def mySqrt(self, x: int) -> int:\n        if x < 2:\n            return x  # The square root of 0 is 0, and the square root of 1 is 1\n        \n        left, right = 2, x // 2  # Start searching between 2 and x//2\n        while left <= right:\n            mid = (left + right) // 2\n            mid_squared = mid * mid\n            \n            if mid_squared == x:\n                return mid  # Found the exact square root\n            elif mid_squared < x:\n                left = mid + 1  # Move to the right half\n            else:\n                right = mid - 1  # Move to the left half\n        \n        return right  # The right pointer will be at the largest integer whose square is <= x",
+    "explanation": "The solution uses a binary search algorithm to efficiently find the integer square root of `x`. The search space is initialized between `2` and `x // 2`, as the square root of any number greater than `1` will not exceed `x // 2`. \n\n1. **Base Case**: If `x` is less than `2`, we return `x` directly since the square roots of `0` and `1` are themselves.\n2. **Binary Search**: We calculate the midpoint and its square:\n   - If the square of the midpoint equals `x`, we return the midpoint.\n   - If the square is less than `x`, we adjust the left boundary to `mid + 1`.\n   - If the square is greater than `x`, we adjust the right boundary to `mid - 1`.\n3. **Termination**: The loop continues until `left` exceeds `right`. At this point, `right` will be the largest integer whose square is less than or equal to `x`, which we return.\n\n**Time Complexity**: The time complexity of this approach is O(log x) because we are halving the search space with each iteration.\n\n**Space Complexity**: The space complexity is O(1) since we are using a constant amount of space for variables."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 2\nTest case 2:\n[PASS] Test passed: 2\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:31"
+}

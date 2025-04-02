@@ -1,0 +1,49 @@
+{
+  "id": "602",
+  "frontend_id": "602",
+  "title": "Friend Requests II: Who Has the Most Friends",
+  "description": "Table: RequestAccepted\n\n+----------------+---------+\n| Column Name    | Type    |\n+----------------+---------+\n| requester_id   | int     |\n| accepter_id    | int     |\n| accept_date    | date    |\n+----------------+---------+\n(requester_id, accepter_id) is the primary key (combination of columns with unique values) for this table.\nThis table contains the ID of the user who sent the request, the ID of the user who received the request, and the date when the request was accepted.\n\n \nWrite a solution to find the people who have the most friends and the most friends number.\nThe test cases are generated so that only one person has the most friends.\nThe result format is in the following example.\n \nExample 1:\n\nInput: \nRequestAccepted table:\n+--------------+-------------+-------------+\n| requester_id | accepter_id | accept_date |\n+--------------+-------------+-------------+\n| 1            | 2           | 2016/06/03  |\n| 1            | 3           | 2016/06/08  |\n| 2            | 3           | 2016/06/08  |\n| 3            | 4           | 2016/06/09  |\n+--------------+-------------+-------------+\nOutput: \n+----+-----+\n| id | num |\n+----+-----+\n| 3  | 3   |\n+----+-----+\nExplanation: \nThe person with id 3 is a friend of people 1, 2, and 4, so he has three friends in total, which is the most number than any others.\n\n \nFollow up: In the real world, multiple people could have the same most number of friends. Could you find all these people in this case?\n",
+  "difficulty": "Medium",
+  "examples": [
+    "{\"headers\":{\"RequestAccepted\":[\"requester_id\",\"accepter_id\",\"accept_date\"]},\"rows\":{\"RequestAccepted\":[[1,2,\"2016/06/03\"],[1,3,\"2016/06/08\"],[2,3,\"2016/06/08\"],[3,4,\"2016/06/09\"]]}}"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "param0": "RequestAccepted table: +--------------+-------------+-------------+ | requester_id | accepter_id | accept_date | +--------------+-------------+-------------+ | 1            | 2           | 2016/06/03  | | 1            | 3           | 2016/06/08  | | 2            | 3           | 2016/06/08  | | 3            | 4           | 2016/06/09  | +--------------+-------------+-------------+"
+      },
+      "expected": "+----+-----+"
+    }
+  ],
+  "python_starter": null,
+  "hints": [
+    "Being friends is bidirectional. If you accept someone's adding friend request, both you and the other person will have one more friend."
+  ],
+  "meta_data": {
+    "mysql": [
+      "Create table If Not Exists RequestAccepted (requester_id int not null, accepter_id int null, accept_date date null)"
+    ],
+    "mssql": [
+      "Create table RequestAccepted (requester_id int not null, accepter_id int null, accept_date date null)"
+    ],
+    "oraclesql": [
+      "Create table RequestAccepted (requester_id int not null, accepter_id int null, accept_date date null)",
+      "Alter SESSION set NLS_DATE_FORMAT = 'YYYY/MM/DD'"
+    ],
+    "database": true,
+    "name": "most_friends",
+    "pythondata": [
+      "RequestAccepted = pd.DataFrame([], columns=['requester_id', 'accepter_id', 'accept_date']).astype({'requester_id':'Int64', 'accepter_id':'Int64', 'accept_date':'datetime64[ns]'})"
+    ],
+    "postgresql": [
+      "\nCreate table If Not Exists RequestAccepted (requester_id int not null, accepter_id int null, accept_date date null)"
+    ],
+    "database_schema": {
+      "RequestAccepted": {
+        "requester_id": "INT",
+        "accepter_id": "INT",
+        "accept_date": "DATE"
+      }
+    }
+  }
+}

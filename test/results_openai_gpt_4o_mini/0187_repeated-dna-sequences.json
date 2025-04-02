@@ -1,0 +1,44 @@
+{
+  "problem": {
+    "id": "187",
+    "frontend_id": "187",
+    "title": "Repeated DNA Sequences",
+    "description": "The DNA sequence is composed of a series of nucleotides abbreviated as 'A', 'C', 'G', and 'T'.\n\nFor example, \"ACGAATTCCG\" is a DNA sequence.\n\nWhen studying DNA, it is useful to identify repeated sequences within the DNA.\nGiven a string s that represents a DNA sequence, return all the 10-letter-long sequences (substrings) that occur more than once in a DNA molecule. You may return the answer in any order.\n \nExample 1:\nInput: s = \"AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT\"\nOutput: [\"AAAAACCCCC\",\"CCCCCAAAAA\"]\nExample 2:\nInput: s = \"AAAAAAAAAAAAA\"\nOutput: [\"AAAAAAAAAA\"]\n\n \nConstraints:\n\n1 <= s.length <= 105\ns[i] is either 'A', 'C', 'G', or 'T'.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "\"AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT\"",
+      "\"AAAAAAAAAAAAA\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "s": "\"AAAAACCCCCAAAAACCCCCCAAAAAGGGTTT\""
+        },
+        "expected": "[AAAAACCCCC,CCCCCAAAAA]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def findRepeatedDnaSequences(self, s: str) -> List[str]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "findRepeatedDnaSequences",
+      "params": [
+        {
+          "name": "s",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "list<string>"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def findRepeatedDnaSequences(self, s: str) -> List[str]:\n        seen = set()  # To track seen sequences\n        repeated = set()  # To track repeated sequences\n        \n        # Loop through the string to extract 10-letter-long sequences\n        for i in range(len(s) - 9):  # len(s) - 9 to ensure we can get a full 10-letter substring\n            sequence = s[i:i + 10]  # Extract the 10-letter substring\n            if sequence in seen:\n                repeated.add(sequence)  # Add to repeated if already seen\n            else:\n                seen.add(sequence)  # Add to seen if not seen before\n        \n        return list(repeated)  # Convert the set to a list and return",
+    "explanation": "The solution uses a sliding window technique to efficiently find all 10-letter-long sequences in the given DNA string. The algorithm works as follows:\n\n1. **Initialization**: Two sets are initialized: `seen` to keep track of sequences that have been encountered, and `repeated` to store sequences that occur more than once.\n\n2. **Looping through the string**: The loop runs from the start of the string to `len(s) - 9`, ensuring that we can extract a full 10-letter substring. For each index `i`, we extract the substring `s[i:i + 10]`.\n\n3. **Checking for repetitions**: \n   - If the substring is already in the `seen` set, it means we have encountered it before, so we add it to the `repeated` set.\n   - If it is not in the `seen` set, we add it to the `seen` set for future reference.\n\n4. **Returning results**: Finally, we convert the `repeated` set to a list and return it.\n\n**Time Complexity**: O(n), where n is the length of the string. We make a single pass through the string, and each substring extraction and set operation is O(1) on average.\n\n**Space Complexity**: O(m), where m is the number of unique 10-letter sequences. In the worst case, if all sequences are unique, we could store up to 4^10 (1,048,576) sequences, but this is unlikely in practical scenarios.\n\nThis solution is efficient and straightforward, making it suitable for the problem constraints."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:40"
+}

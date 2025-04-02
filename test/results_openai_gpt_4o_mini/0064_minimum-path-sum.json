@@ -1,0 +1,50 @@
+{
+  "problem": {
+    "id": "64",
+    "frontend_id": "64",
+    "title": "Minimum Path Sum",
+    "description": "Given a m x n grid filled with non-negative numbers, find a path from top left to bottom right, which minimizes the sum of all numbers along its path.\nNote: You can only move either down or right at any point in time.\n \nExample 1:\n\n\nInput: grid = [[1,3,1],[1,5,1],[4,2,1]]\nOutput: 7\nExplanation: Because the path 1 → 3 → 1 → 1 → 1 minimizes the sum.\n\nExample 2:\n\nInput: grid = [[1,2,3],[4,5,6]]\nOutput: 12\n\n \nConstraints:\n\nm == grid.length\nn == grid[i].length\n1 <= m, n <= 200\n0 <= grid[i][j] <= 200\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[[1,3,1],[1,5,1],[4,2,1]]",
+      "[[1,2,3],[4,5,6]]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "grid": "[[1,3,1]"
+        },
+        "expected": "7"
+      },
+      {
+        "input": {
+          "grid": "[[1,2,3]"
+        },
+        "expected": "12"
+      }
+    ],
+    "python_starter": "class Solution:\n    def minPathSum(self, grid: List[List[int]]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "minPathSum",
+      "params": [
+        {
+          "name": "grid",
+          "type": "integer[][]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def minPathSum(self, grid: List[List[int]]) -> int:\n        if not grid or not grid[0]:\n            return 0\n        \n        m, n = len(grid), len(grid[0])\n        \n        # Initialize the first cell\n        for i in range(m):\n            for j in range(n):\n                if i == 0 and j == 0:\n                    continue  # Skip the first cell\n                # If we're in the first row, we can only come from the left\n                if i == 0:\n                    grid[i][j] += grid[i][j - 1]\n                # If we're in the first column, we can only come from above\n                elif j == 0:\n                    grid[i][j] += grid[i - 1][j]\n                # Otherwise, take the minimum from the top or left\n                else:\n                    grid[i][j] += min(grid[i - 1][j], grid[i][j - 1])\n        \n        # The bottom-right corner contains the minimum path sum\n        return grid[m - 1][n - 1]",
+    "explanation": "The solution uses dynamic programming to compute the minimum path sum in a grid. We modify the input grid to store the minimum path sums directly, which saves space and avoids the need for a separate DP array.\n\n1. **Initialization**: We start by checking if the grid is empty. If it is, we return 0. We then get the dimensions of the grid (m x n).\n\n2. **Filling the Grid**: We iterate through each cell in the grid:\n   - For the top-left cell (0, 0), we do nothing since it is our starting point.\n   - For the first row, each cell can only be reached from the left, so we add the value from the left cell.\n   - For the first column, each cell can only be reached from above, so we add the value from the above cell.\n   - For all other cells, we take the minimum of the values from the cell above and the cell to the left, and add the current cell's value.\n\n3. **Result**: The minimum path sum to reach the bottom-right corner of the grid is stored in `grid[m-1][n-1]`, which we return.\n\n**Time Complexity**: O(m * n), where m is the number of rows and n is the number of columns in the grid. We visit each cell exactly once.\n\n**Space Complexity**: O(1) if we consider the input grid as the space used, since we are modifying it in place. Otherwise, it would be O(m * n) if we used a separate DP array."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmpecfmr9il.py\", line 62\n    input_0_0 = [[1,3,1]\n                 ^^^^^^^\nSyntaxError: invalid syntax. Perhaps you forgot a comma?\n"
+  },
+  "timestamp": "2025-04-01 18:00:30"
+}

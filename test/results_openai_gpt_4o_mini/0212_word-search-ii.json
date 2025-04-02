@@ -1,0 +1,54 @@
+{
+  "problem": {
+    "id": "212",
+    "frontend_id": "212",
+    "title": "Word Search II",
+    "description": "Given an m x n board of characters and a list of strings words, return all words on the board.\nEach word must be constructed from letters of sequentially adjacent cells, where adjacent cells are horizontally or vertically neighboring. The same letter cell may not be used more than once in a word.\n \nExample 1:\n\n\nInput: board = [[\"o\",\"a\",\"a\",\"n\"],[\"e\",\"t\",\"a\",\"e\"],[\"i\",\"h\",\"k\",\"r\"],[\"i\",\"f\",\"l\",\"v\"]], words = [\"oath\",\"pea\",\"eat\",\"rain\"]\nOutput: [\"eat\",\"oath\"]\n\nExample 2:\n\n\nInput: board = [[\"a\",\"b\"],[\"c\",\"d\"]], words = [\"abcb\"]\nOutput: []\n\n \nConstraints:\n\nm == board.length\nn == board[i].length\n1 <= m, n <= 12\nboard[i][j] is a lowercase English letter.\n1 <= words.length <= 3 * 104\n1 <= words[i].length <= 10\nwords[i] consists of lowercase English letters.\nAll the strings of words are unique.\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "[[\"o\",\"a\",\"a\",\"n\"],[\"e\",\"t\",\"a\",\"e\"],[\"i\",\"h\",\"k\",\"r\"],[\"i\",\"f\",\"l\",\"v\"]]",
+      "[\"oath\",\"pea\",\"eat\",\"rain\"]",
+      "[[\"a\",\"b\"],[\"c\",\"d\"]]",
+      "[\"abcb\"]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "board": "[[\"o\",\"a\",\"a\",\"n\"]",
+          "words": "[\"oath\",\"pea\",\"eat\",\"rain\"]"
+        },
+        "expected": "[eat,oath]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:\n        ",
+    "hints": [
+      "You would need to optimize your backtracking to pass the larger test. Could you stop backtracking earlier?",
+      "If the current candidate does not exist in all words&#39; prefix, you could stop backtracking immediately. What kind of data structure could answer such query efficiently? Does a hash table work? Why or why not? How about a Trie? If you would like to learn how to implement a basic trie, please work on this problem: <a href=\"https://leetcode.com/problems/implement-trie-prefix-tree/\">Implement Trie (Prefix Tree)</a> first."
+    ],
+    "meta_data": {
+      "name": "findWords",
+      "params": [
+        {
+          "name": "board",
+          "type": "character[][]"
+        },
+        {
+          "name": "words",
+          "type": "string[]"
+        }
+      ],
+      "return": {
+        "type": "list<string>"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass TrieNode:\n    def __init__(self):\n        self.children = {}\n        self.is_end_of_word = False\n\nclass Trie:\n    def __init__(self):\n        self.root = TrieNode()\n    \n    def insert(self, word: str):\n        node = self.root\n        for char in word:\n            if char not in node.children:\n                node.children[char] = TrieNode()\n            node = node.children[char]\n        node.is_end_of_word = True\n\nclass Solution:\n    def findWords(self, board: List[List[str]], words: List[str]) -> List[str]:\n        if not board or not board[0]:\n            return []\n        \n        # Build the Trie\n        trie = Trie()\n        for word in words:\n            trie.insert(word)\n        \n        self.result = set()\n        self.rows, self.cols = len(board), len(board[0])\n        \n        # Directions for moving in the board\n        directions = [(0, 1), (1, 0), (0, -1), (-1, 0)]\n        \n        def dfs(x: int, y: int, node: TrieNode, path: str):\n            if node.is_end_of_word:\n                self.result.add(path)\n                node.is_end_of_word = False  # Avoid duplicate entries\n            \n            # Mark the cell as visited\n            temp = board[x][y]\n            board[x][y] = '#'\n            \n            for dx, dy in directions:\n                nx, ny = x + dx, y + dy\n                if 0 <= nx < self.rows and 0 <= ny < self.cols and board[nx][ny] in node.children:\n                    dfs(nx, ny, node.children[board[nx][ny]], path + board[nx][ny])\n            \n            # Restore the cell\n            board[x][y] = temp\n        \n        # Start DFS from each cell\n        for i in range(self.rows):\n            for j in range(self.cols):\n                if board[i][j] in trie.root.children:\n                    dfs(i, j, trie.root.children[board[i][j]], board[i][j])\n        \n        return list(self.result)",
+    "explanation": "The solution begins by defining a `Trie` and `TrieNode` class to facilitate the storage and retrieval of words. The `findWords` method constructs the Trie from the list of words, then initializes a set to store the found words and defines the dimensions of the board.\n\nThe DFS function is defined to explore the board. It checks if the current node in the Trie corresponds to a valid word and adds it to the result set if it does. The function marks the current cell as visited by replacing its character with a placeholder (`'#'`) to prevent revisiting during the current path. After exploring all possible directions from the current cell, it restores the original character.\n\nThe main loop iterates through each cell in the board, initiating a DFS if the cell's character is present in the Trie. Finally, the function returns the list of found words.\n\n**Time Complexity**: O(N * M * 4^L), where N is the number of rows, M is the number of columns, and L is the maximum length of the words. This accounts for the DFS exploration of each cell and the branching factor of 4 (for the four possible directions).\n\n**Space Complexity**: O(W * L) for the Trie, where W is the number of words and L is the average length of the"
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmpzyj3aifo.py\", line 95\n    input_0_0 = [[\"o\",\"a\",\"a\",\"n\"]\n                ^\nSyntaxError: '[' was never closed\n"
+  },
+  "timestamp": "2025-04-01 18:00:42"
+}

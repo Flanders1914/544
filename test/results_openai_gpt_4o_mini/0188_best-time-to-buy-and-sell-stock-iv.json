@@ -1,0 +1,58 @@
+{
+  "problem": {
+    "id": "188",
+    "frontend_id": "188",
+    "title": "Best Time to Buy and Sell Stock IV",
+    "description": "You are given an integer array prices where prices[i] is the price of a given stock on the ith day, and an integer k.\nFind the maximum profit you can achieve. You may complete at most k transactions: i.e. you may buy at most k times and sell at most k times.\nNote: You may not engage in multiple transactions simultaneously (i.e., you must sell the stock before you buy again).\n \nExample 1:\n\nInput: k = 2, prices = [2,4,1]\nOutput: 2\nExplanation: Buy on day 1 (price = 2) and sell on day 2 (price = 4), profit = 4-2 = 2.\n\nExample 2:\n\nInput: k = 2, prices = [3,2,6,5,0,3]\nOutput: 7\nExplanation: Buy on day 2 (price = 2) and sell on day 3 (price = 6), profit = 6-2 = 4. Then buy on day 5 (price = 0) and sell on day 6 (price = 3), profit = 3-0 = 3.\n\n \nConstraints:\n\n1 <= k <= 100\n1 <= prices.length <= 1000\n0 <= prices[i] <= 1000\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "2",
+      "[2,4,1]",
+      "2",
+      "[3,2,6,5,0,3]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "k": "2",
+          "prices": "[2,4,1]"
+        },
+        "expected": "2"
+      },
+      {
+        "input": {
+          "k": "2",
+          "prices": "[3,2,6,5,0,3]"
+        },
+        "expected": "7"
+      }
+    ],
+    "python_starter": "class Solution:\n    def maxProfit(self, k: int, prices: List[int]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "maxProfit",
+      "params": [
+        {
+          "name": "k",
+          "type": "integer"
+        },
+        {
+          "name": "prices",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def maxProfit(self, k: int, prices: List[int]) -> int:\n        n = len(prices)\n        if n == 0 or k == 0:\n            return 0\n        \n        # If k is greater than or equal to n/2, we can treat it as unlimited transactions\n        if k >= n // 2:\n            return sum(max(prices[i + 1] - prices[i], 0) for i in range(n - 1))\n        \n        # DP table\n        dp = [[0] * n for _ in range(k + 1)]\n        \n        for i in range(1, k + 1):\n            max_diff = -prices[0]  # This will store the maximum profit we could have made by buying\n            for j in range(1, n):\n                dp[i][j] = max(dp[i][j - 1], prices[j] + max_diff)\n                max_diff = max(max_diff, dp[i - 1][j] - prices[j])\n        \n        return dp[k][n - 1]",
+    "explanation": "The solution uses dynamic programming to efficiently calculate the maximum profit from stock transactions. The DP table `dp[i][j]` is constructed such that it holds the maximum profit achievable with at most `i` transactions by the end of day `j`.\n\n1. **Initialization**: \n   - We initialize a DP table with dimensions `(k+1) x n`, where `k` is the maximum number of transactions and `n` is the number of days (length of prices).\n   - The base case is handled where if there are no prices or transactions, the profit is 0.\n\n2. **Dynamic Programming Transition**:\n   - For each transaction `i`, we iterate through each day `j`. We calculate two scenarios:\n     - Not selling on day `j`, which gives us the profit from the previous day `dp[i][j-1]`.\n     - Selling on day `j`, which requires us to find the best day to buy before day `j`. We maintain a variable `max_diff` to track the maximum profit we could have made by buying on any previous day.\n\n3. **Complexity Analysis**:\n   - **Time Complexity**: O(k * n), where `k` is the number of transactions and `n` is the number of days. This is efficient given the constraints.\n   - **Space Complexity**: O(k * n) for the DP table. However, we can optimize this to O(n) by only keeping track of the last transaction's results.\n\nThe final result is found in `dp[k][n-1]`, which gives the maximum profit achievable with at most `k` transactions by the last day."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 2\nTest case 2:\n[PASS] Test passed: 7\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:40"
+}

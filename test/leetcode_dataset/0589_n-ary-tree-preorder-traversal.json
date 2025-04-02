@@ -1,0 +1,51 @@
+{
+  "id": "775",
+  "frontend_id": "589",
+  "title": "N-ary Tree Preorder Traversal",
+  "description": "Given the root of an n-ary tree, return the preorder traversal of its nodes' values.\nNary-Tree input serialization is represented in their level order traversal. Each group of children is separated by the null value (See examples)\n \nExample 1:\n\n\nInput: root = [1,null,3,2,4,null,5,6]\nOutput: [1,3,5,6,2,4]\n\nExample 2:\n\n\nInput: root = [1,null,2,3,4,5,null,null,6,7,null,8,null,9,10,null,null,11,null,12,null,13,null,null,14]\nOutput: [1,2,3,6,7,11,14,4,8,12,5,9,13,10]\n\n \nConstraints:\n\nThe number of nodes in the tree is in the range [0, 104].\n0 <= Node.val <= 104\nThe height of the n-ary tree is less than or equal to 1000.\n\n \nFollow up: Recursive solution is trivial, could you do it iteratively?\n",
+  "difficulty": "Easy",
+  "examples": [
+    "[1,null,3,2,4,null,5,6]",
+    "[1,null,2,3,4,5,null,null,6,7,null,8,null,9,10,null,null,11,null,12,null,13,null,null,14]"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "root": "[1,null,3,2,4,null,5,6]"
+      },
+      "expected": "[1,3,5,6,2,4]"
+    }
+  ],
+  "python_starter": "\"\"\"\n# Definition for a Node.\nclass Node:\n    def __init__(self, val: Optional[int] = None, children: Optional[List['Node']] = None):\n        self.val = val\n        self.children = children\n\"\"\"\n\nclass Solution:\n    def preorder(self, root: 'Node') -> List[int]:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "preorder",
+    "params": [
+      {
+        "name": "root",
+        "type": "integer"
+      }
+    ],
+    "return": {
+      "type": "list<integer>"
+    },
+    "languages": [
+      "cpp",
+      "java",
+      "python",
+      "csharp",
+      "javascript",
+      "python3",
+      "golang",
+      "ruby",
+      "c",
+      "kotlin",
+      "scala",
+      "php",
+      "swift",
+      "typescript"
+    ],
+    "manual": true,
+    "typescriptCustomType": "class _Node {\n    val: number\n    children: _Node[]\n\n    constructor(val?: number, children?: _Node[]) {\n        this.val = (val===undefined ? 0 : val)\n        this.children = (children===undefined ? [] : children)\n    }\n}\n"
+  }
+}

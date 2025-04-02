@@ -1,0 +1,45 @@
+{
+  "problem": {
+    "id": "227",
+    "frontend_id": "227",
+    "title": "Basic Calculator II",
+    "description": "Given a string s which represents an expression, evaluate this expression and return its value. \nThe integer division should truncate toward zero.\nYou may assume that the given expression is always valid. All intermediate results will be in the range of [-231, 231 - 1].\nNote: You are not allowed to use any built-in function which evaluates strings as mathematical expressions, such as eval().\n \nExample 1:\nInput: s = \"3+2*2\"\nOutput: 7\nExample 2:\nInput: s = \" 3/2 \"\nOutput: 1\nExample 3:\nInput: s = \" 3+5 / 2 \"\nOutput: 5\n\n \nConstraints:\n\n1 <= s.length <= 3 * 105\ns consists of integers and operators ('+', '-', '*', '/') separated by some number of spaces.\ns represents a valid expression.\nAll the integers in the expression are non-negative integers in the range [0, 231 - 1].\nThe answer is guaranteed to fit in a 32-bit integer.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "\"3+2*2\"",
+      "\" 3/2 \"",
+      "\" 3+5 / 2 \""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "s": "\"3+2*2\""
+        },
+        "expected": "7"
+      }
+    ],
+    "python_starter": "class Solution:\n    def calculate(self, s: str) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "calculate",
+      "params": [
+        {
+          "name": "s",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def calculate(self, s: str) -> int:\n        stack = []\n        current_number = 0\n        last_operator = '+'\n        \n        # Iterate through the string\n        for i in range(len(s)):\n            char = s[i]\n            \n            # If the character is a digit, build the current number\n            if char.isdigit():\n                current_number = current_number * 10 + int(char)\n            \n            # If the character is an operator or we are at the end of the string\n            if char in '+-*/' or i == len(s) - 1:\n                if last_operator == '+':\n                    stack.append(current_number)\n                elif last_operator == '-':\n                    stack.append(-current_number)\n                elif last_operator == '*':\n                    stack[-1] = stack[-1] * current_number\n                elif last_operator == '/':\n                    # Truncate towards zero\n                    stack[-1] = int(stack[-1] / current_number)\n                \n                # Update the last operator and reset the current number\n                last_operator = char\n                current_number = 0\n        \n        # Return the sum of the stack\n        return sum(stack)",
+    "explanation": "The provided solution uses a stack to evaluate the expression step by step. Here's a detailed breakdown of how it works:\n\n1. **Initialization**: We start with an empty stack, a variable `current_number` to build the current number from digits, and `last_operator` to keep track of the last operator encountered.\n\n2. **Iterating through the string**: We loop through each character in the string:\n   - If the character is a digit, we update `current_number` by multiplying the existing number by 10 and adding the new digit.\n   - If the character is an operator or we reach the end of the string, we process the `current_number` based on the `last_operator`:\n     - For `+`, we push the `current_number` onto the stack.\n     - For `-`, we push the negative of `current_number`.\n     - For `*`, we multiply the top of the stack with `current_number`.\n     - For `/`, we perform integer division and truncate towards zero.\n\n3. **Final Calculation**: After processing all characters, we return the sum of all numbers in the stack, which gives us the final result of the evaluated expression.\n\n**Time Complexity**: O(n), where n is the length of the string. We traverse the string once.\n\n**Space Complexity**: O(n) in the worst case, where all numbers are pushed onto the stack.\n\nThis approach efficiently evaluates the expression while adhering to the constraints provided in the problem statement."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 7\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:44"
+}

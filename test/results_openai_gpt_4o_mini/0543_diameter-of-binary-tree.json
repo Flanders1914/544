@@ -1,0 +1,50 @@
+{
+  "problem": {
+    "id": "543",
+    "frontend_id": "543",
+    "title": "Diameter of Binary Tree",
+    "description": "Given the root of a binary tree, return the length of the diameter of the tree.\nThe diameter of a binary tree is the length of the longest path between any two nodes in a tree. This path may or may not pass through the root.\nThe length of a path between two nodes is represented by the number of edges between them.\n \nExample 1:\n\n\nInput: root = [1,2,3,4,5]\nOutput: 3\nExplanation: 3 is the length of the path [4,2,1,3] or [5,2,1,3].\n\nExample 2:\n\nInput: root = [1,2]\nOutput: 1\n\n \nConstraints:\n\nThe number of nodes in the tree is in the range [1, 104].\n-100 <= Node.val <= 100\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "[1,2,3,4,5]",
+      "[1,2]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "root": "[1,2,3,4,5]"
+        },
+        "expected": "3"
+      },
+      {
+        "input": {
+          "root": "[1,2]"
+        },
+        "expected": "1"
+      }
+    ],
+    "python_starter": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "diameterOfBinaryTree",
+      "params": [
+        {
+          "name": "root",
+          "type": "TreeNode"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nclass Solution:\n    def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:\n        self.max_diameter = 0  # Initialize the maximum diameter\n\n        def depth(node):\n            if not node:\n                return 0  # Base case: the depth of a non-existent node is 0\n            \n            left_depth = depth(node.left)  # Recursively find the depth of the left subtree\n            right_depth = depth(node.right)  # Recursively find the depth of the right subtree\n            \n            # Update the maximum diameter found so far\n            self.max_diameter = max(self.max_diameter, left_depth + right_depth)\n            \n            # Return the depth of the current node\n            return max(left_depth, right_depth) + 1\n        \n        depth(root)  # Start the depth-first search from the root\n        return self.max_diameter  # Return the maximum diameter found",
+    "explanation": "The provided solution uses a depth-first search (DFS) approach to calculate the diameter of a binary tree. The key steps in the solution are as follows:\n\n1. **Initialization**: We initialize a variable `max_diameter` to keep track of the maximum diameter found during the traversal.\n\n2. **Depth Function**: The `depth` function is defined to compute the depth of a subtree rooted at a given node. It returns 0 for a null node (base case).\n\n3. **Recursive Calls**: For each node, we recursively calculate the depth of its left and right children. \n\n4. **Diameter Calculation**: After obtaining the depths of the left and right subtrees, we calculate the potential diameter at the current node as the sum of these two depths. We then update `max_diameter` if this value is greater than the previously recorded maximum.\n\n5. **Return Depth**: The function returns the depth of the current node, which is the maximum of the left and right depths plus one (to account for the current node).\n\n6. **Final Result**: After the DFS completes, we return the `max_diameter`, which represents the length of the longest path between any two nodes in the tree.\n\n**Time Complexity**: O(N), where N is the number of nodes in the tree, since we visit each node exactly once.\n\n**Space Complexity**: O(H), where H is the height of the tree, due to the recursion stack. In the worst case (a skewed tree), this can be O(N), but in a balanced tree, it would be O(log N)."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:01:23"
+}

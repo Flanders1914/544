@@ -1,0 +1,52 @@
+{
+  "id": "211",
+  "frontend_id": "211",
+  "title": "Design Add and Search Words Data Structure",
+  "description": "Design a data structure that supports adding new words and finding if a string matches any previously added string.\nImplement the WordDictionary class:\n\nWordDictionary() Initializes the object.\nvoid addWord(word) Adds word to the data structure, it can be matched later.\nbool search(word) Returns true if there is any string in the data structure that matches word or false otherwise. word may contain dots '.' where dots can be matched with any letter.\n\n \nExample:\n\nInput\n[\"WordDictionary\",\"addWord\",\"addWord\",\"addWord\",\"search\",\"search\",\"search\",\"search\"]\n[[],[\"bad\"],[\"dad\"],[\"mad\"],[\"pad\"],[\"bad\"],[\".ad\"],[\"b..\"]]\nOutput\n[null,null,null,null,false,true,true,true]\n\nExplanation\nWordDictionary wordDictionary = new WordDictionary();\nwordDictionary.addWord(\"bad\");\nwordDictionary.addWord(\"dad\");\nwordDictionary.addWord(\"mad\");\nwordDictionary.search(\"pad\"); // return False\nwordDictionary.search(\"bad\"); // return True\nwordDictionary.search(\".ad\"); // return True\nwordDictionary.search(\"b..\"); // return True\n\n \nConstraints:\n\n1 <= word.length <= 25\nword in addWord consists of lowercase English letters.\nword in search consist of '.' or lowercase English letters.\nThere will be at most 2 dots in word for search queries.\nAt most 104 calls will be made to addWord and search.\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "[\"WordDictionary\",\"addWord\",\"addWord\",\"addWord\",\"search\",\"search\",\"search\",\"search\"]",
+    "[[],[\"bad\"],[\"dad\"],[\"mad\"],[\"pad\"],[\"bad\"],[\".ad\"],[\"b..\"]]"
+  ],
+  "structured_test_cases": [],
+  "python_starter": "class WordDictionary:\n\n    def __init__(self):\n        \n\n    def addWord(self, word: str) -> None:\n        \n\n    def search(self, word: str) -> bool:\n        \n\n\n# Your WordDictionary object will be instantiated and called as such:\n# obj = WordDictionary()\n# obj.addWord(word)\n# param_2 = obj.search(word)",
+  "hints": [
+    "You should be familiar with how a Trie works. If not, please work on this problem: <a href=\"https://leetcode.com/problems/implement-trie-prefix-tree/\">Implement Trie (Prefix Tree)</a> first."
+  ],
+  "meta_data": {
+    "classname": "WordDictionary",
+    "constructor": {
+      "params": []
+    },
+    "methods": [
+      {
+        "params": [
+          {
+            "type": "string",
+            "name": "word"
+          }
+        ],
+        "name": "addWord",
+        "return": {
+          "type": "void"
+        }
+      },
+      {
+        "params": [
+          {
+            "type": "string",
+            "name": "word"
+          }
+        ],
+        "name": "search",
+        "return": {
+          "type": "boolean"
+        }
+      }
+    ],
+    "return": {
+      "type": "boolean"
+    },
+    "systemdesign": true
+  }
+}

@@ -1,0 +1,53 @@
+{
+  "problem": {
+    "id": "372",
+    "frontend_id": "372",
+    "title": "Super Pow",
+    "description": "Your task is to calculate ab mod 1337 where a is a positive integer and b is an extremely large positive integer given in the form of an array.\n \nExample 1:\n\nInput: a = 2, b = [3]\nOutput: 8\n\nExample 2:\n\nInput: a = 2, b = [1,0]\nOutput: 1024\n\nExample 3:\n\nInput: a = 1, b = [4,3,3,8,5,2]\nOutput: 1\n\n \nConstraints:\n\n1 <= a <= 231 - 1\n1 <= b.length <= 2000\n0 <= b[i] <= 9\nb does not contain leading zeros.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "2",
+      "[3]",
+      "2",
+      "[1,0]",
+      "1",
+      "[4,3,3,8,5,2]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "a": "2",
+          "b": "[3]"
+        },
+        "expected": "8"
+      }
+    ],
+    "python_starter": "class Solution:\n    def superPow(self, a: int, b: List[int]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "superPow",
+      "params": [
+        {
+          "name": "a",
+          "type": "integer"
+        },
+        {
+          "name": "b",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def superPow(self, a: int, b: List[int]) -> int:\n        MOD = 1337\n        \n        # Function to perform modular exponentiation\n        def mod_pow(x, n, mod):\n            result = 1\n            x = x % mod\n            while n > 0:\n                if n % 2 == 1:  # If n is odd\n                    result = (result * x) % mod\n                x = (x * x) % mod  # Square the base\n                n //= 2  # Divide n by 2\n            return result\n        \n        # Reduce a modulo 1337\n        a = a % MOD\n        \n        # Calculate the effective exponent\n        exponent = 0\n        for digit in b:\n            exponent = (exponent * 10 + digit) % 1140  # 1140 is φ(1337)\n        \n        # Calculate a^exponent % 1337\n        return mod_pow(a, exponent, MOD)",
+    "explanation": "The solution begins by defining a helper function `mod_pow` that performs modular exponentiation using the method of exponentiation by squaring. This method is efficient and allows us to compute \\( x^n \\mod \\text{mod} \\) in \\( O(\\log n) \\) time.\n\nNext, we reduce \\( a \\) modulo 1337 to simplify our calculations. We then compute the effective exponent by iterating through the digits of \\( b \\) and constructing the exponent modulo \\( \\phi(1337) \\) (which is 1140). This is crucial because of the properties of modular arithmetic, allowing us to handle the potentially large exponent represented by the array \\( b \\).\n\nFinally, we call the `mod_pow` function with the reduced base \\( a \\) and the computed exponent to get the result \\( a^b \\mod 1337 \\).\n\nThe time complexity of this solution is \\( O(k + \\log n) \\), where \\( k \\) is the length of the array \\( b \\) and \\( n \\) is the effective exponent. The space complexity is \\( O(1) \\) since we are using a constant amount of space for variables."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 8\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:51"
+}

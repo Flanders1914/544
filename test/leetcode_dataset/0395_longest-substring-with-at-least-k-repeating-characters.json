@@ -1,0 +1,47 @@
+{
+  "id": "395",
+  "frontend_id": "395",
+  "title": "Longest Substring with At Least K Repeating Characters",
+  "description": "Given a string s and an integer k, return the length of the longest substring of s such that the frequency of each character in this substring is greater than or equal to k.\nif no such substring exists, return 0.\n \nExample 1:\n\nInput: s = \"aaabb\", k = 3\nOutput: 3\nExplanation: The longest substring is \"aaa\", as 'a' is repeated 3 times.\n\nExample 2:\n\nInput: s = \"ababbc\", k = 2\nOutput: 5\nExplanation: The longest substring is \"ababb\", as 'a' is repeated 2 times and 'b' is repeated 3 times.\n\n \nConstraints:\n\n1 <= s.length <= 104\ns consists of only lowercase English letters.\n1 <= k <= 105\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "\"aaabb\"",
+    "3",
+    "\"ababbc\"",
+    "2"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "s": "\"aaabb\"",
+        "k": "3"
+      },
+      "expected": "3"
+    },
+    {
+      "input": {
+        "s": "\"ababbc\"",
+        "k": "2"
+      },
+      "expected": "5"
+    }
+  ],
+  "python_starter": "class Solution:\n    def longestSubstring(self, s: str, k: int) -> int:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "longestSubstring",
+    "params": [
+      {
+        "name": "s",
+        "type": "string"
+      },
+      {
+        "name": "k",
+        "type": "integer"
+      }
+    ],
+    "return": {
+      "type": "integer"
+    }
+  }
+}

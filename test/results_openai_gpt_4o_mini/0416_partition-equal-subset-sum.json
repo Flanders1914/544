@@ -1,0 +1,50 @@
+{
+  "problem": {
+    "id": "416",
+    "frontend_id": "416",
+    "title": "Partition Equal Subset Sum",
+    "description": "Given an integer array nums, return true if you can partition the array into two subsets such that the sum of the elements in both subsets is equal or false otherwise.\n \nExample 1:\n\nInput: nums = [1,5,11,5]\nOutput: true\nExplanation: The array can be partitioned as [1, 5, 5] and [11].\n\nExample 2:\n\nInput: nums = [1,2,3,5]\nOutput: false\nExplanation: The array cannot be partitioned into equal sum subsets.\n\n \nConstraints:\n\n1 <= nums.length <= 200\n1 <= nums[i] <= 100\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[1,5,11,5]",
+      "[1,2,3,5]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[1,5,11,5]"
+        },
+        "expected": "true"
+      },
+      {
+        "input": {
+          "nums": "[1,2,3,5]"
+        },
+        "expected": "false"
+      }
+    ],
+    "python_starter": "class Solution:\n    def canPartition(self, nums: List[int]) -> bool:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "canPartition",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def canPartition(self, nums: List[int]) -> bool:\n        total_sum = sum(nums)\n        \n        # If the total sum is odd, we cannot partition it into two equal subsets\n        if total_sum % 2 != 0:\n            return False\n        \n        target = total_sum // 2\n        n = len(nums)\n        \n        # Initialize a DP array\n        dp = [False] * (target + 1)\n        dp[0] = True  # A sum of 0 can always be formed\n        \n        # Update the DP array\n        for num in nums:\n            for j in range(target, num - 1, -1):\n                dp[j] = dp[j] or dp[j - num]\n        \n        return dp[target]",
+    "explanation": "The solution uses dynamic programming to determine if a subset with a sum equal to half of the total sum can be formed. \n\n1. **Calculate Total Sum**: First, we compute the total sum of the array. If this sum is odd, we return false immediately since two equal subsets cannot be formed.\n\n2. **Target Sum**: If the total sum is even, we set our target as half of the total sum.\n\n3. **Dynamic Programming Array**: We create a boolean array `dp` of size `target + 1`, initialized to false, except for `dp[0]` which is true (indicating that a sum of 0 can be achieved with an empty subset).\n\n4. **Filling the DP Array**: For each number in the input array, we iterate backwards through the `dp` array. For each possible sum `j`, we check if we can form that sum by either including the current number or not. This is done by setting `dp[j]` to true if `dp[j - num]` is true.\n\n5. **Final Check**: After processing all numbers, we check `dp[target]`. If it's true, it means we can form a subset with the required sum, and we return true; otherwise, we return false.\n\n**Time Complexity**: O(n * target), where n is the number of elements in the array and target is half of the total sum. \n\n**Space Complexity**: O(target), as we are using a 1D array of size `target + 1`."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: True\nTest case 2:\n[PASS] Test passed: False\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:54"
+}

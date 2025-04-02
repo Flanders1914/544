@@ -1,0 +1,68 @@
+{
+  "problem": {
+    "id": "380",
+    "frontend_id": "380",
+    "title": "Insert Delete GetRandom O(1)",
+    "description": "Implement the RandomizedSet class:\n\nRandomizedSet() Initializes the RandomizedSet object.\nbool insert(int val) Inserts an item val into the set if not present. Returns true if the item was not present, false otherwise.\nbool remove(int val) Removes an item val from the set if present. Returns true if the item was present, false otherwise.\nint getRandom() Returns a random element from the current set of elements (it's guaranteed that at least one element exists when this method is called). Each element must have the same probability of being returned.\n\nYou must implement the functions of the class such that each function works in average O(1) time complexity.\n \nExample 1:\n\nInput\n[\"RandomizedSet\", \"insert\", \"remove\", \"insert\", \"getRandom\", \"remove\", \"insert\", \"getRandom\"]\n[[], [1], [2], [2], [], [1], [2], []]\nOutput\n[null, true, false, true, 2, true, false, 2]\n\nExplanation\nRandomizedSet randomizedSet = new RandomizedSet();\nrandomizedSet.insert(1); // Inserts 1 to the set. Returns true as 1 was inserted successfully.\nrandomizedSet.remove(2); // Returns false as 2 does not exist in the set.\nrandomizedSet.insert(2); // Inserts 2 to the set, returns true. Set now contains [1,2].\nrandomizedSet.getRandom(); // getRandom() should return either 1 or 2 randomly.\nrandomizedSet.remove(1); // Removes 1 from the set, returns true. Set now contains [2].\nrandomizedSet.insert(2); // 2 was already in the set, so return false.\nrandomizedSet.getRandom(); // Since 2 is the only number in the set, getRandom() will always return 2.\n\n \nConstraints:\n\n-231 <= val <= 231 - 1\nAt most 2 * 105 calls will be made to insert, remove, and getRandom.\nThere will be at least one element in the data structure when getRandom is called.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[\"RandomizedSet\",\"insert\",\"remove\",\"insert\",\"getRandom\",\"remove\",\"insert\",\"getRandom\"]",
+      "[[],[1],[2],[2],[],[1],[2],[]]"
+    ],
+    "structured_test_cases": [],
+    "python_starter": "class RandomizedSet:\n\n    def __init__(self):\n        \n\n    def insert(self, val: int) -> bool:\n        \n\n    def remove(self, val: int) -> bool:\n        \n\n    def getRandom(self) -> int:\n        \n\n\n# Your RandomizedSet object will be instantiated and called as such:\n# obj = RandomizedSet()\n# param_1 = obj.insert(val)\n# param_2 = obj.remove(val)\n# param_3 = obj.getRandom()",
+    "hints": [],
+    "meta_data": {
+      "classname": "RandomizedSet",
+      "constructor": {
+        "params": []
+      },
+      "methods": [
+        {
+          "params": [
+            {
+              "type": "integer",
+              "name": "val"
+            }
+          ],
+          "name": "insert",
+          "return": {
+            "type": "boolean"
+          }
+        },
+        {
+          "params": [
+            {
+              "type": "integer",
+              "name": "val"
+            }
+          ],
+          "return": {
+            "type": "boolean"
+          },
+          "name": "remove"
+        },
+        {
+          "params": [],
+          "name": "getRandom",
+          "return": {
+            "type": "integer"
+          }
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      },
+      "systemdesign": true
+    }
+  },
+  "solution": {
+    "code": "import random\n\nclass RandomizedSet:\n\n    def __init__(self):\n        self.values = []  # List to store the values\n        self.index_map = {}  # Dictionary to map values to their indices\n\n    def insert(self, val: int) -> bool:\n        if val in self.index_map:\n            return False  # Value already exists\n        self.index_map[val] = len(self.values)  # Store index of the new value\n        self.values.append(val)  # Add value to the list\n        return True\n\n    def remove(self, val: int) -> bool:\n        if val not in self.index_map:\n            return False  # Value does not exist\n        # Get the index of the value to remove\n        index = self.index_map[val]\n        # Move the last element to the place of the element to remove\n        last_val = self.values[-1]\n        self.values[index] = last_val\n        self.index_map[last_val] = index  # Update the index of the last element\n        # Remove the last element\n        self.values.pop()\n        del self.index_map[val]  # Remove the value from the index map\n        return True\n\n    def getRandom(self) -> int:\n        return random.choice(self.values)  # Return a random element from the list",
+    "explanation": "The `RandomizedSet` class is designed to support three main operations efficiently:\n\n1. **Initialization**: The constructor initializes an empty list `values` to store the elements and a dictionary `index_map` to map each element to its index in the list.\n\n2. **Insert Operation**: The `insert` method checks if the value already exists in `index_map`. If it does not, it adds the value to `values` and records its index in `index_map`. This operation is O(1) because both the dictionary lookup and list append operations are O(1).\n\n3. **Remove Operation**: The `remove` method checks if the value exists in `index_map`. If it does, it retrieves the index of the value, swaps it with the last element in the list (to maintain the list's structure), and then removes the last element. The index of the last element is updated in `index_map`. This operation is also O(1) due to the constant time complexity of dictionary and list operations.\n\n4. **GetRandom Operation**: The `getRandom` method uses `random.choice()` to return a random element from the `values` list. This is O(1) since it directly accesses an index.\n\nOverall, the time complexity for each operation is O(1) on average, and the space complexity is O(n), where n is the number of elements in the set, due to the storage requirements of the list and dictionary."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\nTraceback (most recent call last):\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmp6d7sq337.py\", line 66, in <module>\n    expected_0 = safe_eval('[\"RandomizedSet\",\"insert\",\"remove\",\"insert\",\"getRandom\",\"remove\",\"insert\",\"getRandom\"]')\n                 ^^^^^^^^^\nNameError: name 'safe_eval' is not defined\n"
+  },
+  "timestamp": "2025-04-01 18:00:51"
+}

@@ -1,0 +1,39 @@
+{
+  "id": "453",
+  "frontend_id": "453",
+  "title": "Minimum Moves to Equal Array Elements",
+  "description": "Given an integer array nums of size n, return the minimum number of moves required to make all array elements equal.\nIn one move, you can increment n - 1 elements of the array by 1.\n \nExample 1:\n\nInput: nums = [1,2,3]\nOutput: 3\nExplanation: Only three moves are needed (remember each move increments two elements):\n[1,2,3]  =>  [2,3,3]  =>  [3,4,3]  =>  [4,4,4]\n\nExample 2:\n\nInput: nums = [1,1,1]\nOutput: 0\n\n \nConstraints:\n\nn == nums.length\n1 <= nums.length <= 105\n-109 <= nums[i] <= 109\nThe answer is guaranteed to fit in a 32-bit integer.\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "[1,2,3]",
+    "[1,1,1]"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "nums": "[1,2,3]"
+      },
+      "expected": "3"
+    },
+    {
+      "input": {
+        "nums": "[1,1,1]"
+      },
+      "expected": "0"
+    }
+  ],
+  "python_starter": "class Solution:\n    def minMoves(self, nums: List[int]) -> int:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "minMoves",
+    "params": [
+      {
+        "name": "nums",
+        "type": "integer[]"
+      }
+    ],
+    "return": {
+      "type": "integer"
+    }
+  }
+}

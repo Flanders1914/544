@@ -1,0 +1,57 @@
+{
+  "problem": {
+    "id": "335",
+    "frontend_id": "335",
+    "title": "Self Crossing",
+    "description": "You are given an array of integers distance.\nYou start at the point (0, 0) on an X-Y plane, and you move distance[0] meters to the north, then distance[1] meters to the west, distance[2] meters to the south, distance[3] meters to the east, and so on. In other words, after each move, your direction changes counter-clockwise.\nReturn true if your path crosses itself or false if it does not.\n \nExample 1:\n\n\nInput: distance = [2,1,1,2]\nOutput: true\nExplanation: The path crosses itself at the point (0, 1).\n\nExample 2:\n\n\nInput: distance = [1,2,3,4]\nOutput: false\nExplanation: The path does not cross itself at any point.\n\nExample 3:\n\n\nInput: distance = [1,1,1,2,1]\nOutput: true\nExplanation: The path crosses itself at the point (0, 0).\n\n \nConstraints:\n\n1 <= distance.length <= 105\n1 <= distance[i] <= 105\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "[2,1,1,2]",
+      "[1,2,3,4]",
+      "[1,1,1,2,1]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "distance": "[2,1,1,2]"
+        },
+        "expected": "true"
+      },
+      {
+        "input": {
+          "distance": "[1,2,3,4]"
+        },
+        "expected": "false"
+      },
+      {
+        "input": {
+          "distance": "[1,1,1,2,1]"
+        },
+        "expected": "true"
+      }
+    ],
+    "python_starter": "class Solution:\n    def isSelfCrossing(self, distance: List[int]) -> bool:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "isSelfCrossing",
+      "params": [
+        {
+          "name": "distance",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def isSelfCrossing(self, distance: List[int]) -> bool:\n        n = len(distance)\n        \n        for i in range(3, n):\n            # Check for the first condition\n            if distance[i] >= distance[i - 2] and distance[i - 1] <= distance[i - 3]:\n                return True\n            \n            # Check for the second condition\n            if i >= 4 and distance[i - 1] == distance[i - 3] and distance[i] + distance[i - 4] >= distance[i - 2]:\n                return True\n            \n            # Check for the third condition\n            if i >= 5 and distance[i - 2] > distance[i - 4] and distance[i] + distance[i - 4] >= distance[i - 2] and distance[i - 1] + distance[i - 3] >= distance[i - 1]:\n                return True\n        \n        return False",
+    "explanation": "The solution iterates through the `distance` array starting from the fourth element (index 3) and checks for three specific conditions that indicate a crossing of the path. \n\n1. **First Condition**: If the current distance is greater than or equal to the distance two steps back and the previous distance is less than or equal to the distance three steps back, it indicates a crossing.\n2. **Second Condition**: If we have at least five moves, and the previous distance equals the distance three steps back, and the sum of the current distance and the distance four steps back is greater than or equal to the distance two steps back, it indicates a crossing.\n3. **Third Condition**: If we have at least six moves, and the distance two steps back is greater than the distance four steps back, and the sum of the current distance and the distance four steps back is greater than or equal to the distance two steps back, and the sum of the previous distance and the distance three steps back is greater than or equal to the previous distance, it indicates a crossing.\n\nThe time complexity of this solution is O(n), where n is the length of the distance array, as we only make a single pass through the array. The space complexity is O(1) since we are using a constant amount of space for variables. \n\nThus, the solution is efficient and works well within the given constraints."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: True\nTest case 2:\n[PASS] Test passed: False\nTest case 3:\n[PASS] Test passed: True\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:49"
+}

@@ -1,0 +1,72 @@
+{
+  "problem": {
+    "id": "76",
+    "frontend_id": "76",
+    "title": "Minimum Window Substring",
+    "description": "Given two strings s and t of lengths m and n respectively, return the minimum window substring of s such that every character in t (including duplicates) is included in the window. If there is no such substring, return the empty string \"\".\nThe testcases will be generated such that the answer is unique.\n \nExample 1:\n\nInput: s = \"ADOBECODEBANC\", t = \"ABC\"\nOutput: \"BANC\"\nExplanation: The minimum window substring \"BANC\" includes 'A', 'B', and 'C' from string t.\n\nExample 2:\n\nInput: s = \"a\", t = \"a\"\nOutput: \"a\"\nExplanation: The entire string s is the minimum window.\n\nExample 3:\n\nInput: s = \"a\", t = \"aa\"\nOutput: \"\"\nExplanation: Both 'a's from t must be included in the window.\nSince the largest window of s only has one 'a', return empty string.\n\n \nConstraints:\n\nm == s.length\nn == t.length\n1 <= m, n <= 105\ns and t consist of uppercase and lowercase English letters.\n\n \nFollow up: Could you find an algorithm that runs in O(m + n) time?\n",
+    "difficulty": "Hard",
+    "examples": [
+      "\"ADOBECODEBANC\"",
+      "\"ABC\"",
+      "\"a\"",
+      "\"a\"",
+      "\"a\"",
+      "\"aa\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "s": "\"ADOBECODEBANC\"",
+          "t": "\"ABC\""
+        },
+        "expected": "BANC"
+      },
+      {
+        "input": {
+          "s": "\"a\"",
+          "t": "\"a\""
+        },
+        "expected": "a"
+      },
+      {
+        "input": {
+          "s": "\"a\"",
+          "t": "\"aa\""
+        },
+        "expected": ""
+      }
+    ],
+    "python_starter": "class Solution:\n    def minWindow(self, s: str, t: str) -> str:\n        ",
+    "hints": [
+      "Use two pointers to create a window of letters in s, which would have all the characters from t.",
+      "Expand the right pointer until all the characters of t are covered.",
+      "Once all the characters are covered, move the left pointer and ensure that all the characters are still covered to minimize the subarray size.",
+      "Continue expanding the right and left pointers until you reach the end of s."
+    ],
+    "meta_data": {
+      "name": "minWindow",
+      "params": [
+        {
+          "name": "s",
+          "type": "string"
+        },
+        {
+          "name": "t",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "string"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def minWindow(self, s: str, t: str) -> str:\n        from collections import Counter, defaultdict\n        \n        if not t or not s:\n            return \"\"\n        \n        # Dictionary to keep track of the count of characters in t\n        dict_t = Counter(t)\n        required = len(dict_t)  # Number of unique characters in t that need to be present in the window\n        \n        # Left and right pointer\n        l, r = 0, 0\n        \n        # Formed is used to keep track of how many unique characters in t are currently in the window\n        formed = 0\n        \n        # Dictionary to keep track of the count of characters in the current window\n        window_counts = defaultdict(int)\n        \n        # Result tuple (length of window, left, right)\n        ans = float(\"inf\"), None, None\n        \n        while r < len(s):\n            character = s[r]\n            window_counts[character] += 1\n            \n            # Check if the current character added is a desired character and if the count matches\n            if character in dict_t and window_counts[character] == dict_t[character]:\n                formed += 1\n            \n            # Try to contract the window until it ceases to be 'desirable'\n            while l <= r and formed == required:\n                character = s[l]\n                \n                # Save the smallest window and update the answer\n                if r - l + 1 < ans[0]:\n                    ans = (r - l + 1, l, r)\n                \n                # The character at the position pointed by the left pointer is no longer a part of the window\n                window_counts[character] -= 1\n                if character in dict_t and window_counts[character] < dict_t[character]:\n                    formed -= 1\n                \n                # Move left pointer ahead\n                l += 1\n            \n            # Keep expanding the window by moving right pointer\n            r += 1\n        \n        # Return the minimum window substring or empty string if no window found\n        return \"\" if ans[0] == float(\"inf\") else s[ans[1]:ans[2] + 1]",
+    "explanation": "The solution uses a sliding window approach to efficiently find the minimum window substring that contains all characters from string `t`. \n\n1. **Initialization**: We first create a frequency dictionary for the characters in `t` and initialize pointers for the sliding window.\n2. **Expanding the Window**: We expand the right pointer to include characters from `s` into our current window and update our counts.\n3. **Checking Validity**: Whenever we have a valid window (i.e., all characters from `t` are present in the current window), we attempt to contract the window from the left to find the minimum length.\n4. **Updating the Result**: If we find a smaller valid window during contraction, we update our result.\n5. **Final Output**: After processing all characters in `s`, we return the smallest valid window found or an empty string if no valid window exists.\n\n**Time Complexity**: O(m + n), where m is the length of `s` and n is the length of `t`, since each character is processed at most twice.\n\n**Space Complexity**: O(n) for storing the frequency counts of characters in `t` and the current window"
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:32"
+}

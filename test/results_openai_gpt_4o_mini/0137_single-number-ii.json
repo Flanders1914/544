@@ -1,0 +1,44 @@
+{
+  "problem": {
+    "id": "137",
+    "frontend_id": "137",
+    "title": "Single Number II",
+    "description": "Given an integer array nums where every element appears three times except for one, which appears exactly once. Find the single element and return it.\nYou must implement a solution with a linear runtime complexity and use only constant extra space.\n \nExample 1:\nInput: nums = [2,2,3,2]\nOutput: 3\nExample 2:\nInput: nums = [0,1,0,1,0,1,99]\nOutput: 99\n\n \nConstraints:\n\n1 <= nums.length <= 3 * 104\n-231 <= nums[i] <= 231 - 1\nEach element in nums appears exactly three times except for one element which appears once.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[2,2,3,2]",
+      "[0,1,0,1,0,1,99]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[2,2,3,2]"
+        },
+        "expected": "3"
+      }
+    ],
+    "python_starter": "class Solution:\n    def singleNumber(self, nums: List[int]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "singleNumber",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def singleNumber(self, nums: List[int]) -> int:\n        ones, twos = 0, 0\n        \n        for num in nums:\n            # Update twos with bits that are in ones and the current number\n            twos |= ones & num\n            \n            # Update ones with the current number\n            ones ^= num\n            \n            # Mask to remove bits that appear three times\n            threes = ones & twos\n            \n            # Remove threes from ones and twos\n            ones &= ~threes\n            twos &= ~threes\n        \n        return ones",
+    "explanation": "The solution uses bit manipulation to efficiently find the single number in the array. Here's a step-by-step breakdown of how it works:\n\n1. **Initialization**: We start with two variables, `ones` and `twos`, both initialized to 0. These will help us track the bits that have appeared once and twice, respectively.\n\n2. **Iterate through the array**: For each number in the input array:\n   - We update `twos` to include bits that are already in `ones` and also in the current number. This means that if a bit has appeared once and appears again, it should now be counted in `twos`.\n   - We update `ones` using the XOR operation with the current number. This will toggle the bits in `ones` based on the current number.\n\n3. **Remove bits that appear three times**: We create a mask `threes` that captures bits that have appeared in both `ones` and `twos`. We then clear these bits from both `ones` and `twos` using the bitwise AND with the negation of `threes`.\n\n4. **Return the result**: After processing all numbers, `ones` will contain the bits of the number that appears only once, which we return.\n\n**Time Complexity**: O(n), where n is the number of elements in the input array, since we only make a single pass through the array.\n\n**Space Complexity**: O(1), as we are using a constant amount of space for the variables `ones`, `twos`, and `threes`.\n\nThis method is efficient and meets the problem's constraints perfectly."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 3\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:37"
+}

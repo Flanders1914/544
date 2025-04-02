@@ -1,0 +1,40 @@
+{
+  "id": "387",
+  "frontend_id": "387",
+  "title": "First Unique Character in a String",
+  "description": "Given a string s, find the first non-repeating character in it and return its index. If it does not exist, return -1.\n \nExample 1:\n\nInput: s = \"leetcode\"\nOutput: 0\nExplanation:\nThe character 'l' at index 0 is the first character that does not occur at any other index.\n\nExample 2:\n\nInput: s = \"loveleetcode\"\nOutput: 2\n\nExample 3:\n\nInput: s = \"aabb\"\nOutput: -1\n\n \nConstraints:\n\n1 <= s.length <= 105\ns consists of only lowercase English letters.\n\n",
+  "difficulty": "Easy",
+  "examples": [
+    "\"leetcode\"",
+    "\"loveleetcode\"",
+    "\"aabb\""
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "s": "\"leetcode\""
+      },
+      "expected": "0"
+    },
+    {
+      "input": {
+        "s": "\"loveleetcode\""
+      },
+      "expected": "2"
+    }
+  ],
+  "python_starter": "class Solution:\n    def firstUniqChar(self, s: str) -> int:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "firstUniqChar",
+    "params": [
+      {
+        "name": "s",
+        "type": "string"
+      }
+    ],
+    "return": {
+      "type": "integer"
+    }
+  }
+}

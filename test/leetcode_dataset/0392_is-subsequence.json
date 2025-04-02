@@ -1,0 +1,40 @@
+{
+  "id": "392",
+  "frontend_id": "392",
+  "title": "Is Subsequence",
+  "description": "Given two strings s and t, return true if s is a subsequence of t, or false otherwise.\nA subsequence of a string is a new string that is formed from the original string by deleting some (can be none) of the characters without disturbing the relative positions of the remaining characters. (i.e., \"ace\" is a subsequence of \"abcde\" while \"aec\" is not).\n \nExample 1:\nInput: s = \"abc\", t = \"ahbgdc\"\nOutput: true\nExample 2:\nInput: s = \"axc\", t = \"ahbgdc\"\nOutput: false\n\n \nConstraints:\n\n0 <= s.length <= 100\n0 <= t.length <= 104\ns and t consist only of lowercase English letters.\n\n \nFollow up: Suppose there are lots of incoming s, say s1, s2, ..., sk where k >= 109, and you want to check one by one to see if t has its subsequence. In this scenario, how would you change your code?",
+  "difficulty": "Easy",
+  "examples": [
+    "\"abc\"",
+    "\"ahbgdc\"",
+    "\"axc\"",
+    "\"ahbgdc\""
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "s": "\"abc\"",
+        "t": "\"ahbgdc\""
+      },
+      "expected": "true"
+    }
+  ],
+  "python_starter": "class Solution:\n    def isSubsequence(self, s: str, t: str) -> bool:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "isSubsequence",
+    "params": [
+      {
+        "name": "s",
+        "type": "string"
+      },
+      {
+        "name": "t",
+        "type": "string"
+      }
+    ],
+    "return": {
+      "type": "boolean"
+    }
+  }
+}

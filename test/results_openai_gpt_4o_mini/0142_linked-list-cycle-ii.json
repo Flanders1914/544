@@ -1,0 +1,84 @@
+{
+  "problem": {
+    "id": "142",
+    "frontend_id": "142",
+    "title": "Linked List Cycle II",
+    "description": "Given the head of a linked list, return the node where the cycle begins. If there is no cycle, return null.\nThere is a cycle in a linked list if there is some node in the list that can be reached again by continuously following the next pointer. Internally, pos is used to denote the index of the node that tail's next pointer is connected to (0-indexed). It is -1 if there is no cycle. Note that pos is not passed as a parameter.\nDo not modify the linked list.\n \nExample 1:\n\n\nInput: head = [3,2,0,-4], pos = 1\nOutput: tail connects to node index 1\nExplanation: There is a cycle in the linked list, where tail connects to the second node.\n\nExample 2:\n\n\nInput: head = [1,2], pos = 0\nOutput: tail connects to node index 0\nExplanation: There is a cycle in the linked list, where tail connects to the first node.\n\nExample 3:\n\n\nInput: head = [1], pos = -1\nOutput: no cycle\nExplanation: There is no cycle in the linked list.\n\n \nConstraints:\n\nThe number of the nodes in the list is in the range [0, 104].\n-105 <= Node.val <= 105\npos is -1 or a valid index in the linked-list.\n\n \nFollow up: Can you solve it using O(1) (i.e. constant) memory?\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[3,2,0,-4]",
+      "1",
+      "[1,2]",
+      "0",
+      "[1]",
+      "-1"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "head": "[3,2,0,-4]",
+          "pos": "1"
+        },
+        "expected": "tail connects to node index 1"
+      },
+      {
+        "input": {
+          "head": "[1,2]",
+          "pos": "0"
+        },
+        "expected": "tail connects to node index 0"
+      },
+      {
+        "input": {
+          "head": "[1]",
+          "pos": "-1"
+        },
+        "expected": "no cycle"
+      }
+    ],
+    "python_starter": "# Definition for singly-linked list.\n# class ListNode:\n#     def __init__(self, x):\n#         self.val = x\n#         self.next = None\n\nclass Solution:\n    def detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "detectCycle",
+      "params": [
+        {
+          "name": "head",
+          "type": "ListNode"
+        },
+        {
+          "name": "pos",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "ListNode"
+      },
+      "languages": [
+        "cpp",
+        "java",
+        "python",
+        "c",
+        "csharp",
+        "javascript",
+        "golang",
+        "python3",
+        "swift",
+        "kotlin",
+        "php",
+        "ruby",
+        "scala",
+        "typescript"
+      ],
+      "manual": true
+    }
+  },
+  "solution": {
+    "code": "# Definition for singly-linked list.\nclass ListNode:\n    def __init__(self, x):\n        self.val = x\n        self.next = None\n\nclass Solution:\n    def detectCycle(self, head: Optional[ListNode]) -> Optional[ListNode]:\n        if not head or not head.next:\n            return None\n        \n        slow = head\n        fast = head\n        \n        # Step 1: Determine if a cycle exists\n        while fast and fast.next:\n            slow = slow.next          # Move slow pointer by 1\n            fast = fast.next.next     # Move fast pointer by 2\n            \n            if slow == fast:          # Cycle detected\n                break\n        else:\n            return None  # No cycle\n        \n        # Step 2: Find the entry point of the cycle\n        slow = head  # Move slow pointer to the head\n        while slow != fast:\n            slow = slow.next\n            fast = fast.next\n        \n        return slow  # The start of the cycle",
+    "explanation": "The solution uses Floyd's Tortoise and Hare algorithm to detect the cycle in the linked list. \n\n1. **Cycle Detection**: We initialize two pointers, `slow` and `fast`, both starting at the head of the linked list. In a loop, we move `slow` one step and `fast` two steps. If there is a cycle, these two pointers will eventually meet. If `fast` reaches the end of the list (i.e., `fast` or `fast.next` is `None`), we conclude that there is no cycle.\n\n2. **Finding the Cycle Start**: Once a cycle is detected (when `slow` equals `fast`), we reset the `slow` pointer to the head of the list while keeping the `fast` pointer at the meeting point. We then move both pointers one step at a time. The point at which they meet again will be the start of the cycle.\n\n**Time Complexity**: O(n), where n is the number of nodes in the linked list. In the worst case, we traverse the entire list.\n\n**Space Complexity**: O(1), as we are using only a constant amount of space for the two pointers.\n\nThis solution efficiently detects the cycle and identifies the starting node without modifying the linked list or using additional data structures."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:38"
+}

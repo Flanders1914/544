@@ -1,0 +1,50 @@
+{
+  "problem": {
+    "id": "52",
+    "frontend_id": "52",
+    "title": "N-Queens II",
+    "description": "The n-queens puzzle is the problem of placing n queens on an n x n chessboard such that no two queens attack each other.\nGiven an integer n, return the number of distinct solutions to the n-queens puzzle.\n \nExample 1:\n\n\nInput: n = 4\nOutput: 2\nExplanation: There are two distinct solutions to the 4-queens puzzle as shown.\n\nExample 2:\n\nInput: n = 1\nOutput: 1\n\n \nConstraints:\n\n1 <= n <= 9\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "4",
+      "1"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "n": "4"
+        },
+        "expected": "2"
+      },
+      {
+        "input": {
+          "n": "1"
+        },
+        "expected": "1"
+      }
+    ],
+    "python_starter": "class Solution:\n    def totalNQueens(self, n: int) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "totalNQueens",
+      "params": [
+        {
+          "name": "n",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def totalNQueens(self, n: int) -> int:\n        # Initialize the count of solutions\n        self.count = 0\n        \n        # Sets to track columns and diagonals\n        self.columns = set()\n        self.major_diagonals = set()\n        self.minor_diagonals = set()\n        \n        # Start the backtracking process from the first row\n        self.backtrack(0, n)\n        \n        return self.count\n    \n    def backtrack(self, row: int, n: int):\n        if row == n:\n            # All n queens are placed successfully\n            self.count += 1\n            return\n        \n        for col in range(n):\n            # Check if the column and diagonals are free\n            if col in self.columns or (row - col) in self.major_diagonals or (row + col) in self.minor_diagonals:\n                continue\n            \n            # Place the queen\n            self.columns.add(col)\n            self.major_diagonals.add(row - col)\n            self.minor_diagonals.add(row + col)\n            \n            # Move to the next row\n            self.backtrack(row + 1, n)\n            \n            # Remove the queen and backtrack\n            self.columns.remove(col)\n            self.major_diagonals.remove(row - col)\n            self.minor_diagonals.remove(row + col)",
+    "explanation": "The solution uses a backtracking algorithm to explore all possible placements of queens on the chessboard. The `totalNQueens` function initializes the necessary data structures and starts the recursive backtracking process. \n\n1. **Data Structures**:\n   - `self.count`: Keeps track of the number of valid configurations found.\n   - `self.columns`: A set to track which columns are occupied by queens.\n   - `self.major_diagonals`: A set to track occupied major diagonals (row - column).\n   - `self.minor_diagonals`: A set to track occupied minor diagonals (row + column).\n\n2. **Backtracking Logic**:\n   - The `backtrack` function attempts to place a queen in each column of the current row.\n   - If a column or diagonal is already occupied, it skips that position.\n   - If a queen is successfully placed, it recursively attempts to place queens in the next row.\n   - Upon reaching the base case (all queens placed), it increments the count.\n   - After exploring a position, it removes the queen (backtracks) and continues to explore other positions.\n\n3. **Time Complexity**: The time complexity is O(n!), as in the worst case, we may need to explore all permutations of queen placements.\n4. **Space Complexity**: The space complexity is O(n) due to the storage used for the sets tracking columns and diagonals.\n\nThis approach efficiently counts the number of distinct solutions for the N-Queens problem for values of n up to 9, as specified in the constraints."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 2\nTest case 2:\n[PASS] Test passed: 1\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:29"
+}

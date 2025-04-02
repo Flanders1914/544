@@ -1,0 +1,82 @@
+{
+  "problem": {
+    "id": "146",
+    "frontend_id": "146",
+    "title": "LRU Cache",
+    "description": "Design a data structure that follows the constraints of a Least Recently Used (LRU) cache.\nImplement the LRUCache class:\n\nLRUCache(int capacity) Initialize the LRU cache with positive size capacity.\nint get(int key) Return the value of the key if the key exists, otherwise return -1.\nvoid put(int key, int value) Update the value of the key if the key exists. Otherwise, add the key-value pair to the cache. If the number of keys exceeds the capacity from this operation, evict the least recently used key.\n\nThe functions get and put must each run in O(1) average time complexity.\n \nExample 1:\n\nInput\n[\"LRUCache\", \"put\", \"put\", \"get\", \"put\", \"get\", \"put\", \"get\", \"get\", \"get\"]\n[[2], [1, 1], [2, 2], [1], [3, 3], [2], [4, 4], [1], [3], [4]]\nOutput\n[null, null, null, 1, null, -1, null, -1, 3, 4]\n\nExplanation\nLRUCache lRUCache = new LRUCache(2);\nlRUCache.put(1, 1); // cache is {1=1}\nlRUCache.put(2, 2); // cache is {1=1, 2=2}\nlRUCache.get(1);    // return 1\nlRUCache.put(3, 3); // LRU key was 2, evicts key 2, cache is {1=1, 3=3}\nlRUCache.get(2);    // returns -1 (not found)\nlRUCache.put(4, 4); // LRU key was 1, evicts key 1, cache is {4=4, 3=3}\nlRUCache.get(1);    // return -1 (not found)\nlRUCache.get(3);    // return 3\nlRUCache.get(4);    // return 4\n\n \nConstraints:\n\n1 <= capacity <= 3000\n0 <= key <= 104\n0 <= value <= 105\nAt most 2 * 105 calls will be made to get and put.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[\"LRUCache\",\"put\",\"put\",\"get\",\"put\",\"get\",\"put\",\"get\",\"get\",\"get\"]",
+      "[[2],[1,1],[2,2],[1],[3,3],[2],[4,4],[1],[3],[4]]"
+    ],
+    "structured_test_cases": [],
+    "python_starter": "class LRUCache:\n\n    def __init__(self, capacity: int):\n        \n\n    def get(self, key: int) -> int:\n        \n\n    def put(self, key: int, value: int) -> None:\n        \n\n\n# Your LRUCache object will be instantiated and called as such:\n# obj = LRUCache(capacity)\n# param_1 = obj.get(key)\n# obj.put(key,value)",
+    "hints": [],
+    "meta_data": {
+      "classname": "LRUCache",
+      "maxbytesperline": 200000,
+      "constructor": {
+        "params": [
+          {
+            "type": "integer",
+            "name": "capacity"
+          }
+        ]
+      },
+      "methods": [
+        {
+          "name": "get",
+          "params": [
+            {
+              "type": "integer",
+              "name": "key"
+            }
+          ],
+          "return": {
+            "type": "integer"
+          }
+        },
+        {
+          "name": "put",
+          "params": [
+            {
+              "type": "integer",
+              "name": "key"
+            },
+            {
+              "type": "integer",
+              "name": "value"
+            }
+          ],
+          "return": {
+            "type": "void"
+          }
+        }
+      ],
+      "systemdesign": true,
+      "params": [
+        {
+          "name": "inputs",
+          "type": "integer[]"
+        },
+        {
+          "name": "inputs",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "list<String>",
+        "dealloc": true
+      }
+    }
+  },
+  "solution": {
+    "code": "class Node:\n    def __init__(self, key: int, value: int):\n        self.key = key\n        self.value = value\n        self.prev = None\n        self.next = None\n\nclass LRUCache:\n    def __init__(self, capacity: int):\n        self.capacity = capacity\n        self.cache = {}  # key -> Node\n        self.head = Node(0, 0)  # Dummy head\n        self.tail = Node(0, 0)  # Dummy tail\n        self.head.next = self.tail\n        self.tail.prev = self.head\n\n    def _remove(self, node: Node):\n        prev_node = node.prev\n        next_node = node.next\n        prev_node.next = next_node\n        next_node.prev = prev_node\n\n    def _add_to_head(self, node: Node):\n        node.prev = self.head\n        node.next = self.head.next\n        self.head.next.prev = node\n        self.head.next = node\n\n    def get(self, key: int) -> int:\n        if key in self.cache:\n            node = self.cache[key]\n            self._remove(node)\n            self._add_to_head(node)\n            return node.value\n        return -1\n\n    def put(self, key: int, value: int) -> None:\n        if key in self.cache:\n            node = self.cache[key]\n            self._remove(node)\n            node.value = value\n            self._add_to_head(node)\n        else:\n            if len(self.cache) >= self.capacity:\n                lru_node = self.tail.prev\n                self._remove(lru_node)\n                del self.cache[lru_node.key]\n            new_node = Node(key, value)\n            self._add_to_head(new_node)\n            self.cache[key] = new_node",
+    "explanation": "The `LRUCache` class is implemented using a combination of a hash map and a doubly linked list. The hash map (`self.cache`) allows for O(1) access to the nodes, while the doubly linked list maintains the order of usage.\n\n1. **Initialization**: The constructor initializes the cache with a given capacity, sets up a dummy head and tail for the linked list, and prepares the hash map.\n\n2. **Get Operation**:\n   - If the key exists in the cache, we retrieve the corresponding node, remove it from its current position in the linked list, and add it back to the head (marking it as recently used). We then return the value of the node.\n   - If the key does not exist, we return -1.\n\n3. **Put Operation**:\n   - If the key already exists, we update its value, remove the node from its current position, and add it back to the head.\n   - If the key does not exist, we check if the cache is at capacity. If it is, we remove the least recently used node (the one before the tail) and delete it from"
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\nTraceback (most recent call last):\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmpfje1b3cu.py\", line 77, in <module>\n    solution = Node()\n               ^^^^^^\nTypeError: Node.__init__() missing 2 required positional arguments: 'key' and 'value'\n"
+  },
+  "timestamp": "2025-04-01 18:00:38"
+}

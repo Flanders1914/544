@@ -1,0 +1,60 @@
+{
+  "problem": {
+    "id": "68",
+    "frontend_id": "68",
+    "title": "Text Justification",
+    "description": "Given an array of strings words and a width maxWidth, format the text such that each line has exactly maxWidth characters and is fully (left and right) justified.\nYou should pack your words in a greedy approach; that is, pack as many words as you can in each line. Pad extra spaces ' ' when necessary so that each line has exactly maxWidth characters.\nExtra spaces between words should be distributed as evenly as possible. If the number of spaces on a line does not divide evenly between words, the empty slots on the left will be assigned more spaces than the slots on the right.\nFor the last line of text, it should be left-justified, and no extra space is inserted between words.\nNote:\n\nA word is defined as a character sequence consisting of non-space characters only.\nEach word's length is guaranteed to be greater than 0 and not exceed maxWidth.\nThe input array words contains at least one word.\n\n \nExample 1:\n\nInput: words = [\"This\", \"is\", \"an\", \"example\", \"of\", \"text\", \"justification.\"], maxWidth = 16\nOutput:\n[\n   \"This    is    an\",\n   \"example  of text\",\n   \"justification.  \"\n]\nExample 2:\n\nInput: words = [\"What\",\"must\",\"be\",\"acknowledgment\",\"shall\",\"be\"], maxWidth = 16\nOutput:\n[\n  \"What   must   be\",\n  \"acknowledgment  \",\n  \"shall be        \"\n]\nExplanation: Note that the last line is \"shall be    \" instead of \"shall     be\", because the last line must be left-justified instead of fully-justified.\nNote that the second line is also left-justified because it contains only one word.\nExample 3:\n\nInput: words = [\"Science\",\"is\",\"what\",\"we\",\"understand\",\"well\",\"enough\",\"to\",\"explain\",\"to\",\"a\",\"computer.\",\"Art\",\"is\",\"everything\",\"else\",\"we\",\"do\"], maxWidth = 20\nOutput:\n[\n  \"Science  is  what we\",\n  \"understand      well\",\n  \"enough to explain to\",\n  \"a  computer.  Art is\",\n  \"everything  else  we\",\n  \"do                  \"\n]\n \nConstraints:\n\n1 <= words.length <= 300\n1 <= words[i].length <= 20\nwords[i] consists of only English letters and symbols.\n1 <= maxWidth <= 100\nwords[i].length <= maxWidth\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "[\"This\", \"is\", \"an\", \"example\", \"of\", \"text\", \"justification.\"]",
+      "16",
+      "[\"What\",\"must\",\"be\",\"acknowledgment\",\"shall\",\"be\"]",
+      "16",
+      "[\"Science\",\"is\",\"what\",\"we\",\"understand\",\"well\",\"enough\",\"to\",\"explain\",\"to\",\"a\",\"computer.\",\"Art\",\"is\",\"everything\",\"else\",\"we\",\"do\"]",
+      "20"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "words": "[\"This\", \"is\", \"an\", \"example\", \"of\", \"text\", \"justification.\"]",
+          "maxWidth": "16"
+        },
+        "expected": "["
+      },
+      {
+        "input": {
+          "words": "[\"Science\",\"is\",\"what\",\"we\",\"understand\",\"well\",\"enough\",\"to\",\"explain\",\"to\",\"a\",\"computer.\",\"Art\",\"is\",\"everything\",\"else\",\"we\",\"do\"]",
+          "maxWidth": "20"
+        },
+        "expected": "["
+      }
+    ],
+    "python_starter": "class Solution:\n    def fullJustify(self, words: List[str], maxWidth: int) -> List[str]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "fullJustify",
+      "params": [
+        {
+          "name": "words",
+          "type": "string[]"
+        },
+        {
+          "name": "maxWidth",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "list<string>"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def fullJustify(self, words: List[str], maxWidth: int) -> List[str]:\n        result = []\n        current_line = []\n        current_length = 0\n        \n        for word in words:\n            # Check if adding the next word exceeds the maxWidth\n            if current_length + len(word) + len(current_line) > maxWidth:\n                # Justify the current line\n                for i in range(maxWidth - current_length):\n                    # Distribute spaces\n                    current_line[i % (len(current_line) - 1 or 1)] += ' '\n                result.append(''.join(current_line))\n                current_line = []\n                current_length = 0\n            \n            # Add the word to the current line\n            current_line.append(word)\n            current_length += len(word)\n        \n        # Handle the last line (left-justified)\n        result.append(' '.join(current_line).ljust(maxWidth))\n        \n        return result",
+    "explanation": "The solution begins by initializing an empty list `result` to store the justified lines, and `current_line` to hold words for the current line being constructed. The variable `current_length` keeps track of the total length of words in `current_line`.\n\n1. **Iterating through words**: For each word, we check if adding it to the current line would exceed `maxWidth`. If it does, we justify the current line:\n   - We calculate the number of spaces needed to fill the line to `maxWidth`.\n   - We distribute these spaces evenly between the words. If there are extra spaces, they are added from the left.\n\n2. **Adding words**: If the word fits, we add it to `current_line` and update `current_length`.\n\n3. **Last line**: After processing all words, we handle the last line separately. We join the words with a single space and use `ljust` to ensure it fills `maxWidth` with spaces at the end.\n\n**Time Complexity**: O(n), where n is the number of words. Each word is processed once.\n\n**Space Complexity**: O(n) for storing the result and the current line of words.\n\nThis approach efficiently formats the text according to the specified requirements while ensuring clarity and correctness."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:31"
+}

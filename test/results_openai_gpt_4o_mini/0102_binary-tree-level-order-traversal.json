@@ -1,0 +1,48 @@
+{
+  "problem": {
+    "id": "102",
+    "frontend_id": "102",
+    "title": "Binary Tree Level Order Traversal",
+    "description": "Given the root of a binary tree, return the level order traversal of its nodes' values. (i.e., from left to right, level by level).\n \nExample 1:\n\n\nInput: root = [3,9,20,null,null,15,7]\nOutput: [[3],[9,20],[15,7]]\n\nExample 2:\n\nInput: root = [1]\nOutput: [[1]]\n\nExample 3:\n\nInput: root = []\nOutput: []\n\n \nConstraints:\n\nThe number of nodes in the tree is in the range [0, 2000].\n-1000 <= Node.val <= 1000\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[3,9,20,null,null,15,7]",
+      "[1]",
+      "[]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "root": "[3,9,20,null,null,15,7]"
+        },
+        "expected": "[[3]"
+      }
+    ],
+    "python_starter": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:\n        ",
+    "hints": [
+      "Use a queue to perform BFS."
+    ],
+    "meta_data": {
+      "name": "levelOrder",
+      "params": [
+        {
+          "name": "root",
+          "type": "TreeNode"
+        }
+      ],
+      "return": {
+        "type": "list<list<integer>>",
+        "dealloc": true
+      }
+    }
+  },
+  "solution": {
+    "code": "from collections import deque\nfrom typing import List, Optional\n\n# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nclass Solution:\n    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:\n        # Initialize the result list and a queue for BFS\n        result = []\n        if not root:\n            return result\n        \n        queue = deque([root])\n        \n        while queue:\n            level_size = len(queue)  # Number of nodes at the current level\n            current_level = []\n            \n            for _ in range(level_size):\n                node = queue.popleft()  # Get the front node in the queue\n                current_level.append(node.val)  # Add its value to the current level\n                \n                # Add the left and right children to the queue if they exist\n                if node.left:\n                    queue.append(node.left)\n                if node.right:\n                    queue.append(node.right)\n            \n            result.append(current_level)  # Add the current level to the result\n        \n        return result",
+    "explanation": "The solution uses a breadth-first search (BFS) approach to traverse the binary tree level by level. We utilize a queue to keep track of the nodes that need to be processed. \n\n1. **Initialization**: We start by checking if the root is `None`. If it is, we return an empty list. Otherwise, we initialize a queue with the root node and an empty result list.\n\n2. **Processing Levels**: We enter a loop that continues until the queue is empty. For each iteration, we determine the number of nodes at the current level (`level_size`). We then create a list (`current_level`) to store the values of the nodes at this level.\n\n3. **Node Processing**: For each node at the current level, we dequeue it, append its value to `current_level`, and enqueue its left and right children (if they exist).\n\n4. **Storing Results**: After processing all nodes at the current level, we append `current_level` to the result list.\n\n5. **Return Result**: Finally, we return the result list containing the level order traversal of the tree.\n\n**Time Complexity**: O(n), where n is the number of nodes in the tree. Each node is processed exactly once.\n\n**Space Complexity**: O(m), where m is the maximum number of nodes at any level in the tree. In the worst case, this could be O(n) if the tree is completely balanced."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmpduje19e5.py\", line 128\n    expected_0 = [[3]\n                 ^\nSyntaxError: '[' was never closed\n"
+  },
+  "timestamp": "2025-04-01 18:00:34"
+}

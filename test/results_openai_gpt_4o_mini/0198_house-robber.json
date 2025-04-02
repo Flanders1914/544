@@ -1,0 +1,50 @@
+{
+  "problem": {
+    "id": "198",
+    "frontend_id": "198",
+    "title": "House Robber",
+    "description": "You are a professional robber planning to rob houses along a street. Each house has a certain amount of money stashed, the only constraint stopping you from robbing each of them is that adjacent houses have security systems connected and it will automatically contact the police if two adjacent houses were broken into on the same night.\nGiven an integer array nums representing the amount of money of each house, return the maximum amount of money you can rob tonight without alerting the police.\n \nExample 1:\n\nInput: nums = [1,2,3,1]\nOutput: 4\nExplanation: Rob house 1 (money = 1) and then rob house 3 (money = 3).\nTotal amount you can rob = 1 + 3 = 4.\n\nExample 2:\n\nInput: nums = [2,7,9,3,1]\nOutput: 12\nExplanation: Rob house 1 (money = 2), rob house 3 (money = 9) and rob house 5 (money = 1).\nTotal amount you can rob = 2 + 9 + 1 = 12.\n\n \nConstraints:\n\n1 <= nums.length <= 100\n0 <= nums[i] <= 400\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[1,2,3,1]",
+      "[2,7,9,3,1]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[1,2,3,1]"
+        },
+        "expected": "4"
+      },
+      {
+        "input": {
+          "nums": "[2,7,9,3,1]"
+        },
+        "expected": "12"
+      }
+    ],
+    "python_starter": "class Solution:\n    def rob(self, nums: List[int]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "rob",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def rob(self, nums: List[int]) -> int:\n        if not nums:\n            return 0\n        elif len(nums) == 1:\n            return nums[0]\n        \n        # Initialize the two variables to store the maximum amounts\n        prev1 = 0  # This will store dp[i-1]\n        prev2 = 0  # This will store dp[i-2]\n        \n        for num in nums:\n            # Calculate the maximum amount we can rob up to the current house\n            current = max(prev1, prev2 + num)\n            # Update prev2 and prev1 for the next iteration\n            prev2 = prev1\n            prev1 = current\n        \n        return prev1  # This will be the maximum amount we can rob",
+    "explanation": "The solution uses dynamic programming to determine the maximum amount of money that can be robbed without triggering the alarm. We maintain two variables, `prev1` and `prev2`, which represent the maximum amounts that can be robbed up to the previous house and the house before that, respectively.\n\n1. **Initialization**: We start by checking if the input list `nums` is empty or has only one element. If it's empty, we return 0. If it has one element, we return that element since that's the only money available to rob.\n\n2. **Iteration**: We iterate through each house's money in `nums`. For each house, we calculate the maximum amount that can be robbed by either:\n   - Not robbing the current house (taking the value of `prev1`).\n   - Robbing the current house (adding the current house's money to `prev2`).\n\n3. **Updating Values**: After calculating the current maximum, we update `prev2` to be `prev1` (the previous maximum) and `prev1` to be the current maximum.\n\n4. **Final Result**: After processing all houses, `prev1` contains the maximum amount of money that can be robbed.\n\n**Time Complexity**: O(n), where n is the number of houses, since we traverse the list once.\n\n**Space Complexity**: O(1), as we only use a constant amount of space for the two variables.\n\nThis efficient approach ensures that we can handle the maximum constraints of the problem effectively."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 4\nTest case 2:\n[PASS] Test passed: 12\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:41"
+}

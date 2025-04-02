@@ -1,0 +1,67 @@
+{
+  "problem": {
+    "id": "139",
+    "frontend_id": "139",
+    "title": "Word Break",
+    "description": "Given a string s and a dictionary of strings wordDict, return true if s can be segmented into a space-separated sequence of one or more dictionary words.\nNote that the same word in the dictionary may be reused multiple times in the segmentation.\n \nExample 1:\n\nInput: s = \"leetcode\", wordDict = [\"leet\",\"code\"]\nOutput: true\nExplanation: Return true because \"leetcode\" can be segmented as \"leet code\".\n\nExample 2:\n\nInput: s = \"applepenapple\", wordDict = [\"apple\",\"pen\"]\nOutput: true\nExplanation: Return true because \"applepenapple\" can be segmented as \"apple pen apple\".\nNote that you are allowed to reuse a dictionary word.\n\nExample 3:\n\nInput: s = \"catsandog\", wordDict = [\"cats\",\"dog\",\"sand\",\"and\",\"cat\"]\nOutput: false\n\n \nConstraints:\n\n1 <= s.length <= 300\n1 <= wordDict.length <= 1000\n1 <= wordDict[i].length <= 20\ns and wordDict[i] consist of only lowercase English letters.\nAll the strings of wordDict are unique.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "\"leetcode\"",
+      "[\"leet\",\"code\"]",
+      "\"applepenapple\"",
+      "[\"apple\",\"pen\"]",
+      "\"catsandog\"",
+      "[\"cats\",\"dog\",\"sand\",\"and\",\"cat\"]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "s": "\"leetcode\"",
+          "wordDict": "[\"leet\",\"code\"]"
+        },
+        "expected": "true"
+      },
+      {
+        "input": {
+          "s": "\"applepenapple\"",
+          "wordDict": "[\"apple\",\"pen\"]"
+        },
+        "expected": "true"
+      },
+      {
+        "input": {
+          "s": "\"catsandog\"",
+          "wordDict": "[\"cats\",\"dog\",\"sand\",\"and\",\"cat\"]"
+        },
+        "expected": "false"
+      }
+    ],
+    "python_starter": "class Solution:\n    def wordBreak(self, s: str, wordDict: List[str]) -> bool:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "wordBreak",
+      "params": [
+        {
+          "name": "s",
+          "type": "string"
+        },
+        {
+          "name": "wordDict",
+          "type": "list<string>"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def wordBreak(self, s: str, wordDict: List[str]) -> bool:\n        # Convert wordDict to a set for faster lookups\n        word_set = set(wordDict)\n        # Initialize the dp array\n        dp = [False] * (len(s) + 1)\n        dp[0] = True  # Base case: empty string can be segmented\n        \n        # Iterate through the string\n        for i in range(1, len(s) + 1):\n            for j in range(i):\n                # Check if the substring s[j:i] is in the dictionary\n                if dp[j] and s[j:i] in word_set:\n                    dp[i] = True\n                    break  # No need to check further if we found a valid segmentation\n        \n        return dp[len(s)]  # Return if the whole string can be segmented",
+    "explanation": "The solution uses dynamic programming to determine if the string `s` can be segmented into words from the `wordDict`. \n\n1. **Initialization**: We create a boolean array `dp` of size `len(s) + 1`, where `dp[i]` indicates whether the substring `s[0:i]` can be segmented. We set `dp[0]` to `True` because an empty string can always be segmented.\n\n2. **Dynamic Programming Logic**: We iterate through each index `i` of the string `s`. For each `i`, we check all possible previous indices `j` (from 0 to `i-1`). If `dp[j]` is `True` (indicating that `s[0:j]` can be segmented) and the substring `s[j:i]` exists in the `word_set`, we set `dp[i]` to `True` and break out of the inner loop.\n\n3. **Final Result**: After filling the `dp` array, we return `dp[len(s)]`, which tells us if the entire string can be segmented.\n\n**Time Complexity**: O(n^2), where n is the length of the string `s`. This is due to the nested loops iterating through the string.\n\n**Space Complexity**: O(n), for the `dp` array used to store the segmentation results.\n\nThis approach efficiently checks all possible segmentations and provides the correct result based on the given dictionary."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:37"
+}

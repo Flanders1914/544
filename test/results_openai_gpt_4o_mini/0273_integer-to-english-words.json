@@ -1,0 +1,49 @@
+{
+  "problem": {
+    "id": "273",
+    "frontend_id": "273",
+    "title": "Integer to English Words",
+    "description": "Convert a non-negative integer num to its English words representation.\n \nExample 1:\n\nInput: num = 123\nOutput: \"One Hundred Twenty Three\"\n\nExample 2:\n\nInput: num = 12345\nOutput: \"Twelve Thousand Three Hundred Forty Five\"\n\nExample 3:\n\nInput: num = 1234567\nOutput: \"One Million Two Hundred Thirty Four Thousand Five Hundred Sixty Seven\"\n\n \nConstraints:\n\n0 <= num <= 231 - 1\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "123",
+      "12345",
+      "1234567"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "num": "123"
+        },
+        "expected": "One Hundred Twenty Three"
+      }
+    ],
+    "python_starter": "class Solution:\n    def numberToWords(self, num: int) -> str:\n        ",
+    "hints": [
+      "Did you see a pattern in dividing the number into chunk of words? For example, 123 and 123000.",
+      "Group the number by thousands (3 digits). You can write a helper function that takes a number less than 1000 and convert just that chunk to words.",
+      "There are many edge cases. What are some good test cases? Does your code work with input such as 0? Or 1000010? (middle chunk is zero and should not be printed out)"
+    ],
+    "meta_data": {
+      "name": "numberToWords",
+      "params": [
+        {
+          "name": "num",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "string"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def numberToWords(self, num: int) -> str:\n        if num == 0:\n            return \"Zero\"\n        \n        # Define mappings for numbers\n        below_20 = [\"\", \"One\", \"Two\", \"Three\", \"Four\", \"Five\", \"Six\", \"Seven\", \"Eight\", \"Nine\", \n                    \"Ten\", \"Eleven\", \"Twelve\", \"Thirteen\", \"Fourteen\", \"Fifteen\", \"Sixteen\", \n                    \"Seventeen\", \"Eighteen\", \"Nineteen\"]\n        \n        tens = [\"\", \"\", \"Twenty\", \"Thirty\", \"Forty\", \"Fifty\", \"Sixty\", \"Seventy\", \"Eighty\", \"Ninety\"]\n        \n        thousands = [\"\", \"Thousand\", \"Million\", \"Billion\"]\n        \n        def helper(n):\n            if n < 20:\n                return below_20[n]\n            elif n < 100:\n                return tens[n // 10] + (\" \" + below_20[n % 10] if n % 10 != 0 else \"\")\n            elif n < 1000:\n                return below_20[n // 100] + \" Hundred\" + (\" \" + helper(n % 100) if n % 100 != 0 else \"\")\n            else:\n                for i, word in enumerate(thousands):\n                    if n < 1000 ** (i + 1):\n                        return helper(n // (1000 ** i)) + \" \" + word + (\" \" + helper(n % (1000 ** i)) if n % (1000 ** i) != 0 else \"\")\n        \n        return helper(num).strip()",
+    "explanation": "The solution defines a class `Solution` with a method `numberToWords` that converts a non-negative integer to its English words representation. \n\n1. **Base Case**: If the input number is 0, it returns \"Zero\".\n2. **Mappings**: It uses lists to map numbers below 20, tens, and thousands.\n3. **Helper Function**: The `helper` function is a recursive function that:\n   - Handles numbers less than 20 directly.\n   - For numbers between 20 and 99, it combines the tens and units.\n   - For numbers between 100 and 999, it combines the hundreds with the result of the remainder.\n   - For larger numbers, it iterates through the `thousands` list to find the appropriate place value and recursively calls itself for the quotient and remainder.\n4. **Final Output**: The result is stripped of any leading or trailing spaces before returning.\n\n**Time Complexity**: O(log n) since we are dividing the number by 1000 at each step, leading to a logarithmic number of recursive calls.\n\n**Space Complexity**: O(log n) for the recursion stack in the worst case, where n is the input number."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: One Hundred Twenty Three\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:45"
+}

@@ -1,0 +1,44 @@
+{
+  "problem": {
+    "id": "22",
+    "frontend_id": "22",
+    "title": "Generate Parentheses",
+    "description": "Given n pairs of parentheses, write a function to generate all combinations of well-formed parentheses.\n \nExample 1:\nInput: n = 3\nOutput: [\"((()))\",\"(()())\",\"(())()\",\"()(())\",\"()()()\"]\nExample 2:\nInput: n = 1\nOutput: [\"()\"]\n\n \nConstraints:\n\n1 <= n <= 8\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "3",
+      "1"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "n": "3"
+        },
+        "expected": "[((())),(()()),(())(),()(()),()()()]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def generateParenthesis(self, n: int) -> List[str]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "generateParenthesis",
+      "params": [
+        {
+          "name": "n",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "list<string>"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def generateParenthesis(self, n: int) -> List[str]:\n        def backtrack(current: str, open_count: int, close_count: int):\n            # If the current string is of the maximum length, add it to results\n            if len(current) == 2 * n:\n                result.append(current)\n                return\n            \n            # If we can add an opening parenthesis\n            if open_count < n:\n                backtrack(current + '(', open_count + 1, close_count)\n            \n            # If we can add a closing parenthesis\n            if close_count < open_count:\n                backtrack(current + ')', open_count, close_count + 1)\n\n        result = []\n        backtrack('', 0, 0)\n        return result",
+    "explanation": "The solution uses a backtracking algorithm to generate all combinations of well-formed parentheses. The `backtrack` function is defined within the `generateParenthesis` method and is responsible for constructing the parentheses strings.\n\n1. **Base Case**: When the length of the current string equals `2 * n`, it means we have used all pairs of parentheses, and we add the current string to the results.\n2. **Recursive Cases**:\n   - We can add an opening parenthesis if `open_count` is less than `n`.\n   - We can add a closing parenthesis if `close_count` is less than `open_count`, ensuring that we do not close more parentheses than we have opened.\n\nThe time complexity of this solution is O(4^n / sqrt(n)), which is derived from the fact that the number of valid combinations of parentheses grows exponentially with `n`. The space complexity is O(n) due to the recursion stack and the storage of the results.\n\nOverall, this approach efficiently generates all valid combinations of parentheses for the given input `n`."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\nC:\\Users\\PC\\AppData\\Local\\Temp\\tmp24hbvhp5.py:59: SyntaxWarning: 'tuple' object is not callable; perhaps you missed a comma?\n  expected_0 = [((())),(()()),(())(),()(()),()()()]\nC:\\Users\\PC\\AppData\\Local\\Temp\\tmp24hbvhp5.py:59: SyntaxWarning: 'tuple' object is not callable; perhaps you missed a comma?\n  expected_0 = [((())),(()()),(())(),()(()),()()()]\nC:\\Users\\PC\\AppData\\Local\\Temp\\tmp24hbvhp5.py:59: SyntaxWarning: 'tuple' object is not callable; perhaps you missed a comma?\n  expected_0 = [((())),(()()),(())(),()(()),()()()]\nC:\\Users\\PC\\AppData\\Local\\Temp\\tmp24hbvhp5.py:59: SyntaxWarning: 'tuple' object is not callable; perhaps you missed a comma?\n  expected_0 = [((())),(()()),(())(),()(()),()()()]\n"
+  },
+  "timestamp": "2025-04-01 18:00:27"
+}

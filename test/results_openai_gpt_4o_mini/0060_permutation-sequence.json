@@ -1,0 +1,53 @@
+{
+  "problem": {
+    "id": "60",
+    "frontend_id": "60",
+    "title": "Permutation Sequence",
+    "description": "The set [1, 2, 3, ..., n] contains a total of n! unique permutations.\nBy listing and labeling all of the permutations in order, we get the following sequence for n = 3:\n\n\"123\"\n\"132\"\n\"213\"\n\"231\"\n\"312\"\n\"321\"\n\nGiven n and k, return the kth permutation sequence.\n \nExample 1:\nInput: n = 3, k = 3\nOutput: \"213\"\nExample 2:\nInput: n = 4, k = 9\nOutput: \"2314\"\nExample 3:\nInput: n = 3, k = 1\nOutput: \"123\"\n\n \nConstraints:\n\n1 <= n <= 9\n1 <= k <= n!\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "3",
+      "3",
+      "4",
+      "9",
+      "3",
+      "1"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "n": "3",
+          "k": "3"
+        },
+        "expected": "213"
+      }
+    ],
+    "python_starter": "class Solution:\n    def getPermutation(self, n: int, k: int) -> str:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "getPermutation",
+      "params": [
+        {
+          "name": "n",
+          "type": "integer"
+        },
+        {
+          "name": "k",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "string"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def getPermutation(self, n: int, k: int) -> str:\n        # Precompute factorials\n        factorials = [1] * n\n        for i in range(1, n):\n            factorials[i] = factorials[i - 1] * i\n        \n        # Adjust k to be zero-indexed\n        k -= 1\n        \n        # Create a list of numbers to get permutations from\n        numbers = list(range(1, n + 1))\n        permutation = []\n        \n        # Build the k-th permutation\n        for i in range(n):\n            # Determine the index of the current digit\n            index = k // factorials[n - 1 - i]\n            permutation.append(str(numbers[index]))\n            # Remove the used number from the list\n            numbers.pop(index)\n            # Update k for the next iteration\n            k %= factorials[n - 1 - i]\n        \n        return ''.join(permutation)",
+    "explanation": "The solution uses a mathematical approach to directly compute the kth permutation without generating all permutations. \n\n1. **Factorial Precomputation**: We first compute the factorials of numbers from 0 to n-1. This helps us determine how many permutations start with each digit.\n2. **Zero-Index Adjustment**: Since k is given as 1-indexed, we subtract 1 to make it zero-indexed for easier calculations.\n3. **Available Numbers**: We maintain a list of available numbers from which we can select the next digit for our permutation.\n4. **Building the Permutation**: For each position in the permutation:\n   - We calculate the index of the number to be placed using integer division of k by the factorial of the remaining digits.\n   - We append the selected number to the result and remove it from the available numbers.\n   - We update k to find the next number by taking the modulus with the factorial of the remaining digits.\n5. **Time Complexity**: The time complexity is O(n) because we iterate through the numbers once to build the permutation.\n6. **Space Complexity**: The space complexity is O(n) for storing the list of available numbers and the resulting permutation.\n\nThis efficient approach allows us to find the kth permutation directly without generating all permutations, making it suitable for the given constraints."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:30"
+}

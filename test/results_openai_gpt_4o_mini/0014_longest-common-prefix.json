@@ -1,0 +1,44 @@
+{
+  "problem": {
+    "id": "14",
+    "frontend_id": "14",
+    "title": "Longest Common Prefix",
+    "description": "Write a function to find the longest common prefix string amongst an array of strings.\nIf there is no common prefix, return an empty string \"\".\n \nExample 1:\n\nInput: strs = [\"flower\",\"flow\",\"flight\"]\nOutput: \"fl\"\n\nExample 2:\n\nInput: strs = [\"dog\",\"racecar\",\"car\"]\nOutput: \"\"\nExplanation: There is no common prefix among the input strings.\n\n \nConstraints:\n\n1 <= strs.length <= 200\n0 <= strs[i].length <= 200\nstrs[i] consists of only lowercase English letters if it is non-empty.\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "[\"flower\",\"flow\",\"flight\"]",
+      "[\"dog\",\"racecar\",\"car\"]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "strs": "[\"flower\",\"flow\",\"flight\"]"
+        },
+        "expected": "fl"
+      }
+    ],
+    "python_starter": "class Solution:\n    def longestCommonPrefix(self, strs: List[str]) -> str:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "longestCommonPrefix",
+      "params": [
+        {
+          "name": "strs",
+          "type": "string[]"
+        }
+      ],
+      "return": {
+        "type": "string"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def longestCommonPrefix(self, strs: List[str]) -> str:\n        if not strs:\n            return \"\"\n        \n        # Start with the first string as the prefix\n        prefix = strs[0]\n        \n        # Compare the prefix with each string in the list\n        for s in strs[1:]:\n            # Reduce the prefix until it matches the start of the string s\n            while not s.startswith(prefix):\n                prefix = prefix[:-1]  # Remove the last character\n                if not prefix:  # If prefix is empty, return immediately\n                    return \"\"\n        \n        return prefix",
+    "explanation": "The solution starts by checking if the input list `strs` is empty. If it is, we return an empty string since there are no strings to compare. We then initialize the `prefix` variable with the first string in the list. \n\nNext, we iterate through each string in the list starting from the second string. For each string, we check if it starts with the current `prefix`. If it does not, we shorten the `prefix` by removing the last character and check again. This process continues until we either find a matching prefix or the `prefix` becomes empty.\n\nThe time complexity of this solution is O(n * m), where n is the number of strings and m is the length of the shortest string. In the worst case, we may have to compare each character of the strings. The space complexity is O(1) since we are using a constant amount of extra space for the `prefix` variable."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: fl\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:26"
+}

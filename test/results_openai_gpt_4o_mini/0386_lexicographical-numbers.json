@@ -1,0 +1,44 @@
+{
+  "problem": {
+    "id": "386",
+    "frontend_id": "386",
+    "title": "Lexicographical Numbers",
+    "description": "Given an integer n, return all the numbers in the range [1, n] sorted in lexicographical order.\nYou must write an algorithm that runs in O(n) time and uses O(1) extra space. \n \nExample 1:\nInput: n = 13\nOutput: [1,10,11,12,13,2,3,4,5,6,7,8,9]\nExample 2:\nInput: n = 2\nOutput: [1,2]\n\n \nConstraints:\n\n1 <= n <= 5 * 104\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "13",
+      "2"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "n": "13"
+        },
+        "expected": "[1,10,11,12,13,2,3,4,5,6,7,8,9]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def lexicalOrder(self, n: int) -> List[int]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "lexicalOrder",
+      "params": [
+        {
+          "name": "n",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "list<integer>"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def lexicalOrder(self, n: int) -> List[int]:\n        result = []\n        \n        def dfs(current):\n            if current > n:\n                return\n            result.append(current)\n            for i in range(10):\n                next_number = current * 10 + i\n                if next_number > n:\n                    break\n                dfs(next_number)\n        \n        for i in range(1, 10):\n            if i > n:\n                break\n            dfs(i)\n        \n        return result",
+    "explanation": "The solution uses a depth-first search (DFS) approach to generate numbers in lexicographical order. Here's a breakdown of how it works:\n\n1. **DFS Function**: We define a helper function `dfs(current)` that takes the current number as an argument. If `current` exceeds `n`, we return immediately. Otherwise, we append `current` to the result list.\n\n2. **Generating Next Numbers**: We then attempt to generate the next numbers by appending digits (0-9) to the current number. This is done by calculating `next_number = current * 10 + i`. If `next_number` exceeds `n`, we break out of the loop.\n\n3. **Starting the DFS**: We initiate the DFS for each number from 1 to 9. This ensures that we start generating numbers in the correct lexicographical order.\n\n4. **Time Complexity**: The time complexity is O(n) because we visit each number from 1 to n exactly once.\n\n5. **Space Complexity**: The space complexity is O(1) for the extra space used, as we are not using any additional data structures that grow with the input size, aside from the output list which is necessary to store the results.\n\nThis approach efficiently generates the required output while adhering to the constraints of the problem."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: [1, 10, 11, 12, 13, 2, 3, 4, 5, 6, 7, 8, 9]\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:52"
+}

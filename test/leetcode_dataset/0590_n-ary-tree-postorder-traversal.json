@@ -1,0 +1,51 @@
+{
+  "id": "776",
+  "frontend_id": "590",
+  "title": "N-ary Tree Postorder Traversal",
+  "description": "Given the root of an n-ary tree, return the postorder traversal of its nodes' values.\nNary-Tree input serialization is represented in their level order traversal. Each group of children is separated by the null value (See examples)\n \nExample 1:\n\n\nInput: root = [1,null,3,2,4,null,5,6]\nOutput: [5,6,3,2,4,1]\n\nExample 2:\n\n\nInput: root = [1,null,2,3,4,5,null,null,6,7,null,8,null,9,10,null,null,11,null,12,null,13,null,null,14]\nOutput: [2,6,14,11,7,3,12,8,4,13,9,10,5,1]\n\n \nConstraints:\n\nThe number of nodes in the tree is in the range [0, 104].\n0 <= Node.val <= 104\nThe height of the n-ary tree is less than or equal to 1000.\n\n \nFollow up: Recursive solution is trivial, could you do it iteratively?\n",
+  "difficulty": "Easy",
+  "examples": [
+    "[1,null,3,2,4,null,5,6]",
+    "[1,null,2,3,4,5,null,null,6,7,null,8,null,9,10,null,null,11,null,12,null,13,null,null,14]"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "root": "[1,null,3,2,4,null,5,6]"
+      },
+      "expected": "[5,6,3,2,4,1]"
+    }
+  ],
+  "python_starter": "\"\"\"\n# Definition for a Node.\nclass Node:\n    def __init__(self, val: Optional[int] = None, children: Optional[List['Node']] = None):\n        self.val = val\n        self.children = children\n\"\"\"\n\nclass Solution:\n    def postorder(self, root: 'Node') -> List[int]:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "postorder",
+    "params": [
+      {
+        "name": "root",
+        "type": "integer"
+      }
+    ],
+    "return": {
+      "type": "list<integer>"
+    },
+    "languages": [
+      "cpp",
+      "java",
+      "python",
+      "csharp",
+      "javascript",
+      "python3",
+      "golang",
+      "ruby",
+      "c",
+      "kotlin",
+      "scala",
+      "php",
+      "swift",
+      "typescript"
+    ],
+    "manual": true,
+    "typescriptCustomType": "class _Node {\n    val: number\n    children: _Node[]\n    \n    constructor(v: number) {\n        this.val = v;\n        this.children = [];\n    }\n}"
+  }
+}

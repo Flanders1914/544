@@ -1,0 +1,38 @@
+{
+  "id": "273",
+  "frontend_id": "273",
+  "title": "Integer to English Words",
+  "description": "Convert a non-negative integer num to its English words representation.\n \nExample 1:\n\nInput: num = 123\nOutput: \"One Hundred Twenty Three\"\n\nExample 2:\n\nInput: num = 12345\nOutput: \"Twelve Thousand Three Hundred Forty Five\"\n\nExample 3:\n\nInput: num = 1234567\nOutput: \"One Million Two Hundred Thirty Four Thousand Five Hundred Sixty Seven\"\n\n \nConstraints:\n\n0 <= num <= 231 - 1\n\n",
+  "difficulty": "Hard",
+  "examples": [
+    "123",
+    "12345",
+    "1234567"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "num": "123"
+      },
+      "expected": "One Hundred Twenty Three"
+    }
+  ],
+  "python_starter": "class Solution:\n    def numberToWords(self, num: int) -> str:\n        ",
+  "hints": [
+    "Did you see a pattern in dividing the number into chunk of words? For example, 123 and 123000.",
+    "Group the number by thousands (3 digits). You can write a helper function that takes a number less than 1000 and convert just that chunk to words.",
+    "There are many edge cases. What are some good test cases? Does your code work with input such as 0? Or 1000010? (middle chunk is zero and should not be printed out)"
+  ],
+  "meta_data": {
+    "name": "numberToWords",
+    "params": [
+      {
+        "name": "num",
+        "type": "integer"
+      }
+    ],
+    "return": {
+      "type": "string"
+    }
+  }
+}

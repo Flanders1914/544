@@ -1,0 +1,51 @@
+{
+  "problem": {
+    "id": "215",
+    "frontend_id": "215",
+    "title": "Kth Largest Element in an Array",
+    "description": "Given an integer array nums and an integer k, return the kth largest element in the array.\nNote that it is the kth largest element in the sorted order, not the kth distinct element.\nCan you solve it without sorting?\n \nExample 1:\nInput: nums = [3,2,1,5,6,4], k = 2\nOutput: 5\nExample 2:\nInput: nums = [3,2,3,1,2,4,5,5,6], k = 4\nOutput: 4\n\n \nConstraints:\n\n1 <= k <= nums.length <= 105\n-104 <= nums[i] <= 104\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[3,2,1,5,6,4]",
+      "2",
+      "[3,2,3,1,2,4,5,5,6]",
+      "4"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[3,2,1,5,6,4]",
+          "k": "2"
+        },
+        "expected": "5"
+      }
+    ],
+    "python_starter": "class Solution:\n    def findKthLargest(self, nums: List[int], k: int) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "findKthLargest",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        },
+        {
+          "name": "k",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "import heapq\nfrom typing import List\n\nclass Solution:\n    def findKthLargest(self, nums: List[int], k: int) -> int:\n        # Create a min-heap with the first k elements\n        min_heap = nums[:k]\n        heapq.heapify(min_heap)  # Transform the list into a heap in O(k) time\n        \n        # Process the remaining elements\n        for num in nums[k:]:\n            if num > min_heap[0]:  # If the current number is larger than the smallest in the heap\n                heapq.heappop(min_heap)  # Remove the smallest element\n                heapq.heappush(min_heap, num)  # Add the current number\n        \n        # The root of the min-heap is the kth largest element\n        return min_heap[0]",
+    "explanation": "The solution uses a min-heap to efficiently track the kth largest element. The steps are as follows:\n\n1. **Heap Initialization**: We start by creating a min-heap with the first k elements of the array. This takes O(k) time.\n2. **Iterate through Remaining Elements**: For each of the remaining elements in the array (from index k to the end), we check if the current element is greater than the smallest element in the heap (the root). If it is, we remove the smallest element and add the current element to the heap. This operation (pop and push) takes O(log k) time.\n3. **Final Result**: After processing all elements, the root of the min-heap will be the kth largest element.\n\n**Time Complexity**: The overall time complexity is O(n log k), where n is the number of elements in the array. This is because we process n-k elements, each taking O(log k) time.\n\n**Space Complexity**: The space complexity is O(k) due to the storage of the min-heap.\n\nThis approach is efficient and meets the problem's constraints effectively."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 5\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:42"
+}

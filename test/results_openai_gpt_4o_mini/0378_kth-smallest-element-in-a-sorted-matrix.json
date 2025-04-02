@@ -1,0 +1,58 @@
+{
+  "problem": {
+    "id": "378",
+    "frontend_id": "378",
+    "title": "Kth Smallest Element in a Sorted Matrix",
+    "description": "Given an n x n matrix where each of the rows and columns is sorted in ascending order, return the kth smallest element in the matrix.\nNote that it is the kth smallest element in the sorted order, not the kth distinct element.\nYou must find a solution with a memory complexity better than O(n2).\n \nExample 1:\n\nInput: matrix = [[1,5,9],[10,11,13],[12,13,15]], k = 8\nOutput: 13\nExplanation: The elements in the matrix are [1,5,9,10,11,12,13,13,15], and the 8th smallest number is 13\n\nExample 2:\n\nInput: matrix = [[-5]], k = 1\nOutput: -5\n\n \nConstraints:\n\nn == matrix.length == matrix[i].length\n1 <= n <= 300\n-109 <= matrix[i][j] <= 109\nAll the rows and columns of matrix are guaranteed to be sorted in non-decreasing order.\n1 <= k <= n2\n\n \nFollow up:\n\nCould you solve the problem with a constant memory (i.e., O(1) memory complexity)?\nCould you solve the problem in O(n) time complexity? The solution may be too advanced for an interview but you may find reading this paper fun.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[[1,5,9],[10,11,13],[12,13,15]]",
+      "8",
+      "[[-5]]",
+      "1"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "matrix": "[[1,5,9]",
+          "k": "8"
+        },
+        "expected": "13"
+      },
+      {
+        "input": {
+          "matrix": "[[-5]",
+          "k": "1"
+        },
+        "expected": "-5"
+      }
+    ],
+    "python_starter": "class Solution:\n    def kthSmallest(self, matrix: List[List[int]], k: int) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "kthSmallest",
+      "params": [
+        {
+          "name": "matrix",
+          "type": "integer[][]"
+        },
+        {
+          "name": "k",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\nimport heapq\n\nclass Solution:\n    def kthSmallest(self, matrix: List[List[int]], k: int) -> int:\n        n = len(matrix)\n        min_heap = []\n        \n        # Push the first element of each row into the min-heap\n        for i in range(min(n, k)):  # Only need to push up to k elements\n            heapq.heappush(min_heap, (matrix[i][0], i, 0))  # (value, row, column)\n        \n        # Extract the smallest element k times\n        for _ in range(k):\n            val, row, col = heapq.heappop(min_heap)  # Get the smallest element\n            \n            # If there is a next element in the same row, push it into the heap\n            if col + 1 < n:\n                heapq.heappush(min_heap, (matrix[row][col + 1], row, col + 1))\n        \n        return val  # The kth smallest element",
+    "explanation": "The solution uses a min-heap to efficiently find the kth smallest element in a sorted matrix. The algorithm works as follows:\n\n1. **Initialization**: We create a min-heap and push the first element of each row into it. Each entry in the heap is a tuple containing the value, the row index, and the column index.\n\n2. **Heap Operations**: We perform k iterations where in each iteration we:\n   - Pop the smallest element from the heap, which gives us the current smallest value.\n   - If there is a next element in the same row, we push that next element into the heap.\n\n3. **Result**: After k iterations, the last popped value is the kth smallest element.\n\n**Time Complexity**: The time complexity is O(k log n) because we perform k pop operations and each pop operation takes O(log n) time due to the heap structure.\n\n**Space Complexity**: The space complexity is O(n) for storing the heap, where n is the number of rows in the matrix.\n\nThis approach is efficient and meets the problem's constraints, making it suitable for large matrices up to the maximum size specified."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmpbz1ep8s7.py\", line 57\n    input_0_0 = [[1,5,9]\n                 ^^^^^^^\nSyntaxError: invalid syntax. Perhaps you forgot a comma?\n"
+  },
+  "timestamp": "2025-04-01 18:00:51"
+}

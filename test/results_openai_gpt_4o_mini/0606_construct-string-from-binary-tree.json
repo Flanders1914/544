@@ -1,0 +1,50 @@
+{
+  "problem": {
+    "id": "606",
+    "frontend_id": "606",
+    "title": "Construct String from Binary Tree",
+    "description": "Given the root node of a binary tree, your task is to create a string representation of the tree following a specific set of formatting rules. The representation should be based on a preorder traversal of the binary tree and must adhere to the following guidelines:\n\n\nNode Representation: Each node in the tree should be represented by its integer value.\n\n\nParentheses for Children: If a node has at least one child (either left or right), its children should be represented inside parentheses. Specifically:\n\nIf a node has a left child, the value of the left child should be enclosed in parentheses immediately following the node's value.\nIf a node has a right child, the value of the right child should also be enclosed in parentheses. The parentheses for the right child should follow those of the left child.\n\n\n\nOmitting Empty Parentheses: Any empty parentheses pairs (i.e., ()) should be omitted from the final string representation of the tree, with one specific exception: when a node has a right child but no left child. In such cases, you must include an empty pair of parentheses to indicate the absence of the left child. This ensures that the one-to-one mapping between the string representation and the original binary tree structure is maintained.\nIn summary, empty parentheses pairs should be omitted when a node has only a left child or no children. However, when a node has a right child but no left child, an empty pair of parentheses must precede the representation of the right child to reflect the tree's structure accurately.\n\n\n \nExample 1:\n\n\nInput: root = [1,2,3,4]\nOutput: \"1(2(4))(3)\"\nExplanation: Originally, it needs to be \"1(2(4)())(3()())\", but you need to omit all the empty parenthesis pairs. And it will be \"1(2(4))(3)\".\n\nExample 2:\n\n\nInput: root = [1,2,3,null,4]\nOutput: \"1(2()(4))(3)\"\nExplanation: Almost the same as the first example, except the () after 2 is necessary to indicate the absence of a left child for 2 and the presence of a right child.\n\n \nConstraints:\n\nThe number of nodes in the tree is in the range [1, 104].\n-1000 <= Node.val <= 1000\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[1,2,3,4]",
+      "[1,2,3,null,4]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "root": "[1,2,3,4]"
+        },
+        "expected": "1(2(4))(3)"
+      },
+      {
+        "input": {
+          "root": "[1,2,3,null,4]"
+        },
+        "expected": "1(2()(4))(3)"
+      }
+    ],
+    "python_starter": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def tree2str(self, root: Optional[TreeNode]) -> str:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "tree2str",
+      "params": [
+        {
+          "name": "root",
+          "type": "TreeNode"
+        }
+      ],
+      "return": {
+        "type": "string"
+      }
+    }
+  },
+  "solution": {
+    "code": "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nclass Solution:\n    def tree2str(self, root: Optional[TreeNode]) -> str:\n        if not root:\n            return \"\"\n        \n        # Start with the root value\n        result = str(root.val)\n        \n        # If there is a left child, process it\n        if root.left:\n            result += f\"({self.tree2str(root.left)})\"\n        \n        # If there is a right child, we need to check for the left child\n        if root.right:\n            # If there is no left child, we need to add empty parentheses\n            if not root.left:\n                result += \"()\"\n            result += f\"({self.tree2str(root.right)})\"\n        \n        return result",
+    "explanation": "The solution uses a recursive function to traverse the binary tree in a preorder manner. Here’s a breakdown of how the function works:\n\n1. **Base Case**: If the current node (`root`) is `None`, we return an empty string. This handles the case where we reach a leaf node's child.\n2. **Node Value**: We convert the current node's value to a string and store it in `result`.\n3. **Left Child**: If the node has a left child, we recursively call `tree2str` on the left child and append its result in parentheses to `result`.\n4. **Right Child**: If the node has a right child, we check if the left child is absent. If it is, we append an empty pair of parentheses `()` to indicate the absence of the left child. Then, we recursively call `tree2str` on the right child and append its result in parentheses.\n\nThe time complexity of this solution is O(N), where N is the number of nodes in the tree, as we visit each node exactly once. The space complexity is O(H), where H is the height of the tree, due to the recursion stack. In the worst case (a skewed tree), this could be O(N), but in a balanced tree, it would be O(log N).\n\nOverall, this solution efficiently constructs the required string representation of the binary tree while adhering to the specified formatting rules."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:01:28"
+}

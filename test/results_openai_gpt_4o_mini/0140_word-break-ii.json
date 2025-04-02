@@ -1,0 +1,61 @@
+{
+  "problem": {
+    "id": "140",
+    "frontend_id": "140",
+    "title": "Word Break II",
+    "description": "Given a string s and a dictionary of strings wordDict, add spaces in s to construct a sentence where each word is a valid dictionary word. Return all such possible sentences in any order.\nNote that the same word in the dictionary may be reused multiple times in the segmentation.\n \nExample 1:\n\nInput: s = \"catsanddog\", wordDict = [\"cat\",\"cats\",\"and\",\"sand\",\"dog\"]\nOutput: [\"cats and dog\",\"cat sand dog\"]\n\nExample 2:\n\nInput: s = \"pineapplepenapple\", wordDict = [\"apple\",\"pen\",\"applepen\",\"pine\",\"pineapple\"]\nOutput: [\"pine apple pen apple\",\"pineapple pen apple\",\"pine applepen apple\"]\nExplanation: Note that you are allowed to reuse a dictionary word.\n\nExample 3:\n\nInput: s = \"catsandog\", wordDict = [\"cats\",\"dog\",\"sand\",\"and\",\"cat\"]\nOutput: []\n\n \nConstraints:\n\n1 <= s.length <= 20\n1 <= wordDict.length <= 1000\n1 <= wordDict[i].length <= 10\ns and wordDict[i] consist of only lowercase English letters.\nAll the strings of wordDict are unique.\nInput is generated in a way that the length of the answer doesn't exceed 105.\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "\"catsanddog\"",
+      "[\"cat\",\"cats\",\"and\",\"sand\",\"dog\"]",
+      "\"pineapplepenapple\"",
+      "[\"apple\",\"pen\",\"applepen\",\"pine\",\"pineapple\"]",
+      "\"catsandog\"",
+      "[\"cats\",\"dog\",\"sand\",\"and\",\"cat\"]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "s": "\"catsanddog\"",
+          "wordDict": "[\"cat\",\"cats\",\"and\",\"sand\",\"dog\"]"
+        },
+        "expected": "[cats and dog,cat sand dog]"
+      },
+      {
+        "input": {
+          "s": "\"catsandog\"",
+          "wordDict": "[\"cats\",\"dog\",\"sand\",\"and\",\"cat\"]"
+        },
+        "expected": "[]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "wordBreak",
+      "params": [
+        {
+          "name": "s",
+          "type": "string"
+        },
+        {
+          "name": "wordDict",
+          "type": "list<string>"
+        }
+      ],
+      "return": {
+        "type": "list<string>",
+        "dealloc": true
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def wordBreak(self, s: str, wordDict: List[str]) -> List[str]:\n        word_set = set(wordDict)  # Convert list to set for O(1) lookups\n        memo = {}  # Memoization dictionary\n        \n        def backtrack(start: int) -> List[str]:\n            # If we reach the end of the string, return a list with an empty string\n            if start == len(s):\n                return [\"\"]  # Base case: return a list with an empty string\n            \n            # If we have already computed results for this start index, return them\n            if start in memo:\n                return memo[start]\n            \n            sentences = []\n            # Try every possible end index for the current word\n            for end in range(start + 1, len(s) + 1):\n                word = s[start:end]\n                if word in word_set:  # If the word is in the dictionary\n                    # Recursively get sentences from the end index\n                    for sub_sentence in backtrack(end):\n                        # If sub_sentence is not empty, add a space before it\n                        if sub_sentence:\n                            sentences.append(word + \" \" + sub_sentence)\n                        else:\n                            sentences.append(word)  # If sub_sentence is empty, just add the word\n            \n            # Store the result in memo\n            memo[start] = sentences\n            return sentences\n        \n        return backtrack(0)  # Start backtracking from index 0",
+    "explanation": "The provided solution uses a recursive backtracking approach with memoization to efficiently find all possible sentences that can be formed by segmenting the string `s` using words from the `wordDict`. \n\n1. **Time Complexity**: The time complexity is O(N^2 * M), where N is the length of the string `s` and M is the number of words in the dictionary. This is because for each starting index, we may check up to N possible end indices, and for each valid word found, we may generate sentences recursively.\n\n2. **Space Complexity**: The space complexity is O(N) for the memoization dictionary and the recursion stack. The maximum depth of the recursion can go up to N in the worst case.\n\nOverall, this approach is efficient given the constraints, and it ensures that we explore all valid segmentations of the string while avoiding redundant calculations through memoization."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmpoias45a4.py\", line 73\n    expected_0 = [cats and dog,cat sand dog]\n                               ^^^^^^^^\nSyntaxError: invalid syntax. Perhaps you forgot a comma?\n"
+  },
+  "timestamp": "2025-04-01 18:00:38"
+}

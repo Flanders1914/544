@@ -1,0 +1,50 @@
+{
+  "problem": {
+    "id": "441",
+    "frontend_id": "441",
+    "title": "Arranging Coins",
+    "description": "You have n coins and you want to build a staircase with these coins. The staircase consists of k rows where the ith row has exactly i coins. The last row of the staircase may be incomplete.\nGiven the integer n, return the number of complete rows of the staircase you will build.\n \nExample 1:\n\n\nInput: n = 5\nOutput: 2\nExplanation: Because the 3rd row is incomplete, we return 2.\n\nExample 2:\n\n\nInput: n = 8\nOutput: 3\nExplanation: Because the 4th row is incomplete, we return 3.\n\n \nConstraints:\n\n1 <= n <= 231 - 1\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "5",
+      "8"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "n": "5"
+        },
+        "expected": "2"
+      },
+      {
+        "input": {
+          "n": "8"
+        },
+        "expected": "3"
+      }
+    ],
+    "python_starter": "class Solution:\n    def arrangeCoins(self, n: int) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "arrangeCoins",
+      "params": [
+        {
+          "name": "n",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def arrangeCoins(self, n: int) -> int:\n        # Initialize the number of complete rows\n        k = 0\n        \n        # While we can still form a complete row\n        while n >= (k + 1):\n            k += 1  # Move to the next row\n            n -= k  # Subtract the coins used for the current row\n        \n        return k  # Return the number of complete rows",
+    "explanation": "The solution uses a simple iterative approach to determine the number of complete rows that can be formed with `n` coins. We initialize a counter `k` to keep track of the number of complete rows. In each iteration, we check if we can form the next row (which requires `k + 1` coins). If we can, we increment `k` and subtract the coins used for that row from `n`. This continues until we can no longer form a complete row.\n\nThe time complexity of this solution is O(√n) in the worst case, as the number of iterations is proportional to the square root of `n` (since the sum of the first `k` natural numbers grows quadratically). The space complexity is O(1) since we are using a constant amount of space regardless of the input size.\n\nOverall, this approach is efficient and straightforward for the given problem constraints."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 2\nTest case 2:\n[PASS] Test passed: 3\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:56"
+}

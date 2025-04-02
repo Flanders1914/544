@@ -1,0 +1,50 @@
+{
+  "problem": {
+    "id": "279",
+    "frontend_id": "279",
+    "title": "Perfect Squares",
+    "description": "Given an integer n, return the least number of perfect square numbers that sum to n.\nA perfect square is an integer that is the square of an integer; in other words, it is the product of some integer with itself. For example, 1, 4, 9, and 16 are perfect squares while 3 and 11 are not.\n \nExample 1:\n\nInput: n = 12\nOutput: 3\nExplanation: 12 = 4 + 4 + 4.\n\nExample 2:\n\nInput: n = 13\nOutput: 2\nExplanation: 13 = 4 + 9.\n\n \nConstraints:\n\n1 <= n <= 104\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "12",
+      "13"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "n": "12"
+        },
+        "expected": "3"
+      },
+      {
+        "input": {
+          "n": "13"
+        },
+        "expected": "2"
+      }
+    ],
+    "python_starter": "class Solution:\n    def numSquares(self, n: int) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "numSquares",
+      "params": [
+        {
+          "name": "n",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def numSquares(self, n: int) -> int:\n        # Create a DP array to store the minimum number of perfect squares for each number up to n\n        dp = [float('inf')] * (n + 1)\n        dp[0] = 0  # Base case: 0 can be formed with 0 perfect squares\n        \n        # Iterate through all numbers from 1 to n\n        for i in range(1, n + 1):\n            # Check all perfect squares less than or equal to i\n            j = 1\n            while j * j <= i:\n                dp[i] = min(dp[i], dp[i - j * j] + 1)\n                j += 1\n        \n        return dp[n]  # The result for n",
+    "explanation": "The solution uses dynamic programming to efficiently compute the least number of perfect squares that sum to `n`. \n\n1. **Time Complexity**: The outer loop runs `n` times, and for each `i`, the inner loop runs up to `sqrt(i)` times (since we are checking perfect squares). Therefore, the overall time complexity is `O(n * sqrt(n))`.\n  \n2. **Space Complexity**: We use an array `dp` of size `n + 1`, which gives us a space complexity of `O(n)`.\n\nThis approach is efficient given the constraints (1 <= n <= 10^4) and ensures that we can compute the result in a reasonable time frame. The use of dynamic programming allows us to build up the solution incrementally, ensuring that we consider all possible combinations of perfect squares without redundant calculations."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 3\nTest case 2:\n[PASS] Test passed: 2\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:46"
+}

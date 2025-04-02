@@ -1,0 +1,53 @@
+{
+  "problem": {
+    "id": "50",
+    "frontend_id": "50",
+    "title": "Pow(x, n)",
+    "description": "Implement pow(x, n), which calculates x raised to the power n (i.e., xn).\n \nExample 1:\n\nInput: x = 2.00000, n = 10\nOutput: 1024.00000\n\nExample 2:\n\nInput: x = 2.10000, n = 3\nOutput: 9.26100\n\nExample 3:\n\nInput: x = 2.00000, n = -2\nOutput: 0.25000\nExplanation: 2-2 = 1/22 = 1/4 = 0.25\n\n \nConstraints:\n\n-100.0 < x < 100.0\n-231 <= n <= 231-1\nn is an integer.\nEither x is not zero or n > 0.\n-104 <= xn <= 104\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "2.00000",
+      "10",
+      "2.10000",
+      "3",
+      "2.00000",
+      "-2"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "x": "2",
+          "n": "10"
+        },
+        "expected": "1024.00000"
+      }
+    ],
+    "python_starter": "class Solution:\n    def myPow(self, x: float, n: int) -> float:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "myPow",
+      "params": [
+        {
+          "name": "x",
+          "type": "double"
+        },
+        {
+          "name": "n",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "double"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def myPow(self, x: float, n: int) -> float:\n        # Handle the case of negative exponent\n        if n < 0:\n            x = 1 / x\n            n = -n\n        \n        result = 1.0\n        current_product = x\n        \n        while n > 0:\n            # If n is odd, multiply the result by the current product\n            if n % 2 == 1:\n                result *= current_product\n            \n            # Square the current product\n            current_product *= current_product\n            # Divide n by 2\n            n //= 2\n        \n        return result",
+    "explanation": "The provided solution implements the `myPow` function using the exponentiation by squaring method. Here's a breakdown of how it works:\n\n1. **Negative Exponent Handling**: If \\( n \\) is negative, we convert the problem to a positive exponent by taking the reciprocal of \\( x \\) and negating \\( n \\).\n\n2. **Initialization**: We initialize `result` to 1.0, which will hold the final result, and `current_product` to \\( x \\).\n\n3. **Loop Until n is Zero**: We use a while loop that continues until \\( n \\) becomes zero:\n   - If \\( n \\) is odd (checked using `n % 2 == 1`), we multiply `result` by `current_product`.\n   - We then square `current_product` to prepare for the next iteration.\n   - Finally, we halve \\( n \\) using integer division (`n //= 2`).\n\n4. **Return Result**: Once the loop completes, we return the computed `result`.\n\n### Time Complexity\nThe time complexity of this algorithm is \\( O(\\log n) \\) because we effectively halve \\( n \\) in each iteration of the loop.\n\n### Space Complexity\nThe space complexity is \\( O(1) \\) since we are using a constant amount of space regardless of the input size.\n\nThis efficient approach ensures that we can handle large values of \\( n \\) without performance issues."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:29"
+}

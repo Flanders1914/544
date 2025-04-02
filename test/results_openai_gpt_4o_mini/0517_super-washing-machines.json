@@ -1,0 +1,57 @@
+{
+  "problem": {
+    "id": "517",
+    "frontend_id": "517",
+    "title": "Super Washing Machines",
+    "description": "You have n super washing machines on a line. Initially, each washing machine has some dresses or is empty.\nFor each move, you could choose any m (1 <= m <= n) washing machines, and pass one dress of each washing machine to one of its adjacent washing machines at the same time.\nGiven an integer array machines representing the number of dresses in each washing machine from left to right on the line, return the minimum number of moves to make all the washing machines have the same number of dresses. If it is not possible to do it, return -1.\n \nExample 1:\n\nInput: machines = [1,0,5]\nOutput: 3\nExplanation:\n1st move:    1     0 <-- 5    =>    1     1     4\n2nd move:    1 <-- 1 <-- 4    =>    2     1     3\n3rd move:    2     1 <-- 3    =>    2     2     2\n\nExample 2:\n\nInput: machines = [0,3,0]\nOutput: 2\nExplanation:\n1st move:    0 <-- 3     0    =>    1     2     0\n2nd move:    1     2 --> 0    =>    1     1     1\n\nExample 3:\n\nInput: machines = [0,2,0]\nOutput: -1\nExplanation:\nIt's impossible to make all three washing machines have the same number of dresses.\n\n \nConstraints:\n\nn == machines.length\n1 <= n <= 104\n0 <= machines[i] <= 105\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "[1,0,5]",
+      "[0,3,0]",
+      "[0,2,0]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "machines": "[1,0,5]"
+        },
+        "expected": "3"
+      },
+      {
+        "input": {
+          "machines": "[0,3,0]"
+        },
+        "expected": "2"
+      },
+      {
+        "input": {
+          "machines": "[0,2,0]"
+        },
+        "expected": "-1"
+      }
+    ],
+    "python_starter": "class Solution:\n    def findMinMoves(self, machines: List[int]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "findMinMoves",
+      "params": [
+        {
+          "name": "machines",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def findMinMoves(self, machines: List[int]) -> int:\n        total_dresses = sum(machines)\n        n = len(machines)\n        \n        # Check if equal distribution is possible\n        if total_dresses % n != 0:\n            return -1\n        \n        target = total_dresses // n\n        max_moves = 0\n        current_excess = 0\n        \n        for dresses in machines:\n            # Calculate the excess or deficit for the current machine\n            excess = dresses - target\n            \n            # If there's excess, we need to move it\n            if excess > 0:\n                current_excess += excess\n                max_moves = max(max_moves, excess)\n            else:\n                # If there's a deficit, we need to ensure we can cover it\n                max_moves = max(max_moves, -excess)\n            \n            # The maximum moves needed to balance the current excess\n            max_moves = max(max_moves, current_excess)\n        \n        return max_moves",
+    "explanation": "The solution begins by calculating the total number of dresses across all washing machines. If this total is not divisible by the number of machines, we immediately return -1, as equal distribution is impossible.\n\nNext, we determine the target number of dresses each machine should have, which is the total divided by the number of machines. We then iterate through each machine to calculate how many dresses it has in excess or deficit compared to the target.\n\nDuring this iteration:\n- We maintain a running total of the current excess dresses.\n- We track the maximum excess and deficit encountered.\n- The maximum number of moves required to balance the machines is determined by the maximum of the current excess and the maximum deficit.\n\nThe time complexity of this solution is O(n), where n is the number of washing machines, as we only make a single pass through the list. The space complexity is O(1) since we are using a constant amount of extra space regardless of the input size."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 3\nTest case 2:\n[PASS] Test passed: 2\nTest case 3:\n[PASS] Test passed: -1\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:01:21"
+}

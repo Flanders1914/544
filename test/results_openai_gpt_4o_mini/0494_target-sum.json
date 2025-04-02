@@ -1,0 +1,58 @@
+{
+  "problem": {
+    "id": "494",
+    "frontend_id": "494",
+    "title": "Target Sum",
+    "description": "You are given an integer array nums and an integer target.\nYou want to build an expression out of nums by adding one of the symbols '+' and '-' before each integer in nums and then concatenate all the integers.\n\nFor example, if nums = [2, 1], you can add a '+' before 2 and a '-' before 1 and concatenate them to build the expression \"+2-1\".\n\nReturn the number of different expressions that you can build, which evaluates to target.\n \nExample 1:\n\nInput: nums = [1,1,1,1,1], target = 3\nOutput: 5\nExplanation: There are 5 ways to assign symbols to make the sum of nums be target 3.\n-1 + 1 + 1 + 1 + 1 = 3\n+1 - 1 + 1 + 1 + 1 = 3\n+1 + 1 - 1 + 1 + 1 = 3\n+1 + 1 + 1 - 1 + 1 = 3\n+1 + 1 + 1 + 1 - 1 = 3\n\nExample 2:\n\nInput: nums = [1], target = 1\nOutput: 1\n\n \nConstraints:\n\n1 <= nums.length <= 20\n0 <= nums[i] <= 1000\n0 <= sum(nums[i]) <= 1000\n-1000 <= target <= 1000\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[1,1,1,1,1]",
+      "3",
+      "[1]",
+      "1"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[1,1,1,1,1]",
+          "target": "3"
+        },
+        "expected": "5"
+      },
+      {
+        "input": {
+          "nums": "[1]",
+          "target": "1"
+        },
+        "expected": "1"
+      }
+    ],
+    "python_starter": "class Solution:\n    def findTargetSumWays(self, nums: List[int], target: int) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "findTargetSumWays",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        },
+        {
+          "name": "target",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def findTargetSumWays(self, nums: List[int], target: int) -> int:\n        total_sum = sum(nums)\n        \n        # Check if the target is achievable\n        if target > total_sum or (target + total_sum) % 2 != 0:\n            return 0\n        \n        P = (target + total_sum) // 2\n        \n        # Initialize the dp array\n        dp = [0] * (P + 1)\n        dp[0] = 1  # There's one way to achieve the sum of 0: use no elements\n        \n        # Fill the dp array\n        for num in nums:\n            for i in range(P, num - 1, -1):\n                dp[i] += dp[i - num]\n        \n        return dp[P]",
+    "explanation": "The solution uses dynamic programming to count the number of ways to achieve a specific sum derived from the target. \n\n1. **Initialization**: We first calculate the total sum of the `nums` array. If the target is greater than this total sum or if the sum of the target and total sum is odd, we return 0 because it's impossible to partition the numbers into two groups that satisfy the equations derived.\n\n2. **Dynamic Programming Array**: We create a `dp` array where `dp[i]` indicates the number of ways to achieve the sum `i`. We initialize `dp[0]` to 1 because there is one way to achieve a sum of 0 (by selecting no elements).\n\n3. **Filling the DP Array**: For each number in `nums`, we iterate backwards through the `dp` array to update the number of ways to achieve each possible sum. This ensures that each number is only used once per iteration.\n\n4. **Return Result**: Finally, we return `dp[P]`, which contains the number of ways to achieve the sum `P`.\n\n**Time Complexity**: O(n * P), where n is the number of elements in `nums` and P is the target sum we are trying to achieve.\n\n**Space Complexity**: O(P) due to the `dp` array used to store the number of ways to achieve each sum."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 5\nTest case 2:\n[PASS] Test passed: 1\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:01:20"
+}

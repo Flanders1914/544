@@ -1,0 +1,34 @@
+{
+  "id": "110",
+  "frontend_id": "110",
+  "title": "Balanced Binary Tree",
+  "description": "Given a binary tree, determine if it is height-balanced.\n \nExample 1:\n\n\nInput: root = [3,9,20,null,null,15,7]\nOutput: true\n\nExample 2:\n\n\nInput: root = [1,2,2,3,3,null,null,4,4]\nOutput: false\n\nExample 3:\n\nInput: root = []\nOutput: true\n\n \nConstraints:\n\nThe number of nodes in the tree is in the range [0, 5000].\n-104 <= Node.val <= 104\n\n",
+  "difficulty": "Easy",
+  "examples": [
+    "[3,9,20,null,null,15,7]",
+    "[1,2,2,3,3,null,null,4,4]",
+    "[]"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "root": "[3,9,20,null,null,15,7]"
+      },
+      "expected": "true"
+    }
+  ],
+  "python_starter": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def isBalanced(self, root: Optional[TreeNode]) -> bool:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "isBalanced",
+    "params": [
+      {
+        "name": "root",
+        "type": "TreeNode"
+      }
+    ],
+    "return": {
+      "type": "boolean"
+    }
+  }
+}

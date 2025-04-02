@@ -1,0 +1,42 @@
+{
+  "id": "383",
+  "frontend_id": "383",
+  "title": "Ransom Note",
+  "description": "Given two strings ransomNote and magazine, return true if ransomNote can be constructed by using the letters from magazine and false otherwise.\nEach letter in magazine can only be used once in ransomNote.\n \nExample 1:\nInput: ransomNote = \"a\", magazine = \"b\"\nOutput: false\nExample 2:\nInput: ransomNote = \"aa\", magazine = \"ab\"\nOutput: false\nExample 3:\nInput: ransomNote = \"aa\", magazine = \"aab\"\nOutput: true\n\n \nConstraints:\n\n1 <= ransomNote.length, magazine.length <= 105\nransomNote and magazine consist of lowercase English letters.\n\n",
+  "difficulty": "Easy",
+  "examples": [
+    "\"a\"",
+    "\"b\"",
+    "\"aa\"",
+    "\"ab\"",
+    "\"aa\"",
+    "\"aab\""
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "ransomNote": "\"a\"",
+        "magazine": "\"b\""
+      },
+      "expected": "false"
+    }
+  ],
+  "python_starter": "class Solution:\n    def canConstruct(self, ransomNote: str, magazine: str) -> bool:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "canConstruct",
+    "params": [
+      {
+        "name": "ransomNote",
+        "type": "string"
+      },
+      {
+        "name": "magazine",
+        "type": "string"
+      }
+    ],
+    "return": {
+      "type": "boolean"
+    }
+  }
+}

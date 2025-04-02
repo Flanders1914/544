@@ -1,0 +1,33 @@
+{
+  "id": "179",
+  "frontend_id": "179",
+  "title": "Largest Number",
+  "description": "Given a list of non-negative integers nums, arrange them such that they form the largest number and return it.\nSince the result may be very large, so you need to return a string instead of an integer.\n \nExample 1:\n\nInput: nums = [10,2]\nOutput: \"210\"\n\nExample 2:\n\nInput: nums = [3,30,34,5,9]\nOutput: \"9534330\"\n\n \nConstraints:\n\n1 <= nums.length <= 100\n0 <= nums[i] <= 109\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "[10,2]",
+    "[3,30,34,5,9]"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "nums": "[10,2]"
+      },
+      "expected": "210"
+    }
+  ],
+  "python_starter": "class Solution:\n    def largestNumber(self, nums: List[int]) -> str:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "largestNumber",
+    "params": [
+      {
+        "name": "nums",
+        "type": "integer[]"
+      }
+    ],
+    "return": {
+      "type": "string"
+    }
+  }
+}

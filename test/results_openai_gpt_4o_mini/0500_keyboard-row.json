@@ -1,0 +1,51 @@
+{
+  "problem": {
+    "id": "500",
+    "frontend_id": "500",
+    "title": "Keyboard Row",
+    "description": "Given an array of strings words, return the words that can be typed using letters of the alphabet on only one row of American keyboard like the image below.\nNote that the strings are case-insensitive, both lowercased and uppercased of the same letter are treated as if they are at the same row.\nIn the American keyboard:\n\nthe first row consists of the characters \"qwertyuiop\",\nthe second row consists of the characters \"asdfghjkl\", and\nthe third row consists of the characters \"zxcvbnm\".\n\n\n \nExample 1:\n\nInput: words = [\"Hello\",\"Alaska\",\"Dad\",\"Peace\"]\nOutput: [\"Alaska\",\"Dad\"]\nExplanation:\nBoth \"a\" and \"A\" are in the 2nd row of the American keyboard due to case insensitivity.\n\nExample 2:\n\nInput: words = [\"omk\"]\nOutput: []\n\nExample 3:\n\nInput: words = [\"adsdf\",\"sfd\"]\nOutput: [\"adsdf\",\"sfd\"]\n\n \nConstraints:\n\n1 <= words.length <= 20\n1 <= words[i].length <= 100\nwords[i] consists of English letters (both lowercase and uppercase). \n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "[\"Hello\",\"Alaska\",\"Dad\",\"Peace\"]",
+      "[\"omk\"]",
+      "[\"adsdf\",\"sfd\"]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "words": "[\"Hello\",\"Alaska\",\"Dad\",\"Peace\"]"
+        },
+        "expected": "[Alaska,Dad]"
+      },
+      {
+        "input": {
+          "words": "[\"omk\"]"
+        },
+        "expected": "[]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def findWords(self, words: List[str]) -> List[str]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "findWords",
+      "params": [
+        {
+          "name": "words",
+          "type": "string[]"
+        }
+      ],
+      "return": {
+        "type": "string[]"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def findWords(self, words: List[str]) -> List[str]:\n        # Define the sets for each row of the keyboard\n        row1 = set(\"qwertyuiop\")\n        row2 = set(\"asdfghjkl\")\n        row3 = set(\"zxcvbnm\")\n        \n        result = []\n        \n        for word in words:\n            # Convert the word to lowercase\n            lower_word = word.lower()\n            # Check which row the first character belongs to\n            if lower_word[0] in row1:\n                row = row1\n            elif lower_word[0] in row2:\n                row = row2\n            else:\n                row = row3\n            \n            # Check if all characters in the word belong to the same row\n            if all(char in row for char in lower_word):\n                result.append(word)\n        \n        return result",
+    "explanation": "The solution defines three sets representing the letters in each row of the American keyboard. The `findWords` function iterates through each word in the input list, converting it to lowercase to ensure case insensitivity. \n\nFor each word, it checks the first character to determine which row it belongs to. Then, it uses a generator expression with the `all()` function to verify that every character in the word is present in the identified row's set. If the condition is satisfied, the word is added to the result list.\n\nThe time complexity of this solution is O(N * M), where N is the number of words and M is the average length of the words. This is efficient given the constraints (1 <= words.length <= 20 and 1 <= words[i].length <= 100). The space complexity is O(1) since the sets for the rows are constant in size and do not depend on the input size."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:01:20"
+}

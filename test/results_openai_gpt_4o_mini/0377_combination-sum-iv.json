@@ -1,0 +1,58 @@
+{
+  "problem": {
+    "id": "377",
+    "frontend_id": "377",
+    "title": "Combination Sum IV",
+    "description": "Given an array of distinct integers nums and a target integer target, return the number of possible combinations that add up to target.\nThe test cases are generated so that the answer can fit in a 32-bit integer.\n \nExample 1:\n\nInput: nums = [1,2,3], target = 4\nOutput: 7\nExplanation:\nThe possible combination ways are:\n(1, 1, 1, 1)\n(1, 1, 2)\n(1, 2, 1)\n(1, 3)\n(2, 1, 1)\n(2, 2)\n(3, 1)\nNote that different sequences are counted as different combinations.\n\nExample 2:\n\nInput: nums = [9], target = 3\nOutput: 0\n\n \nConstraints:\n\n1 <= nums.length <= 200\n1 <= nums[i] <= 1000\nAll the elements of nums are unique.\n1 <= target <= 1000\n\n \nFollow up: What if negative numbers are allowed in the given array? How does it change the problem? What limitation we need to add to the question to allow negative numbers?\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[1,2,3]",
+      "4",
+      "[9]",
+      "3"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[1,2,3]",
+          "target": "4"
+        },
+        "expected": "7"
+      },
+      {
+        "input": {
+          "nums": "[9]",
+          "target": "3"
+        },
+        "expected": "0"
+      }
+    ],
+    "python_starter": "class Solution:\n    def combinationSum4(self, nums: List[int], target: int) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "combinationSum4",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        },
+        {
+          "name": "target",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def combinationSum4(self, nums: List[int], target: int) -> int:\n        # Initialize a dp array with size target + 1\n        dp = [0] * (target + 1)\n        # Base case: there's one way to reach the target sum of 0\n        dp[0] = 1\n        \n        # Iterate through all sums from 1 to target\n        for i in range(1, target + 1):\n            # For each number in nums, update the dp array\n            for num in nums:\n                if i >= num:\n                    dp[i] += dp[i - num]\n        \n        # The answer is the number of ways to reach the target\n        return dp[target]",
+    "explanation": "The solution uses dynamic programming to efficiently count the number of combinations that sum up to the target. The `dp` array is constructed such that each index `i` represents the number of ways to achieve the sum `i` using the numbers in `nums`.\n\n1. **Time Complexity**: The time complexity of this solution is O(n * target), where `n` is the number of elements in `nums`. This is because for each target value from 1 to `target`, we iterate through all numbers in `nums`.\n\n2. **Space Complexity**: The space complexity is O(target) due to the `dp` array that we maintain.\n\nThis approach is efficient given the constraints, and it ensures that we count all possible combinations, including different sequences of the same numbers. \n\nIn the follow-up question regarding negative numbers, allowing negative numbers would complicate the problem significantly, as it could lead to infinite combinations (e.g., using a negative number repeatedly). To handle negative numbers, we would need to impose additional constraints, such as limiting the number of times a number can be used or defining a maximum depth for combinations."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 7\nTest case 2:\n[PASS] Test passed: 0\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:51"
+}

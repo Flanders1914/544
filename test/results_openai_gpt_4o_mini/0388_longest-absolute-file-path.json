@@ -1,0 +1,57 @@
+{
+  "problem": {
+    "id": "388",
+    "frontend_id": "388",
+    "title": "Longest Absolute File Path",
+    "description": "Suppose we have a file system that stores both files and directories. An example of one system is represented in the following picture:\n\nHere, we have dir as the only directory in the root. dir contains two subdirectories, subdir1 and subdir2. subdir1 contains a file file1.ext and subdirectory subsubdir1. subdir2 contains a subdirectory subsubdir2, which contains a file file2.ext.\nIn text form, it looks like this (with ⟶ representing the tab character):\n\ndir\n⟶ subdir1\n⟶ ⟶ file1.ext\n⟶ ⟶ subsubdir1\n⟶ subdir2\n⟶ ⟶ subsubdir2\n⟶ ⟶ ⟶ file2.ext\n\nIf we were to write this representation in code, it will look like this: \"dir\\n\\tsubdir1\\n\\t\\tfile1.ext\\n\\t\\tsubsubdir1\\n\\tsubdir2\\n\\t\\tsubsubdir2\\n\\t\\t\\tfile2.ext\". Note that the '\\n' and '\\t' are the new-line and tab characters.\nEvery file and directory has a unique absolute path in the file system, which is the order of directories that must be opened to reach the file/directory itself, all concatenated by '/'s. Using the above example, the absolute path to file2.ext is \"dir/subdir2/subsubdir2/file2.ext\". Each directory name consists of letters, digits, and/or spaces. Each file name is of the form name.extension, where name and extension consist of letters, digits, and/or spaces.\nGiven a string input representing the file system in the explained format, return the length of the longest absolute path to a file in the abstracted file system. If there is no file in the system, return 0.\nNote that the testcases are generated such that the file system is valid and no file or directory name has length 0.\n \nExample 1:\n\n\nInput: input = \"dir\\n\\tsubdir1\\n\\tsubdir2\\n\\t\\tfile.ext\"\nOutput: 20\nExplanation: We have only one file, and the absolute path is \"dir/subdir2/file.ext\" of length 20.\n\nExample 2:\n\n\nInput: input = \"dir\\n\\tsubdir1\\n\\t\\tfile1.ext\\n\\t\\tsubsubdir1\\n\\tsubdir2\\n\\t\\tsubsubdir2\\n\\t\\t\\tfile2.ext\"\nOutput: 32\nExplanation: We have two files:\n\"dir/subdir1/file1.ext\" of length 21\n\"dir/subdir2/subsubdir2/file2.ext\" of length 32.\nWe return 32 since it is the longest absolute path to a file.\n\nExample 3:\n\nInput: input = \"a\"\nOutput: 0\nExplanation: We do not have any files, just a single directory named \"a\".\n\n \nConstraints:\n\n1 <= input.length <= 104\ninput may contain lowercase or uppercase English letters, a new line character '\\n', a tab character '\\t', a dot '.', a space ' ', and digits.\nAll file and directory names have positive length.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "\"dir\\n\\tsubdir1\\n\\tsubdir2\\n\\t\\tfile.ext\"",
+      "\"dir\\n\\tsubdir1\\n\\t\\tfile1.ext\\n\\t\\tsubsubdir1\\n\\tsubdir2\\n\\t\\tsubsubdir2\\n\\t\\t\\tfile2.ext\"",
+      "\"a\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "input": "\"dir\\n\\tsubdir1\\n\\tsubdir2\\n\\t\\tfile.ext\""
+        },
+        "expected": "20"
+      },
+      {
+        "input": {
+          "input": "\"dir\\n\\tsubdir1\\n\\t\\tfile1.ext\\n\\t\\tsubsubdir1\\n\\tsubdir2\\n\\t\\tsubsubdir2\\n\\t\\t\\tfile2.ext\""
+        },
+        "expected": "32"
+      },
+      {
+        "input": {
+          "input": "\"a\""
+        },
+        "expected": "0"
+      }
+    ],
+    "python_starter": "class Solution:\n    def lengthLongestPath(self, input: str) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "lengthLongestPath",
+      "params": [
+        {
+          "name": "input",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def lengthLongestPath(self, input: str) -> int:\n        # Split the input by new lines to get each component\n        components = input.split('\\n')\n        # Stack to hold the lengths of paths at each depth\n        path_lengths = [0]  # Start with a base length of 0 for the root\n        max_length = 0  # Variable to keep track of the maximum length\n        \n        for component in components:\n            # Determine the depth by counting the number of leading tabs\n            depth = component.count('\\t')\n            # Get the actual name of the file or directory (remove leading tabs)\n            name = component.lstrip('\\t')\n            # Calculate the length of the current component\n            current_length = len(name)\n            \n            # If it's a file (contains a dot), calculate the total path length\n            if '.' in name:\n                # Total length is the length of the current component + length of the path up to the current depth\n                total_length = path_lengths[depth] + current_length + (1 if depth > 0 else 0)  # Add 1 for the '/' if not at root\n                max_length = max(max_length, total_length)  # Update max length if needed\n            else:\n                # If it's a directory, update the path length at the current depth\n                path_lengths[depth + 1] = path_lengths[depth] + current_length + (1 if depth > 0 else 0)  # Add 1 for the '/' if not at root\n        \n        return max_length",
+    "explanation": "The solution uses a stack-like approach to keep track of the cumulative lengths of paths at different depths in the file system. Here's a breakdown of how the solution works:\n\n1. **Input Splitting**: The input string is split into components based on new lines, allowing us to process each directory or file individually.\n2. **Depth Calculation**: For each component, we determine its depth by counting the number of leading tab characters. This helps us understand how deep we are in the directory structure.\n3. **Path Length Management**: We maintain an array `path_lengths` where `path_lengths[i]` holds the total length of the path up to depth `i`. When we encounter a directory, we update this array with the new length. For files, we calculate the total path length by adding the current component's length to the length of the path at its depth.\n4. **Maximum Length Tracking**: Whenever we find a file, we check if its path length is greater than the current maximum and update accordingly.\n5. **Time Complexity**: The solution runs in O(n), where n is the length of the input string, as we process each character once.\n6. **Space Complexity**: The space complexity is O(d), where d is the maximum depth of the directory structure, due to the `path_lengths` array.\n\nThis efficient approach ensures that we can handle the maximum constraints of the problem effectively."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:52"
+}

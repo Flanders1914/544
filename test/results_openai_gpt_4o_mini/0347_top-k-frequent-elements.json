@@ -1,0 +1,51 @@
+{
+  "problem": {
+    "id": "347",
+    "frontend_id": "347",
+    "title": "Top K Frequent Elements",
+    "description": "Given an integer array nums and an integer k, return the k most frequent elements. You may return the answer in any order.\n \nExample 1:\nInput: nums = [1,1,1,2,2,3], k = 2\nOutput: [1,2]\nExample 2:\nInput: nums = [1], k = 1\nOutput: [1]\n\n \nConstraints:\n\n1 <= nums.length <= 105\n-104 <= nums[i] <= 104\nk is in the range [1, the number of unique elements in the array].\nIt is guaranteed that the answer is unique.\n\n \nFollow up: Your algorithm's time complexity must be better than O(n log n), where n is the array's size.\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[1,1,1,2,2,3]",
+      "2",
+      "[1]",
+      "1"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[1,1,1,2,2,3]",
+          "k": "2"
+        },
+        "expected": "[1,2]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def topKFrequent(self, nums: List[int], k: int) -> List[int]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "topKFrequent",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        },
+        {
+          "name": "k",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer[]"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\nfrom collections import Counter\nimport heapq\n\nclass Solution:\n    def topKFrequent(self, nums: List[int], k: int) -> List[int]:\n        # Step 1: Count the frequency of each element in nums\n        frequency = Counter(nums)\n        \n        # Step 2: Use a min-heap to keep track of the top k elements\n        min_heap = []\n        \n        for num, freq in frequency.items():\n            # Push the current number and its frequency onto the heap\n            heapq.heappush(min_heap, (freq, num))\n            # If the heap exceeds size k, remove the smallest frequency element\n            if len(min_heap) > k:\n                heapq.heappop(min_heap)\n        \n        # Step 3: Extract the elements from the heap\n        return [num for freq, num in min_heap]",
+    "explanation": "The solution begins by counting the frequency of each element in the input array `nums` using the `Counter` class from the `collections` module. This gives us a dictionary-like object where keys are the elements and values are their respective counts.\n\nNext, we initialize a min-heap (using Python's `heapq` module) to keep track of the top k frequent elements. We iterate over the frequency dictionary, pushing each (frequency, element) pair onto the heap. If the size of the heap exceeds k, we remove the element with the smallest frequency. This ensures that we only keep the k most frequent elements in the heap.\n\nFinally, we extract the elements from the heap and return them as a list. The time complexity of this approach is O(n log k), where n is the number of elements in `nums`, and the space complexity is O(k) for storing the heap.\n\nThis solution is efficient and meets the problem's constraints, making it suitable for large input sizes."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:50"
+}

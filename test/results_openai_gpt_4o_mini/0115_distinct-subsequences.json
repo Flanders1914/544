@@ -1,0 +1,58 @@
+{
+  "problem": {
+    "id": "115",
+    "frontend_id": "115",
+    "title": "Distinct Subsequences",
+    "description": "Given two strings s and t, return the number of distinct subsequences of s which equals t.\nThe test cases are generated so that the answer fits on a 32-bit signed integer.\n \nExample 1:\n\nInput: s = \"rabbbit\", t = \"rabbit\"\nOutput: 3\nExplanation:\nAs shown below, there are 3 ways you can generate \"rabbit\" from s.\nrabbbit\nrabbbit\nrabbbit\n\nExample 2:\n\nInput: s = \"babgbag\", t = \"bag\"\nOutput: 5\nExplanation:\nAs shown below, there are 5 ways you can generate \"bag\" from s.\nbabgbag\nbabgbag\nbabgbag\nbabgbag\nbabgbag\n \nConstraints:\n\n1 <= s.length, t.length <= 1000\ns and t consist of English letters.\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "\"rabbbit\"",
+      "\"rabbit\"",
+      "\"babgbag\"",
+      "\"bag\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "s": "\"rabbbit\"",
+          "t": "\"rabbit\""
+        },
+        "expected": "3"
+      },
+      {
+        "input": {
+          "s": "\"babgbag\"",
+          "t": "\"bag\""
+        },
+        "expected": "5"
+      }
+    ],
+    "python_starter": "class Solution:\n    def numDistinct(self, s: str, t: str) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "numDistinct",
+      "params": [
+        {
+          "name": "s",
+          "type": "string"
+        },
+        {
+          "name": "t",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def numDistinct(self, s: str, t: str) -> int:\n        m, n = len(s), len(t)\n        \n        # Create a DP table with (m+1) x (n+1)\n        dp = [[0] * (n + 1) for _ in range(m + 1)]\n        \n        # Base case: An empty t has one subsequence in any s (the empty subsequence)\n        for i in range(m + 1):\n            dp[i][0] = 1\n        \n        # Fill the DP table\n        for i in range(1, m + 1):\n            for j in range(1, n + 1):\n                if s[i - 1] == t[j - 1]:\n                    dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j]\n                else:\n                    dp[i][j] = dp[i - 1][j]\n        \n        return dp[m][n]",
+    "explanation": "The solution uses a dynamic programming approach to count the number of distinct subsequences of string `s` that match string `t`. We initialize a 2D list `dp` where `dp[i][j]` holds the count of distinct subsequences of the first `i` characters of `s` that equal the first `j` characters of `t`.\n\n1. **Initialization**: We set `dp[i][0] = 1` for all `i`, since there is one way to form an empty string `t` from any prefix of `s`.\n\n2. **Filling the DP Table**:\n   - For each character in `s` and `t`, we check if they match:\n     - If they match, we add the counts from both including and excluding the current character.\n     - If they do not match, we carry forward the count from excluding the current character.\n\n3. **Final Output**: The value at `dp[m][n]` gives the total number of distinct subsequences.\n\nThe time complexity is O(m * n) due to the nested loops iterating through the lengths of `s` and `t`. The space complexity is also O(m * n) for the DP table. This approach efficiently computes the result even for the maximum constraints of the problem."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 3\nTest case 2:\n[PASS] Test passed: 5\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:36"
+}

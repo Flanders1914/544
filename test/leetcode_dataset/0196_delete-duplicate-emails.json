@@ -1,0 +1,46 @@
+{
+  "id": "196",
+  "frontend_id": "196",
+  "title": "Delete Duplicate Emails",
+  "description": "Table: Person\n\n+-------------+---------+\n| Column Name | Type    |\n+-------------+---------+\n| id          | int     |\n| email       | varchar |\n+-------------+---------+\nid is the primary key (column with unique values) for this table.\nEach row of this table contains an email. The emails will not contain uppercase letters.\n\n \nWrite a solution to delete all duplicate emails, keeping only one unique email with the smallest id.\nFor SQL users, please note that you are supposed to write a DELETE statement and not a SELECT one.\nFor Pandas users, please note that you are supposed to modify Person in place.\nAfter running your script, the answer shown is the Person table. The driver will first compile and run your piece of code and then show the Person table. The final order of the Person table does not matter.\nThe result format is in the following example.\n \nExample 1:\n\nInput: \nPerson table:\n+----+------------------+\n| id | email            |\n+----+------------------+\n| 1  | john@example.com |\n| 2  | bob@example.com  |\n| 3  | john@example.com |\n+----+------------------+\nOutput: \n+----+------------------+\n| id | email            |\n+----+------------------+\n| 1  | john@example.com |\n| 2  | bob@example.com  |\n+----+------------------+\nExplanation: john@example.com is repeated two times. We keep the row with the smallest Id = 1.\n\n",
+  "difficulty": "Easy",
+  "examples": [
+    "{\"headers\": {\"Person\": [\"id\", \"email\"]}, \"rows\": {\"Person\": [[1, \"john@example.com\"], [2, \"bob@example.com\"], [3, \"john@example.com\"]]}}"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "param0": "Person table: +----+------------------+ | id | email            | +----+------------------+ | 1  | john@example.com | | 2  | bob@example.com  | | 3  | john@example.com | +----+------------------+"
+      },
+      "expected": "+----+------------------+"
+    }
+  ],
+  "python_starter": null,
+  "hints": [],
+  "meta_data": {
+    "mysql": [
+      "Create table If Not Exists Person (Id int, Email varchar(255))"
+    ],
+    "mssql": [
+      "Create table Person (Id int, Email varchar(255))"
+    ],
+    "oraclesql": [
+      "Create table Person (Id int, Email varchar(255))"
+    ],
+    "database": true,
+    "manual": true,
+    "name": "delete_duplicate_emails",
+    "pythondata": [
+      "Person = pd.DataFrame([], columns=['id', 'email']).astype({'id':'int64', 'email':'object'})"
+    ],
+    "postgresql": [
+      "Create table If Not Exists Person (Id int, Email varchar(255))\n"
+    ],
+    "database_schema": {
+      "Person": {
+        "Id": "INT",
+        "Email": "VARCHAR(255)"
+      }
+    }
+  }
+}

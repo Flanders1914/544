@@ -1,0 +1,50 @@
+{
+  "problem": {
+    "id": "477",
+    "frontend_id": "477",
+    "title": "Total Hamming Distance",
+    "description": "The Hamming distance between two integers is the number of positions at which the corresponding bits are different.\nGiven an integer array nums, return the sum of Hamming distances between all the pairs of the integers in nums.\n \nExample 1:\n\nInput: nums = [4,14,2]\nOutput: 6\nExplanation: In binary representation, the 4 is 0100, 14 is 1110, and 2 is 0010 (just\nshowing the four bits relevant in this case).\nThe answer will be:\nHammingDistance(4, 14) + HammingDistance(4, 2) + HammingDistance(14, 2) = 2 + 2 + 2 = 6.\n\nExample 2:\n\nInput: nums = [4,14,4]\nOutput: 4\n\n \nConstraints:\n\n1 <= nums.length <= 104\n0 <= nums[i] <= 109\nThe answer for the given input will fit in a 32-bit integer.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[4,14,2]",
+      "[4,14,4]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[4,14,2]"
+        },
+        "expected": "6"
+      },
+      {
+        "input": {
+          "nums": "[4,14,4]"
+        },
+        "expected": "4"
+      }
+    ],
+    "python_starter": "class Solution:\n    def totalHammingDistance(self, nums: List[int]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "totalHammingDistance",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def totalHammingDistance(self, nums: List[int]) -> int:\n        total_distance = 0\n        n = len(nums)\n        \n        # Iterate over each bit position\n        for bit in range(32):  # We consider 32 bits for the maximum value of 10^9\n            count_set_bits = 0\n            \n            # Count how many numbers have the current bit set\n            for num in nums:\n                if num & (1 << bit):\n                    count_set_bits += 1\n            \n            # Count of numbers that do not have the current bit set\n            count_unset_bits = n - count_set_bits\n            \n            # Each differing pair contributes 1 to the Hamming distance\n            total_distance += count_set_bits * count_unset_bits\n        \n        return total_distance",
+    "explanation": "The provided solution efficiently calculates the total Hamming distance between all pairs of integers in the input list. The algorithm iterates through each of the 32 possible bit positions (since the maximum number is 10^9, which can be represented in 30 bits, but we consider 32 for safety). \n\nFor each bit position:\n- We count how many integers in the list have that bit set (1).\n- The count of integers that do not have that bit set (0) is simply the total number of integers minus the count of set bits.\n- The contribution to the total Hamming distance from that bit position is the product of the count of set bits and unset bits, as each pair of differing bits contributes 1 to the Hamming distance.\n\nThe overall time complexity of the solution is O(n), where n is the number of integers in the input list, since we perform a linear scan for each of the 32 bits. The space complexity is O(1) as we are using a constant amount of extra space regardless of the input size.\n\nThis approach is efficient and well-suited for the problem constraints, ensuring that it runs within acceptable limits even for the maximum input size."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 6\nTest case 2:\n[PASS] Test passed: 4\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:59"
+}

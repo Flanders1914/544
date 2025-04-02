@@ -1,0 +1,63 @@
+{
+  "problem": {
+    "id": "566",
+    "frontend_id": "566",
+    "title": "Reshape the Matrix",
+    "description": "In MATLAB, there is a handy function called reshape which can reshape an m x n matrix into a new one with a different size r x c keeping its original data.\nYou are given an m x n matrix mat and two integers r and c representing the number of rows and the number of columns of the wanted reshaped matrix.\nThe reshaped matrix should be filled with all the elements of the original matrix in the same row-traversing order as they were.\nIf the reshape operation with given parameters is possible and legal, output the new reshaped matrix; Otherwise, output the original matrix.\n \nExample 1:\n\n\nInput: mat = [[1,2],[3,4]], r = 1, c = 4\nOutput: [[1,2,3,4]]\n\nExample 2:\n\n\nInput: mat = [[1,2],[3,4]], r = 2, c = 4\nOutput: [[1,2],[3,4]]\n\n \nConstraints:\n\nm == mat.length\nn == mat[i].length\n1 <= m, n <= 100\n-1000 <= mat[i][j] <= 1000\n1 <= r, c <= 300\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "[[1,2],[3,4]]",
+      "1",
+      "4",
+      "[[1,2],[3,4]]",
+      "2",
+      "4"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "mat": "[[1,2]",
+          "r": "1",
+          "c": "4"
+        },
+        "expected": "[[1,2,3,4]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def matrixReshape(self, mat: List[List[int]], r: int, c: int) -> List[List[int]]:\n        ",
+    "hints": [
+      "Do you know how 2d matrix is stored in 1d memory? Try to map 2-dimensions into one.",
+      "M[i][j]=M[n*i+j] , where n is the number of cols. \r\nThis is the one way of converting 2-d indices into one 1-d index.  \r\nNow, how will you convert 1-d index into 2-d indices?",
+      "Try to use division and modulus to convert 1-d index into 2-d indices.",
+      "M[i] =>  M[i/n][i%n] Will it result in right mapping? Take some example and check this formula."
+    ],
+    "meta_data": {
+      "name": "matrixReshape",
+      "params": [
+        {
+          "name": "mat",
+          "type": "integer[][]"
+        },
+        {
+          "name": "r",
+          "type": "integer"
+        },
+        {
+          "name": "c",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer[][]"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def matrixReshape(self, mat: List[List[int]], r: int, c: int) -> List[List[int]]:\n        # Get the original dimensions\n        m = len(mat)\n        n = len(mat[0]) if m > 0 else 0\n        \n        # Check if reshaping is possible\n        if m * n != r * c:\n            return mat\n        \n        # Flatten the original matrix\n        flat_list = []\n        for row in mat:\n            flat_list.extend(row)\n        \n        # Create the reshaped matrix\n        reshaped_matrix = []\n        for i in range(r):\n            reshaped_matrix.append(flat_list[i * c:(i + 1) * c])\n        \n        return reshaped_matrix",
+    "explanation": "The solution begins by determining the dimensions of the original matrix `mat`. We calculate `m` (the number of rows) and `n` (the number of columns). The first condition checks if the total number of elements in the original matrix (`m * n`) is equal to the total number of elements in the desired reshaped matrix (`r * c`). If they are not equal, we return the original matrix as reshaping is not possible.\n\nIf reshaping is feasible, we proceed to flatten the original matrix into a single list called `flat_list`. This is done by iterating through each row of the original matrix and extending `flat_list` with the elements of that row.\n\nNext, we create the reshaped matrix by iterating `r` times and slicing `flat_list` into chunks of size `c`. Each chunk corresponds to a row in the new matrix.\n\nThe time complexity of this solution is O(m * n) because we traverse the original matrix once to flatten it and then again to create the reshaped matrix. The space complexity is also O(m * n) due to the storage of the flattened list and the reshaped matrix.\n\nOverall, this approach efficiently handles the reshaping of the matrix while adhering to the constraints provided."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmppzy5fe0o.py\", line 59\n    input_0_0 = [[1,2]\n                 ^^^^^\nSyntaxError: invalid syntax. Perhaps you forgot a comma?\n"
+  },
+  "timestamp": "2025-04-01 18:01:25"
+}

@@ -1,0 +1,33 @@
+{
+  "id": "508",
+  "frontend_id": "508",
+  "title": "Most Frequent Subtree Sum",
+  "description": "Given the root of a binary tree, return the most frequent subtree sum. If there is a tie, return all the values with the highest frequency in any order.\nThe subtree sum of a node is defined as the sum of all the node values formed by the subtree rooted at that node (including the node itself).\n \nExample 1:\n\n\nInput: root = [5,2,-3]\nOutput: [2,-3,4]\n\nExample 2:\n\n\nInput: root = [5,2,-5]\nOutput: [2]\n\n \nConstraints:\n\nThe number of nodes in the tree is in the range [1, 104].\n-105 <= Node.val <= 105\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "[5,2,-3]",
+    "[5,2,-5]"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "root": "[5,2,-3]"
+      },
+      "expected": "[2,-3,4]"
+    }
+  ],
+  "python_starter": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def findFrequentTreeSum(self, root: Optional[TreeNode]) -> List[int]:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "findFrequentTreeSum",
+    "params": [
+      {
+        "name": "root",
+        "type": "TreeNode"
+      }
+    ],
+    "return": {
+      "type": "integer[]"
+    }
+  }
+}

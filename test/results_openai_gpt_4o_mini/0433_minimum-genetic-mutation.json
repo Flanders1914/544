@@ -1,0 +1,58 @@
+{
+  "problem": {
+    "id": "433",
+    "frontend_id": "433",
+    "title": "Minimum Genetic Mutation",
+    "description": "A gene string can be represented by an 8-character long string, with choices from 'A', 'C', 'G', and 'T'.\nSuppose we need to investigate a mutation from a gene string startGene to a gene string endGene where one mutation is defined as one single character changed in the gene string.\n\nFor example, \"AACCGGTT\" --> \"AACCGGTA\" is one mutation.\n\nThere is also a gene bank bank that records all the valid gene mutations. A gene must be in bank to make it a valid gene string.\nGiven the two gene strings startGene and endGene and the gene bank bank, return the minimum number of mutations needed to mutate from startGene to endGene. If there is no such a mutation, return -1.\nNote that the starting point is assumed to be valid, so it might not be included in the bank.\n \nExample 1:\n\nInput: startGene = \"AACCGGTT\", endGene = \"AACCGGTA\", bank = [\"AACCGGTA\"]\nOutput: 1\n\nExample 2:\n\nInput: startGene = \"AACCGGTT\", endGene = \"AAACGGTA\", bank = [\"AACCGGTA\",\"AACCGCTA\",\"AAACGGTA\"]\nOutput: 2\n\n \nConstraints:\n\n0 <= bank.length <= 10\nstartGene.length == endGene.length == bank[i].length == 8\nstartGene, endGene, and bank[i] consist of only the characters ['A', 'C', 'G', 'T'].\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "\"AACCGGTT\"",
+      "\"AACCGGTA\"",
+      "[\"AACCGGTA\"]",
+      "\"AACCGGTT\"",
+      "\"AAACGGTA\"",
+      "[\"AACCGGTA\",\"AACCGCTA\",\"AAACGGTA\"]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "startGene": "\"AACCGGTT\"",
+          "endGene": "\"AACCGGTA\"",
+          "bank": "[\"AACCGGTA\"]"
+        },
+        "expected": "1"
+      }
+    ],
+    "python_starter": "class Solution:\n    def minMutation(self, startGene: str, endGene: str, bank: List[str]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "minMutation",
+      "params": [
+        {
+          "name": "startGene",
+          "type": "string"
+        },
+        {
+          "name": "endGene",
+          "type": "string"
+        },
+        {
+          "name": "bank",
+          "type": "string[]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from collections import deque\nfrom typing import List\n\nclass Solution:\n    def minMutation(self, startGene: str, endGene: str, bank: List[str]) -> int:\n        # Convert bank to a set for O(1) lookups\n        bank_set = set(bank)\n        \n        # If endGene is not in the bank, return -1 immediately\n        if endGene not in bank_set:\n            return -1\n        \n        # Initialize the queue for BFS\n        queue = deque([(startGene, 0)])  # (current gene, mutation count)\n        visited = set([startGene])  # To keep track of visited genes\n        \n        # Define the possible mutations\n        genes = ['A', 'C', 'G', 'T']\n        \n        while queue:\n            current_gene, mutations = queue.popleft()\n            \n            # Check if we reached the endGene\n            if current_gene == endGene:\n                return mutations\n            \n            # Try all possible mutations\n            for i in range(len(current_gene)):\n                for gene in genes:\n                    if gene != current_gene[i]:  # Only mutate if it's a different character\n                        mutated_gene = current_gene[:i] + gene + current_gene[i+1:]\n                        if mutated_gene in bank_set and mutated_gene not in visited:\n                            visited.add(mutated_gene)  # Mark as visited\n                            queue.append((mutated_gene, mutations + 1))  # Enqueue the new gene with incremented mutation count\n        \n        return -1  # If we exhaust the queue without finding endGene",
+    "explanation": "The solution uses a breadth-first search (BFS) strategy to explore all possible mutations of the gene string. The BFS ensures that we find the shortest path (minimum mutations) to reach the `endGene`.\n\n1. **Time Complexity**: The time complexity is O(N * 4^L), where N is the number of genes in the bank and L is the length of the gene strings (which is 8). This is because for each gene, we can generate up to 4 mutations for each of the 8 positions, leading to a maximum of 32 possible mutations per gene.\n\n2. **Space Complexity**: The space complexity is O(N) for storing the bank in a set and O(N) for the queue used in BFS. In the worst case, we may store all genes in the queue.\n\nOverall, this approach efficiently finds the minimum number of mutations required to transform the `startGene` into the `endGene`, or returns -1 if such a transformation is not possible."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:55"
+}

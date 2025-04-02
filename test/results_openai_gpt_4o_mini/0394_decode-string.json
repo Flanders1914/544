@@ -1,0 +1,45 @@
+{
+  "problem": {
+    "id": "394",
+    "frontend_id": "394",
+    "title": "Decode String",
+    "description": "Given an encoded string, return its decoded string.\nThe encoding rule is: k[encoded_string], where the encoded_string inside the square brackets is being repeated exactly k times. Note that k is guaranteed to be a positive integer.\nYou may assume that the input string is always valid; there are no extra white spaces, square brackets are well-formed, etc. Furthermore, you may assume that the original data does not contain any digits and that digits are only for those repeat numbers, k. For example, there will not be input like 3a or 2[4].\nThe test cases are generated so that the length of the output will never exceed 105.\n \nExample 1:\n\nInput: s = \"3[a]2[bc]\"\nOutput: \"aaabcbc\"\n\nExample 2:\n\nInput: s = \"3[a2[c]]\"\nOutput: \"accaccacc\"\n\nExample 3:\n\nInput: s = \"2[abc]3[cd]ef\"\nOutput: \"abcabccdcdcdef\"\n\n \nConstraints:\n\n1 <= s.length <= 30\ns consists of lowercase English letters, digits, and square brackets '[]'.\ns is guaranteed to be a valid input.\nAll the integers in s are in the range [1, 300].\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "\"3[a]2[bc]\"",
+      "\"3[a2[c]]\"",
+      "\"2[abc]3[cd]ef\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "s": "\"3[a]2[bc]\""
+        },
+        "expected": "aaabcbc"
+      }
+    ],
+    "python_starter": "class Solution:\n    def decodeString(self, s: str) -> str:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "decodeString",
+      "params": [
+        {
+          "name": "s",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "string"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def decodeString(self, s: str) -> str:\n        stack = []\n        current_num = 0\n        current_str = \"\"\n        \n        for char in s:\n            if char.isdigit():\n                # Build the current number\n                current_num = current_num * 10 + int(char)\n            elif char == '[':\n                # Push the current number and string onto the stack\n                stack.append((current_str, current_num))\n                # Reset for the next segment\n                current_str = \"\"\n                current_num = 0\n            elif char == ']':\n                # Pop from the stack\n                last_str, num = stack.pop()\n                # Repeat the current string and append to the last string\n                current_str = last_str + current_str * num\n            else:\n                # Append the current character to the current string\n                current_str += char\n        \n        return current_str",
+    "explanation": "The solution uses a stack to manage the decoding process. As we iterate through the string:\n\n1. When we encounter a digit, we build the number that indicates how many times to repeat the subsequent string.\n2. When we hit an opening bracket `[`, we push the current string and the current number onto the stack and reset them for the next segment.\n3. Upon encountering a closing bracket `]`, we pop the last string and number from the stack, repeat the current string the specified number of times, and concatenate it with the last string.\n4. If we encounter a regular character, we simply append it to the current string.\n\nThis approach efficiently handles nested structures and ensures that we can decode the string correctly.\n\n**Time Complexity:** O(n), where n is the length of the input string. Each character is processed once.\n\n**Space Complexity:** O(n) in the worst case, where we might need to store all characters in the stack if the string is deeply nested."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:52"
+}

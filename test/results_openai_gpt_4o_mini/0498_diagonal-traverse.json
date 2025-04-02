@@ -1,0 +1,44 @@
+{
+  "problem": {
+    "id": "498",
+    "frontend_id": "498",
+    "title": "Diagonal Traverse",
+    "description": "Given an m x n matrix mat, return an array of all the elements of the array in a diagonal order.\n \nExample 1:\n\n\nInput: mat = [[1,2,3],[4,5,6],[7,8,9]]\nOutput: [1,2,4,7,5,3,6,8,9]\n\nExample 2:\n\nInput: mat = [[1,2],[3,4]]\nOutput: [1,2,3,4]\n\n \nConstraints:\n\nm == mat.length\nn == mat[i].length\n1 <= m, n <= 104\n1 <= m * n <= 104\n-105 <= mat[i][j] <= 105\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[[1,2,3],[4,5,6],[7,8,9]]",
+      "[[1,2],[3,4]]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "mat": "[[1,2,3]"
+        },
+        "expected": "[1,2,4,7,5,3,6,8,9]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def findDiagonalOrder(self, mat: List[List[int]]) -> List[int]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "findDiagonalOrder",
+      "params": [
+        {
+          "name": "mat",
+          "type": "integer[][]"
+        }
+      ],
+      "return": {
+        "type": "integer[]"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def findDiagonalOrder(self, mat: List[List[int]]) -> List[int]:\n        if not mat or not mat[0]:\n            return []\n        \n        m, n = len(mat), len(mat[0])\n        result = []\n        row, col = 0, 0\n        direction = 1  # 1 for upward, -1 for downward\n        \n        while row < m and col < n:\n            result.append(mat[row][col])\n            # If moving upwards\n            if direction == 1:\n                if col == n - 1:  # Last column\n                    row += 1\n                    direction = -1  # Change direction to down\n                elif row == 0:  # First row\n                    col += 1\n                    direction = -1  # Change direction to down\n                else:\n                    row -= 1\n                    col += 1\n            # If moving downwards\n            else:\n                if row == m - 1:  # Last row\n                    col += 1\n                    direction = 1  # Change direction to up\n                elif col == 0:  # First column\n                    row += 1\n                    direction = 1  # Change direction to up\n                else:\n                    row += 1\n                    col -= 1\n        \n        return result",
+    "explanation": "The provided solution implements a diagonal traversal of a matrix using a single loop and a direction flag. \n\n1. **Initialization**: We start by checking if the matrix is empty. If it is, we return an empty list. We then initialize variables for the number of rows (`m`), columns (`n`), the result list, and the starting position (`row`, `col`).\n\n2. **Traversal Loop**: We use a `while` loop that continues until we exceed the bounds of the matrix. Inside the loop, we append the current element to the result list.\n\n3. **Direction Handling**: Depending on the current direction (upward or downward), we adjust the row and column indices accordingly:\n   - For upward movement, we check if we are at the last column or the first row to switch directions.\n   - For downward movement, we check if we are at the last row or the first column to switch directions.\n\n4. **Time Complexity**: The time complexity of this solution is O(m * n), where `m` is the number of rows and `n` is the number of columns, as we visit each element exactly once.\n\n5. **Space Complexity**: The space complexity is O(1) for the traversal (not counting the output list), as we only use a few variables for indices and direction.\n\nThis solution efficiently handles the diagonal traversal of the matrix while adhering to the constraints provided."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmphxt4fzuq.py\", line 74\n    input_0_0 = [[1,2,3]\n                ^\nSyntaxError: '[' was never closed\n"
+  },
+  "timestamp": "2025-04-01 18:01:20"
+}

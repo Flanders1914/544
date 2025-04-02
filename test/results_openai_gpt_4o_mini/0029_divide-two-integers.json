@@ -1,0 +1,58 @@
+{
+  "problem": {
+    "id": "29",
+    "frontend_id": "29",
+    "title": "Divide Two Integers",
+    "description": "Given two integers dividend and divisor, divide two integers without using multiplication, division, and mod operator.\nThe integer division should truncate toward zero, which means losing its fractional part. For example, 8.345 would be truncated to 8, and -2.7335 would be truncated to -2.\nReturn the quotient after dividing dividend by divisor.\nNote: Assume we are dealing with an environment that could only store integers within the 32-bit signed integer range: [−231, 231 − 1]. For this problem, if the quotient is strictly greater than 231 - 1, then return 231 - 1, and if the quotient is strictly less than -231, then return -231.\n \nExample 1:\n\nInput: dividend = 10, divisor = 3\nOutput: 3\nExplanation: 10/3 = 3.33333.. which is truncated to 3.\n\nExample 2:\n\nInput: dividend = 7, divisor = -3\nOutput: -2\nExplanation: 7/-3 = -2.33333.. which is truncated to -2.\n\n \nConstraints:\n\n-231 <= dividend, divisor <= 231 - 1\ndivisor != 0\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "10",
+      "3",
+      "7",
+      "-3"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "dividend": "10",
+          "divisor": "3"
+        },
+        "expected": "3"
+      },
+      {
+        "input": {
+          "dividend": "7",
+          "divisor": "-3"
+        },
+        "expected": "-2"
+      }
+    ],
+    "python_starter": "class Solution:\n    def divide(self, dividend: int, divisor: int) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "divide",
+      "params": [
+        {
+          "name": "dividend",
+          "type": "integer"
+        },
+        {
+          "name": "divisor",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def divide(self, dividend: int, divisor: int) -> int:\n        # Handle edge cases\n        if dividend == 0:\n            return 0\n        if divisor == 0:\n            raise ValueError(\"Divisor cannot be zero.\")\n        \n        # Define the limits for 32-bit signed integer\n        INT_MAX = 2**31 - 1\n        INT_MIN = -2**31\n        \n        # Determine the sign of the result\n        negative = (dividend < 0) ^ (divisor < 0)\n        \n        # Work with positive values for easier calculation\n        dividend, divisor = abs(dividend), abs(divisor)\n        \n        quotient = 0\n        # Use bit manipulation to find the quotient\n        for i in range(31, -1, -1):\n            # Check if the shifted divisor can be subtracted from the dividend\n            if (divisor << i) <= dividend:\n                dividend -= (divisor << i)\n                quotient += (1 << i)\n        \n        # Apply the sign to the quotient\n        if negative:\n            quotient = -quotient\n        \n        # Clamp the result to the 32-bit signed integer range\n        return min(max(quotient, INT_MIN), INT_MAX)",
+    "explanation": "The solution uses bit manipulation to efficiently compute the quotient of two integers without using division, multiplication, or modulus operations. \n\n1. **Edge Cases**: We first check if the dividend is zero, in which case the result is zero. We also raise an error if the divisor is zero, as division by zero is undefined. We define the maximum and minimum values for a 32-bit signed integer.\n\n2. **Sign Calculation**: We determine if the result should be negative by checking if the dividend and divisor have different signs.\n\n3. **Main Logic**: We convert both the dividend and divisor to their absolute values for easier calculations. We then iterate from 31 down to 0, checking if the shifted divisor (multiplied by powers of two) can be subtracted from the dividend. If it can, we subtract it and add the corresponding power of two to the quotient.\n\n4. **Final Adjustments**: After calculating the quotient, we apply the sign and clamp the result to ensure it fits within the 32-bit signed integer range.\n\n**Time Complexity**: The time complexity of this solution is \\(O(\\log(\\text{dividend}))\\) due to the bit manipulation, as we are effectively halving the problem size with each iteration.\n\n**Space Complexity**: The space complexity is \\(O(1)\\) since we are using a constant amount of space for variables."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 3\nTest case 2:\n[PASS] Test passed: -2\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:28"
+}

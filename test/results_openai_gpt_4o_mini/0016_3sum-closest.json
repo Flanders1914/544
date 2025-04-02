@@ -1,0 +1,58 @@
+{
+  "problem": {
+    "id": "16",
+    "frontend_id": "16",
+    "title": "3Sum Closest",
+    "description": "Given an integer array nums of length n and an integer target, find three integers in nums such that the sum is closest to target.\nReturn the sum of the three integers.\nYou may assume that each input would have exactly one solution.\n \nExample 1:\n\nInput: nums = [-1,2,1,-4], target = 1\nOutput: 2\nExplanation: The sum that is closest to the target is 2. (-1 + 2 + 1 = 2).\n\nExample 2:\n\nInput: nums = [0,0,0], target = 1\nOutput: 0\nExplanation: The sum that is closest to the target is 0. (0 + 0 + 0 = 0).\n\n \nConstraints:\n\n3 <= nums.length <= 500\n-1000 <= nums[i] <= 1000\n-104 <= target <= 104\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[-1,2,1,-4]",
+      "1",
+      "[0,0,0]",
+      "1"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[-1,2,1,-4]",
+          "target": "1"
+        },
+        "expected": "2"
+      },
+      {
+        "input": {
+          "nums": "[0,0,0]",
+          "target": "1"
+        },
+        "expected": "0"
+      }
+    ],
+    "python_starter": "class Solution:\n    def threeSumClosest(self, nums: List[int], target: int) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "threeSumClosest",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        },
+        {
+          "name": "target",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def threeSumClosest(self, nums: List[int], target: int) -> int:\n        # Sort the array to use the two-pointer technique\n        nums.sort()\n        closest_sum = float('inf')  # Initialize closest sum to infinity\n        \n        # Iterate through the array\n        for i in range(len(nums) - 2):\n            left, right = i + 1, len(nums) - 1  # Set two pointers\n            \n            while left < right:\n                current_sum = nums[i] + nums[left] + nums[right]  # Calculate the current sum\n                \n                # Update closest_sum if the current sum is closer to the target\n                if abs(current_sum - target) < abs(closest_sum - target):\n                    closest_sum = current_sum\n                \n                # Move the pointers based on the comparison of current_sum and target\n                if current_sum < target:\n                    left += 1  # We need a larger sum\n                elif current_sum > target:\n                    right -= 1  # We need a smaller sum\n                else:\n                    return current_sum  # Exact match found\n        \n        return closest_sum  # Return the closest sum found",
+    "explanation": "The solution begins by sorting the input array, which allows us to efficiently find triplets using a two-pointer technique. We iterate through each element in the array, treating it as a fixed element of the triplet. For each fixed element, we initialize two pointers: one starting just after the fixed element and the other at the end of the array.\n\nWe then calculate the sum of the triplet formed by the fixed element and the two pointers. If this sum is closer to the target than any previously found sum, we update our closest sum. Depending on whether the current sum is less than or greater than the target, we adjust the pointers accordingly to explore other potential triplet combinations.\n\nThe time complexity of this approach is O(n^2) due to the nested loop structure (one loop for fixing an element and another for the two-pointer search), which is efficient given the constraints (3 <= n <= 500). The space complexity is O(1) since we are using a constant amount of extra space for variables, aside from the input array."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 2\nTest case 2:\n[PASS] Test passed: 0\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:26"
+}

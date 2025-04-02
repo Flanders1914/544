@@ -1,0 +1,59 @@
+{
+  "problem": {
+    "id": "145",
+    "frontend_id": "145",
+    "title": "Binary Tree Postorder Traversal",
+    "description": "Given the root of a binary tree, return the postorder traversal of its nodes' values.\n \nExample 1:\n\nInput: root = [1,null,2,3]\nOutput: [3,2,1]\nExplanation:\n\n\nExample 2:\n\nInput: root = [1,2,3,4,5,null,8,null,null,6,7,9]\nOutput: [4,6,7,5,2,9,8,3,1]\nExplanation:\n\n\nExample 3:\n\nInput: root = []\nOutput: []\n\nExample 4:\n\nInput: root = [1]\nOutput: [1]\n\n \nConstraints:\n\nThe number of the nodes in the tree is in the range [0, 100].\n-100 <= Node.val <= 100\n\n \nFollow up: Recursive solution is trivial, could you do it iteratively?",
+    "difficulty": "Easy",
+    "examples": [
+      "[1,null,2,3]",
+      "[1,2,3,4,5,null,8,null,null,6,7,9]",
+      "[]",
+      "[1]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "root": "[1,null,2,3]"
+        },
+        "expected": "[3,2,1]"
+      },
+      {
+        "input": {
+          "root": "[1,2,3,4,5,null,8,null,null,6,7,9]"
+        },
+        "expected": "[4,6,7,5,2,9,8,3,1]"
+      },
+      {
+        "input": {
+          "root": "[]"
+        },
+        "expected": "[]"
+      }
+    ],
+    "python_starter": "# Definition for a binary tree node.\n# class TreeNode:\n#     def __init__(self, val=0, left=None, right=None):\n#         self.val = val\n#         self.left = left\n#         self.right = right\nclass Solution:\n    def postorderTraversal(self, root: Optional[TreeNode]) -> List[int]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "postorderTraversal",
+      "params": [
+        {
+          "name": "root",
+          "type": "TreeNode"
+        }
+      ],
+      "return": {
+        "type": "list<integer>",
+        "dealloc": true
+      }
+    }
+  },
+  "solution": {
+    "code": "# Definition for a binary tree node.\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val\n        self.left = left\n        self.right = right\n\nclass Solution:\n    def postorderTraversal(self, root: Optional[TreeNode]) -> List[int]:\n        if not root:\n            return []\n        \n        stack = [root]\n        result = []\n        \n        while stack:\n            node = stack.pop()\n            result.append(node.val)  # Add the node's value to the result\n            # Push left first, then right to ensure left is processed first\n            if node.left:\n                stack.append(node.left)\n            if node.right:\n                stack.append(node.right)\n        \n        # Reverse the result to get the postorder\n        return result[::-1]",
+    "explanation": "The provided solution implements an iterative postorder traversal of a binary tree using a stack. \n\n1. **Initialization**: We start by checking if the root is `None`. If it is, we return an empty list. Otherwise, we initialize a stack with the root node and an empty result list.\n\n2. **Traversal**: We enter a loop that continues until the stack is empty. In each iteration, we pop a node from the stack and append its value to the result list. We then push the left child followed by the right child onto the stack. This order ensures that the left child is processed before the right child.\n\n3. **Reversing the Result**: Since we are collecting the node values in a pre-order manner (root, right, left), we reverse the result list at the end to achieve the correct postorder sequence (left, right, root).\n\n**Time Complexity**: The time complexity of this solution is O(n), where n is the number of nodes in the tree. Each node is processed once.\n\n**Space Complexity**: The space complexity is O(h), where h is the height of the tree. In the worst case (a skewed tree), the stack can grow to the height of the tree, which is O(n). In a balanced tree, it would be O(log n).\n\nThis solution efficiently handles the postorder traversal iteratively, adhering to the constraints provided in the problem statement."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:38"
+}

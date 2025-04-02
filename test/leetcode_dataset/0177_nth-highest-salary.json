@@ -1,0 +1,44 @@
+{
+  "id": "177",
+  "frontend_id": "177",
+  "title": "Nth Highest Salary",
+  "description": "Table: Employee\n\n+-------------+------+\n| Column Name | Type |\n+-------------+------+\n| id          | int  |\n| salary      | int  |\n+-------------+------+\nid is the primary key (column with unique values) for this table.\nEach row of this table contains information about the salary of an employee.\n\n \nWrite a solution to find the nth highest salary from the Employee table. If there is no nth highest salary, return null.\nThe result format is in the following example.\n \nExample 1:\n\nInput: \nEmployee table:\n+----+--------+\n| id | salary |\n+----+--------+\n| 1  | 100    |\n| 2  | 200    |\n| 3  | 300    |\n+----+--------+\nn = 2\nOutput: \n+------------------------+\n| getNthHighestSalary(2) |\n+------------------------+\n| 200                    |\n+------------------------+\n\nExample 2:\n\nInput: \nEmployee table:\n+----+--------+\n| id | salary |\n+----+--------+\n| 1  | 100    |\n+----+--------+\nn = 2\nOutput: \n+------------------------+\n| getNthHighestSalary(2) |\n+------------------------+\n| null                   |\n+------------------------+\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "{\"headers\": {\"Employee\": [\"id\", \"salary\"]}, \"argument\": 2, \"rows\": {\"Employee\": [[1, 100], [2, 200], [3, 300]]}}",
+    "{\"headers\": {\"Employee\": [\"id\", \"salary\"]}, \"argument\": 2, \"rows\": {\"Employee\": [[1, 100]]}}"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "n": "2"
+      },
+      "expected": "+------------------------+"
+    }
+  ],
+  "python_starter": null,
+  "hints": [],
+  "meta_data": {
+    "mysql": [
+      "Create table If Not Exists Employee (Id int, Salary int)"
+    ],
+    "mssql": [
+      "Create table Employee (Id int, Salary int)"
+    ],
+    "oraclesql": [
+      "Create table Employee (Id int, Salary int)"
+    ],
+    "database": true,
+    "manual": true,
+    "name": "nth_highest_salary",
+    "pythondata": [
+      "Employee = pd.DataFrame([], columns=['Id', 'Salary']).astype({'Id':'Int64', 'Salary':'Int64'})"
+    ],
+    "database_schema": {
+      "Employee": {
+        "Id": "INT",
+        "Salary": "INT"
+      }
+    }
+  }
+}

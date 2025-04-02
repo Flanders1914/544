@@ -1,0 +1,40 @@
+{
+  "id": "215",
+  "frontend_id": "215",
+  "title": "Kth Largest Element in an Array",
+  "description": "Given an integer array nums and an integer k, return the kth largest element in the array.\nNote that it is the kth largest element in the sorted order, not the kth distinct element.\nCan you solve it without sorting?\n \nExample 1:\nInput: nums = [3,2,1,5,6,4], k = 2\nOutput: 5\nExample 2:\nInput: nums = [3,2,3,1,2,4,5,5,6], k = 4\nOutput: 4\n\n \nConstraints:\n\n1 <= k <= nums.length <= 105\n-104 <= nums[i] <= 104\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "[3,2,1,5,6,4]",
+    "2",
+    "[3,2,3,1,2,4,5,5,6]",
+    "4"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "nums": "[3,2,1,5,6,4]",
+        "k": "2"
+      },
+      "expected": "5"
+    }
+  ],
+  "python_starter": "class Solution:\n    def findKthLargest(self, nums: List[int], k: int) -> int:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "findKthLargest",
+    "params": [
+      {
+        "name": "nums",
+        "type": "integer[]"
+      },
+      {
+        "name": "k",
+        "type": "integer"
+      }
+    ],
+    "return": {
+      "type": "integer"
+    }
+  }
+}

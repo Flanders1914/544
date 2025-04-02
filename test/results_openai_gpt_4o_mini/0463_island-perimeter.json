@@ -1,0 +1,51 @@
+{
+  "problem": {
+    "id": "463",
+    "frontend_id": "463",
+    "title": "Island Perimeter",
+    "description": "You are given row x col grid representing a map where grid[i][j] = 1 represents land and grid[i][j] = 0 represents water.\nGrid cells are connected horizontally/vertically (not diagonally). The grid is completely surrounded by water, and there is exactly one island (i.e., one or more connected land cells).\nThe island doesn't have \"lakes\", meaning the water inside isn't connected to the water around the island. One cell is a square with side length 1. The grid is rectangular, width and height don't exceed 100. Determine the perimeter of the island.\n \nExample 1:\n\n\nInput: grid = [[0,1,0,0],[1,1,1,0],[0,1,0,0],[1,1,0,0]]\nOutput: 16\nExplanation: The perimeter is the 16 yellow stripes in the image above.\n\nExample 2:\n\nInput: grid = [[1]]\nOutput: 4\n\nExample 3:\n\nInput: grid = [[1,0]]\nOutput: 4\n\n \nConstraints:\n\nrow == grid.length\ncol == grid[i].length\n1 <= row, col <= 100\ngrid[i][j] is 0 or 1.\nThere is exactly one island in grid.\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "[[0,1,0,0],[1,1,1,0],[0,1,0,0],[1,1,0,0]]",
+      "[[1]]",
+      "[[1,0]]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "grid": "[[0,1,0,0]"
+        },
+        "expected": "16"
+      },
+      {
+        "input": {
+          "grid": "[[1]"
+        },
+        "expected": "4"
+      }
+    ],
+    "python_starter": "class Solution:\n    def islandPerimeter(self, grid: List[List[int]]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "islandPerimeter",
+      "params": [
+        {
+          "name": "grid",
+          "type": "integer[][]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def islandPerimeter(self, grid: List[List[int]]) -> int:\n        perimeter = 0\n        rows = len(grid)\n        cols = len(grid[0])\n        \n        for i in range(rows):\n            for j in range(cols):\n                if grid[i][j] == 1:  # If the cell is land\n                    # Check all four directions\n                    # Up\n                    if i == 0 or grid[i-1][j] == 0:\n                        perimeter += 1\n                    # Down\n                    if i == rows - 1 or grid[i+1][j] == 0:\n                        perimeter += 1\n                    # Left\n                    if j == 0 or grid[i][j-1] == 0:\n                        perimeter += 1\n                    # Right\n                    if j == cols - 1 or grid[i][j+1] == 0:\n                        perimeter += 1\n        \n        return perimeter",
+    "explanation": "The solution iterates through each cell in the grid, checking for land cells (cells with value 1). For each land cell, it checks its four possible neighbors (up, down, left, right). If a neighbor is out of bounds or is water (0), it contributes to the perimeter. \n\nThe time complexity of this solution is O(n * m), where n is the number of rows and m is the number of columns in the grid. This is because we potentially check each cell once. The space complexity is O(1) since we are using a constant amount of extra space for the perimeter count, regardless of the input size.\n\nThis approach is efficient given the constraints (maximum grid size of 100x100), and it correctly calculates the perimeter of the island based on the provided grid."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmpm62onhq2.py\", line 62\n    input_0_0 = [[0,1,0,0]\n                 ^^^^^^^^^\nSyntaxError: invalid syntax. Perhaps you forgot a comma?\n"
+  },
+  "timestamp": "2025-04-01 18:00:58"
+}

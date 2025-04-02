@@ -1,0 +1,45 @@
+{
+  "problem": {
+    "id": "131",
+    "frontend_id": "131",
+    "title": "Palindrome Partitioning",
+    "description": "Given a string s, partition s such that every substring of the partition is a palindrome. Return all possible palindrome partitioning of s.\n \nExample 1:\nInput: s = \"aab\"\nOutput: [[\"a\",\"a\",\"b\"],[\"aa\",\"b\"]]\nExample 2:\nInput: s = \"a\"\nOutput: [[\"a\"]]\n\n \nConstraints:\n\n1 <= s.length <= 16\ns contains only lowercase English letters.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "\"aab\"",
+      "\"a\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "s": "\"aab\""
+        },
+        "expected": "[[a,a,b]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def partition(self, s: str) -> List[List[str]]:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "partition",
+      "params": [
+        {
+          "name": "s",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "list<list<string>>",
+        "dealloc": true
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def partition(self, s: str) -> List[List[str]]:\n        def is_palindrome(sub: str) -> bool:\n            return sub == sub[::-1]\n        \n        def backtrack(start: int, current_partition: List[str]):\n            if start == len(s):\n                result.append(current_partition[:])  # Append a copy of the current partition\n                return\n            \n            for end in range(start + 1, len(s) + 1):\n                substring = s[start:end]\n                if is_palindrome(substring):\n                    current_partition.append(substring)  # Choose the substring\n                    backtrack(end, current_partition)  # Explore further\n                    current_partition.pop()  # Backtrack\n        \n        result = []\n        backtrack(0, [])\n        return result",
+    "explanation": "The solution uses a backtracking approach to generate all possible partitions of the input string `s` such that each substring in the partition is a palindrome. \n\n1. **Palindrome Check**: The `is_palindrome` function checks if a given substring is a palindrome by comparing it to its reverse.\n\n2. **Backtracking Function**: The `backtrack` function takes the starting index and the current partition as arguments. It iterates through the string, creating substrings from the current start index to all possible end indices. If a substring is a palindrome, it is added to the current partition, and the function recursively calls itself with the new start index (the end of the current substring).\n\n3. **Base Case**: When the start index reaches the length of the string, it means we have a valid partition, which is then added to the result list.\n\n4. **Backtracking**: After exploring a path, we remove the last added substring (backtrack) to explore other potential partitions.\n\nThe overall time complexity is O(2^n) due to the exponential number of partitions, while the space complexity is O(n) for the recursion stack and the storage of partitions. This approach efficiently explores all valid palindrome partitions of the string."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmpotl1or_o.py\", line 60\n    expected_0 = [[a,a,b]\n                 ^\nSyntaxError: '[' was never closed\n"
+  },
+  "timestamp": "2025-04-01 18:00:37"
+}

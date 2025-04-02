@@ -1,0 +1,59 @@
+{
+  "problem": {
+    "id": "467",
+    "frontend_id": "467",
+    "title": "Unique Substrings in Wraparound String",
+    "description": "We define the string base to be the infinite wraparound string of \"abcdefghijklmnopqrstuvwxyz\", so base will look like this:\n\n\"...zabcdefghijklmnopqrstuvwxyzabcdefghijklmnopqrstuvwxyzabcd....\".\n\nGiven a string s, return the number of unique non-empty substrings of s are present in base.\n \nExample 1:\n\nInput: s = \"a\"\nOutput: 1\nExplanation: Only the substring \"a\" of s is in base.\n\nExample 2:\n\nInput: s = \"cac\"\nOutput: 2\nExplanation: There are two substrings (\"a\", \"c\") of s in base.\n\nExample 3:\n\nInput: s = \"zab\"\nOutput: 6\nExplanation: There are six substrings (\"z\", \"a\", \"b\", \"za\", \"ab\", and \"zab\") of s in base.\n\n \nConstraints:\n\n1 <= s.length <= 105\ns consists of lowercase English letters.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "\"a\"",
+      "\"cac\"",
+      "\"zab\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "s": "\"a\""
+        },
+        "expected": "1"
+      },
+      {
+        "input": {
+          "s": "\"cac\""
+        },
+        "expected": "2"
+      },
+      {
+        "input": {
+          "s": "\"zab\""
+        },
+        "expected": "6"
+      }
+    ],
+    "python_starter": "class Solution:\n    def findSubstringInWraproundString(self, s: str) -> int:\n        ",
+    "hints": [
+      "One possible solution might be to consider allocating an array size of 26 for each character in the alphabet. (Credits to @r2ysxu)"
+    ],
+    "meta_data": {
+      "name": "findSubstringInWraproundString",
+      "params": [
+        {
+          "name": "s",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def findSubstringInWraproundString(self, s: str) -> int:\n        # Array to store the maximum length of substrings ending with each character\n        max_length = [0] * 26\n        current_length = 0\n        \n        for i in range(len(s)):\n            # Check if the current character continues the wraparound sequence\n            if i > 0 and (ord(s[i]) - ord(s[i - 1]) + 26) % 26 == 1:\n                current_length += 1\n            else:\n                current_length = 1\n            \n            # Update the maximum length for the current character\n            index = ord(s[i]) - ord('a')\n            max_length[index] = max(max_length[index], current_length)\n        \n        # The result is the sum of all maximum lengths\n        return sum(max_length)",
+    "explanation": "The solution iterates through the string `s` and keeps track of the length of the current valid substring that can be formed from the wraparound string. \n\n1. **Initialization**: We create an array `max_length` of size 26 to store the maximum lengths of substrings that end with each character from 'a' to 'z'. We also initialize `current_length` to 0.\n\n2. **Iteration**: For each character in the string:\n   - If the current character continues the wraparound sequence from the previous character, we increment `current_length`.\n   - If it does not, we reset `current_length` to 1 (since the current character itself is a valid substring).\n   - We then update the `max_length` for the current character if the `current_length` is greater than the previously recorded length.\n\n3. **Result Calculation**: Finally, we return the sum of all values in `max_length`, which gives us the total number of unique substrings present in the wraparound string.\n\n**Time Complexity**: O(n), where n is the length of the string `s`, since we make a single pass through the string.\n\n**Space Complexity**: O(1), since the size of the `max_length` array is constant (26)."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:58"
+}

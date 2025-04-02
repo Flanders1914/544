@@ -1,0 +1,54 @@
+{
+  "problem": {
+    "id": "80",
+    "frontend_id": "80",
+    "title": "Remove Duplicates from Sorted Array II",
+    "description": "Given an integer array nums sorted in non-decreasing order, remove some duplicates in-place such that each unique element appears at most twice. The relative order of the elements should be kept the same.\nSince it is impossible to change the length of the array in some languages, you must instead have the result be placed in the first part of the array nums. More formally, if there are k elements after removing the duplicates, then the first k elements of nums should hold the final result. It does not matter what you leave beyond the first k elements.\nReturn k after placing the final result in the first k slots of nums.\nDo not allocate extra space for another array. You must do this by modifying the input array in-place with O(1) extra memory.\nCustom Judge:\nThe judge will test your solution with the following code:\n\nint[] nums = [...]; // Input array\nint[] expectedNums = [...]; // The expected answer with correct length\n\nint k = removeDuplicates(nums); // Calls your implementation\n\nassert k == expectedNums.length;\nfor (int i = 0; i < k; i++) {\n    assert nums[i] == expectedNums[i];\n}\n\nIf all assertions pass, then your solution will be accepted.\n \nExample 1:\n\nInput: nums = [1,1,1,2,2,3]\nOutput: 5, nums = [1,1,2,2,3,_]\nExplanation: Your function should return k = 5, with the first five elements of nums being 1, 1, 2, 2 and 3 respectively.\nIt does not matter what you leave beyond the returned k (hence they are underscores).\n\nExample 2:\n\nInput: nums = [0,0,1,1,1,1,2,3,3]\nOutput: 7, nums = [0,0,1,1,2,3,3,_,_]\nExplanation: Your function should return k = 7, with the first seven elements of nums being 0, 0, 1, 1, 2, 3 and 3 respectively.\nIt does not matter what you leave beyond the returned k (hence they are underscores).\n\n \nConstraints:\n\n1 <= nums.length <= 3 * 104\n-104 <= nums[i] <= 104\nnums is sorted in non-decreasing order.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[1,1,1,2,2,3]",
+      "[0,0,1,1,1,1,2,3,3]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "nums": "[1,1,1,2,2,3]"
+        },
+        "expected": "5, nums = [1,1,2,2,3,_]"
+      },
+      {
+        "input": {
+          "nums": "[0,0,1,1,1,1,2,3,3]"
+        },
+        "expected": "7, nums = [0,0,1,1,2,3,3,_,_]"
+      }
+    ],
+    "python_starter": "class Solution:\n    def removeDuplicates(self, nums: List[int]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "removeDuplicates",
+      "params": [
+        {
+          "name": "nums",
+          "type": "integer[]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      },
+      "output": {
+        "paramindex": 0,
+        "size": "ret"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def removeDuplicates(self, nums: List[int]) -> int:\n        if not nums:\n            return 0\n        \n        write_index = 0  # Pointer to place the next valid number\n        count = 0  # Count occurrences of the current number\n        \n        for read_index in range(len(nums)):\n            # If we are at the start or the current number is different from the previous one\n            if read_index == 0 or nums[read_index] != nums[read_index - 1]:\n                count = 1  # Reset count for a new number\n                nums[write_index] = nums[read_index]  # Write the number\n                write_index += 1  # Move the write index\n            elif count < 2:  # If we have seen this number less than twice\n                count += 1  # Increment count\n                nums[write_index] = nums[read_index]  # Write the number\n                write_index += 1  # Move the write index\n        \n        return write_index  # The length of the modified array",
+    "explanation": "The solution uses a two-pointer technique to efficiently remove duplicates from the sorted array. The `write_index` keeps track of where to write the next valid number, while the `read_index` iterates through the array. \n\n1. **Initialization**: We start by checking if the input array is empty. If it is, we return 0 immediately.\n2. **Iteration**: We loop through the array using `read_index`. For each element:\n   - If it's the first element or different from the previous one, we reset the count and write the element at `write_index`.\n   - If it's the same as the previous element, we check if it has been written less than twice. If so, we write it again.\n3. **Return Value**: After processing all elements, we return `write_index`, which indicates the number of valid elements in the modified array.\n\n**Time Complexity**: O(n), where n is the length of the input array, since we traverse the array once.\n\n**Space Complexity**: O(1), as we are modifying the input array in place without using additional space.\n\nThis solution efficiently meets the problem's requirements and constraints, ensuring that the relative order of elements is preserved while allowing each unique element to appear at most twice."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:32"
+}

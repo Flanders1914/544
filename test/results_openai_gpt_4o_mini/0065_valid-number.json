@@ -1,0 +1,45 @@
+{
+  "problem": {
+    "id": "65",
+    "frontend_id": "65",
+    "title": "Valid Number",
+    "description": "Given a string s, return whether s is a valid number.\n\nFor example, all the following are valid numbers: \"2\", \"0089\", \"-0.1\", \"+3.14\", \"4.\", \"-.9\", \"2e10\", \"-90E3\", \"3e+7\", \"+6e-1\", \"53.5e93\", \"-123.456e789\", while the following are not valid numbers: \"abc\", \"1a\", \"1e\", \"e3\", \"99e2.5\", \"--6\", \"-+3\", \"95a54e53\".\nFormally, a valid number is defined using one of the following definitions:\n\nAn integer number followed by an optional exponent.\nA decimal number followed by an optional exponent.\n\nAn integer number is defined with an optional sign '-' or '+' followed by digits.\nA decimal number is defined with an optional sign '-' or '+' followed by one of the following definitions:\n\nDigits followed by a dot '.'.\nDigits followed by a dot '.' followed by digits.\nA dot '.' followed by digits.\n\nAn exponent is defined with an exponent notation 'e' or 'E' followed by an integer number.\nThe digits are defined as one or more digits.\n \nExample 1:\n\nInput: s = \"0\"\nOutput: true\n\nExample 2:\n\nInput: s = \"e\"\nOutput: false\n\nExample 3:\n\nInput: s = \".\"\nOutput: false\n\n \nConstraints:\n\n1 <= s.length <= 20\ns consists of only English letters (both uppercase and lowercase), digits (0-9), plus '+', minus '-', or dot '.'.\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "\"0\"",
+      "\"e\"",
+      "\".\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "s": "\"0\""
+        },
+        "expected": "true"
+      }
+    ],
+    "python_starter": "class Solution:\n    def isNumber(self, s: str) -> bool:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "isNumber",
+      "params": [
+        {
+          "name": "s",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "import re\n\nclass Solution:\n    def isNumber(self, s: str) -> bool:\n        # Define the regex pattern for a valid number\n        pattern = r'^[+-]?(\\d+(\\.\\d*)?|\\.\\d+)([eE][+-]?\\d+)?$'\n        # Use fullmatch to ensure the entire string matches the pattern\n        return re.fullmatch(pattern, s) is not None",
+    "explanation": "The solution uses a regular expression to validate if the input string `s` is a valid number according to the defined rules. The regex pattern is constructed to cover all cases of valid integers, decimal numbers, and optional exponent parts.\n\n1. **Regex Breakdown**:\n   - `^[+-]?`: Matches an optional sign at the beginning.\n   - `(\\d+(\\.\\d*)?|\\.\\d+)`: Matches either:\n     - `\\d+(\\.\\d*)?`: One or more digits followed optionally by a decimal point and zero or more digits.\n     - `|\\.\\d+`: Or a decimal point followed by one or more digits.\n   - `([eE][+-]?\\d+)?$`: Matches an optional exponent part, which consists of `e` or `E`, followed by an optional sign and one or more digits.\n\n2. **Time Complexity**: The time complexity of this solution is O(n), where n is the length of the string `s`, as the regex engine processes the string in a single pass.\n\n3. **Space Complexity**: The space complexity is O(1) since we are using a fixed amount of space for the regex pattern and not using any additional data structures that grow with input size.\n\nThis approach efficiently checks if the string is a valid number by leveraging the power of regular expressions, making the solution both concise and effective."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:31"
+}

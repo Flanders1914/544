@@ -1,0 +1,67 @@
+{
+  "problem": {
+    "id": "488",
+    "frontend_id": "488",
+    "title": "Zuma Game",
+    "description": "You are playing a variation of the game Zuma.\nIn this variation of Zuma, there is a single row of colored balls on a board, where each ball can be colored red 'R', yellow 'Y', blue 'B', green 'G', or white 'W'. You also have several colored balls in your hand.\nYour goal is to clear all of the balls from the board. On each turn:\n\nPick any ball from your hand and insert it in between two balls in the row or on either end of the row.\nIf there is a group of three or more consecutive balls of the same color, remove the group of balls from the board.\n\t\nIf this removal causes more groups of three or more of the same color to form, then continue removing each group until there are none left.\n\n\nIf there are no more balls on the board, then you win the game.\nRepeat this process until you either win or do not have any more balls in your hand.\n\nGiven a string board, representing the row of balls on the board, and a string hand, representing the balls in your hand, return the minimum number of balls you have to insert to clear all the balls from the board. If you cannot clear all the balls from the board using the balls in your hand, return -1.\n \nExample 1:\n\nInput: board = \"WRRBBW\", hand = \"RB\"\nOutput: -1\nExplanation: It is impossible to clear all the balls. The best you can do is:\n- Insert 'R' so the board becomes WRRRBBW. WRRRBBW -> WBBW.\n- Insert 'B' so the board becomes WBBBW. WBBBW -> WW.\nThere are still balls remaining on the board, and you are out of balls to insert.\nExample 2:\n\nInput: board = \"WWRRBBWW\", hand = \"WRBRW\"\nOutput: 2\nExplanation: To make the board empty:\n- Insert 'R' so the board becomes WWRRRBBWW. WWRRRBBWW -> WWBBWW.\n- Insert 'B' so the board becomes WWBBBWW. WWBBBWW -> WWWW -> empty.\n2 balls from your hand were needed to clear the board.\n\nExample 3:\n\nInput: board = \"G\", hand = \"GGGGG\"\nOutput: 2\nExplanation: To make the board empty:\n- Insert 'G' so the board becomes GG.\n- Insert 'G' so the board becomes GGG. GGG -> empty.\n2 balls from your hand were needed to clear the board.\n\n \nConstraints:\n\n1 <= board.length <= 16\n1 <= hand.length <= 5\nboard and hand consist of the characters 'R', 'Y', 'B', 'G', and 'W'.\nThe initial row of balls on the board will not have any groups of three or more consecutive balls of the same color.\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "\"WRRBBW\"",
+      "\"RB\"",
+      "\"WWRRBBWW\"",
+      "\"WRBRW\"",
+      "\"G\"",
+      "\"GGGGG\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "board": "\"WRRBBW\"",
+          "hand": "\"RB\""
+        },
+        "expected": "-1"
+      },
+      {
+        "input": {
+          "board": "\"WWRRBBWW\"",
+          "hand": "\"WRBRW\""
+        },
+        "expected": "2"
+      },
+      {
+        "input": {
+          "board": "\"G\"",
+          "hand": "\"GGGGG\""
+        },
+        "expected": "2"
+      }
+    ],
+    "python_starter": "class Solution:\n    def findMinStep(self, board: str, hand: str) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "findMinStep",
+      "params": [
+        {
+          "name": "board",
+          "type": "string"
+        },
+        {
+          "name": "hand",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def findMinStep(self, board: str, hand: str) -> int:\n        from collections import Counter\n        \n        def remove_consecutive(b):\n            i = 0\n            while i < len(b):\n                j = i\n                while j < len(b) and b[j] == b[i]:\n                    j += 1\n                if j - i >= 3:\n                    return remove_consecutive(b[:i] + b[j:])\n                i = j\n            return b\n        \n        def backtrack(b, h):\n            b = remove_consecutive(b)\n            if not b:\n                return 0\n            if not h:\n                return float('inf')\n            \n            min_steps = float('inf')\n            b_counter = Counter(b)\n            h_counter = Counter(h)\n            \n            for i in range(len(b) + 1):\n                for color in h_counter:\n                    if h_counter[color] > 0:\n                        # Insert color at position i\n                        new_board = b[:i] + color + b[i:]\n                        new_board = remove_consecutive(new_board)\n                        h_counter[color] -= 1\n                        steps = backtrack(new_board, ''.join([c * h_counter[c] for c in h_counter]))\n                        h_counter[color] += 1\n                        if steps != float('inf'):\n                            min_steps = min(min_steps, steps + 1)\n            \n            return min_steps\n        \n        result = backtrack(board, hand)\n        return result if result != float('inf') else -1",
+    "explanation": "The solution uses a recursive backtracking approach to explore all possible ways to insert balls from the hand into the board. The `remove_consecutive` function is responsible for removing groups of three or more consecutive balls of the same color. \n\n1. **Base Cases**:\n   - If the board is empty after removals, we return 0, indicating no more balls are needed.\n   - If we run out of balls in hand and the board is not empty, we return infinity to indicate failure.\n\n2. **Backtracking Logic**:\n   - For each position in the board (from 0 to the length of the board), we try inserting each color from the hand.\n   - After each insertion, we call `remove_consecutive` to clean up the board.\n   - We then recursively call `backtrack` with the updated board and hand (adjusted for the inserted ball).\n   - We keep track of the minimum number of steps required to clear the board.\n\n3. **Complexity**:\n   - **Time Complexity**: The worst-case time complexity is exponential due to the recursive nature of the backtracking and the number of possible insertions. However, memoization helps reduce redundant calculations.\n   - **Space Complexity**: The space complexity is O(n + m), where n is the length of the board and m is the length of the hand, due to the storage of the board and hand states.\n\nOverall, this approach efficiently explores the possible ways to clear the board while ensuring that we minimize the number of balls used from the hand."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution timeout (>10 seconds)"
+  },
+  "timestamp": "2025-04-01 18:01:19"
+}

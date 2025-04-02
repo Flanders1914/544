@@ -1,0 +1,63 @@
+{
+  "problem": {
+    "id": "375",
+    "frontend_id": "375",
+    "title": "Guess Number Higher or Lower II",
+    "description": "We are playing the Guessing Game. The game will work as follows:\n\nI pick a number between 1 and n.\nYou guess a number.\nIf you guess the right number, you win the game.\nIf you guess the wrong number, then I will tell you whether the number I picked is higher or lower, and you will continue guessing.\nEvery time you guess a wrong number x, you will pay x dollars. If you run out of money, you lose the game.\n\nGiven a particular n, return the minimum amount of money you need to guarantee a win regardless of what number I pick.\n \nExample 1:\n\n\nInput: n = 10\nOutput: 16\nExplanation: The winning strategy is as follows:\n- The range is [1,10]. Guess 7.\n    - If this is my number, your total is $0. Otherwise, you pay $7.\n    - If my number is higher, the range is [8,10]. Guess 9.\n        - If this is my number, your total is $7. Otherwise, you pay $9.\n        - If my number is higher, it must be 10. Guess 10. Your total is $7 + $9 = $16.\n        - If my number is lower, it must be 8. Guess 8. Your total is $7 + $9 = $16.\n    - If my number is lower, the range is [1,6]. Guess 3.\n        - If this is my number, your total is $7. Otherwise, you pay $3.\n        - If my number is higher, the range is [4,6]. Guess 5.\n            - If this is my number, your total is $7 + $3 = $10. Otherwise, you pay $5.\n            - If my number is higher, it must be 6. Guess 6. Your total is $7 + $3 + $5 = $15.\n            - If my number is lower, it must be 4. Guess 4. Your total is $7 + $3 + $5 = $15.\n        - If my number is lower, the range is [1,2]. Guess 1.\n            - If this is my number, your total is $7 + $3 = $10. Otherwise, you pay $1.\n            - If my number is higher, it must be 2. Guess 2. Your total is $7 + $3 + $1 = $11.\nThe worst case in all these scenarios is that you pay $16. Hence, you only need $16 to guarantee a win.\n\nExample 2:\n\nInput: n = 1\nOutput: 0\nExplanation: There is only one possible number, so you can guess 1 and not have to pay anything.\n\nExample 3:\n\nInput: n = 2\nOutput: 1\nExplanation: There are two possible numbers, 1 and 2.\n- Guess 1.\n    - If this is my number, your total is $0. Otherwise, you pay $1.\n    - If my number is higher, it must be 2. Guess 2. Your total is $1.\nThe worst case is that you pay $1.\n\n \nConstraints:\n\n1 <= n <= 200\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "10",
+      "1",
+      "2"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "n": "10"
+        },
+        "expected": "16"
+      },
+      {
+        "input": {
+          "n": "1"
+        },
+        "expected": "0"
+      },
+      {
+        "input": {
+          "n": "2"
+        },
+        "expected": "1"
+      }
+    ],
+    "python_starter": "class Solution:\n    def getMoneyAmount(self, n: int) -> int:\n        ",
+    "hints": [
+      "The best strategy to play the game is to minimize the maximum loss you could possibly face. Another strategy is to minimize the expected loss. Here, we are interested in the <b>first</b> scenario.",
+      "Take a small example (n = 3). What do you end up paying in the worst case?",
+      "Check out <a href=\"https://en.wikipedia.org/wiki/Minimax\">this article</a> if you're still stuck.",
+      "The purely recursive implementation of minimax would be worthless for even a small n. You MUST use dynamic programming.",
+      "As a follow-up, how would you modify your code to solve the problem of minimizing the expected loss, instead of the worst-case loss?"
+    ],
+    "meta_data": {
+      "name": "getMoneyAmount",
+      "params": [
+        {
+          "name": "n",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def getMoneyAmount(self, n: int) -> int:\n        # Create a 2D array to store the minimum cost for ranges\n        dp = [[0] * (n + 1) for _ in range(n + 1)]\n        \n        # Fill the dp array\n        for length in range(2, n + 1):  # length of the range\n            for i in range(1, n - length + 2):  # start of the range\n                j = i + length - 1  # end of the range\n                dp[i][j] = float('inf')  # Initialize to infinity\n                \n                # Try guessing each number k in the range [i, j]\n                for k in range(i, j):\n                    # Calculate the cost of guessing k\n                    cost = k + max(dp[i][k - 1], dp[k + 1][j])\n                    dp[i][j] = min(dp[i][j], cost)  # Update the minimum cost\n        \n        return dp[1][n]  # The answer for the range [1, n]",
+    "explanation": "The solution uses dynamic programming to efficiently compute the minimum cost required to guarantee a win in the guessing game. The `dp` array is initialized to store the minimum costs for all ranges of numbers from `1` to `n`. \n\n1. **Initialization**: A 2D list `dp` is created where `dp[i][j]` will eventually hold the minimum cost to guarantee a win for the range from `i` to `j`.\n\n2. **Filling the DP Table**: We iterate over all possible lengths of ranges from `2` to `n`. For each range defined by `i` and `j`, we consider every possible guess `k` within that range. The cost of guessing `k` is `k` plus the maximum of the costs of the two resulting ranges (if the guess is wrong).\n\n3. **Base Cases**: The base cases are handled implicitly since `dp[i][i]` is `0` (no cost when there's only one number) and `dp[i][i+1]` is `i` (the cost of guessing the first number).\n\n4. **Final Result**: The minimum cost to guarantee a win for the entire range from `1` to `n` is found in `dp[1][n]`.\n\n**Time Complexity**: The time complexity of this solution is O(n^3) due to the three nested loops: one for the length of the range, one for the starting point, and one for the guess.\n\n**Space Complexity**: The space complexity is O(n^2) because of the 2D `dp` array used to store the results.\n\nOverall, this approach efficiently computes the required minimum cost using dynamic programming principles."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 16\nTest case 2:\n[PASS] Test passed: 0\nTest case 3:\n[PASS] Test passed: 1\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:51"
+}

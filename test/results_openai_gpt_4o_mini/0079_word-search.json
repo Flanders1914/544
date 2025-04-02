@@ -1,0 +1,53 @@
+{
+  "problem": {
+    "id": "79",
+    "frontend_id": "79",
+    "title": "Word Search",
+    "description": "Given an m x n grid of characters board and a string word, return true if word exists in the grid.\nThe word can be constructed from letters of sequentially adjacent cells, where adjacent cells are horizontally or vertically neighboring. The same letter cell may not be used more than once.\n \nExample 1:\n\n\nInput: board = [[\"A\",\"B\",\"C\",\"E\"],[\"S\",\"F\",\"C\",\"S\"],[\"A\",\"D\",\"E\",\"E\"]], word = \"ABCCED\"\nOutput: true\n\nExample 2:\n\n\nInput: board = [[\"A\",\"B\",\"C\",\"E\"],[\"S\",\"F\",\"C\",\"S\"],[\"A\",\"D\",\"E\",\"E\"]], word = \"SEE\"\nOutput: true\n\nExample 3:\n\n\nInput: board = [[\"A\",\"B\",\"C\",\"E\"],[\"S\",\"F\",\"C\",\"S\"],[\"A\",\"D\",\"E\",\"E\"]], word = \"ABCB\"\nOutput: false\n\n \nConstraints:\n\nm == board.length\nn = board[i].length\n1 <= m, n <= 6\n1 <= word.length <= 15\nboard and word consists of only lowercase and uppercase English letters.\n\n \nFollow up: Could you use search pruning to make your solution faster with a larger board?\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[[\"A\",\"B\",\"C\",\"E\"],[\"S\",\"F\",\"C\",\"S\"],[\"A\",\"D\",\"E\",\"E\"]]",
+      "\"ABCCED\"",
+      "[[\"A\",\"B\",\"C\",\"E\"],[\"S\",\"F\",\"C\",\"S\"],[\"A\",\"D\",\"E\",\"E\"]]",
+      "\"SEE\"",
+      "[[\"A\",\"B\",\"C\",\"E\"],[\"S\",\"F\",\"C\",\"S\"],[\"A\",\"D\",\"E\",\"E\"]]",
+      "\"ABCB\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "board": "[[\"A\",\"B\",\"C\",\"E\"]",
+          "word": "\"ABCCED\""
+        },
+        "expected": "true"
+      }
+    ],
+    "python_starter": "class Solution:\n    def exist(self, board: List[List[str]], word: str) -> bool:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "exist",
+      "params": [
+        {
+          "name": "board",
+          "type": "character[][]"
+        },
+        {
+          "name": "word",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def exist(self, board: List[List[str]], word: str) -> bool:\n        if not board or not board[0]:\n            return False\n        \n        self.rows, self.cols = len(board), len(board[0])\n        \n        def dfs(r, c, index):\n            # If we have matched all characters of the word\n            if index == len(word):\n                return True\n            \n            # Check boundaries and if the current cell matches the character in the word\n            if r < 0 or r >= self.rows or c < 0 or c >= self.cols or board[r][c] != word[index]:\n                return False\n            \n            # Mark the cell as visited by changing its value\n            temp = board[r][c]\n            board[r][c] = '#'\n            \n            # Explore all possible directions: up, down, left, right\n            found = (dfs(r + 1, c, index + 1) or \n                     dfs(r - 1, c, index + 1) or \n                     dfs(r, c + 1, index + 1) or \n                     dfs(r, c - 1, index + 1))\n            \n            # Restore the original value of the cell\n            board[r][c] = temp\n            \n            return found\n        \n        # Start DFS from each cell in the grid\n        for r in range(self.rows):\n            for c in range(self.cols):\n                if board[r][c] == word[0]:  # Only start DFS if the first character matches\n                    if dfs(r, c, 0):\n                        return True\n        \n        return False",
+    "explanation": "The provided solution uses a depth-first search (DFS) approach to explore the grid for the given word. The key steps in the solution are:\n\n1. **Initialization**: We first check if the board is empty. We then store the number of rows and columns for easy access.\n\n2. **DFS Function**: The `dfs` function takes the current row and column indices and the current index of the character in the word we are trying to match. It checks if we have matched all characters of the word. If so, it returns true. If the current cell is out of bounds or does not match the current character in the word, it returns false.\n\n3. **Marking Visited Cells**: To avoid revisiting cells, we temporarily mark the current cell as visited by changing its value to a special character (e.g., `'#'`). After exploring all possible paths from that cell, we restore its original value.\n\n4. **Exploring Directions**: The DFS explores all four possible directions (up, down, left, right) recursively.\n\n5. **Starting the Search**: We iterate through each cell in the grid and start the DFS if the cell matches the first character of the word.\n\n**Time Complexity**: The time complexity of this solution is O(m * n * 4^L), where m and n are the dimensions of the board, and L is the length of the word. In the worst case, we may explore all paths in the grid.\n\n**Space Complexity**: The space complexity is O(L) due to the recursion stack used in the DFS, where L is the length of the word.\n\nThis approach efficiently checks for the existence of the word in the grid while ensuring that we do not revisit cells in the current path."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmprpt_s_fh.py\", line 77\n    input_0_0 = [[\"A\",\"B\",\"C\",\"E\"]\n                ^\nSyntaxError: '[' was never closed\n"
+  },
+  "timestamp": "2025-04-01 18:00:32"
+}

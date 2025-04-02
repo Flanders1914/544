@@ -1,0 +1,33 @@
+{
+  "id": "214",
+  "frontend_id": "214",
+  "title": "Shortest Palindrome",
+  "description": "You are given a string s. You can convert s to a palindrome by adding characters in front of it.\nReturn the shortest palindrome you can find by performing this transformation.\n \nExample 1:\nInput: s = \"aacecaaa\"\nOutput: \"aaacecaaa\"\nExample 2:\nInput: s = \"abcd\"\nOutput: \"dcbabcd\"\n\n \nConstraints:\n\n0 <= s.length <= 5 * 104\ns consists of lowercase English letters only.\n\n",
+  "difficulty": "Hard",
+  "examples": [
+    "\"aacecaaa\"",
+    "\"abcd\""
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "s": "\"aacecaaa\""
+      },
+      "expected": "aaacecaaa"
+    }
+  ],
+  "python_starter": "class Solution:\n    def shortestPalindrome(self, s: str) -> str:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "shortestPalindrome",
+    "params": [
+      {
+        "name": "s",
+        "type": "string"
+      }
+    ],
+    "return": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "id": "438",
+  "frontend_id": "438",
+  "title": "Find All Anagrams in a String",
+  "description": "Given two strings s and p, return an array of all the start indices of p's anagrams in s. You may return the answer in any order.\n \nExample 1:\n\nInput: s = \"cbaebabacd\", p = \"abc\"\nOutput: [0,6]\nExplanation:\nThe substring with start index = 0 is \"cba\", which is an anagram of \"abc\".\nThe substring with start index = 6 is \"bac\", which is an anagram of \"abc\".\n\nExample 2:\n\nInput: s = \"abab\", p = \"ab\"\nOutput: [0,1,2]\nExplanation:\nThe substring with start index = 0 is \"ab\", which is an anagram of \"ab\".\nThe substring with start index = 1 is \"ba\", which is an anagram of \"ab\".\nThe substring with start index = 2 is \"ab\", which is an anagram of \"ab\".\n\n \nConstraints:\n\n1 <= s.length, p.length <= 3 * 104\ns and p consist of lowercase English letters.\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "\"cbaebabacd\"",
+    "\"abc\"",
+    "\"abab\"",
+    "\"ab\""
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "s": "\"cbaebabacd\"",
+        "p": "\"abc\""
+      },
+      "expected": "[0,6]"
+    },
+    {
+      "input": {
+        "s": "\"abab\"",
+        "p": "\"ab\""
+      },
+      "expected": "[0,1,2]"
+    }
+  ],
+  "python_starter": "class Solution:\n    def findAnagrams(self, s: str, p: str) -> List[int]:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "findAnagrams",
+    "params": [
+      {
+        "name": "s",
+        "type": "string"
+      },
+      {
+        "name": "p",
+        "type": "string"
+      }
+    ],
+    "return": {
+      "type": "list<integer>"
+    }
+  }
+}

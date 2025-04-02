@@ -1,0 +1,50 @@
+{
+  "problem": {
+    "id": "367",
+    "frontend_id": "367",
+    "title": "Valid Perfect Square",
+    "description": "Given a positive integer num, return true if num is a perfect square or false otherwise.\nA perfect square is an integer that is the square of an integer. In other words, it is the product of some integer with itself.\nYou must not use any built-in library function, such as sqrt.\n \nExample 1:\n\nInput: num = 16\nOutput: true\nExplanation: We return true because 4 * 4 = 16 and 4 is an integer.\n\nExample 2:\n\nInput: num = 14\nOutput: false\nExplanation: We return false because 3.742 * 3.742 = 14 and 3.742 is not an integer.\n\n \nConstraints:\n\n1 <= num <= 231 - 1\n\n",
+    "difficulty": "Easy",
+    "examples": [
+      "16",
+      "14"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "num": "16"
+        },
+        "expected": "true"
+      },
+      {
+        "input": {
+          "num": "14"
+        },
+        "expected": "false"
+      }
+    ],
+    "python_starter": "class Solution:\n    def isPerfectSquare(self, num: int) -> bool:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "isPerfectSquare",
+      "params": [
+        {
+          "name": "num",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def isPerfectSquare(self, num: int) -> bool:\n        if num < 1:\n            return False\n        \n        left, right = 1, num\n        \n        while left <= right:\n            mid = left + (right - left) // 2\n            square = mid * mid\n            \n            if square == num:\n                return True\n            elif square < num:\n                left = mid + 1\n            else:\n                right = mid - 1\n        \n        return False",
+    "explanation": "The solution uses a binary search algorithm to determine if a given number `num` is a perfect square. \n\n1. **Initialization**: We start by checking if `num` is less than 1, in which case we return `False` since perfect squares are positive integers. We then set our search boundaries with `left` initialized to 1 and `right` initialized to `num`.\n\n2. **Binary Search Loop**: We enter a loop that continues as long as `left` is less than or equal to `right`. Inside the loop:\n   - We calculate the midpoint `mid` and its square `square`.\n   - If `square` equals `num`, we have found our perfect square and return `True`.\n   - If `square` is less than `num`, we move our `left` boundary up to `mid + 1` to search in the upper half.\n   - If `square` is greater than `num`, we move our `right` boundary down to `mid - 1` to search in the lower half.\n\n3. **Conclusion**: If we exit the loop without finding a perfect square, we return `False`.\n\nThe time complexity of this solution is O(log(num)), making it efficient for large values of `num`, and the space complexity is O(1) since we are using a fixed amount of space for our variables."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: True\nTest case 2:\n[PASS] Test passed: False\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:50"
+}

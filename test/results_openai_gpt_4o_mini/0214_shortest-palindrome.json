@@ -1,0 +1,44 @@
+{
+  "problem": {
+    "id": "214",
+    "frontend_id": "214",
+    "title": "Shortest Palindrome",
+    "description": "You are given a string s. You can convert s to a palindrome by adding characters in front of it.\nReturn the shortest palindrome you can find by performing this transformation.\n \nExample 1:\nInput: s = \"aacecaaa\"\nOutput: \"aaacecaaa\"\nExample 2:\nInput: s = \"abcd\"\nOutput: \"dcbabcd\"\n\n \nConstraints:\n\n0 <= s.length <= 5 * 104\ns consists of lowercase English letters only.\n\n",
+    "difficulty": "Hard",
+    "examples": [
+      "\"aacecaaa\"",
+      "\"abcd\""
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "s": "\"aacecaaa\""
+        },
+        "expected": "aaacecaaa"
+      }
+    ],
+    "python_starter": "class Solution:\n    def shortestPalindrome(self, s: str) -> str:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "shortestPalindrome",
+      "params": [
+        {
+          "name": "s",
+          "type": "string"
+        }
+      ],
+      "return": {
+        "type": "string"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def shortestPalindrome(self, s: str) -> str:\n        if not s:\n            return s\n        \n        # Create a new string with a separator\n        rev_s = s[::-1]\n        combined = s + \"#\" + rev_s\n        \n        # Build the KMP prefix table\n        n = len(combined)\n        lps = [0] * n  # Longest Prefix Suffix array\n        j = 0  # Length of previous longest prefix suffix\n        \n        # Fill the LPS array\n        for i in range(1, n):\n            while (j > 0 and combined[i] != combined[j]):\n                j = lps[j - 1]\n            if combined[i] == combined[j]:\n                j += 1\n            lps[i] = j\n        \n        # The length of the longest palindromic prefix\n        longest_palindromic_prefix_length = lps[-1]\n        \n        # Characters to add in front of the original string\n        to_add = rev_s[:len(s) - longest_palindromic_prefix_length]\n        \n        # Construct the shortest palindrome\n        return to_add + s",
+    "explanation": "The solution begins by checking if the input string `s` is empty. If it is, we return it immediately. Next, we reverse the string `s` to create `rev_s` and concatenate `s`, a separator `#`, and `rev_s` into a new string called `combined`. This concatenation helps us to avoid overlaps when we compute the longest palindromic prefix.\n\nWe then construct the KMP prefix table (`lps`) for the `combined` string. The `lps` array helps us find the longest prefix which is also a suffix efficiently. The last value of the `lps` array gives us the length of the longest palindromic prefix in the original string `s`.\n\nUsing this length, we determine the characters that need to be added in front of `s` by taking the corresponding characters from `rev_s`. Finally, we concatenate these characters with `s` to form the shortest palindrome and return it.\n\nThe time complexity of this solution is O(n) due to the linear scan for building the `lps` array, and the space complexity is also O(n) for storing the `lps` array. This makes the solution efficient and suitable for the input constraints provided."
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\n"
+  },
+  "timestamp": "2025-04-01 18:00:42"
+}

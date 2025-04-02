@@ -1,0 +1,40 @@
+{
+  "id": "85",
+  "frontend_id": "85",
+  "title": "Maximal Rectangle",
+  "description": "Given a rows x cols binary matrix filled with 0's and 1's, find the largest rectangle containing only 1's and return its area.\n \nExample 1:\n\n\nInput: matrix = [[\"1\",\"0\",\"1\",\"0\",\"0\"],[\"1\",\"0\",\"1\",\"1\",\"1\"],[\"1\",\"1\",\"1\",\"1\",\"1\"],[\"1\",\"0\",\"0\",\"1\",\"0\"]]\nOutput: 6\nExplanation: The maximal rectangle is shown in the above picture.\n\nExample 2:\n\nInput: matrix = [[\"0\"]]\nOutput: 0\n\nExample 3:\n\nInput: matrix = [[\"1\"]]\nOutput: 1\n\n \nConstraints:\n\nrows == matrix.length\ncols == matrix[i].length\n1 <= row, cols <= 200\nmatrix[i][j] is '0' or '1'.\n\n",
+  "difficulty": "Hard",
+  "examples": [
+    "[[\"1\",\"0\",\"1\",\"0\",\"0\"],[\"1\",\"0\",\"1\",\"1\",\"1\"],[\"1\",\"1\",\"1\",\"1\",\"1\"],[\"1\",\"0\",\"0\",\"1\",\"0\"]]",
+    "[[\"0\"]]",
+    "[[\"1\"]]"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "matrix": "[[\"1\",\"0\",\"1\",\"0\",\"0\"]"
+      },
+      "expected": "6"
+    },
+    {
+      "input": {
+        "matrix": "[[\"0\"]"
+      },
+      "expected": "0"
+    }
+  ],
+  "python_starter": "class Solution:\n    def maximalRectangle(self, matrix: List[List[str]]) -> int:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "maximalRectangle",
+    "params": [
+      {
+        "name": "matrix",
+        "type": "character[][]"
+      }
+    ],
+    "return": {
+      "type": "integer"
+    }
+  }
+}

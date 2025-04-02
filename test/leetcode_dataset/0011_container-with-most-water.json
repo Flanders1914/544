@@ -1,0 +1,43 @@
+{
+  "id": "11",
+  "frontend_id": "11",
+  "title": "Container With Most Water",
+  "description": "You are given an integer array height of length n. There are n vertical lines drawn such that the two endpoints of the ith line are (i, 0) and (i, height[i]).\nFind two lines that together with the x-axis form a container, such that the container contains the most water.\nReturn the maximum amount of water a container can store.\nNotice that you may not slant the container.\n \nExample 1:\n\n\nInput: height = [1,8,6,2,5,4,8,3,7]\nOutput: 49\nExplanation: The above vertical lines are represented by array [1,8,6,2,5,4,8,3,7]. In this case, the max area of water (blue section) the container can contain is 49.\n\nExample 2:\n\nInput: height = [1,1]\nOutput: 1\n\n \nConstraints:\n\nn == height.length\n2 <= n <= 105\n0 <= height[i] <= 104\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "[1,8,6,2,5,4,8,3,7]",
+    "[1,1]"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "height": "[1,8,6,2,5,4,8,3,7]"
+      },
+      "expected": "49"
+    },
+    {
+      "input": {
+        "height": "[1,1]"
+      },
+      "expected": "1"
+    }
+  ],
+  "python_starter": "class Solution:\n    def maxArea(self, height: List[int]) -> int:\n        ",
+  "hints": [
+    "If you simulate the problem, it will be O(n^2) which is not efficient.",
+    "Try to use two-pointers. Set one pointer to the left and one to the right of the array. Always move the pointer that points to the lower line.",
+    "How can you calculate the amount of water at each step?"
+  ],
+  "meta_data": {
+    "name": "maxArea",
+    "params": [
+      {
+        "name": "height",
+        "type": "integer[]"
+      }
+    ],
+    "return": {
+      "type": "integer"
+    }
+  }
+}

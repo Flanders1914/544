@@ -1,0 +1,97 @@
+{
+  "problem": {
+    "id": "355",
+    "frontend_id": "355",
+    "title": "Design Twitter",
+    "description": "Design a simplified version of Twitter where users can post tweets, follow/unfollow another user, and is able to see the 10 most recent tweets in the user's news feed.\nImplement the Twitter class:\n\nTwitter() Initializes your twitter object.\nvoid postTweet(int userId, int tweetId) Composes a new tweet with ID tweetId by the user userId. Each call to this function will be made with a unique tweetId.\nList<Integer> getNewsFeed(int userId) Retrieves the 10 most recent tweet IDs in the user's news feed. Each item in the news feed must be posted by users who the user followed or by the user themself. Tweets must be ordered from most recent to least recent.\nvoid follow(int followerId, int followeeId) The user with ID followerId started following the user with ID followeeId.\nvoid unfollow(int followerId, int followeeId) The user with ID followerId started unfollowing the user with ID followeeId.\n\n \nExample 1:\n\nInput\n[\"Twitter\", \"postTweet\", \"getNewsFeed\", \"follow\", \"postTweet\", \"getNewsFeed\", \"unfollow\", \"getNewsFeed\"]\n[[], [1, 5], [1], [1, 2], [2, 6], [1], [1, 2], [1]]\nOutput\n[null, null, [5], null, null, [6, 5], null, [5]]\n\nExplanation\nTwitter twitter = new Twitter();\ntwitter.postTweet(1, 5); // User 1 posts a new tweet (id = 5).\ntwitter.getNewsFeed(1);  // User 1's news feed should return a list with 1 tweet id -> [5]. return [5]\ntwitter.follow(1, 2);    // User 1 follows user 2.\ntwitter.postTweet(2, 6); // User 2 posts a new tweet (id = 6).\ntwitter.getNewsFeed(1);  // User 1's news feed should return a list with 2 tweet ids -> [6, 5]. Tweet id 6 should precede tweet id 5 because it is posted after tweet id 5.\ntwitter.unfollow(1, 2);  // User 1 unfollows user 2.\ntwitter.getNewsFeed(1);  // User 1's news feed should return a list with 1 tweet id -> [5], since user 1 is no longer following user 2.\n\n \nConstraints:\n\n1 <= userId, followerId, followeeId <= 500\n0 <= tweetId <= 104\nAll the tweets have unique IDs.\nAt most 3 * 104 calls will be made to postTweet, getNewsFeed, follow, and unfollow.\nA user cannot follow himself.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[\"Twitter\",\"postTweet\",\"getNewsFeed\",\"follow\",\"postTweet\",\"getNewsFeed\",\"unfollow\",\"getNewsFeed\"]",
+      "[[],[1,5],[1],[1,2],[2,6],[1],[1,2],[1]]"
+    ],
+    "structured_test_cases": [],
+    "python_starter": "class Twitter:\n\n    def __init__(self):\n        \n\n    def postTweet(self, userId: int, tweetId: int) -> None:\n        \n\n    def getNewsFeed(self, userId: int) -> List[int]:\n        \n\n    def follow(self, followerId: int, followeeId: int) -> None:\n        \n\n    def unfollow(self, followerId: int, followeeId: int) -> None:\n        \n\n\n# Your Twitter object will be instantiated and called as such:\n# obj = Twitter()\n# obj.postTweet(userId,tweetId)\n# param_2 = obj.getNewsFeed(userId)\n# obj.follow(followerId,followeeId)\n# obj.unfollow(followerId,followeeId)",
+    "hints": [],
+    "meta_data": {
+      "classname": "Twitter",
+      "constructor": {
+        "params": []
+      },
+      "methods": [
+        {
+          "params": [
+            {
+              "type": "integer",
+              "name": "userId"
+            },
+            {
+              "type": "integer",
+              "name": "tweetId"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "name": "postTweet"
+        },
+        {
+          "params": [
+            {
+              "type": "integer",
+              "name": "userId"
+            }
+          ],
+          "return": {
+            "type": "list<integer>"
+          },
+          "name": "getNewsFeed"
+        },
+        {
+          "params": [
+            {
+              "type": "integer",
+              "name": "followerId"
+            },
+            {
+              "type": "integer",
+              "name": "followeeId"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "name": "follow"
+        },
+        {
+          "params": [
+            {
+              "type": "integer",
+              "name": "followerId"
+            },
+            {
+              "type": "integer",
+              "name": "followeeId"
+            }
+          ],
+          "return": {
+            "type": "void"
+          },
+          "name": "unfollow"
+        }
+      ],
+      "return": {
+        "type": "boolean"
+      },
+      "systemdesign": true
+    }
+  },
+  "solution": {
+    "code": "from collections import defaultdict\nfrom typing import List\n\nclass Twitter:\n    def __init__(self):\n        self.tweets = defaultdict(list)  # userId -> list of tweetIds\n        self.followers = defaultdict(set)  # userId -> set of followers\n        self.time = 0  # to keep track of the order of tweets\n\n    def postTweet(self, userId: int, tweetId: int) -> None:\n        self.time += 1\n        self.tweets[userId].append((self.time, tweetId))  # store tweet with timestamp\n\n    def getNewsFeed(self, userId: int) -> List[int]:\n        # Gather tweets from the user and the users they follow\n        feed = []\n        # Add user's own tweets\n        if userId in self.tweets:\n            feed.extend(self.tweets[userId])\n        # Add tweets from followed users\n        for followee in self.followers[userId]:\n            if followee in self.tweets:\n                feed.extend(self.tweets[followee])\n        \n        # Sort by time (most recent first) and get the last 10 tweets\n        feed.sort(reverse=True, key=lambda x: x[0])  # sort by timestamp\n        return [tweetId for _, tweetId in feed[:10]]  # return only tweetIds\n\n    def follow(self, followerId: int, followeeId: int) -> None:\n        if followerId != followeeId:  # a user cannot follow themselves\n            self.followers[followerId].add(followeeId)\n\n    def unfollow(self, followerId: int, followeeId: int) -> None:\n        if followerId != followeeId:  # a user cannot unfollow themselves\n            self.followers[followerId].discard(followeeId)",
+    "explanation": "The `Twitter` class is designed to simulate a simplified version of Twitter with the following methods:\n\n1. **Initialization**: The constructor initializes two dictionaries:\n   - `tweets`: A dictionary that maps user IDs to a list of tuples, where each tuple contains a timestamp and a tweet ID. This allows us to keep track of the order in which tweets were posted.\n   - `followers`: A dictionary that maps user IDs to a set of user IDs representing the users they follow.\n\n2. **Posting a Tweet**: The `postTweet` method increments a timestamp and appends a new tweet (with its timestamp) to the user's list of tweets.\n\n3. **Getting the News Feed**: The `getNewsFeed` method collects tweets from the user and the users they follow. It combines these tweets, sorts them by timestamp in descending order, and returns the IDs of the 10 most recent tweets.\n\n4. **Following and Unfollowing**: The `follow` method adds a followee to the follower's set of followees, while the `unfollow` method removes the followee from the follower's set.\n\n**Time Complexity**:\n- `postTweet`: O(1) since we are just appending to a list.\n- `getNewsFeed`: O(N log N) where N is the total number of tweets collected (up to 10 from each followed user).\n- `follow` and"
+  },
+  "test_result": {
+    "success": false,
+    "output": "Execution error:\nTraceback (most recent call last):\n  File \"C:\\Users\\PC\\AppData\\Local\\Temp\\tmpjn_l0x5f.py\", line 70, in <module>\n    expected_0 = safe_eval('[\"Twitter\",\"postTweet\",\"getNewsFeed\",\"follow\",\"postTweet\",\"getNewsFeed\",\"unfollow\",\"getNewsFeed\"]')\n                 ^^^^^^^^^\nNameError: name 'safe_eval' is not defined\n"
+  },
+  "timestamp": "2025-04-01 18:00:50"
+}

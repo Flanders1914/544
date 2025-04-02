@@ -1,0 +1,44 @@
+{
+  "problem": {
+    "id": "522",
+    "frontend_id": "522",
+    "title": "Longest Uncommon Subsequence II",
+    "description": "Given an array of strings strs, return the length of the longest uncommon subsequence between them. If the longest uncommon subsequence does not exist, return -1.\nAn uncommon subsequence between an array of strings is a string that is a subsequence of one string but not the others.\nA subsequence of a string s is a string that can be obtained after deleting any number of characters from s.\n\nFor example, \"abc\" is a subsequence of \"aebdc\" because you can delete the underlined characters in \"aebdc\" to get \"abc\". Other subsequences of \"aebdc\" include \"aebdc\", \"aeb\", and \"\" (empty string).\n\n \nExample 1:\nInput: strs = [\"aba\",\"cdc\",\"eae\"]\nOutput: 3\nExample 2:\nInput: strs = [\"aaa\",\"aaa\",\"aa\"]\nOutput: -1\n\n \nConstraints:\n\n2 <= strs.length <= 50\n1 <= strs[i].length <= 10\nstrs[i] consists of lowercase English letters.\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "[\"aba\",\"cdc\",\"eae\"]",
+      "[\"aaa\",\"aaa\",\"aa\"]"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "strs": "[\"aba\",\"cdc\",\"eae\"]"
+        },
+        "expected": "3"
+      }
+    ],
+    "python_starter": "class Solution:\n    def findLUSlength(self, strs: List[str]) -> int:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "findLUSlength",
+      "params": [
+        {
+          "name": "strs",
+          "type": "string[]"
+        }
+      ],
+      "return": {
+        "type": "integer"
+      }
+    }
+  },
+  "solution": {
+    "code": "from typing import List\n\nclass Solution:\n    def findLUSlength(self, strs: List[str]) -> int:\n        def is_subsequence(s1: str, s2: str) -> bool:\n            \"\"\"Check if s1 is a subsequence of s2.\"\"\"\n            it = iter(s2)\n            return all(char in it for char in s1)\n\n        max_length = -1\n        n = len(strs)\n\n        for i in range(n):\n            is_uncommon = True\n            for j in range(n):\n                if i != j and is_subsequence(strs[i], strs[j]):\n                    is_uncommon = False\n                    break\n            if is_uncommon:\n                max_length = max(max_length, len(strs[i]))\n\n        return max_length",
+    "explanation": "The solution defines a method `findLUSlength` that takes a list of strings as input. It uses a helper function `is_subsequence` to determine if one string is a subsequence of another. The main logic iterates through each string and checks against all other strings to see if it is a subsequence. If a string is found to be uncommon (not a subsequence of any other string), its length is considered for the maximum length.\n\n### Time Complexity:\n- The time complexity is O(n^2 * m), where n is the number of strings and m is the maximum length of the strings. This is because for each string, we may need to check it against every other string, and the subsequence check itself takes O(m) time.\n\n### Space Complexity:\n- The space complexity is O(1) if we disregard the input storage, as we are using a constant amount of extra space for variables.\n\nIn summary, the solution efficiently checks for uncommon subsequences and returns the length of the longest one or -1 if none exist."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: 3\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:01:22"
+}

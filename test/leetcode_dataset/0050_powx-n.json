@@ -1,0 +1,42 @@
+{
+  "id": "50",
+  "frontend_id": "50",
+  "title": "Pow(x, n)",
+  "description": "Implement pow(x, n), which calculates x raised to the power n (i.e., xn).\n \nExample 1:\n\nInput: x = 2.00000, n = 10\nOutput: 1024.00000\n\nExample 2:\n\nInput: x = 2.10000, n = 3\nOutput: 9.26100\n\nExample 3:\n\nInput: x = 2.00000, n = -2\nOutput: 0.25000\nExplanation: 2-2 = 1/22 = 1/4 = 0.25\n\n \nConstraints:\n\n-100.0 < x < 100.0\n-231 <= n <= 231-1\nn is an integer.\nEither x is not zero or n > 0.\n-104 <= xn <= 104\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "2.00000",
+    "10",
+    "2.10000",
+    "3",
+    "2.00000",
+    "-2"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "x": "2",
+        "n": "10"
+      },
+      "expected": "1024.00000"
+    }
+  ],
+  "python_starter": "class Solution:\n    def myPow(self, x: float, n: int) -> float:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "myPow",
+    "params": [
+      {
+        "name": "x",
+        "type": "double"
+      },
+      {
+        "name": "n",
+        "type": "integer"
+      }
+    ],
+    "return": {
+      "type": "double"
+    }
+  }
+}

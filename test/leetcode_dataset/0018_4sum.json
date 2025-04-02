@@ -1,0 +1,42 @@
+{
+  "id": "18",
+  "frontend_id": "18",
+  "title": "4Sum",
+  "description": "Given an array nums of n integers, return an array of all the unique quadruplets [nums[a], nums[b], nums[c], nums[d]] such that:\n\n0 <= a, b, c, d < n\na, b, c, and d are distinct.\nnums[a] + nums[b] + nums[c] + nums[d] == target\n\nYou may return the answer in any order.\n \nExample 1:\n\nInput: nums = [1,0,-1,0,-2,2], target = 0\nOutput: [[-2,-1,1,2],[-2,0,0,2],[-1,0,0,1]]\n\nExample 2:\n\nInput: nums = [2,2,2,2,2], target = 8\nOutput: [[2,2,2,2]]\n\n \nConstraints:\n\n1 <= nums.length <= 200\n-109 <= nums[i] <= 109\n-109 <= target <= 109\n\n",
+  "difficulty": "Medium",
+  "examples": [
+    "[1,0,-1,0,-2,2]",
+    "0",
+    "[2,2,2,2,2]",
+    "8"
+  ],
+  "structured_test_cases": [
+    {
+      "input": {
+        "nums": "[1,0,-1,0,-2,2]",
+        "target": "0"
+      },
+      "expected": "[[-2,-1,1,2]"
+    }
+  ],
+  "python_starter": "class Solution:\n    def fourSum(self, nums: List[int], target: int) -> List[List[int]]:\n        ",
+  "hints": [],
+  "meta_data": {
+    "name": "fourSum",
+    "params": [
+      {
+        "name": "nums",
+        "type": "integer[]"
+      },
+      {
+        "name": "target",
+        "type": "integer"
+      }
+    ],
+    "return": {
+      "type": "list<list<integer>>",
+      "colsize": 4,
+      "dealloc": true
+    }
+  }
+}

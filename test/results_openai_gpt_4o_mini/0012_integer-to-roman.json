@@ -1,0 +1,57 @@
+{
+  "problem": {
+    "id": "12",
+    "frontend_id": "12",
+    "title": "Integer to Roman",
+    "description": "Seven different symbols represent Roman numerals with the following values:\n\n\n\nSymbol\nValue\n\n\n\n\nI\n1\n\n\nV\n5\n\n\nX\n10\n\n\nL\n50\n\n\nC\n100\n\n\nD\n500\n\n\nM\n1000\n\n\n\nRoman numerals are formed by appending the conversions of decimal place values from highest to lowest. Converting a decimal place value into a Roman numeral has the following rules:\n\nIf the value does not start with 4 or 9, select the symbol of the maximal value that can be subtracted from the input, append that symbol to the result, subtract its value, and convert the remainder to a Roman numeral.\nIf the value starts with 4 or 9 use the subtractive form representing one symbol subtracted from the following symbol, for example, 4 is 1 (I) less than 5 (V): IV and 9 is 1 (I) less than 10 (X): IX. Only the following subtractive forms are used: 4 (IV), 9 (IX), 40 (XL), 90 (XC), 400 (CD) and 900 (CM).\nOnly powers of 10 (I, X, C, M) can be appended consecutively at most 3 times to represent multiples of 10. You cannot append 5 (V), 50 (L), or 500 (D) multiple times. If you need to append a symbol 4 times use the subtractive form.\n\nGiven an integer, convert it to a Roman numeral.\n \nExample 1:\n\nInput: num = 3749\nOutput: \"MMMDCCXLIX\"\nExplanation:\n\n3000 = MMM as 1000 (M) + 1000 (M) + 1000 (M)\n 700 = DCC as 500 (D) + 100 (C) + 100 (C)\n  40 = XL as 10 (X) less of 50 (L)\n   9 = IX as 1 (I) less of 10 (X)\nNote: 49 is not 1 (I) less of 50 (L) because the conversion is based on decimal places\n\n\nExample 2:\n\nInput: num = 58\nOutput: \"LVIII\"\nExplanation:\n\n50 = L\n 8 = VIII\n\n\nExample 3:\n\nInput: num = 1994\nOutput: \"MCMXCIV\"\nExplanation:\n\n1000 = M\n 900 = CM\n  90 = XC\n   4 = IV\n\n\n \nConstraints:\n\n1 <= num <= 3999\n\n",
+    "difficulty": "Medium",
+    "examples": [
+      "3749",
+      "58",
+      "1994"
+    ],
+    "structured_test_cases": [
+      {
+        "input": {
+          "num": "3749"
+        },
+        "expected": "MMMDCCXLIX"
+      },
+      {
+        "input": {
+          "num": "58"
+        },
+        "expected": "LVIII"
+      },
+      {
+        "input": {
+          "num": "1994"
+        },
+        "expected": "MCMXCIV"
+      }
+    ],
+    "python_starter": "class Solution:\n    def intToRoman(self, num: int) -> str:\n        ",
+    "hints": [],
+    "meta_data": {
+      "name": "intToRoman",
+      "params": [
+        {
+          "name": "num",
+          "type": "integer"
+        }
+      ],
+      "return": {
+        "type": "string"
+      }
+    }
+  },
+  "solution": {
+    "code": "class Solution:\n    def intToRoman(self, num: int) -> str:\n        # Define the mapping of integer values to Roman numeral symbols\n        val = [\n            (1000, 'M'),\n            (900, 'CM'),\n            (500, 'D'),\n            (400, 'CD'),\n            (100, 'C'),\n            (90, 'XC'),\n            (50, 'L'),\n            (40, 'XL'),\n            (10, 'X'),\n            (9, 'IX'),\n            (5, 'V'),\n            (4, 'IV'),\n            (1, 'I')\n        ]\n        \n        roman_numeral = \"\"\n        \n        # Iterate over the value-symbol pairs\n        for (integer, symbol) in val:\n            # While the current number is greater than or equal to the integer value\n            while num >= integer:\n                roman_numeral += symbol  # Append the Roman symbol\n                num -= integer            # Subtract the integer value from num\n        \n        return roman_numeral",
+    "explanation": "The solution uses a greedy approach to convert an integer to a Roman numeral. We define a list of tuples, where each tuple contains an integer value and its corresponding Roman numeral symbol. The list is ordered from the largest value to the smallest to facilitate the conversion process.\n\n1. We initialize an empty string `roman_numeral` to build our result.\n2. We iterate through each tuple in the `val` list. For each integer-symbol pair:\n   - We check if the current number (`num`) is greater than or equal to the integer value.\n   - If it is, we append the corresponding Roman numeral symbol to `roman_numeral` and subtract the integer value from `num`.\n   - This process continues until `num` is less than the current integer value.\n3. Once we have processed all values, we return the constructed Roman numeral string.\n\n### Time Complexity\nThe time complexity of this solution is O(1) because the number of Roman numeral symbols is fixed (13 symbols), and we perform a constant amount of work for each symbol.\n\n### Space Complexity\nThe space complexity is also O(1) since we are using a fixed amount of space for the `val` list and the output string, which does not depend on the size of the input number."
+  },
+  "test_result": {
+    "success": true,
+    "output": "Test case 1:\n[PASS] Test passed: MMMDCCXLIX\nTest case 2:\n[PASS] Test passed: LVIII\nTest case 3:\n[PASS] Test passed: MCMXCIV\n\n[PASS] All tests passed!\n"
+  },
+  "timestamp": "2025-04-01 18:00:26"
+}
