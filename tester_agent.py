@@ -5,6 +5,8 @@ import os
 import ast
 from dotenv import load_dotenv
 import subprocess
+from architect_agent import ArchitectAgent
+from developer_agent import DeveloperAgent
 
 class TestProgGenerationSignature(dspy.Signature):
     task_description: str =  dspy.InputField(desc="The description of your task.")
@@ -49,7 +51,7 @@ class TesterAgent(dspy.Module):
         error_count = 0
         while error_count < error_threshold:
             result = self.test_prog_gen_cot(task_description=self.tester_program_prompt,
-                                            completed_function=function_interface,
+                                            function_interface=function_interface,
                                             sample_test_data=sample_test_data)
             test_program = result.test_program
             # Use ast to find whether the generated code has syntax errors
@@ -88,8 +90,8 @@ class TesterAgent(dspy.Module):
         """
         Test the given function with the generated test cases.
         return a list of test results. Each element is 0 or 1:
-        - 0 means failed
-        - 1 means passed
+        - 0 means passed
+        - 1 means failed
         - -1 means the test program execution failed
         The length of the list is equal to the number of test cases.
 
@@ -99,11 +101,16 @@ class TesterAgent(dspy.Module):
         """
         # step 1: generate the sample test data
         sample_test_data = self.generate_sample_case(function_interface)
+        print("\nSample test data:\n", sample_test_data)
 
         # step 2: generate the test program
         test_program_main = self.generate_test_program(function_interface, sample_test_data)
+        print("\nTest program mian:\n", test_program_main)
+
         # Use the first candidate function to make a complete test program
         test_program = test_functions[0] + '\n' + test_program_main
+        print ("\nTest program:\n", test_program)
+
         # Save and run the test program
         with open("test_program.py", "w") as f:
             f.write(test_program)
@@ -114,7 +121,7 @@ class TesterAgent(dspy.Module):
             capture_output=True,
             text=True)
 
-        if result.returncode != 0 or result.stdout == "-1":
+        if result.returncode == -1 or result.stderr != "":
             print("Sample test program execution failed or JSON parsing failed!")
             # TODO: find out the reason why the test program failed, and improve the test program and the sample test data
             return None
@@ -148,9 +155,9 @@ class TesterAgent(dspy.Module):
                     capture_output=True,
                     text=True)
 
-                if result.stdout == "0":
+                if result.returncode == 0:
                     test_result.append(0)
-                elif result.stdout == "1":
+                elif result.returncode == 1:
                     test_result.append(1)
                 else:
                     test_result.append(-1)
@@ -158,4 +165,45 @@ class TesterAgent(dspy.Module):
         
         return test_results
     
+
+if __name__ == "__main__":
+    # Configure Language Model
+    load_dotenv()
+    api_key = os.environ.get('API_KEY')
+    lm = dspy.LM('openai/gpt-4o-mini', api_key=api_key)
+    dspy.configure(lm=lm)
+
+    # Architect agent
+    test_architect_agent = ArchitectAgent(llm=lm,
+                                        analysis_prompt_template=prompt.analysis_prompt_template,
+                                        generation_prompt_template=prompt.generation_prompt_template)
     
+    # Developer agent
+    test_developer_agent = DeveloperAgent(llm=lm,
+                                        task_description=prompt.developer_agent_prompt,
+                                        n=5)
+    
+    # Tester agent
+    test_tester_agent = TesterAgent(llm=lm,
+                                    tester_program_prompt=prompt.tester_program_prompt,
+                                    sample_test_data_prompt=prompt.sample_test_data_prompt,
+                                    test_data_gen_prompt=prompt.test_data_gen_prompt)
+    
+    requirements_text = (
+        "Develop a modular calculator that supports addition, subtraction, multiplication, and division. "
+        "The system should be divided into smaller functions to handle basic operations independently, "
+        "and a main function to integrate these operations."
+    )
+
+    # Step 1: Architect agent
+    analysis_text, auxiliary_function_interfaces, main_function_interfaces = test_architect_agent.architect(requirements_text)
+
+    # Step 2: Developer agent
+    auxiliary_functions = []
+    for auxiliary_function_interface in auxiliary_function_interfaces:
+        candidates = test_developer_agent.generate_candidates(auxiliary_function_interface, analysis_text, 2)
+        auxiliary_functions.append(candidates)
+
+    # step 3: tester agent test
+    test_results = test_tester_agent.main_test_func(auxiliary_function_interfaces[0], auxiliary_functions[0], 5)
+    print("\nTest results:\n", test_results) 
