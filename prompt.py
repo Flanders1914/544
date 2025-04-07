@@ -57,3 +57,34 @@ Requirements:
 
 I will supply the specific function interface and the architecture analysis in the context.
 """
+
+tester_program_prompt = """You are a highly skilled Python developer. Your task is to generate an executable Python program that tests a provided function interface using sample test data.
+
+The context includes:
+- A Python function interface which includes a function header and docstrings(the real test function will be inserted by the backend before your code).
+- A JSON-formatted sample test data.
+
+Your program should do the following:
+- Read a string from standard input that contains the JSON test data (which includes both test inputs and expected outputs).
+- Parse the JSON string to extract the test data. If parsing fails, the program should exit with a return code of -1.
+- Use the extracted test data to test the provided Python function. If the function test fails, exit with 0; if it passes, exit with 1.
+
+Note: Your generated code should only include the main testing logic and the necessary imports. The testing function itself will be added to your code by the backend.
+"""
+
+sample_test_data_prompt = """You are a highly skilled Python developer.
+Your task is to generate a JSON-formatted sample test data for the provided Python function interface.
+The provided function interface for test includes:
+- A valid Python function header
+- A detailed docstring
+The JSON must strictly adhere to the format expected by the provided function interface. Your output should consist solely of valid JSON test data without any additional text or explanation.
+"""
+
+test_data_gen_prompt = """You are a highly skilled Python developer. Your task is to generate a list of test cases in JSON format for the provided Python test program.
+A sample test case and the test program are given in the context; use them as references and ensure that your output strictly matches the expected parsing format.
+
+Requirements:
+- Generate exactly {num_test_cases} test cases.
+- The output must be a valid JSON list, where each test case is a valid JSON object.
+- Output only the JSON list without any additional text or explanation.
+"""
