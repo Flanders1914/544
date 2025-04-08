@@ -10,6 +10,7 @@ from developer_agent import DeveloperAgent
 import numpy as np
 from kmodes.kmodes import KModes
 from utils import GeneratedFunction, Candidate
+from colorama import Fore, Style
 
 class TestProgGenerationSignature(dspy.Signature):
     task_description: str =  dspy.InputField(desc="The description of your task.")
@@ -62,10 +63,10 @@ class TesterAgent(dspy.Module):
                 ast.parse(test_program)
                 return test_program
             except SyntaxError as e:
-                print("Generated test program Syntax Error!", e)
+                print(Fore.RED + "Tester agent: generated test program Syntax Error!" + Style.RESET_ALL, e)
                 error_count += 1
 
-        print("Failed to generate a valid test program under error threshold.")
+        print(Fore.RED + "Tester agent: ailed to generate a valid test program under error threshold." + Style.RESET_ALL)
         return test_program
     
 
@@ -102,12 +103,12 @@ class TesterAgent(dspy.Module):
         - None: If the sample test program execution failed.
         - A list of test results: If the sample test program execution passed.
         """
+        print (Fore.BLUE + "Tester agent: test function:\n" + Style.RESET_ALL, generated_function.interface)
         generated_function.test_cases_num = num_test_cases
 
         # step 1: generate the sample test data
         sample_test_data = self.generate_sample_case(generated_function.interface)
         generated_function.sample_test_case = sample_test_data
-        print("\nSample test data:\n", sample_test_data)
 
         # step 2: generate the test program
         test_program_main = self.generate_test_program(generated_function.interface, sample_test_data)
@@ -118,7 +119,7 @@ class TesterAgent(dspy.Module):
         # if the generated function is a main function, add the auxiliary functions code to the test program
         if generated_function.type == "main":
             test_program = generated_function.auxiliary_functions_code + '\n' + test_program
-        print ("\nTest program:\n", test_program)
+        print (Fore.BLUE + "Tester agent: test program:\n" + Style.RESET_ALL, test_program)
 
         # Save and run the test program
         with open("test_program.py", "w") as f:
@@ -131,25 +132,23 @@ class TesterAgent(dspy.Module):
             text=True)
 
         if result.returncode == -1 or result.stderr != "":
-            print("Sample test program execution failed or JSON parsing failed!")
+            print(Fore.RED + "Tester agent: sample test program execution failed or JSON parsing failed!" + Style.RESET_ALL)
             # TODO: find out the reason why the test program failed, and improve the test program and the sample test data
             return None
 
         # Make sure the sample test program and the sample test data are valid here
-        print("Start testing the function candidates with interface:\n", generated_function.interface)
-
         # step 3: generate the test cases
         test_cases = self.generate_test_cases(test_program, sample_test_data, num_test_cases)
         generated_function.test_cases = test_cases
         
         if len(test_cases) != num_test_cases:
-            print("Failed to generate the required test cases!")
+            print(Fore.RED + "Tester agent: failed to generate the required test cases!" + Style.RESET_ALL)
             # TODO: Try to fix this issu
             return None 
 
         # Make sure the test cases are valid here
 
-        print("Start testing each candidates with the test cases")
+        print(Fore.BLUE + "Tester agent: start testing each candidates with the test cases" + Style.RESET_ALL)
         # step 4: Testing each function candidates and record the results
         test_results = []
 
@@ -229,7 +228,8 @@ class TesterAgent(dspy.Module):
         for generated_function in generated_functions:
             self.main_test_func(generated_function, num_test_cases)
             best_candidate = self.basic_chooser(generated_function)
-            print("Best candidate:\n", best_candidate.candidate_code)
+            print(Fore.BLUE + "best candidate:\n" + Style.RESET_ALL, best_candidate.candidate_code)
+
 
 if __name__ == "__main__":
     # Configure Language Model

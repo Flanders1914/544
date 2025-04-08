@@ -6,6 +6,8 @@ import prompt
 import os
 import ast
 from utils import Candidate, GeneratedFunction
+from colorama import Fore, Style
+
 
 class DeveloperSignature(dspy.Signature):
     task_description: str =  dspy.InputField(desc="The description of your task.")
@@ -61,7 +63,7 @@ class DeveloperAgent(dspy.Module):
             try:
                 ast.parse(candidate)
             except SyntaxError as e:
-                print("Generated function Syntax Error!", e)
+                print(Fore.RED + "Developer agent: generated function Syntax Error!" + Style.RESET_ALL, e)
                 error_count += 1
                 if error_count < error_threshold:
                     continue
