@@ -31,6 +31,7 @@ class GeneratedFunction:
     auxiliary_functions_code: str = None # Only used for main function
     sample_test_case: str = None # A sample test case for the function
     function_tester_main: str = None
+    function_tester_imports: str = None
     test_cases_num: int = 0
     test_cases: list[str] = None
     test_results: list[list[int]] = None

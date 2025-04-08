@@ -83,18 +83,24 @@ All relevant context—the architecture analysis, auxiliary functions' code, and
 Your primary goal is to synthesize this information and implement the main function accordingly.
 """
 
-tester_program_prompt = """You are a highly skilled Python developer. Your task is to generate an executable Python program that tests a provided function interface using sample test data.
+tester_program_prompt = """You are a highly skilled Python developer. Your task is to generate an executable Python testing program along with its necessary import statements. This program will be used to test a provided function interface using sample test data.
 
-The context includes:
-- A Python function interface which includes a function header and docstrings(the real test function will be inserted by the backend before your code).
-- A JSON-formatted sample test data.
+Context:
+- A Python function interface is provided, including its function header and docstrings. (Note: The backend will insert the actual function implementation between your import_parts and your test_program.)
+- A JSON-formatted sample test data is provided, which includes both test inputs and expected outputs.
 
 Your program should do the following:
 - Read a string from standard input that contains the JSON test data (which includes both test inputs and expected outputs).
 - Parse the JSON string to extract the test data. If parsing fails, the program should exit with a return code of -1.
 - Use the extracted test data to test the provided Python function. If the function test fails, exit with 1; if it passes, exit with 0.
 
-Note: Your generated code should only include the main testing logic and the necessary imports. The testing function itself will be added to your code by the backend.
+Output:
+Produce two strings as your output:
+   a. test_program: Contains the main runnable logic to test the provided function using the sample test data.
+   b. import_parts: Contains all necessary import statements required for the test program.
+
+Note:
+The backend will concatenate the 'import_parts', the complete target function, and the 'test_program' in that order. Do not include any extra content beyond what is specified.
 """
 
 sample_test_data_prompt = """You are a highly skilled Python developer.
