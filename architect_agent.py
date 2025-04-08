@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 import os
 import prompt
 from utils import Candidate, GeneratedFunction
+from colorama import Fore, Style
 
 class ArchitectAnalysisSignature(dspy.Signature):
     task_description: str = dspy.InputField(desc="The description of your task.")
@@ -87,15 +88,21 @@ class ArchitectAgent(dspy.Module):
             main_function_interface (list[str]): The generated list of main function interfaces
         """
         # Step 1: Generate architecture analysis text
-        print("Architect-agent: start analysis the architecture of the program")
+        print(Fore.BLUE + "Architect-agent: start analysis the architecture of the program" + Style.RESET_ALL)
         analysis_text = self.generate_architecture_analysis(requirements)
-        print(f"Architect-agent: the result of the analysis:\n{analysis_text}")
+        print(Fore.BLUE + "Architect-agent: the result of the analysis:" + Style.RESET_ALL)
+        print(analysis_text)
+        print(Fore.BLUE + "Architect-agent: the result of the analysis is saved in analysis_text.txt" + Style.RESET_ALL)
+        with open("analysis_text.txt", "w") as f:
+            f.write(analysis_text)
 
         # Step 2: Generate function interfaces with detailed comments
-        print("Architect-agent: start generate the function interfaces")
+        print(Fore.BLUE + "Architect-agent: start generate the function interfaces" + Style.RESET_ALL)
         auxiliary_function_interfaces, main_function_interfaces = self.generate_function_interfaces(requirements, analysis_text)
-        print(f"Architect-agent: auxiliary function interfaces:\n{auxiliary_function_interfaces}")
-        print(f"Architect-agent: main function interfaces:\n{main_function_interfaces}")
+        print(Fore.BLUE + "Architect-agent: auxiliary function interfaces:" + Style.RESET_ALL)
+        print(auxiliary_function_interfaces)
+        print(Fore.BLUE + "Architect-agent: main function interfaces:" + Style.RESET_ALL)
+        print(main_function_interfaces)
 
         # put results into GeneratedFunction
         generated_auxiliary_functions = []
