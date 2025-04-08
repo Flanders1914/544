@@ -3,58 +3,73 @@ from architect_agent import ArchitectAgent
 from developer_agent import DeveloperAgent
 from tester_agent import TesterAgent
 import dspy
+from dotenv import load_dotenv
+import prompt
+import os
+from utils import Candidate, GeneratedFunction
 
 def main():
-    # Example user requirements for the project
-    user_requirements = (
-        "Implement a calculator that supports addition, subtraction, multiplication, "
-        "and division. The system should be modular with clear function interfaces."
+    # Configure Language Model
+    load_dotenv()
+    api_key = os.environ.get('API_KEY')
+    lm = dspy.LM('openai/gpt-4o-mini', api_key=api_key)
+    dspy.configure(lm=lm)
+
+    # Architect agent
+    architect_agent = ArchitectAgent(llm=lm,
+                                        analysis_prompt_template=prompt.analysis_prompt_template,
+                                        generation_prompt_template=prompt.generation_prompt_template)
+    
+    # Developer agent
+    developer_agent = DeveloperAgent(llm=lm,
+                                        task_description=prompt.developer_agent_prompt,
+                                        main_func_task_description=prompt.main_func_task_description,
+                                        n=5)
+    
+    # Tester agent
+    tester_agent = TesterAgent(llm=lm,
+                                    tester_program_prompt=prompt.tester_program_prompt,
+                                    sample_test_data_prompt=prompt.sample_test_data_prompt,
+                                    test_data_gen_prompt=prompt.test_data_gen_prompt)
+    
+    requirements_text = (
+        "Develop a modular calculator that supports addition, subtraction, multiplication, and division. "
+        "The system should be divided into smaller functions to handle basic operations independently, "
+        "and a main function to integrate these operations."
     )
+    
+    final_result = ""
 
-    # Initialize the LLM instance (placeholder; replace with actual LLM configuration)
-    llm_instance = dspy.LLM(model="example-model")
+    # Step 1: Architect agent
+    generated_auxiliary_functions: list[GeneratedFunction] = None
+    generated_main_functions: list[GeneratedFunction] = None
 
-    # Define prompt templates for the agents
-    architect_prompt = (
-        "Based on the following requirements: {requirements}, generate a system architecture "
-        "with clear function interfaces. Separate the functions into auxiliary and main functions."
-    )
-    developer_prompt = "Implement the following function interface: {interface} with detailed code."
+    analysis_text, generated_auxiliary_functions, generated_main_functions = architect_agent.architect(requirements_text)
 
-    # Initialize each agent with its corresponding prompt template
-    architect_agent = ArchitectAgent(llm=llm_instance, prompt_template=architect_prompt)
-    developer_agent = DeveloperAgent(llm=llm_instance, prompt_template=developer_prompt)
+    # Step 2: Developer agent develop auxiliary functions
+    developer_agent.auxiliary_developer(generated_auxiliary_functions, analysis_text, error_threshold=2)
 
-    # Define test cases for each function (simplified representation)
-    test_cases = {
-        "aux_func1": ["test_case1", "test_case2"],
-        "aux_func2": ["test_case1", "test_case2"],
-        "main_func": ["test_case1", "test_case2"]
-    }
-    tester_agent = TesterAgent(test_cases=test_cases)
+    # step 3: tester agent test auxiliary functions and choose the best one
+    tester_agent.test_and_choose(generated_auxiliary_functions, 5)
 
-    # Step 1: Use the Architect Agent to decompose the task into function interfaces.
-    function_interfaces = architect_agent.decompose_task(user_requirements)
+    # Step 4: concatenate auxiliary functions
+    for generated_auxiliary_function in generated_auxiliary_functions:
+        final_result += generated_auxiliary_function.final_candidate.candidate_code + "\n\n"
+    
+    # Step 5: Developer agent develop the main function
+    generated_main_function = generated_main_functions[0]
+    generated_main_function.auxiliary_functions_code = final_result
+    developer_agent.main_developer(generated_main_function, analysis_text, auxiliary_functions_code=final_result, error_threshold=2)
 
-    # Step 2: For each auxiliary function, use the Developer Agent to generate candidate implementations,
-    # then use the Tester Agent to select the best candidate.
-    final_implementations = {}
-    for func in function_interfaces["auxiliary"]:
-        candidates = developer_agent.generate_candidates(func)
-        best_candidate = tester_agent.test_candidates(func, candidates)
-        final_implementations[func] = best_candidate
+    # Step 6: tester agent test main function and choose the best one
+    tester_agent.test_and_choose([generated_main_function], 5)
 
-    # Step 3: Once auxiliary functions are validated, generate and test the main functions.
-    for func in function_interfaces["main"]:
-        candidates = developer_agent.generate_candidates(func)
-        best_candidate = tester_agent.test_candidates(func, candidates)
-        final_implementations[func] = best_candidate
-
-    # Integration: Combine the final implementations into the complete system.
-    # For example, write each function to its own file or integrate into a module.
-    print("Final Implementations:")
-    for func_name, code in final_implementations.items():
-        print(f"{func_name}:\n{code}\n")
+    # Step 7: print the final result
+    final_result += generated_main_function.final_candidate.candidate_code
+    print("_" * 100)
+    print("Final Result:")
+    print(final_result)
 
 if __name__ == "__main__":
     main()
+

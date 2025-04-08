@@ -5,8 +5,12 @@ Your analysis should include:
 1. A high-level breakdown of the task into smaller, logical sub-tasks or components.
 2. A justification for how the task is divided (i.e., why this structure makes sense).
 3. Identification and classification of functions into two categories:
-   - Auxiliary functions: independent, reusable units of logic, can be developed and tested independently.
-   - Main functions: depend on auxiliary functions to implement the core logic.
+   - Auxiliary functions: independent, reusable units of logic, **can be developed and tested independently**.
+   - Main function: A single main function which depends on auxiliary functions to implement the core logic.
+      - The main function is the entry point of the program and is responsible for orchestrating the execution of auxiliary functions.
+      - The main function is also a function with possible parameters and return values. It is not the part of if __name__ == "__main__":.
+      - The main function is the only function that the user can invoke directly.
+      - Note: The main function's name might differ from “main”; infer the correct name based on the task description.
 4. Any assumptions you make during the design.
 5. A summary of how the components will work together.
 
@@ -23,16 +27,16 @@ Each function interface should include:
   - The purpose of the function
   - The input parameters (with types)
   - The return value (with type)
-  - Any potential exceptions
+  - Any potential exceptions (optional)
   - One usage example
 
 Output format:
 - Provide two lists:
   1. auxiliary_function_interfaces: a list of auxiliary function definitions
-  2. main_function_interfaces: a list of main function definitions
+  2. main_function_interfaces: a list containing a single main function definition
 
 Make sure your output is clean, Pythonic, and logically consistent with the analysis.
-
+Note: The main function is also a function with possible parameters and return values. It is not the part of if __name__ == "__main__". Its name might differ from “main”.
 The analysis:
 {architecture_analysis}
 """
@@ -45,7 +49,7 @@ The function interface includes:
   - The purpose of the function
   - The input parameters (with types)
   - The return value (with type)
-  - Any potential exceptions
+  - Any potential exceptions (optional)
   - One usage example
 
 Additionally, you are given an in-depth analysis of the overall program architecture in which this function will be integrated. Your implementation must be consistent with this architectural analysis.
@@ -56,6 +60,27 @@ Requirements:
 - Use idiomatic Python constructs and clear, logical code.
 
 I will supply the specific function interface and the architecture analysis in the context.
+"""
+
+main_func_task_description = """You are a highly skilled Python developer. Your task is to implement a robust and Pythonic main function by integrating a detailed architectural analysis, fully implemented auxiliary functions, and a well-defined main function interface.
+
+Context:
+- **Architectural Analysis:** A comprehensive review of the overall program structure.
+- **Auxiliary Functions:** Complete and tested; these functions are available for integration.
+- **Main Function Interface:** Includes the following requirements:
+  - A valid Python function header.
+  - A detailed docstring.
+
+Requirements:
+- Develop clean, well-structured, and idiomatic Python code.
+- Adhere to best practices and follow the provided architectural guidelines.
+- Correctly integrate all auxiliary functions based on the architectural analysis.
+- Produce a complete, bug-free, and fully functional main function.
+- The code for auxiliary functions does not need to be included in your output.
+
+Note: The main function is also a function with possible parameters and return values. It is not the part of if __name__ == "__main__":. Its name might differ from “main”.
+All relevant context—the architecture analysis, auxiliary functions' code, and the main function interface—will be provided to you.
+Your primary goal is to synthesize this information and implement the main function accordingly.
 """
 
 tester_program_prompt = """You are a highly skilled Python developer. Your task is to generate an executable Python program that tests a provided function interface using sample test data.
@@ -94,3 +119,5 @@ Requirements:
 - The output must be a valid JSON list, where each test case is a valid JSON object.
 - Output only the JSON list without any additional text or explanation.
 """
+
+
