@@ -14,9 +14,10 @@ from colorama import Fore, Style
 
 class TestProgGenerationSignature(dspy.Signature):
     task_description: str =  dspy.InputField(desc="The description of your task.")
-    function_interface: str = dspy.InputField(desc="The interface(a function head and docstrings) of the test function.")
+    function_interface: str = dspy.InputField(desc="The interface(a function head and docstrings) of the target function.")
     sample_test_data: str = dspy.InputField(desc="The sample test data in JSON format.")
-    test_program: str = dspy.OutputField(desc="The generated program for testing.")
+    test_program: str = dspy.OutputField(desc="The generated test program for testing.")
+    import_parts: str = dspy.OutputField(desc="Import_parts: Contains all necessary import statements required for the test program.")
 
 class SampleCaseGenerationSignature(dspy.Signature):
     task_description: str =  dspy.InputField(desc="The description of your task.")
@@ -50,7 +51,7 @@ class TesterAgent(dspy.Module):
 
     def generate_test_program(self, function_interface, sample_test_data, error_threshold=2):
         """
-        Generate a test program for the given function interface.
+        Generate the test program and import parts for the given function interface.
         """
         error_count = 0
         while error_count < error_threshold:
@@ -58,16 +59,17 @@ class TesterAgent(dspy.Module):
                                             function_interface=function_interface,
                                             sample_test_data=sample_test_data)
             test_program = result.test_program
+            import_parts = result.import_parts
             # Use ast to find whether the generated code has syntax errors
             try:
-                ast.parse(test_program)
-                return test_program
+                ast.parse((import_parts + "\n" + test_program))
+                return test_program, import_parts
             except SyntaxError as e:
                 print(Fore.RED + "Tester agent: generated test program Syntax Error!" + Style.RESET_ALL, e)
                 error_count += 1
 
         print(Fore.RED + "Tester agent: ailed to generate a valid test program under error threshold." + Style.RESET_ALL)
-        return test_program
+        return test_program, import_parts
     
 
     def generate_sample_case(self, function_interface):
@@ -111,14 +113,18 @@ class TesterAgent(dspy.Module):
         generated_function.sample_test_case = sample_test_data
 
         # step 2: generate the test program
-        test_program_main = self.generate_test_program(generated_function.interface, sample_test_data)
+        test_program_main, import_parts = self.generate_test_program(generated_function.interface, sample_test_data)
         generated_function.function_tester_main = test_program_main
+        generated_function.function_tester_imports = import_parts
 
         # Use the first candidate function to make a complete test program
         test_program = generated_function.candidates[0].candidate_code + '\n' + test_program_main
         # if the generated function is a main function, add the auxiliary functions code to the test program
         if generated_function.type == "main":
             test_program = generated_function.auxiliary_functions_code + '\n' + test_program
+        
+        # Add import parts
+        test_program = import_parts + '\n' + test_program
         print (Fore.BLUE + "Tester agent: test program:\n" + Style.RESET_ALL, test_program)
 
         # Save and run the test program
@@ -133,6 +139,10 @@ class TesterAgent(dspy.Module):
 
         if result.returncode == -1 or result.stderr != "":
             print(Fore.RED + "Tester agent: sample test program execution failed or JSON parsing failed!" + Style.RESET_ALL)
+            print(Fore.RED + "Tester agent: sample test data:" + Style.RESET_ALL)
+            print(sample_test_data)
+            print(result.stderr)
+            print(result.returncode)
             # TODO: find out the reason why the test program failed, and improve the test program and the sample test data
             return None
 
@@ -143,7 +153,7 @@ class TesterAgent(dspy.Module):
         
         if len(test_cases) != num_test_cases:
             print(Fore.RED + "Tester agent: failed to generate the required test cases!" + Style.RESET_ALL)
-            # TODO: Try to fix this issu
+            # TODO: Try to fix this issue
             return None 
 
         # Make sure the test cases are valid here
@@ -154,7 +164,7 @@ class TesterAgent(dspy.Module):
 
         for candidate in generated_function.candidates:
             test_result = []
-            test_program = candidate.candidate_code + '\n' + test_program_main
+            test_program = import_parts + '\n' + candidate.candidate_code + '\n' + test_program_main
             # record the test program for each candidate
             candidate.candidate_tester = test_program
             # Save and run the test program

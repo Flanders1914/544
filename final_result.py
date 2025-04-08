@@ -1,16 +1,18 @@
 def is_palindrome(substring: str) -> bool:
     """
-    Check if the given substring is a palindrome.
-    
+    Checks if a given substring is a palindrome.
+
     Parameters:
     substring (str): The substring to check.
-    
+
     Returns:
     bool: True if the substring is a palindrome, False otherwise.
-    
+
     Example:
     >>> is_palindrome('aba')
     True
+    >>> is_palindrome('abc')
+    False
     """
     left, right = 0, len(substring) - 1
     while left < right:
@@ -20,48 +22,51 @@ def is_palindrome(substring: str) -> bool:
         right -= 1
     return True
 
-def setup_dp_table(s: str) -> list[int]:
+def initialize_dp_table(length: int) -> list[int]:
     """
-    Set up a dynamic programming table to store the minimum cuts needed for each substring.
-    
+    Initializes the dynamic programming table for minimum cuts.
+
     Parameters:
-    s (str): The input string.
-    
+    length (int): The length of the input string.
+
     Returns:
-    list[int]: A list where each index represents the minimum cuts needed for the substring from the start to that index.
-    
+    list[int]: A list initialized to represent the minimum cuts needed for each index.
+
     Example:
-    >>> setup_dp_table('aab')
-    [0, 1, 1]
+    >>> initialize_dp_table(3)
+    [0, 0, 0]
     """
-    n = len(s)
-    cuts = [0] * n
-    
-    for i in range(n):
-        min_cuts = i  # Maximum cuts possible is i (cutting before each character)
-        for j in range(i + 1):
-            if s[j:i + 1] == s[j:i + 1][::-1]:  # Check if substring s[j:i+1] is a palindrome
-                min_cuts = 0 if j == 0 else min(min_cuts, cuts[j - 1] + 1)
-        cuts[i] = min_cuts
-    
-    return cuts
+    return [0] * length
 
 def min_cut_palindrome_partition(s: str) -> int:
     """
-    Calculate the minimum cuts needed for a palindrome partitioning of the given string.
-    
+    Computes the minimum cuts needed for palindrome partitioning of the input string.
+
     Parameters:
     s (str): The input string to partition.
-    
+
     Returns:
     int: The minimum number of cuts needed for palindrome partitioning.
-    
+
     Example:
     >>> min_cut_palindrome_partition('aab')
     1
+    >>> min_cut_palindrome_partition('a')
+    0
     """
-    if not s:
-        return 0  # No cuts needed for an empty string
+    n = len(s)
+    if n == 0:
+        return 0
 
-    cuts = setup_dp_table(s)  # Initialize the cuts array using the auxiliary function
-    return cuts[-1]  # The last element contains the minimum cuts for the entire string
+    # Initialize the DP table
+    dp = initialize_dp_table(n)
+    
+    for end in range(n):
+        min_cuts = end  # Maximum cuts possible
+        for start in range(end + 1):
+            if is_palindrome(s[start:end + 1]):
+                # If s[start:end + 1] is a palindrome, no cuts needed
+                min_cuts = 0 if start == 0 else min(min_cuts, dp[start - 1] + 1)
+        dp[end] = min_cuts
+
+    return dp[n - 1]

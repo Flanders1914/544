@@ -1,22 +1,37 @@
+import sys
+import json
 def min_cut_palindrome_partition(s: str) -> int:
     """
-    Calculate the minimum cuts needed for a palindrome partitioning of the given string.
-    
+    Computes the minimum cuts needed for palindrome partitioning of the input string.
+
     Parameters:
     s (str): The input string to partition.
-    
+
     Returns:
     int: The minimum number of cuts needed for palindrome partitioning.
-    
+
     Example:
     >>> min_cut_palindrome_partition('aab')
     1
+    >>> min_cut_palindrome_partition('a')
+    0
     """
-    if not s:
-        return 0  # No cuts needed for an empty string
+    n = len(s)
+    if n == 0:
+        return 0
 
-    cuts = setup_dp_table(s)  # Initialize the cuts array using the auxiliary function
-    return cuts[-1]  # The last element contains the minimum cuts for the entire string
+    # Initialize the DP table
+    dp = initialize_dp_table(n)
+    
+    for end in range(n):
+        min_cuts = end  # Maximum cuts possible
+        for start in range(end + 1):
+            if is_palindrome(s[start:end + 1]):
+                # If s[start:end + 1] is a palindrome, no cuts needed
+                min_cuts = 0 if start == 0 else min(min_cuts, dp[start - 1] + 1)
+        dp[end] = min_cuts
+
+    return dp[n - 1]
 import sys
 import json
 
@@ -32,14 +47,14 @@ def main():
 
     # Iterate through each test case
     for case in test_cases:
-        test_input = case['input']
+        input_str = case['input']
         expected_output = case['expected_output']
         
-        # Call the function to test (the function will be defined elsewhere)
-        actual_output = min_cut_palindrome_partition(test_input)
+        # Call the function with the input string
+        result = min_cut_palindrome_partition(input_str)
         
-        # Check if the actual output matches the expected output
-        if actual_output != expected_output:
+        # Check if the result matches the expected output
+        if result != expected_output:
             sys.exit(1)  # Test failed
 
     sys.exit(0)  # All tests passed
