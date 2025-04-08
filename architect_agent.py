@@ -2,6 +2,8 @@
 import dspy
 from dotenv import load_dotenv
 import os
+import prompt
+from utils import Candidate, GeneratedFunction
 
 class ArchitectAnalysisSignature(dspy.Signature):
     task_description: str = dspy.InputField(desc="The description of your task.")
@@ -36,7 +38,8 @@ class ArchitectAgent(dspy.Module):
         # Create Chain-of-Thought modules for each step
         self.analysis_cot = dspy.ChainOfThought(ArchitectAnalysisSignature)
         self.generate_cot = dspy.ChainOfThought(InterfaceGenerationSignature)
-    
+
+
     def generate_architecture_analysis(self, user_requirements):
         """
         Generate a detailed analysis text from the given user requirements.
@@ -48,6 +51,7 @@ class ArchitectAgent(dspy.Module):
         architecture_analysis = analysize.architecture_analysis
         return architecture_analysis
     
+
     def generate_function_interfaces(self, task_description, architecture_analysis):
         """
         Generate function interfaces for both auxiliary and main functions with detailed comments.
@@ -92,7 +96,17 @@ class ArchitectAgent(dspy.Module):
         auxiliary_function_interfaces, main_function_interfaces = self.generate_function_interfaces(requirements, analysis_text)
         print(f"Architect-agent: auxiliary function interfaces:\n{auxiliary_function_interfaces}")
         print(f"Architect-agent: main function interfaces:\n{main_function_interfaces}")
-        return analysis_text, auxiliary_function_interfaces, main_function_interfaces
+
+        # put results into GeneratedFunction
+        generated_auxiliary_functions = []
+        for auxiliary_function_interface in auxiliary_function_interfaces:
+            generated_auxiliary_functions.append(GeneratedFunction(type="auxiliary", interface=auxiliary_function_interface))
+
+        generated_main_functions = []
+        for main_function_interface in main_function_interfaces:
+            generated_main_functions.append(GeneratedFunction(type="main", interface=main_function_interface))
+
+        return analysis_text, generated_auxiliary_functions, generated_main_functions
 
 
 # Example usage (if run as a script)
@@ -100,45 +114,6 @@ if __name__ == "__main__":
     load_dotenv()
     api_key = os.environ.get('API_KEY')
     
-    analysis_prompt_template = """You are an expert software architect.
-
-Given the following task description, analyze the problem and propose a modular architecture. 
-Your analysis should include:
-1. A high-level breakdown of the task into smaller, logical sub-tasks or components.
-2. A justification for how the task is divided (i.e., why this structure makes sense).
-3. Identification and classification of functions into two categories:
-   - Auxiliary functions: independent, reusable units of logic, can be developed and tested independently.
-   - Main functions: depend on auxiliary functions to implement the core logic.
-4. Any assumptions you make during the design.
-5. A summary of how the components will work together.
-
-Task description:
-{requirements}
-"""
-
-    generation_prompt_template = """You are a Python developer helping to implement a modular system based on a given architecture analysis.
-
-Your task is to generate Python function interfaces for both auxiliary and main functions described in the analysis. 
-Each function interface should include:
-- A valid Python function header
-- A detailed docstring that describes:
-  - The purpose of the function
-  - The input parameters (with types)
-  - The return value (with type)
-  - Any potential exceptions
-  - One usage example
-
-Output format:
-- Provide two lists:
-  1. auxiliary_function_interfaces: a list of auxiliary function definitions
-  2. main_function_interfaces: a list of main function definitions
-
-Make sure your output is clean, Pythonic, and logically consistent with the analysis.
-
-The analysis:
-{architecture_analysis}
-"""
-
     # Initialize a LLM instance
     lm = dspy.LM('openai/gpt-4o-mini', api_key=api_key)
     dspy.configure(lm=lm)
@@ -146,8 +121,8 @@ The analysis:
     # Create the Architect Agent
     architect_agent = ArchitectAgent(
         llm=lm,
-        analysis_prompt_template=analysis_prompt_template,
-        generation_prompt_template=generation_prompt_template
+        analysis_prompt_template=prompt.analysis_prompt_template,
+        generation_prompt_template=prompt.generation_prompt_template
     )
     
     # Example requirements text
