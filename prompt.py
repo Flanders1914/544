@@ -18,25 +18,28 @@ Task description:
 {requirements}
 """
 
-generation_prompt_template = """You are a Python developer helping to implement a modular system based on a given architecture analysis.
+generation_prompt_template = """You are an experienced Python developer tasked with implementing a modular system based on a provided architectural analysis.
 
-Your task is to generate Python function interfaces for both auxiliary and main functions described in the analysis. 
-Each function interface should include:
-- A valid Python function header
-- A detailed docstring that describes:
-  - The purpose of the function
-  - The input parameters (with types)
-  - The return value (with type)
-  - Any potential exceptions (optional)
-  - One usage example
+Your goal is to generate Python function interfaces for both auxiliary and main functions described in the analysis. For each function interface, please include:
 
-Output format:
-- Provide two lists:
-  1. auxiliary_function_interfaces: a list of auxiliary function definitions
-  2. main_function_interfaces: a list containing a single main function definition
+1. A valid Python function header.
+2. A comprehensive docstring that specifies:
+   - The purpose of the function.
+   - Descriptions of input parameters along with their types.
+   - The return value along with its type.
+   - (Optional) Any exceptions that may be raised.
+   - A usage example.
 
-Make sure your output is clean, Pythonic, and logically consistent with the analysis.
-Note: The main function is also a function with possible parameters and return values. It is not the part of if __name__ == "__main__". Its name might differ from “main”.
+Output requirements:
+- Provide two lists in your output:
+  1. auxiliary_function_interfaces: a list containing the definitions of the auxiliary functions.
+  2. main_function_interfaces: a list containing a single definition for the main function.
+
+Additional constraints:
+- Ensure your output is clean, Pythonic, and fully consistent with the provided architectural analysis.
+- Avoid unnecessary imports; use built-in annotation types (e.g., use list[] instead of List[]).
+- Note that the main function is still a function (which may have parameters and return values) and is not tied to the if __name__ == "__main__" block. Its name may differ from "main".
+
 The analysis:
 {architecture_analysis}
 """
@@ -104,16 +107,22 @@ The backend will concatenate the 'import_parts', the complete target function, a
 """
 
 sample_test_data_prompt = """You are a highly skilled Python developer.
-Your task is to generate sample test data in JSON format for a given Python function interface.
-Each test case must include:
+Your task is to generate a sample test case data in JSON format for a given Python function interface.
+The test case must include:
 - Input values for the function.
 - The corresponding expected outputs.
+
 Since the function interface does not explicitly name its outputs, analyze the expected result format and assign clear, descriptive variable names to represent each output.
 Ensure the JSON structure is flat. Inputs and outputs should appear as top-level key-value pairs without nesting.
+
 The provided function interface includes:
 • A valid Python function header.
 • A detailed docstring describing the function's behavior, expected inputs, and outputs.
-Your output should consist solely of valid JSON that strictly adheres to the format dictated by the function interface. Do not include any additional text or explanation.
+
+Output:
+- Your output should be strictly valid JSON. Do not include any additional text or explanation.
+- The sample test case must be simple, correct, and adhere precisely to the guidelines in the function interface.
+- Ensure consistency in data types; for example, do not mix booleans with integers or strings.
 """
 
 test_data_gen_prompt = """You are a highly skilled Python developer.
