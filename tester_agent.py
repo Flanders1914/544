@@ -16,8 +16,9 @@ class TestProgGenerationSignature(dspy.Signature):
     task_description: str =  dspy.InputField(desc="The description of your task.")
     function_interface: str = dspy.InputField(desc="The interface(a function head and docstrings) of the target function.")
     sample_test_data: str = dspy.InputField(desc="The sample test data in JSON format.")
+    provided_import_fields: str = dspy.InputField(desc="The provided import fields which you can use.")
     test_program: str = dspy.OutputField(desc="The generated test program for testing.")
-    import_parts: str = dspy.OutputField(desc="Import_parts: Contains all necessary import statements required for the test program.")
+    additional_import_parts: str = dspy.OutputField(desc="The additional but necessary import statements required for the test program, code only.")
 
 class SampleCaseGenerationSignature(dspy.Signature):
     task_description: str =  dspy.InputField(desc="The description of your task.")
@@ -49,7 +50,7 @@ class TesterAgent(dspy.Module):
         self.sample_test_gen_cot = dspy.ChainOfThought(SampleCaseGenerationSignature)
         self.test_cases_gen_cot = dspy.ChainOfThought(TestCaseGenerationSignature)
 
-    def generate_test_program(self, function_interface, sample_test_data, error_threshold=2):
+    def generate_test_program(self, function_interface, sample_test_data, provided_import_fields, error_threshold=2):
         """
         Generate the test program and import parts for the given function interface.
         """
@@ -57,19 +58,21 @@ class TesterAgent(dspy.Module):
         while error_count < error_threshold:
             result = self.test_prog_gen_cot(task_description=self.tester_program_prompt,
                                             function_interface=function_interface,
-                                            sample_test_data=sample_test_data)
+                                            sample_test_data=sample_test_data,
+                                            provided_import_fields=provided_import_fields,
+                                            )
             test_program = result.test_program
-            import_parts = result.import_parts
+            additional_import_parts = result.additional_import_parts
             # Use ast to find whether the generated code has syntax errors
             try:
-                ast.parse((import_parts + "\n" + test_program))
-                return test_program, import_parts
+                ast.parse((provided_import_fields + '\n' + additional_import_parts + "\n" + test_program))
+                return test_program, additional_import_parts
             except SyntaxError as e:
                 print(Fore.RED + "Tester agent: generated test program Syntax Error!" + Style.RESET_ALL, e)
                 error_count += 1
 
         print(Fore.RED + "Tester agent: ailed to generate a valid test program under error threshold." + Style.RESET_ALL)
-        return test_program, import_parts
+        return test_program, additional_import_parts
     
 
     def generate_sample_case(self, function_interface):
@@ -113,10 +116,11 @@ class TesterAgent(dspy.Module):
         generated_function.sample_test_case = sample_test_data
 
         # step 2: generate the test program
-        test_program_main, import_parts = self.generate_test_program(generated_function.interface, sample_test_data)
+        test_program_main, additional_import_parts= self.generate_test_program(generated_function.interface, sample_test_data, generated_function.program_import_fields)
         generated_function.function_tester_main = test_program_main
-        generated_function.function_tester_imports = import_parts
-
+        generated_function.function_tester_imports = additional_import_parts
+        # Synthesize import_parts
+        import_parts = generated_function.program_import_fields + '\n' + additional_import_parts
         # Use the first candidate function to make a complete test program
         test_program = generated_function.candidates[0].candidate_code + '\n' + test_program_main
         # if the generated function is a main function, add the auxiliary functions code to the test program
@@ -225,9 +229,28 @@ class TesterAgent(dspy.Module):
             candidate.cluster_id = clusters[candidate.candidate_index]
 
 
-    def filter_candidates(self, candidates, test_results, clusters, cluster_num):
+    def filter_candidates(self, generated_function: GeneratedFunction):
 
         # TODO: filter the candidates based on the clusters and the test results
+        # Filter candidates based on clusters and test results
+        cluster_results = generated_function.cluster_results
+        filtered_candidates = []
+
+        # Group candidates by their cluster ID
+        cluster_groups = {}
+        for candidate in generated_function.candidates:
+            cluster_id = candidate.cluster_id
+            if cluster_id not in cluster_groups:
+                cluster_groups[cluster_id] = []
+            cluster_groups[cluster_id].append(candidate)
+
+        # Select the best candidate from each cluster based on the score
+        for cluster_id, candidates in cluster_groups.items():
+            best_candidate = max(candidates, key=lambda c: c.candidate_score)
+            filtered_candidates.append(best_candidate)
+
+        # Update the generated function with the filtered candidates
+        generated_function.filtered_candidates = filtered_candidates
         pass
 
 

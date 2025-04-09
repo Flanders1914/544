@@ -1,6 +1,6 @@
 analysis_prompt_template = """You are an expert software architect.
 
-Given the following task description, analyze the problem and propose a modular architecture. 
+Given the following task description, analyze the problem and propose a modular architecture, and give all necessary import statements required for the whole program.
 Your analysis should include:
 1. A comprehensive analysis of the task, which should includes the summary of the task description.
 2. A high-level breakdown of the task into smaller, logical sub-tasks or components.
@@ -14,15 +14,21 @@ Your analysis should include:
       - Note: The main function's name might differ from “main”; infer the correct name based on the task description.
 5. Any assumptions you make during the design.
 6. A summary of how the components will work together.
+7. All necessary import statements that the entire program requires. These imports must be valid (i.e., they should not require third-party installation; only use built-in modules).
 
+Output requirements:
+- Provide two strings in your output:
+  1. architecture_analysis: a detailed analysis of the program architecture following the instruction above.
+  2. program_import_fields: a string containing only the required import statements in one or more lines (using only "import ..." or "from ... import ...") without any additional text or comments.
 Task description:
 {requirements}
 """
 
 generation_prompt_template = """You are an experienced Python developer tasked with implementing a modular system based on a provided architectural analysis.
 
-Your goal is to generate Python function interfaces for both auxiliary and main functions described in the analysis. For each function interface, please include:
+Your goal is to generate Python function interfaces for both auxiliary and main functions described in the analysis. The import field of the whole program is also provided.
 
+For each function interface, please include:
 1. A valid Python function header.
 2. A comprehensive docstring that specifies:
    - The purpose of the function.
@@ -43,6 +49,9 @@ Additional constraints:
 
 The analysis:
 {architecture_analysis}
+
+The import fields of the whole program:
+{program_import_fields}
 """
 
 developer_agent_prompt = """You are a highly skilled Python developer. Your task is to implement the target function based on the provided function interface and detailed architectural analysis.
@@ -87,11 +96,12 @@ All relevant context—the architecture analysis, auxiliary functions' code, and
 Your primary goal is to synthesize this information and implement the main function accordingly.
 """
 
-tester_program_prompt = """You are a highly skilled Python developer. Your task is to generate an executable Python testing program along with its necessary import statements. This program will be used to test a provided function interface using sample test data.
+tester_program_prompt = """You are a highly skilled Python developer. Your task is to generate an executable Python testing program along with its additional import statements. This program will be used to test a provided function interface using sample test data.
 
 Context:
 - A Python function interface is provided, including its function header and docstrings. (Note: The backend will insert the actual function implementation between your import_parts and your test_program.)
 - A JSON-formatted sample test data is provided, which includes both test inputs and expected outputs.
+- The provided import fields which you can use.
 
 Your program should do the following:
 - Read a string from standard input that contains the JSON test data (which includes both test inputs and expected outputs).
@@ -101,10 +111,10 @@ Your program should do the following:
 Output:
 Produce two strings as your output:
    a. test_program: Contains the main runnable logic to test the provided function using the sample test data.
-   b. import_parts: Contains all necessary import statements required for the test program.
+   b. additional_import_parts: Contains all additional but necessary import statements required for the test program.
 
 Note:
-The backend will concatenate the 'import_parts', the complete target function, and the 'test_program' in that order. Do not include any extra content beyond what is specified.
+The backend will concatenate the 'provided_import_fields', 'additional_import_parts', the complete target function, and the 'test_program' in order. Do not include any extra content beyond what is specified.
 """
 
 sample_test_data_prompt = """You are a highly skilled Python developer.
