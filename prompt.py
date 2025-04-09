@@ -2,17 +2,18 @@ analysis_prompt_template = """You are an expert software architect.
 
 Given the following task description, analyze the problem and propose a modular architecture. 
 Your analysis should include:
-1. A high-level breakdown of the task into smaller, logical sub-tasks or components.
-2. A justification for how the task is divided (i.e., why this structure makes sense).
-3. Identification and classification of functions into two categories:
+1. A comprehensive analysis of the task, which should includes the summary of the task description.
+2. A high-level breakdown of the task into smaller, logical sub-tasks or components.
+3. A justification for how the task is divided (i.e., why this structure makes sense).
+4. Identification and classification of functions into two categories:
    - Auxiliary functions: independent, reusable units of logic, **can be developed and tested independently**.
    - Main function: A single main function which depends on auxiliary functions to implement the core logic.
       - The main function is the entry point of the program and is responsible for orchestrating the execution of auxiliary functions.
       - The main function is also a function with possible parameters and return values. It is not the part of if __name__ == "__main__":.
       - The main function is the only function that the user can invoke directly.
       - Note: The main function's name might differ from “main”; infer the correct name based on the task description.
-4. Any assumptions you make during the design.
-5. A summary of how the components will work together.
+5. Any assumptions you make during the design.
+6. A summary of how the components will work together.
 
 Task description:
 {requirements}
@@ -134,5 +135,3 @@ Requirements:
 - The output must be a valid JSON list, where each test case is a valid JSON object.
 - Output only the JSON list without any additional text or explanation.
 """
-
-
