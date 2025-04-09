@@ -9,6 +9,7 @@ from colorama import Fore, Style
 class ArchitectAnalysisSignature(dspy.Signature):
     task_description: str = dspy.InputField(desc="The description of your task.")
     architecture_analysis: str = dspy.OutputField(desc="Detailed analysis of the program architecture.")
+    program_import_fields: str = dspy.OutputField(desc="All necessary import statements required for the whole program, code only.")
 
 class InterfaceGenerationSignature(dspy.Signature):
     task_description: str = dspy.InputField(desc="The description of your task.")
@@ -50,23 +51,25 @@ class ArchitectAgent(dspy.Module):
         # Use the LLM to generate the analysis text via dspy's Chain-of-Thought
         analysize = self.analysis_cot(task_description=prompt)
         architecture_analysis = analysize.architecture_analysis
-        return architecture_analysis
+        program_import_fields = analysize.program_import_fields
+        return architecture_analysis, program_import_fields
     
 
-    def generate_function_interfaces(self, task_description, architecture_analysis):
+    def generate_function_interfaces(self, task_description, architecture_analysis, program_import_fields):
         """
         Generate function interfaces for both auxiliary and main functions with detailed comments.
         The interfaces are based on the architecture analysis text produced earlier.
         
         Parameters:
             architecture_analysis (str): The architecture analysis text.
+            program_import_fields (str)
         
         Returns:
             auxiliary_function_interfaces (list[str]): The generated list of auxiliary function interfaces
             main_function_interface (list[str]): The generated list of main function interfaces
         """
         # Generate the function interfaces using the LLM
-        generation_prompt = self.generation_prompt_template.format(architecture_analysis=architecture_analysis)
+        generation_prompt = self.generation_prompt_template.format(architecture_analysis=architecture_analysis, program_import_fields=program_import_fields)
         generate = self.generate_cot(task_description=task_description, generation_prompt=generation_prompt)
         auxiliary_function_interfaces = generate.auxiliary_function_interfaces
         main_function_interfaces =  generate.main_function_interfaces
@@ -89,16 +92,18 @@ class ArchitectAgent(dspy.Module):
         """
         # Step 1: Generate architecture analysis text
         print(Fore.BLUE + "Architect-agent: start analysis the architecture of the program" + Style.RESET_ALL)
-        analysis_text = self.generate_architecture_analysis(requirements)
+        analysis_text, program_import_fields = self.generate_architecture_analysis(requirements)
         print(Fore.BLUE + "Architect-agent: the result of the analysis:" + Style.RESET_ALL)
         print(analysis_text)
+        print(Fore.BLUE + "Architect-agent: the program import fields:" + Style.RESET_ALL)
+        print(program_import_fields)
         print(Fore.BLUE + "Architect-agent: the result of the analysis is saved in analysis_text.txt" + Style.RESET_ALL)
         with open("analysis_text.txt", "w") as f:
             f.write(analysis_text)
 
         # Step 2: Generate function interfaces with detailed comments
         print(Fore.BLUE + "Architect-agent: start generate the function interfaces" + Style.RESET_ALL)
-        auxiliary_function_interfaces, main_function_interfaces = self.generate_function_interfaces(requirements, analysis_text)
+        auxiliary_function_interfaces, main_function_interfaces = self.generate_function_interfaces(requirements, analysis_text, program_import_fields)
         print(Fore.BLUE + "Architect-agent: auxiliary function interfaces:" + Style.RESET_ALL)
         print(auxiliary_function_interfaces)
         print(Fore.BLUE + "Architect-agent: main function interfaces:" + Style.RESET_ALL)
@@ -107,11 +112,11 @@ class ArchitectAgent(dspy.Module):
         # put results into GeneratedFunction
         generated_auxiliary_functions = []
         for auxiliary_function_interface in auxiliary_function_interfaces:
-            generated_auxiliary_functions.append(GeneratedFunction(type="auxiliary", interface=auxiliary_function_interface))
+            generated_auxiliary_functions.append(GeneratedFunction(type="auxiliary", interface=auxiliary_function_interface, program_import_fields=program_import_fields))
 
         generated_main_functions = []
         for main_function_interface in main_function_interfaces:
-            generated_main_functions.append(GeneratedFunction(type="main", interface=main_function_interface))
+            generated_main_functions.append(GeneratedFunction(type="main", interface=main_function_interface, program_import_fields=program_import_fields))
 
         return analysis_text, generated_auxiliary_functions, generated_main_functions
 

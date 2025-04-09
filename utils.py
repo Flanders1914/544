@@ -22,6 +22,7 @@ class GeneratedFunction:
     # These properties are filled by the architect agent
     type: str # Type of the function (e.g., "main", "auxiliary")
     interface: str # The function interface (signature and docstring)
+    program_import_fields: str
 
     # These properties are filled by the developer agent
     candidate_num: int = 0
@@ -31,11 +32,11 @@ class GeneratedFunction:
     auxiliary_functions_code: str = None # Only used for main function
     sample_test_case: str = None # A sample test case for the function
     function_tester_main: str = None
-    function_tester_imports: str = None
+    additional_tester_imports: str = None
     test_cases_num: int = 0
     test_cases: list[str] = None
     test_results: list[list[int]] = None
     cluster_num: int = 0
     cluster_results: list[int] = None
-    final_candidates: list[Candidate] = None
+    filtered_candidates: list[Candidate] = None
     final_candidate: Candidate = None

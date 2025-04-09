@@ -137,6 +137,7 @@ def main():
 
     # Step 7: print the final result
     final_result += generated_main_function.final_candidate.candidate_code
+    final_result = generated_main_function.program_import_fields + '\n' + final_result
     print(Fore.GREEN + Style.BRIGHT + "\nFinal Result:(it is also saved in final_result.py)" + Style.RESET_ALL)
     print("_" * 100)
     print(final_result)
