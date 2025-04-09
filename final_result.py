@@ -24,29 +24,29 @@ def is_palindrome(substring: str) -> bool:
 
 def initialize_dp_table(length: int) -> list[int]:
     """
-    Initializes the dynamic programming table for minimum cuts.
+    Initializes the DP table for minimum cuts.
 
     Parameters:
     length (int): The length of the input string.
 
     Returns:
-    list[int]: A list of integers initialized to zero, representing the minimum cuts for each index.
+    list[int]: A list initialized to represent the minimum cuts needed for each substring.
 
     Example:
-    >>> initialize_dp_table(5)
-    [0, 0, 0, 0, 0]
+    >>> initialize_dp_table(3)
+    [0, 0, 0]
     """
     return [0] * length
 
 def min_cut_palindrome_partition(s: str) -> int:
     """
-    Computes the minimum cuts needed for palindrome partitioning of the input string.
+    Calculates the minimum cuts needed for a palindrome partitioning of the input string.
 
     Parameters:
-    s (str): The input string to partition.
+    s (str): The input string to be partitioned.
 
     Returns:
-    int: The minimum number of cuts needed for a palindrome partitioning.
+    int: The minimum number of cuts needed for the palindrome partitioning.
 
     Example:
     >>> min_cut_palindrome_partition('aab')
@@ -54,19 +54,17 @@ def min_cut_palindrome_partition(s: str) -> int:
     >>> min_cut_palindrome_partition('a')
     0
     """
-    n = len(s)
-    if n == 0:
+    if not s:
         return 0
 
-    # Initialize the DP table
+    n = len(s)
     dp = initialize_dp_table(n)
-    
-    for end in range(n):
-        min_cuts = end  # Maximum cuts possible
-        for start in range(end + 1):
-            if is_palindrome(s[start:end + 1]):
-                # If the substring s[start:end + 1] is a palindrome
-                min_cuts = 0 if start == 0 else min(min_cuts, dp[start - 1] + 1)
-        dp[end] = min_cuts
+
+    for i in range(n):
+        min_cuts = i  # Maximum cuts possible
+        for j in range(i + 1):
+            if is_palindrome(s[j:i + 1]):
+                min_cuts = 0 if j == 0 else min(min_cuts, dp[j - 1] + 1)
+        dp[i] = min_cuts
 
     return dp[n - 1]
