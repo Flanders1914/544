@@ -108,10 +108,10 @@ def main():
     print(Fore.GREEN + Style.BRIGHT + "Step 2: developer agent starts to develop auxiliary functions " + Style.RESET_ALL)
     developer_agent.auxiliary_developer(generated_auxiliary_functions, analysis_text, error_threshold)
 
-    # step 3: tester agent test auxiliary functions and choose the best one
+    # step 3: tester agent test auxiliary functions and selector the best one
     print(Fore.GREEN + Style.BRIGHT + "Step 3: tester agent starts to test auxiliary functions and choose the final candidate " + Style.RESET_ALL)
     if selector_type == 0:
-        tester_agent.test_and_choose(generated_auxiliary_functions, test_case_num)
+        tester_agent.test_and_select(generated_auxiliary_functions, test_case_num)
     else:
         # TODO: advance selector
         pass
@@ -130,7 +130,7 @@ def main():
     # Step 6: tester agent test main function and choose the best one
     print(Fore.GREEN + Style.BRIGHT + "Step 6:  tester agent test main function and choose the best one" + Style.RESET_ALL)
     if selector_type == 0:
-        tester_agent.test_and_choose([generated_main_function], test_case_num)
+        tester_agent.test_and_select([generated_main_function], test_case_num)
     else:
         pass
         # TODO: advance selector

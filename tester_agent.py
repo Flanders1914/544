@@ -122,10 +122,12 @@ class TesterAgent(dspy.Module):
         # if the generated function is a main function, add the auxiliary functions code to the test program
         if generated_function.type == "main":
             test_program = generated_function.auxiliary_functions_code + '\n' + test_program
-        
         # Add import parts
         test_program = import_parts + '\n' + test_program
-        print (Fore.BLUE + "Tester agent: test program:\n" + Style.RESET_ALL, test_program)
+        print(Fore.BLUE + "Tester agent: test program:\n" + Style.RESET_ALL)
+        print(test_program)
+        print(Fore.BLUE + "Tester agent: sample test case:\n" + Style.RESET_ALL)
+        print(sample_test_data)
 
         # Save and run the test program
         with open("test_program.py", "w") as f:
@@ -145,6 +147,11 @@ class TesterAgent(dspy.Module):
             print(result.returncode)
             # TODO: find out the reason why the test program failed, and improve the test program and the sample test data
             return None
+        if result.returncode == 1:
+            # Try to fix the sample test case
+            pass
+            print(Fore.RED + "Tester agent: sample test case failed!" + Style.RESET_ALL)
+
 
         # Make sure the sample test program and the sample test data are valid here
         # step 3: generate the test cases
@@ -157,6 +164,8 @@ class TesterAgent(dspy.Module):
             return None 
 
         # Make sure the test cases are valid here
+        print(Fore.BLUE + "Tester agent: test cases:\n" + Style.RESET_ALL)
+        print(test_cases)
 
         print(Fore.BLUE + "Tester agent: start testing each candidates with the test cases" + Style.RESET_ALL)
         # step 4: Testing each function candidates and record the results
@@ -164,7 +173,10 @@ class TesterAgent(dspy.Module):
 
         for candidate in generated_function.candidates:
             test_result = []
-            test_program = import_parts + '\n' + candidate.candidate_code + '\n' + test_program_main
+            if generated_function.type == "main":
+                test_program = import_parts + '\n' + generated_function.auxiliary_functions_code + '\n' + candidate.candidate_code + '\n' + test_program_main
+            else:
+                test_program = import_parts + '\n' + candidate.candidate_code + '\n' + test_program_main
             # record the test program for each candidate
             candidate.candidate_tester = test_program
             # Save and run the test program
@@ -189,6 +201,8 @@ class TesterAgent(dspy.Module):
             # calculate the score for each candidate
             candidate.candidate_score = len(test_result) - sum(test_result)
         # record the test results for the generated function
+        print(Fore.BLUE + "Tester agent: The Test Result:" + Style.RESET_ALL)
+        print(test_results)
         generated_function.test_results = test_results
     
     
@@ -217,9 +231,9 @@ class TesterAgent(dspy.Module):
         pass
 
 
-    def basic_chooser(self, generated_function: GeneratedFunction):
+    def basic_selector(self, generated_function: GeneratedFunction):
         """
-        Choose the best candidate based on the score.
+        Select the best candidate based on the score.
         """
         best_candidate: Candidate = None
         best_score = -1
@@ -231,13 +245,13 @@ class TesterAgent(dspy.Module):
         return best_candidate
 
 
-    def test_and_choose(self, generated_functions: list[GeneratedFunction], num_test_cases: int):
+    def test_and_select(self, generated_functions: list[GeneratedFunction], num_test_cases: int):
         """
         Test each generated function and choose the best candidate for each function.
         """
         for generated_function in generated_functions:
             self.main_test_func(generated_function, num_test_cases)
-            best_candidate = self.basic_chooser(generated_function)
+            best_candidate = self.basic_selector(generated_function)
             print(Fore.BLUE + "best candidate:\n" + Style.RESET_ALL, best_candidate.candidate_code)
 
 
@@ -279,6 +293,6 @@ if __name__ == "__main__":
     # step 3: tester agent test
     for generated_function in generated_auxiliary_functions:
         test_tester_agent.main_test_func(generated_function, num_test_cases=10)
-        best_candidate = test_tester_agent.basic_chooser(generated_function)
+        best_candidate = test_tester_agent.basic_selector(generated_function)
         print("Best candidate:\n", best_candidate.candidate_code)
    
