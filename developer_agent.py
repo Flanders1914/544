@@ -56,7 +56,8 @@ class DeveloperAgent(dspy.Module):
         while count < self.n:
             result = self.developer_cot(task_description=self.task_description,
                                       architecture_analysis=architecture_analysis,
-                                      function_interface=generated_function.interface)
+                                      function_interface=generated_function.interface,
+                                      temperature=0.8)
             candidate = result.generate_function
             
             # Use ast to find whether the generated code has syntax errors
@@ -103,7 +104,8 @@ class DeveloperAgent(dspy.Module):
             result = self.main_developer_cot(task_description=self.main_func_task_description,
                                       architecture_analysis=architecture_analysis,
                                       auxiliary_functions_code=auxiliary_functions_code,
-                                      function_interface=generated_main_function.interface)
+                                      function_interface=generated_main_function.interface,
+                                      temperature=0.8)
             candidate = result.generate_function
             
             # Use ast to find whether the generated code has syntax errors

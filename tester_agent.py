@@ -11,6 +11,9 @@ import numpy as np
 from kmodes.kmodes import KModes
 from utils import GeneratedFunction, Candidate
 from colorama import Fore, Style
+import json
+import ast
+import re
 
 class TestProgGenerationSignature(dspy.Signature):
     task_description: str =  dspy.InputField(desc="The description of your task.")
@@ -71,7 +74,7 @@ class TesterAgent(dspy.Module):
                 print(Fore.RED + "Tester agent: generated test program Syntax Error!" + Style.RESET_ALL, e)
                 error_count += 1
 
-        print(Fore.RED + "Tester agent: ailed to generate a valid test program under error threshold." + Style.RESET_ALL)
+        print(Fore.RED + "Tester agent: failed to generate a valid test program under error threshold." + Style.RESET_ALL)
         return test_program, additional_import_parts
     
 
@@ -82,6 +85,111 @@ class TesterAgent(dspy.Module):
         result = self.sample_test_gen_cot(task_description=self.sample_test_data_prompt,
                                            function_interface=function_interface)
         return result.sample_test_case
+    
+    
+    def validate_sample_test_data(self, sample_test_data, candidate_code, error_threshold=2):
+        """
+        Validate and fix the sample test data to ensure it corresponds to the first candidate function.
+        Uses the AST package to analyze the function signature and ensure the test data matches.
+        
+        Args:
+            sample_test_data (str): The sample test data in JSON format
+            candidate_code (str): The code of the first candidate function
+            error_threshold (int): Maximum number of attempts to fix the sample test data
+            
+        Returns:
+            str: The validated and potentially fixed sample test data
+        """   
+        # Parse the candidate code to extract function signature
+        try:
+            tree = ast.parse(candidate_code)
+            function_def = None
+            for node in ast.walk(tree):
+                if isinstance(node, ast.FunctionDef):
+                    function_def = node
+                    break
+            
+            if not function_def:
+                print(Fore.RED + "Tester agent: Could not find function definition in candidate code" + Style.RESET_ALL)
+                return sample_test_data
+            
+            # Extract parameter names from function signature
+            param_names = [arg.arg for arg in function_def.args.args]
+            
+            # Try to parse the sample test data as JSON
+            try:
+                test_data = json.loads(sample_test_data)
+            except json.JSONDecodeError as e:
+                print(Fore.RED + f"Tester agent: Invalid JSON in sample test data: {e}" + Style.RESET_ALL)
+                # Try to fix common JSON issues
+                error_count = 0
+                while error_count < error_threshold:
+                    # Try to fix common JSON issues
+                    fixed_data = sample_test_data
+                    # Fix missing quotes around keys
+                    fixed_data = re.sub(r'(\w+):', r'"\1":', fixed_data)
+                    # Fix missing quotes around string values
+                    fixed_data = re.sub(r':\s*([^"\d\[\]{},\s][^,\[\]{}\s]*)\s*([,}])', r': "\1"\2', fixed_data)
+                    
+                    try:
+                        test_data = json.loads(fixed_data)
+                        print(Fore.GREEN + "Tester agent: Successfully fixed JSON format" + Style.RESET_ALL)
+                        return fixed_data
+                    except json.JSONDecodeError:
+                        error_count += 1
+                
+                print(Fore.RED + "Tester agent: Failed to fix JSON format after multiple attempts" + Style.RESET_ALL)
+                return sample_test_data
+            
+            # Check if all required parameters are in the test data
+            missing_params = [param for param in param_names if param not in test_data]
+            if missing_params:
+                print(Fore.YELLOW + f"Tester agent: Missing parameters in sample test data: {missing_params}" + Style.RESET_ALL)
+                
+                # Try to add missing parameters with default values
+                for param in missing_params:
+                    # Find the parameter in the function definition to get its default value
+                    for arg in function_def.args.args:
+                        if arg.arg == param and hasattr(arg, 'annotation'):
+                            # Use a reasonable default based on the type annotation
+                            if isinstance(arg.annotation, ast.Name):
+                                if arg.annotation.id == 'int':
+                                    test_data[param] = 0
+                                elif arg.annotation.id == 'float':
+                                    test_data[param] = 0.0
+                                elif arg.annotation.id == 'str':
+                                    test_data[param] = ""
+                                elif arg.annotation.id == 'bool':
+                                    test_data[param] = False
+                                elif arg.annotation.id == 'list':
+                                    test_data[param] = []
+                                elif arg.annotation.id == 'dict':
+                                    test_data[param] = {}
+                                else:
+                                    test_data[param] = None
+                            else:
+                                test_data[param] = None
+            
+            # Check for extra parameters that are not in the function signature
+            extra_params = [param for param in test_data.keys() if param not in param_names and not param.startswith('output_')]
+            if extra_params:
+                print(Fore.YELLOW + f"Tester agent: Extra parameters in sample test data: {extra_params}" + Style.RESET_ALL)
+                # Remove extra parameters
+                for param in extra_params:
+                    del test_data[param]
+            
+            # Check if there's an expected output, if not, add a placeholder(Basic Method)
+            expected_output_keys = [key for key in test_data.keys() if key.startswith('output_')]
+            if not expected_output_keys:
+                print(Fore.YELLOW + "Tester agent: No expected output in sample test data" + Style.RESET_ALL)
+                # Add a placeholder expected output
+                test_data['output_result'] = None
+            
+            return json.dumps(test_data)
+            
+        except Exception as e:
+            print(Fore.RED + f"Tester agent: Error validating sample test data: {e}" + Style.RESET_ALL)
+            return sample_test_data
         
     
     def generate_test_cases(self, test_program, sample_test_data, num_test_cases):
@@ -113,6 +221,11 @@ class TesterAgent(dspy.Module):
 
         # step 1: generate the sample test data
         sample_test_data = self.generate_sample_case(generated_function.interface)
+        generated_function.sample_test_case = sample_test_data
+        
+        # Validate and fix the sample test data using AST
+        print(Fore.BLUE + "Tester agent: validating sample test data..." + Style.RESET_ALL)
+        sample_test_data = self.validate_sample_test_data(sample_test_data, generated_function.candidates[0].candidate_code)
         generated_function.sample_test_case = sample_test_data
 
         # step 2: generate the test program
@@ -150,12 +263,10 @@ class TesterAgent(dspy.Module):
             print(result.stderr)
             print(result.returncode)
             # TODO: find out the reason why the test program failed, and improve the test program and the sample test data
-            return None
+            # return None
         if result.returncode == 1:
-            # Try to fix the sample test case
             pass
-            print(Fore.RED + "Tester agent: sample test case failed!" + Style.RESET_ALL)
-
+            print(Fore.BLUE + "Tester agent: sample test case failed!" + Style.RESET_ALL)
 
         # Make sure the sample test program and the sample test data are valid here
         # step 3: generate the test cases
@@ -252,6 +363,7 @@ class TesterAgent(dspy.Module):
         # Update the generated function with the filtered candidates
         generated_function.filtered_candidates = filtered_candidates
         pass
+        
 
 
     def basic_selector(self, generated_function: GeneratedFunction):

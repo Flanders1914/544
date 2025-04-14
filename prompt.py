@@ -71,6 +71,7 @@ Requirements:
 - Produce a complete, bug-free, and Pythonic function.
 - Ensure the code is clean, well-structured, and adheres to best practices.
 - Use idiomatic Python constructs and clear, logical code.
+- Be creative and innovative.
 
 I will supply the specific function interface and the architecture analysis in the context.
 """
@@ -124,6 +125,8 @@ The test case must include:
 - The corresponding expected outputs.
 
 Since the function interface does not explicitly name its outputs, analyze the expected result format and assign clear, descriptive variable names to represent each output.
+The name of the input variable must be consistent with the parameter names in the function interface.
+The name of the output variable must start with 'output_' prefix.
 Ensure the JSON structure is flat. Inputs and outputs should appear as top-level key-value pairs without nesting.
 
 The provided function interface includes:
@@ -144,4 +147,5 @@ Requirements:
 - Generate exactly {num_test_cases} test cases.
 - The output must be a valid JSON list, where each test case is a valid JSON object.
 - Output only the JSON list without any additional text or explanation.
+- Test cases should be diverse and cover various scenarios, including edge cases.
 """
