@@ -30,6 +30,7 @@ class GeneratedFunction:
 
     # These properties are filled by the tester agent
     auxiliary_functions_code: str = None # Only used for main function
+    requirements_text: str = None # Only used for main function
     sample_test_case: str = None # A sample test case for the function
     function_tester_main: str = None
     additional_tester_imports: str = None

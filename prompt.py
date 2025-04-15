@@ -11,7 +11,7 @@ Your analysis should include:
       - The main function is the entry point of the program and is responsible for orchestrating the execution of auxiliary functions.
       - The main function is also a function with possible parameters and return values. It is not the part of if __name__ == "__main__":.
       - The main function is the only function that the user can invoke directly.
-      - Note: The main function's name might differ from “main”; infer the correct name based on the task description.
+      - Note: The main function's name might differ from "main"; infer the correct name based on the task description.
 5. Any assumptions you make during the design.
 6. A summary of how the components will work together.
 7. All necessary import statements that the entire program requires. These imports must be valid (i.e., they should not require third-party installation; only use built-in modules).
@@ -92,12 +92,12 @@ Requirements:
 - Produce a complete, bug-free, and fully functional main function.
 - The code for auxiliary functions does not need to be included in your output.
 
-Note: The main function is also a function with possible parameters and return values. It is not the part of if __name__ == "__main__":. Its name might differ from “main”.
+Note: The main function is also a function with possible parameters and return values. It is not the part of if __name__ == "__main__":. Its name might differ from "main".
 All relevant context—the architecture analysis, auxiliary functions' code, and the main function interface—will be provided to you.
 Your primary goal is to synthesize this information and implement the main function accordingly.
 """
 
-tester_program_prompt = """You are a highly skilled Python developer. Your task is to generate an executable Python testing program along with its additional import statements. This program will be used to test a provided function interface using sample test data.
+tester_program_prompt = """You are a highly skilled Python developer. Your task is to generate an executable Python testing program along with its additional import statements. This program will be used to test a provided function interface using multiple test cases.
 
 Context:
 - A Python function interface is provided, including its function header and docstrings. (Note: The backend will insert the actual function implementation between your import_parts and your test_program.)
@@ -105,16 +105,24 @@ Context:
 - The provided import fields which you can use.
 
 Your program should do the following:
-- Read a string from standard input that contains the JSON test data (which includes both test inputs and expected outputs).
-- Parse the JSON string to extract the test data. If parsing fails, the program should exit with a return code of -1.
-- Use the extracted test data to test the provided Python function. If the function test fails, exit with 1; if it passes, exit with 0.
+- Read a string from standard input that contains a JSON array of test cases.
+- Parse the JSON string to extract the test cases. If parsing fails, the program should exit with a return code of -1.
+- For each test case in the array:
+  - Extract the test inputs and expected outputs.
+  - Call the provided Python function with the test inputs.
+  - Compare the function's output with the expected outputs.
+  - Record whether the test passed (0) or failed (1).
+- Output a JSON array of test results, where each element is 0 (passed) or 1 (failed).
+- You should capture the error from the provided function to prevent the program from crashing.
+- If a test case fails to execute, the program should record this case as -1.
 
 Output:
 Produce two strings as your output:
-   a. test_program: Contains the main runnable logic to test the provided function using the sample test data.
+   a. test_program: Contains the main runnable logic to test the provided function using multiple test cases.
    b. additional_import_parts: Contains all additional but necessary import statements required for the test program.
 
 Note:
+A sample test case is given in the context. Each test case in the JSON array should be similar to the sample test case.
 The backend will concatenate the 'provided_import_fields', 'additional_import_parts', the complete target function, and the 'test_program' in order. Do not include any extra content beyond what is specified.
 """
 
@@ -148,4 +156,19 @@ Requirements:
 - The output must be a valid JSON list, where each test case is a valid JSON object.
 - Output only the JSON list without any additional text or explanation.
 - Test cases should be diverse and cover various scenarios, including edge cases.
+"""
+
+main_test_data_gen_prompt = """You are a highly skilled Python developer.
+Your task is to generate a list of test cases in JSON format for the provided Python program.
+This program is designed to solve the problems described in the requirements text, which might include the constraints of the input values.
+If the constraints are mentioned in the requirements text, please ensure that the test cases strictly follow the constraints.
+The test case must include both input values and the expected outputs.
+The requirements text, a sample test case, and the entire program are given in the context; use them as references and ensure that your output strictly matches the expected parsing format.
+
+Requirements:
+- Generate exactly {num_test_cases} test cases.
+- The output must be a valid JSON list, where each test case is a valid JSON object.
+- Output only the JSON list without any additional text or explanation.
+- Test cases should be diverse and cover various scenarios, including edge cases.
+- All test cases should under the constraints mentioned in the requirements text.
 """

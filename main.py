@@ -92,7 +92,8 @@ def main():
     tester_agent = TesterAgent(llm=lm,
                                     tester_program_prompt=prompt.tester_program_prompt,
                                     sample_test_data_prompt=prompt.sample_test_data_prompt,
-                                    test_data_gen_prompt=prompt.test_data_gen_prompt)
+                                    test_data_gen_prompt=prompt.test_data_gen_prompt,
+                                    main_test_data_gen_prompt=prompt.main_test_data_gen_prompt)
     
 
     final_result = ""
@@ -124,6 +125,7 @@ def main():
     # Step 5: Developer agent develop the main function
     print(Fore.GREEN + Style.BRIGHT + "Step 5: developer agent develops the main function" + Style.RESET_ALL)
     generated_main_function = generated_main_functions[0]
+    generated_main_function.requirements_text = requirements_text
     generated_main_function.auxiliary_functions_code = final_result
     developer_agent.main_developer(generated_main_function, analysis_text, auxiliary_functions_code=final_result, error_threshold=error_threshold)
 

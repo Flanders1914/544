@@ -18,9 +18,9 @@ import re
 class TestProgGenerationSignature(dspy.Signature):
     task_description: str =  dspy.InputField(desc="The description of your task.")
     function_interface: str = dspy.InputField(desc="The interface(a function head and docstrings) of the target function.")
-    sample_test_data: str = dspy.InputField(desc="The sample test data in JSON format.")
+    sample_test_data: str = dspy.InputField(desc="The sample test case in JSON format.")
     provided_import_fields: str = dspy.InputField(desc="The provided import fields which you can use.")
-    test_program: str = dspy.OutputField(desc="The generated test program for testing.")
+    test_program: str = dspy.OutputField(desc="The generated test program for testing multiple test cases.")
     additional_import_parts: str = dspy.OutputField(desc="The additional but necessary import statements required for the test program, code only.")
 
 class SampleCaseGenerationSignature(dspy.Signature):
@@ -34,6 +34,12 @@ class TestCaseGenerationSignature(dspy.Signature):
     sample_test_case: str = dspy.InputField(desc="The sample test case.")
     test_cases: list[str] = dspy.OutputField(desc="The list of generated test cases in JSON format.")
 
+class MainTestCaseGenerationSignature(dspy.Signature):
+    task_description: str =  dspy.InputField(desc="The description of your task.")
+    requirements_text: str = dspy.InputField(desc="The description of the main task of the entire program.")
+    test_program: str = dspy.InputField(desc="The provided Python program.")
+    sample_test_case: str = dspy.InputField(desc="The sample test case.")
+    test_cases: list[str] = dspy.OutputField(desc="The list of generated test cases in JSON format.")
 
 class TesterAgent(dspy.Module):
     """
@@ -43,19 +49,21 @@ class TesterAgent(dspy.Module):
     - Generate multiple test cases in json format.
     - Run the test program with the test cases.
     """
-    def __init__(self, llm, tester_program_prompt, sample_test_data_prompt, test_data_gen_prompt):
+    def __init__(self, llm, tester_program_prompt, sample_test_data_prompt, test_data_gen_prompt, main_test_data_gen_prompt):
         # test_cases is a dict mapping function names to a list of test cases
         self.llm = llm
         self.tester_program_prompt = tester_program_prompt
         self.sample_test_data_prompt = sample_test_data_prompt
         self.test_data_gen_prompt = test_data_gen_prompt
+        self.main_test_data_gen_prompt = main_test_data_gen_prompt
         self.test_prog_gen_cot = dspy.ChainOfThought(TestProgGenerationSignature)
         self.sample_test_gen_cot = dspy.ChainOfThought(SampleCaseGenerationSignature)
         self.test_cases_gen_cot = dspy.ChainOfThought(TestCaseGenerationSignature)
-
+        self.main_test_cases_gen_cot = dspy.ChainOfThought(MainTestCaseGenerationSignature)
     def generate_test_program(self, function_interface, sample_test_data, provided_import_fields, error_threshold=2):
         """
         Generate the test program and import parts for the given function interface.
+        The test program will be able to handle multiple test cases at once.
         """
         error_count = 0
         while error_count < error_threshold:
@@ -192,18 +200,25 @@ class TesterAgent(dspy.Module):
             return sample_test_data
         
     
-    def generate_test_cases(self, test_program, sample_test_data, num_test_cases):
+    def generate_test_cases(self, test_program, sample_test_data, num_test_cases, requirements_text=None):
         """
         Generate test cases for the given test program.
         """
-        test_gen_prompt = self.test_data_gen_prompt.format(num_test_cases=num_test_cases)
-        result = self.test_cases_gen_cot(task_description=test_gen_prompt,
-                                          test_program=test_program,
-                                          sample_test_case=sample_test_data)
+        if requirements_text is not None:
+            test_gen_prompt = self.main_test_data_gen_prompt.format(num_test_cases=num_test_cases)
+            result = self.main_test_cases_gen_cot(task_description=test_gen_prompt,
+                                                  requirements_text=requirements_text,
+                                                  test_program=test_program,
+                                                  sample_test_case=sample_test_data)
+        else:
+            test_gen_prompt = self.test_data_gen_prompt.format(num_test_cases=num_test_cases)
+            result = self.test_cases_gen_cot(task_description=test_gen_prompt,
+                                            test_program=test_program,
+                                            sample_test_case=sample_test_data)
         return result.test_cases
     
 
-    def main_test_func(self, generated_function: GeneratedFunction, num_test_cases: int):
+    def main_test_func(self, generated_function: GeneratedFunction, num_test_cases: int, error_threshold=3):
         """
         Test the given function with the generated test cases.
         return a list of test results. Each element is 0 or 1:
@@ -221,11 +236,18 @@ class TesterAgent(dspy.Module):
 
         # step 1: generate the sample test data
         sample_test_data = self.generate_sample_case(generated_function.interface)
-        generated_function.sample_test_case = sample_test_data
         
         # Validate and fix the sample test data using AST
         print(Fore.BLUE + "Tester agent: validating sample test data..." + Style.RESET_ALL)
         sample_test_data = self.validate_sample_test_data(sample_test_data, generated_function.candidates[0].candidate_code)
+        # Parse each test case to ensure they are valid JSON
+        try:
+            sample_test_case = json.loads(sample_test_data)
+        except json.JSONDecodeError as e:
+            print(Fore.RED + "Tester agent: failed to parse sample test data to json!" + Style.RESET_ALL)
+            print(e)
+            sample_test_case = {}
+        sample_test_data = json.dumps(sample_test_case)
         generated_function.sample_test_case = sample_test_data
 
         # step 2: generate the test program
@@ -252,7 +274,7 @@ class TesterAgent(dspy.Module):
         
         result = subprocess.run(
             ['python', 'test_program.py'],
-            input=sample_test_data,
+            input="[" + sample_test_data + "]",
             capture_output=True,
             text=True)
 
@@ -270,17 +292,66 @@ class TesterAgent(dspy.Module):
 
         # Make sure the sample test program and the sample test data are valid here
         # step 3: generate the test cases
-        test_cases = self.generate_test_cases(test_program, sample_test_data, num_test_cases)
+        test_cases = None
+        if generated_function.type == "main":
+            test_cases = self.generate_test_cases(test_program, sample_test_data, num_test_cases, generated_function.requirements_text)
+        else:
+            test_cases = self.generate_test_cases(test_program, sample_test_data, num_test_cases)
         generated_function.test_cases = test_cases
-        
+
         if len(test_cases) != num_test_cases:
-            print(Fore.RED + "Tester agent: failed to generate the required test cases!" + Style.RESET_ALL)
-            # TODO: Try to fix this issue
-            return None 
+            print(Fore.RED + "Tester agent: failed to generate the required number of test cases!" + Style.RESET_ALL)
+            # Try to fix this issue by generating more test cases or trimming the list
+            max_attempts = error_threshold
+            attempt = 0
+            
+            while len(test_cases) != num_test_cases and attempt < max_attempts:
+                attempt += 1
+                print(Fore.YELLOW + f"Tester agent: Attempt {attempt}/{max_attempts} to fix test case count" + Style.RESET_ALL)
+                if len(test_cases) < num_test_cases:
+                    # Generate additional test cases
+                    additional_cases_needed = num_test_cases - len(test_cases)
+                    print(Fore.YELLOW + f"Tester agent: Generating {additional_cases_needed} more test cases" + Style.RESET_ALL)
+                    if generated_function.type == "main":
+                        additional_cases = self.generate_test_cases(
+                            test_program, sample_test_data, additional_cases_needed, 
+                            generated_function.requirements_text
+                        )
+                    else:
+                        additional_cases = self.generate_test_cases(
+                            test_program, sample_test_data, additional_cases_needed
+                        )
+                    # Add the new test cases to the existing ones
+                    test_cases.extend(additional_cases)
+                elif len(test_cases) > num_test_cases:
+                    # Trim the list to the required number
+                    print(Fore.YELLOW + f"Tester agent: Trimming test cases from {len(test_cases)} to {num_test_cases}" + Style.RESET_ALL)
+                    test_cases = test_cases[:num_test_cases]
+            
+            # If we still don't have the right number after multiple attempts, trim the list if we have more test cases, add sample test cases if we have less test cases
+            while len(test_cases) < num_test_cases:
+                test_cases.append(sample_test_case)
+            if len(test_cases) > num_test_cases:
+                test_cases = test_cases[:num_test_cases]
+
+        # Parse each test case to ensure they are valid JSON
+        parsed_test_cases = []
+        for test_case in test_cases:
+            # Parse the test case string into a Python dict
+            try:
+                parsed_case = json.loads(test_case)
+                parsed_test_cases.append(parsed_case)
+            except json.JSONDecodeError as e:
+                print(Fore.RED + f"Tester agent: failed to parse test case: {test_case}, use the sample test case instead!" + Style.RESET_ALL)
+                print(e)
+                parsed_test_cases.append(sample_test_case)
+        test_cases = parsed_test_cases
 
         # Make sure the test cases are valid here
         print(Fore.BLUE + "Tester agent: test cases:\n" + Style.RESET_ALL)
-        print(test_cases)
+        # Create a JSON array of all test cases
+        all_test_cases_json = json.dumps(test_cases)
+        print(all_test_cases_json)
 
         print(Fore.BLUE + "Tester agent: start testing each candidates with the test cases" + Style.RESET_ALL)
         # step 4: Testing each function candidates and record the results
@@ -297,24 +368,41 @@ class TesterAgent(dspy.Module):
             # Save and run the test program
             with open("test_program.py", "w") as f:
                 f.write(test_program)
-            for test_case in test_cases:
-                result = subprocess.run(
-                    ['python', 'test_program.py'],
-                    input=test_case,
-                    capture_output=True,
-                    text=True)
-                if result.returncode == 0:
-                    test_result.append(0)
-                elif result.returncode == 1:
-                    test_result.append(1)
-                else:
-                    test_result.append(-1)
+            
+            # Run the test program with all test cases at once
+            result = subprocess.run(
+                ['python', 'test_program.py'],
+                input=all_test_cases_json,
+                capture_output=True,
+                text=True)
+                
+            if result.returncode == -1 or result.stderr != "":
+                print(Fore.RED + f"Tester agent: test program execution failed for candidate {candidate.candidate_index}!" + Style.RESET_ALL)
+                print(result.stderr)
+                # If the test program execution failed, mark all test cases as failed
+                test_result = [-1] * len(test_cases)
+            else:
+                # Parse the test results from the output
+                try:
+                    # The test program should output a JSON array of test results
+                    test_result = json.loads(result.stdout)
+                    if not isinstance(test_result, list) or len(test_result) != len(test_cases):
+                        print(Fore.RED + f"Tester agent: invalid test results format for candidate {candidate.candidate_index}!" + Style.RESET_ALL)
+                        test_result = [-1] * len(test_cases)
+                except json.JSONDecodeError:
+                    print(Fore.RED + f"Tester agent: failed to parse test results for candidate {candidate.candidate_index}!" + Style.RESET_ALL)
+                    test_result = [-1] * len(test_cases)
+            
             test_results.append(test_result)
 
             # record the test result for each candidate
             candidate.candidate_test_result = test_result
             # calculate the score for each candidate
-            candidate.candidate_score = len(test_result) - sum(test_result)
+            candidate.candidate_score = 0
+            for i in range(len(test_result)):
+                if test_result[i] == 0:
+                    candidate.candidate_score += 1
+            
         # record the test results for the generated function
         print(Fore.BLUE + "Tester agent: The Test Result:" + Style.RESET_ALL)
         print(test_results)
