@@ -1,0 +1,13 @@
+{
+  "1873_A_83eee1a0c5375065d2c85cf2242dad5d": {
+    "status": "failed",
+    "passed_tests": 0,
+    "failed_tests": 0,
+    "error_tests": 5,
+    "total_tests": 5,
+    "success_rate": "0.00%",
+    "stdout": "[-1, -1, -1, -1, -1]\n",
+    "stderr": "gc: collecting generation 2...\ngc: objects in each generation: 246 1528 8661\ngc: objects in permanent generation: 377\ngc: done, 0 unreachable, 0 uncollectable, 0.0011s elapsed\nError executing test: process_test_cases() takes 2 positional arguments but 8 were given\ngc: collecting generation 0...\ngc: objects in each generation: 84 0 10302\ngc: objects in permanent generation: 377\nError executing test: process_test_cases() takes 2 positional arguments but 3 were given\ngc: done, 35 unreachable, 0 uncollectable, 0.0000s elapsed\nError executing test: process_test_cases() takes 2 positional arguments but 5 were given\ngc: collecting generation 2...\ngc: objects in each generation: 39 42 10302\ngc: objects in permanent generation: 377\ngc: done, 68 unreachable, 0 uncollectable, 0.0008s elapsed\nError executing test: process_test_cases() takes 2 positional arguments but 7 were given\nError executing test: process_test_cases() takes 2 positional arguments but 8 were given\ngc: collecting generation 2...\ngc: objects in each generation: 74 0 10309\ngc: objects in permanent generation: 377\ngc: done, 70 unreachable, 0 uncollectable, 0.0007s elapsed\ngc: collecting generation 2...\ngc: objects in each generation: 0 0 10304\ngc: objects in permanent generation: 377\ngc: done, 0 unreachable, 0 uncollectable, 0.0006s elapsed\ngc: collecting generation 2...\ngc: objects in each generation: 0 0 10300\ngc: objects in permanent generation: 377\ngc: done, 0 unreachable, 0 uncollectable, 0.0006s elapsed\ngc: collecting generation 2...\ngc: objects in each generation: 172 0 10103\ngc: objects in permanent generation: 377\ngc: done, 1696 unreachable, 0 uncollectable, 0.0008s elapsed\ngc: collecting generation 2...\ngc: objects in each generation: 0 0 7575\ngc: objects in permanent generation: 377\ngc: done, 3190 unreachable, 0 uncollectable, 0.0007s elapsed\ngc: collecting generation 2...\ngc: objects in each generation: 0 0 3992\ngc: objects in permanent generation: 377\ngc: done, 1568 unreachable, 0 uncollectable, 0.0005s elapsed\n",
+    "returncode": 0
+  }
+}

@@ -32,6 +32,10 @@ def main():
     parser.add_argument("--problem-timeout", type=int, default=600, 
                        help="Timeout in seconds for each problem (default: 600)")
     parser.add_argument("--skip-problems", help="Comma-separated list of problem IDs to skip")
+    parser.add_argument("--evaluate-only", action="store_true", 
+                      help="Only evaluate existing generated code without regenerating")
+    parser.add_argument("--force-evaluation", action="store_true",
+                      help="Force re-evaluation of problems even if they were already processed")
     
     args = parser.parse_args()
     
@@ -79,6 +83,11 @@ def main():
     # Add skip-problems if provided
     if args.skip_problems:
         cmd_parts.extend(["--skip-problems", args.skip_problems])
+
+    if args.evaluate_only:
+        cmd_parts.append("--evaluate-only")
+    if args.force_evaluation:
+        cmd_parts.append("--force-evaluation")
     
     # Set environment variable to ensure UTF-8 encoding in subprocesses
     if sys.platform == "win32":

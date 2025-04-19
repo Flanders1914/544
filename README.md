@@ -31,6 +31,8 @@ python run_livecodebench_test.py --use-official --output-dir results --candidate
 - `--skip-problems IDs`: Comma-separated list of problem IDs to skip
 - `--max-problems NUM`: Maximum number of problems to test
 - `--difficulty {easy,medium,hard}`: Filter problems by difficulty
+- `--evaluate-only`: Only evaluate existing generated code without regenerating
+- `--force-evaluation`: Force re-evaluation of problems even if they were already processed
 
 ## Output Structure
 
@@ -83,3 +85,9 @@ python run_livecodebench_test.py --use-official --output-dir leetcode_results --
 
 # Test 5 of the hardest AtCoder problems
 python run_livecodebench_test.py --use-official --output-dir atcoder_hard --platform 2 --difficulty hard --max-problems 5
+
+# Only evaluate existing generated code without regenerating
+python run_livecodebench_test.py --use-official --output-dir leetcode_results --platform 0 --evaluate-only
+
+# Force re-evaluation of all problems even if they were already processed
+python run_livecodebench_test.py --use-official --output-dir leetcode_results --platform 0 --evaluate-only --force-evaluation

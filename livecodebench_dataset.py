@@ -173,6 +173,22 @@ def load_code_generation_dataset(release_version="release_v1", start_date=None, 
 
 def convert_problem_to_json(problem):
     """Convert a CodeGenerationProblem to a format usable by our tester"""
+    public_test_cases = [
+        {
+            "input": t.input,
+            "output": t.output,
+            "testtype": t.testtype.value
+        } for t in problem.public_test_cases
+    ]
+    
+    private_test_cases = [
+        {
+            "input": t.input,
+            "output": t.output,
+            "testtype": t.testtype.value
+        } for t in problem.private_test_cases
+    ]
+    
     return {
         "id": problem.question_id,
         "title": problem.question_title,
@@ -180,7 +196,9 @@ def convert_problem_to_json(problem):
         "difficulty": problem.difficulty.value,
         "platform": problem.platform.value,
         "starter_code": problem.starter_code,
-        "metadata": problem.metadata
+        "metadata": problem.metadata,
+        "public_test_cases": public_test_cases,
+        "private_test_cases": private_test_cases
     }
 
 def prepare_dataset_for_tester(problems, output_path="livecodebench_prepared.json"):

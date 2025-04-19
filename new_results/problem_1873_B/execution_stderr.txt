@@ -1,0 +1,77 @@
+Traceback (most recent call last):
+  File "C:\Users\PC\OneDrive\Desktop\master\CSCI 544\Project\544\main.py", line 2, in <module>
+    from architect_agent import ArchitectAgent
+  File "C:\Users\PC\OneDrive\Desktop\master\CSCI 544\Project\544\architect_agent.py", line 2, in <module>
+    import dspy
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\dspy\__init__.py", line 1, in <module>
+    from dspy.predict import *
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\dspy\predict\__init__.py", line 1, in <module>
+    from dspy.predict.aggregation import majority
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\dspy\predict\aggregation.py", line 2, in <module>
+    from dspy.primitives.prediction import Completions, Prediction
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\dspy\primitives\__init__.py", line 3, in <module>
+    from dspy.primitives.module import BaseModule
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\dspy\primitives\module.py", line 10, in <module>
+    from dspy.utils.saving import get_dependency_versions
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\dspy\utils\__init__.py", line 2, in <module>
+    from dspy.utils.dummies import DummyLM, DummyVectorizer, dummy_rm
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\dspy\utils\dummies.py", line 7, in <module>
+    from dspy.adapters.chat_adapter import FieldInfoWithName, field_header_pattern, format_fields
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\dspy\adapters\__init__.py", line 2, in <module>
+    from dspy.adapters.chat_adapter import ChatAdapter
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\dspy\adapters\chat_adapter.py", line 10, in <module>
+    from litellm import ContextWindowExceededError
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\litellm\__init__.py", line 311, in <module>
+    model_cost = get_model_cost_map(url=model_cost_map_url)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\litellm\litellm_core_utils\get_model_cost_map.py", line 31, in get_model_cost_map
+    response = httpx.get(
+               ^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\httpx\_api.py", line 210, in get
+    return request(
+           ^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\httpx\_api.py", line 118, in request
+    return client.request(
+           ^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\httpx\_client.py", line 837, in request
+    return self.send(request, auth=auth, follow_redirects=follow_redirects)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\httpx\_client.py", line 926, in send
+    response = self._send_handling_auth(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\httpx\_client.py", line 954, in _send_handling_auth
+    response = self._send_handling_redirects(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\httpx\_client.py", line 991, in _send_handling_redirects
+    response = self._send_single_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\httpx\_client.py", line 1027, in _send_single_request
+    response = transport.handle_request(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\httpx\_transports\default.py", line 236, in handle_request
+    resp = self._pool.handle_request(req)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\httpcore\_sync\connection_pool.py", line 216, in handle_request
+    raise exc from None
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\httpcore\_sync\connection_pool.py", line 196, in handle_request
+    response = connection.handle_request(
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\httpcore\_sync\connection.py", line 99, in handle_request
+    raise exc
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\httpcore\_sync\connection.py", line 76, in handle_request
+    stream = self._connect(request)
+             ^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\httpcore\_sync\connection.py", line 154, in _connect
+    stream = stream.start_tls(**kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\PC\AppData\Roaming\Python\Python312\site-packages\httpcore\_backends\sync.py", line 163, in start_tls
+    sock = ssl_context.wrap_socket(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\ssl.py", line 455, in wrap_socket
+    return self.sslsocket_class._create(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Python312\Lib\ssl.py", line 1042, in _create
+    self.do_handshake()
+  File "C:\Python312\Lib\ssl.py", line 1320, in do_handshake
+    self._sslobj.do_handshake()
+KeyboardInterrupt
